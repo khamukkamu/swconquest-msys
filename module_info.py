@@ -1,6 +1,6 @@
 
 # Point export_dir to the folder you will be keeping your module
-# Make sure you use forward slashes (/) and NOT backward slashes (\)
+# Make sure you use forward slashes (/) and NOT backward slashes (/)
 from header_common import *
 from os import system, environ
 
@@ -11,8 +11,8 @@ wb_compile_switch = False
 
 # By default it will be built either on the parent folder or a _wb sibling.
 if (not wb_compile_switch and not "BUILD_TLD_WB" in environ):
-  export_dir = "../swconquest/"; wb_compile_switch = 0
+  export_dir = "C:/Users/prdeleon/Downloads/Modding/SWC-Modsys/_mb/"; wb_compile_switch = 0
   system("title building swc for 1011--")
 else:
-  export_dir = "../swconquest/_wb/"; wb_compile_switch = 1
+  export_dir = "C:/Users/prdeleon/Downloads/Modding/SWC-Modsys/_wb/"; wb_compile_switch = 1
   system("title building swc for wb--")

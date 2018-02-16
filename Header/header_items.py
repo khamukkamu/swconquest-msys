@@ -35,13 +35,19 @@ itp_attach_left_item     = 0x00000100
 itp_attach_left_hand     = 0x00000200
 itp_attach_forearm       = 0x00000300
 itp_attach_armature      = 0x00000f00
+itp_force_attach_left_hand      = 0x0000000000000100
+itp_force_attach_right_hand     = 0x0000000000000200
+itp_force_attach_left_forearm   = 0x0000000000000300
+itp_attachment_mask             = 0x0000000000000f00
+
 
 itp_unique               = 0x00001000
 itp_always_loot          = 0x00002000
 ##itp_melee                = 0x00002000
 itp_no_parry             = 0x00004000
 itp_spear                = 0x00008000
-itp_merchandise          = 0x00010000
+itp_default_ammo         = 0x00008000
+itp_merchandise          = 0x00010000 
 itp_wooden_attack        = 0x00020000
 itp_wooden_parry         = 0x00040000
 itp_food                 = 0x00080000
@@ -54,29 +60,61 @@ itp_cant_reload_on_horseback = 0x00100000
 itp_two_handed               = 0x00200000
 itp_primary                  = 0x00400000
 itp_secondary                = 0x00800000
+itp_replaces_helm            = 0x00800000 # for armor, allows body armor items which include boots
 itp_covers_legs              = 0x01000000
 itp_doesnt_cover_hair        = 0x01000000
+itp_can_penetrate_shield     = 0x01000000
 itp_consumable               = 0x02000000
 itp_bonus_against_shield     = 0x04000000
 itp_penalty_with_shield      = 0x08000000
 itp_cant_use_on_horseback    = 0x10000000
 itp_civilian                 = 0x20000000
+itp_next_item_as_melee       = 0x20000000
 itp_fit_to_head              = 0x40000000
+itp_offset_lance             = 0x40000000
+### MBSE addon
+itp_lance                    = 0x40000000
+### end MBSE addon
 itp_covers_head              = 0x80000000
-
 itp_couchable                = 0x0000000080000000
 itp_crush_through            = 0x0000000100000000
-#itp_knock_back               = 0x0000000200000000 being used?
+itp_knock_back               = 0x0000000200000000 #being used? was commented, uncommented by me
 itp_remove_item_on_use       = 0x0000000400000000
 itp_unbalanced               = 0x0000000800000000
+
 itp_covers_beard             = 0x0000001000000000    #remove beard mesh
 itp_no_pick_up_from_ground   = 0x0000002000000000
 itp_can_knock_down           = 0x0000004000000000
+itp_covers_hair              = 0x0000008000000000    #remove hair mesh for armors only
+
+itp_force_show_body          = 0x0000010000000000 # forces showing body (works on body armor items)
+itp_force_show_left_hand     = 0x0000020000000000 # forces showing left hand (works on hand armor items)
+itp_force_show_right_hand    = 0x0000040000000000 # forces showing right hand (works on hand armor items)
+itp_covers_hair_partially    = 0x0000080000000000 #added from 1.171 mdodule system
+
 itp_extra_penetration        = 0x0000100000000000
 itp_has_bayonet              = 0x0000200000000000
 itp_cant_reload_while_moving = 0x0000400000000000
 itp_ignore_gravity           = 0x0000800000000000
 itp_ignore_friction          = 0x0001000000000000
+itp_is_pike                  = 0x0002000000000000
+itp_offset_musket            = 0x0004000000000000
+itp_no_blur                  = 0x0008000000000000
+
+itp_cant_reload_while_moving_mounted = 0x0010000000000000
+itp_has_upper_stab           = 0x0020000000000000
+itp_disable_agent_sounds     = 0x0040000000000000 #disable agent related sounds, but not voices. useful for animals
+
+itp_kill_info_mask           = 0x0700000000000000
+itp_kill_info_bits           = 56 # 0x0700000000000000
+
+
+########    WSE  |  BEGIN    ##########
+itp_shield_no_parry = 0x0000000000004000 # left handed item without shield functionality
+itp_offset_mortschlag = 0x1000000000000000 # offsets melee weapon to mortschlag grip
+itp_offset_flip = 0x4000000000000000 # flips melee weapon model 180 degrees on y-axis
+########    WSE  |  END    ############
+
 
 #equipment slots
 ek_item_0 = 0
@@ -90,8 +128,11 @@ ek_gloves = 7
 ek_horse  = 8
 ek_food   = 9
 
+if (wb_compile_switch == 0):
+  max_inventory_items = 64
+elif (wb_compile_switch == 1):
+  max_inventory_items = 96
 
-max_inventory_items = 64
 num_equipment_kinds = ek_food + 1
 num_weapon_proficiencies = 7
 
@@ -99,6 +140,7 @@ num_weapon_proficiencies = 7
 cut    = 0
 pierce = 1
 blunt  = 2
+#bow_damage = cut
 
 
 ibf_armor_mask           = 0x00000000000000000000000ff
@@ -111,8 +153,8 @@ ibf_leg_armor_bits       = 16
 ibf_weight_bits          = 24
 ibf_difficulty_bits      = 32
 
-ibf_hitpoints_mask       = 0x0000ffff
-ibf_hitpoints_bits       = 40
+ibf_hitpoints_mask       = 0x0000ffff #0000ffff
+ibf_hitpoints_bits       = 40 #40
 
 #iwf_damage_mask             = 0x10000000000000ff #make sure value is 64 bits so that << will work
 iwf_swing_damage_bits       = 50
@@ -184,9 +226,18 @@ def shoot_speed(x):
 def get_missile_speed(y):
   return (y >> iwf_shoot_speed_bits) & ibf_10bit_mask
 
+def horse_scale(x):
+  return (((bignum | x) & ibf_10bit_mask) << iwf_weapon_length_bits)
+
 def weapon_length(x):
   return (((bignum | x) & ibf_10bit_mask) << iwf_weapon_length_bits)
 
+def shield_width(x):
+  return weapon_length(x)
+ 
+def shield_height(x):
+  return shoot_speed(x)
+ 
 def get_weapon_length(y):
   return ((y >> iwf_weapon_length_bits) & ibf_10bit_mask)
 
@@ -319,12 +370,20 @@ itcf_parry_up_polearm                                = 0x0002000000000000
 itcf_parry_right_polearm                             = 0x0004000000000000
 itcf_parry_left_polearm                              = 0x0008000000000000
 
+itcf_horseback_slash_polearm                         = 0x0010000000000000
+itcf_overswing_spear                                 = 0x0020000000000000
+itcf_overswing_musket                                = 0x0040000000000000
+itcf_thrust_musket                                   = 0x0080000000000000
+
 itcf_force_64_bits                                   = 0x8000000000000000
 
 #combined capabilities
 itc_cleaver = itcf_force_64_bits | (itcf_overswing_onehanded|itcf_slashright_onehanded|itcf_slashleft_onehanded |
                                     itcf_horseback_slashright_onehanded|itcf_horseback_slashleft_onehanded)
 itc_dagger  = itc_cleaver | itcf_thrust_onehanded
+
+#itc_big_weapon = itcf_force_64_bits | itcf_overswing_onehanded
+itc_big_weapon = itcf_force_64_bits 
 
 itc_parry_onehanded = itcf_force_64_bits | itcf_parry_forward_onehanded| itcf_parry_up_onehanded | itcf_parry_right_onehanded |itcf_parry_left_onehanded
 itc_longsword = itc_dagger | itc_parry_onehanded
@@ -337,15 +396,32 @@ itc_greatsword = itc_cut_two_handed |  itcf_thrust_twohanded | itc_parry_two_han
 itc_nodachi    = itc_cut_two_handed | itc_parry_two_handed
 
 itc_bastardsword = itc_cut_two_handed |  itcf_thrust_twohanded | itc_parry_two_handed |itc_dagger
+itc_bastardfalchion = itc_cut_two_handed  | itc_parry_two_handed |itc_cleaver |itc_parry_onehanded
 
+#itc_parry_polearm_heavy = itcf_parry_up_polearm | itcf_parry_right_polearm | itcf_parry_left_polearm
+itc_swing_heavy = itcf_overswing_twohanded| itcf_slashright_twohanded |itcf_slashleft_twohanded
 itc_parry_polearm = itcf_parry_forward_polearm | itcf_parry_up_polearm | itcf_parry_right_polearm | itcf_parry_left_polearm
+itc_banner     = itc_parry_polearm| itcf_thrust_onehanded_lance |itcf_thrust_polearm
 itc_poleaxe    = itc_parry_polearm| itcf_overswing_polearm |itcf_thrust_polearm|itcf_slashright_polearm|itcf_slashleft_polearm
 itc_staff      = itc_parry_polearm| itcf_thrust_onehanded_lance |itcf_thrust_onehanded_lance_horseback| itcf_overswing_polearm |itcf_thrust_polearm|itcf_slashright_polearm|itcf_slashleft_polearm
 itc_spear      = itc_parry_polearm| itcf_thrust_onehanded_lance |itcf_thrust_onehanded_lance_horseback | itcf_thrust_polearm
 itc_cutting_spear = itc_spear|itcf_overswing_polearm
 itc_pike       = itcf_thrust_onehanded_lance |itcf_thrust_onehanded_lance_horseback | itcf_thrust_polearm
 
+#itc_greatlance = itc_parry_polearm|itcf_thrust_onehanded_lance_horseback| itcf_thrust_polearm
+
 itc_greatlance = itcf_thrust_onehanded_lance |itcf_thrust_onehanded_lance_horseback| itcf_thrust_polearm
+itc_ghost_lance = itcf_thrust_onehanded_lance_horseback
+
+#Upstab capability begin
+itc_spear_upstab =  itc_spear|itcf_force_64_bits|itcf_overswing_spear|itcf_overswing_musket|itcf_slashleft_polearm|itcf_slashright_polearm
+itc_lance_upstab =  itc_spear|itcf_force_64_bits|itcf_overswing_spear|itcf_overswing_musket
+itc_great_lance_upstab =  itc_greatlance|itcf_force_64_bits|itcf_overswing_spear|itcf_overswing_musket
+itc_pike_upstab = itc_parry_polearm|itcf_force_64_bits|itcf_overswing_spear|itcf_thrust_polearm
+#Upstab capability end
+
+itc_short_pole_hammer = itc_parry_polearm|itcf_overswing_polearm|itcf_thrust_polearm|itcf_slashright_polearm|itcf_slashleft_polearm|itcf_horseback_slash_polearm		#itcf_thrust_onehanded_lance_horseback|itcf_horseback_slashright_onehanded|itcf_horseback_slashleft_onehanded   #|itcf_parry_right_twohanded|itcf_parry_left_twohanded|itcf_overswing_twohanded
+itc_one_half_hammer = itcf_parry_right_twohanded|itcf_parry_left_twohanded|itc_swing_heavy|itcf_overswing_onehanded|itcf_slashright_onehanded|itcf_slashleft_onehanded|itcf_horseback_overswing_right_onehanded|itcf_horseback_overswing_left_onehanded|itcf_thrust_onehanded_lance
 
 #SW - added itc_lightsabers
 itc_lightsaber = itc_bastardsword|itcf_thrust_onehanded_lance|itcf_thrust_onehanded_lance_horseback| itcf_thrust_polearm
@@ -361,4 +437,7 @@ itc_rancor = itcf_force_64_bits | (itcf_slashright_onehanded|itcf_slashleft_oneh
 ixmesh_inventory   = 0x1000000000000000
 ixmesh_flying_ammo = 0x2000000000000000
 ixmesh_carry       = 0x3000000000000000
+
+#bitmask for races who can use items (mask is stuffed into the last digit of item value)
+r_man   = 0 # also includes women
 
