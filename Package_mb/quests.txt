@@ -1,5 +1,5 @@
 questsfile version 1
-47
+59
 qst_deliver_message Deliver_Message_to_{s13} 2 {s9}_asked_you_to_take_a_message_to_{s13}._{s13}_was_at_{s4}_when_you_were_given_this_quest. 
 qst_deliver_message_to_enemy_lord Deliver_Message_to_{s13} 2 {s9}_asked_you_to_take_a_message_to_{s13}_of_{s15}._{s13}_was_at_{s4}_when_you_were_given_this_quest. 
 qst_raise_troops Raise_{reg1}_{s14} 2 {s9}_asked_you_to_raise_{reg1}_{s14}_and_bring_them_to_him. 
@@ -46,4 +46,16 @@ qst_train_peasants_against_bandits Train_the_Peasants_of_{s13}_Against_Bandits. 
 qst_eliminate_bandits_infesting_village Save_the_planet_of_{s7}_from_Marauding_Bandits 2 A_citizen_from_{s7}_begged_you_to_save_their_planet_from_the_bandits_that_took_refuge_there. 
 qst_join_faction Give_Oath_of_Homage_to_{s1} 2 Find_{s1}_and_give_him_your_oath_of_homage. 
 qst_rebel_against_faction Help_{s13}_Claim_the_Throne_of_{s14} 2 None 
+qst_freelancer_enlisted Enlisted_in_the_Party_of_{s13} 0 {!}You_are_currently_enlisted_in_the_party_of_{s13}_of_{s14}. 
+qst_freelancer_vacation Enlisted:_On_Leave 0 {!}You_have_been_granted_leave_from_the_party_of_{s13}_of_{s14}. 
+qst_freelancer_captured Enlisted:_Captured 0 {!}Your_commander's_party_has_been_defeated_and_you_have_been_captured._Return_to_the_service_of_{s13}_of_{s14}. 
+qst_freelancer_mission_1 Freelancer_Mission:_Hunt_Down_Deserters 0 {!}Placeholder 
+qst_freelancer_mission_2 Freelancer_Mission:_Pacify_Unhappy_Troops 0 {!}Placeholder 
+qst_freelancer_mission_3 Freelancer_Mission:_ 0 {!}Placeholder 
+qst_freelancer_mission_4 Freelancer_Mission:_ 0 {!}Placeholder 
+qst_freelancer_mission_5 Freelancer_Mission:_ 0 {!}Placeholder 
+qst_freelancer_mission_6 Freelancer_Mission:_ 0 {!}Placeholder 
+qst_freelancer_mission_7 Freelancer_Mission:_ 0 {!}Placeholder 
+qst_freelancer_mission_8 Freelancer_Mission:_ 0 {!}Placeholder 
+qst_freelancer_mission_9 Freelancer_Mission:_ 0 {!}Placeholder 
 qst_quests_end Quests_End 0 . 

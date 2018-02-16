@@ -206,6 +206,8 @@ slot_mainplanet_mercs = 66
 
 slot_spacestation_exterior    = slot_mainplanet_center
 
+slot_party_last_in_combat              = 68 #used for AI
+
 #slot_mainplanet_rebellion_contact   = 76
 #trs_not_yet_approached  = 0
 #trs_approached_before   = 1
@@ -725,6 +727,10 @@ slot_ship_drive                 = 315
 slot_ship_drive_max             = 316
 
 #Rebellion changes end
+
+slot_troop_days_on_mission		        = 317
+slot_troop_current_mission			    = 318
+
 # character backgrounds
 
 #SW - new constants
@@ -852,6 +858,13 @@ tc_siege_won_seneschal        = 12
 tc_ally_thanks                = 13
 tc_tavern_talk                = 14
 tc_rebel_thanks               = 15
+tc_garden            		  = 16
+tc_courtship            	  = 16
+tc_after_duel            	  = 17
+tc_prison_break               = 18
+tc_escape               	  = 19
+tc_give_center_to_fief        = 20
+tc_merchants_house            = 21
 
 #Troop Commentaries begin
 #Log entry types
@@ -927,6 +940,8 @@ secret_signs_end   = countersigns_begin
 factions_begin = "fac_player_supporters_faction"
 factions_end   = fac_huttcartel + 1
 #factions_end = "fac_factions_end"
+kingdoms_begin = factions_begin
+kingdoms_end = factions_end
 
 
 #SW - modified faction_ladies_begin to start with faction_ladies_end
@@ -1021,12 +1036,16 @@ all_quests_begin  = 0
 all_quests_end    = "qst_quests_end"
 
 mainplanets_begin = "p_mandalore"
+towns_begin = mainplanets_begin
 castles_begin     = "p_spacestation_2" # "p_spacestation_1"
 minorplanet_begin = "p_minorplanet_1"
+villages_begin = minorplanet_begin
 
 mainplanets_end   = castles_begin
+towns_end = mainplanets_end
 castles_end       = minorplanet_begin
 minorplanet_end   = p_minorplanet_90 + 1
+villages_end = minorplanet_end
 
 walled_centers_begin = mainplanets_begin
 walled_centers_end   = castles_end
@@ -1487,6 +1506,7 @@ speech_deployed = 1
 
 
 #Kham Added Constants
+
 # VC Presentantion Constants
 font_title = 2400
 font_small = 800
@@ -1514,3 +1534,32 @@ Troop_Tree_Area_Width = Screen_Width-2*Screen_Border_Width
 Troop_Tree_Line_Color = 0x000000
 Troop_Tree_Tableau_Height = 800
 Troop_Tree_Tableau_Width = Troop_Tree_Tableau_Height*Screen_Undistort_Width_Num/Screen_Undistort_Width_Den
+
+#+FREELANCER start
+freelancer_version = 13
+freelancer_can_use_item  = "script_troop_can_use_item" 
+
+#Party Slots
+slot_party_orig_morale = 280
+slot_freelancer_equip_start = 100 #only used for freelancer_party_backup
+slot_freelancer_version     = slot_freelancer_equip_start - 2 #only used for freelancer_party_backup
+
+#Faction Slot
+slot_faction_freelancer_troop = 101 #should be unused
+slot_faction_freelancer_captain = 163 #Kham - To Check if Player is Sarge/Captain (1 or 2)
+
+slot_faction_tier_1_archer        = 164
+
+#Troop Slots
+slot_troop_freelancer_start_xp   =  slot_troop_signup   #110 -only used for player
+slot_troop_freelancer_start_date =  slot_troop_signup_2 #111 -only used for player
+
+plyr_mission_vacation = 1
+slot_freelancer_mission = 162
+
+tc_vacation_over = 22
+slot_freelancer_rank = 113 #track how many upgrades the player has had in their faction.
+tc_freelancer_infantry_captain = 114 #To Reward Player as an Infantry Sarge / Captain
+tc_freelancer_ranged_captain = 115 #To Reward Player as an Ranged Sarge / Captain
+
+#+Freelancer end

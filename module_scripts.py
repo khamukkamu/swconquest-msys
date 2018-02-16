@@ -62,6 +62,13 @@ scripts = [
       (assign, "$crouch_key_down", 0),
       #(assign, "$arena_weapons", 1),
       #(assign, "$arena_name", "Enter the Force-Sensitive Arena"),
+
+      #Kham Init variables
+      (assign, "$freelancer_state", 0),
+      (assign, "$freelancer_allow_desertion", 0), #Freelancer - Allow Desertion
+      (assign, "$g_next_pay_time", 0), #Freelancer - Init Paytime
+      (assign, "$freelancer_enhanced_upgrade", 1), #Freelancer - Default to Advanced Upgrade system
+      (assign, "$freelancer_missions", 1), #Allow Freelancer Missions
       
       #assign default keys
       (assign, "$crouch_key", key_left_alt),
@@ -6087,6 +6094,10 @@ scripts = [
         #TODO: Remove this when test is done
         #       (assign, ":quest_no", "qst_meet_spy_in_enemy_town"),
         #TODO: Remove this when test is done end
+         
+      #Kham - For Testing and Freelancer Quests
+        (try_begin), (ge, "$cheat_imposed_quest", 0),(assign, ":quest_no", "$cheat_imposed_quest"),(try_end),
+
         (neg|check_quest_active,":quest_no"),
         (neg|quest_slot_ge, ":quest_no", slot_quest_dont_give_again_remaining_days, 1),
         (try_begin),
@@ -13035,7 +13046,7 @@ scripts = [
       #(assign, ":scene_to_use", "scn_random_scene_plain"),	#debug only
       #(assign, reg7, ":scene_to_use"), #debug only
       #(display_message, "@setup_random_scene debug: scene_to_use = {reg7}", 0xFFFFFF),#debug only
-      
+      (assign, "$g_scene_to_use", ":scene_to_use"),
       (jump_to_scene,":scene_to_use"),
       
       #(party_get_current_terrain, ":terrain_type", "p_main_party"),
@@ -13153,6 +13164,7 @@ scripts = [
       (party_get_num_companion_stacks, ":num_stacks","p_temp_party"),
       (try_for_range, ":i_stack", 0, ":num_stacks"),
         (party_stack_get_troop_id, ":stack_troop","p_temp_party",":i_stack"),
+        (gt, ":stack_troop", 0), #Freelancer
         (lt, ":cur_pos", 32), # spawn up to entry point 32
         (set_visitor, ":cur_pos", ":stack_troop"),
         (val_add,":cur_pos", 1),
@@ -15027,7 +15039,24 @@ scripts = [
       (assign, "$g_starting_strength_friends", reg0),
       
       (store_mul, "$g_strength_contribution_of_player","$g_starting_strength_main_party", 100), # reduce contribution if we are helping someone.
-      (val_div, "$g_strength_contribution_of_player","$g_starting_strength_friends"),
+      
+      (try_begin),
+        (eq, "$freelancer_state", 1),
+        (store_character_level, "$g_strength_contribution_of_player", "$player_cur_troop"),
+        (val_div, "$g_strength_contribution_of_player", 2),
+        (val_max, "$g_strength_contribution_of_player", 5), #contribution(scale 0-100) = level/2, min 5 (so about 5-25)
+        #(store_character_level, ":freelancer_player_contribution", "$player_cur_troop"),
+        #(val_mul, ":freelancer_player_contribution", 6),
+        #(val_div, ":freelancer_player_contribution", 5), #level * 1.2 (for a bit of a scaling bump)
+        #(val_max, ":freelancer_player_contribution", 10), #and to give a base line
+        #(assign, "$g_strength_contribution_of_player", ":freelancer_player_contribution"),
+      (else_try),
+        (gt, "$g_starting_strength_friends", 0), #this new to prevent occasional div by zero error
+        (val_div, "$g_strength_contribution_of_player","$g_starting_strength_friends"),
+      (else_try),
+        (assign, "$g_strength_contribution_of_player", 100), #Or zero, maybe
+      (try_end),
+
       
       #      (try_begin),
       #        (gt, "$g_ally_party", 0),
@@ -17499,6 +17528,7 @@ scripts = [
           (faction_slot_eq, "$players_faction", slot_faction_marshall, "trp_player"),
           (assign, ":continue", 0),
         (else_try),
+          (neq, "$freelancer_state", 1),  
           (party_stack_get_troop_id, ":leader_troop_id", ":party_no", 0),
           (neg|is_between, ":leader_troop_id", faction_heroes_begin, faction_heroes_end),
           (assign, ":continue", 0),
@@ -30651,17 +30681,17 @@ if is_a_wb_script==1:
   # Input:
   # param1: troop_id,
   # Output: reg0 = needed cost for upgrade
-  ("game_get_upgrade_cost",
-    [
+  #("game_get_upgrade_cost",
+   # [
      #(store_script_param_1, ":troop_id"),
      #swy-- hacky workaround to block upgrading by disabling the button on certain occasions...
      #(try_begin),     
      #    (eq, "$tld_forbid_troop_upgrade_mode", 1),
      #    (set_trigger_result, -1),
      # (else_try),
-         (set_trigger_result,  0),
+   #      (set_trigger_result,  0),
      # (try_end),
-    ]),
+  #  ]),
 
 # cpp: Imported this script from classic Warband.
 # Fixes the "Terrible" troop morale. Can be expanded on.
@@ -31604,4 +31634,1136 @@ if is_a_wb_script==1:
   
   ### Kham Troop Tree Scripts END ###
 
+  #+freelancer start
+  ("freelancer_attach_party",
+    [
+      #prepare player to be part of lord's party
+      (party_attach_to_party, "p_main_party", "$enlisted_party"),
+      (set_camera_follow_party, "$enlisted_party"),
+      (party_set_flags, "$enlisted_party", pf_always_visible, 1),
+      (disable_party, "p_main_party"),
+      
+      #initialize service variable
+      (assign, "$freelancer_state", 1),
+      
+      #If player is a sarge or captain, remove his party - Kham
+      (store_faction_of_troop, ":commander_faction", "$enlisted_lord"),
+      (try_begin),
+        (faction_get_slot, ":is_sarge", ":commander_faction", slot_faction_freelancer_captain), #is sarge / captain?
+        (gt, ":is_sarge", 0),
+        (call_script, "script_freelancer_restore_player_party"),
+      (try_end),
+      #End Removal of Player Party
+  ]),
+  
+  ("freelancer_detach_party",
+    [
+      #removes player from commanders party
+      (enable_party, "p_main_party"),
+      (party_detach, "p_main_party"),
+      
+      (try_begin),
+        (party_is_active, "$enlisted_party"),
+        (party_relocate_near_party, "p_main_party", "$enlisted_party", 2),
+        (party_set_flags, "$enlisted_party", pf_always_visible, 0),
+      (try_end),
+      
+      (set_camera_follow_party, "p_main_party"),
+      (assign, "$g_player_icon_state", pis_normal),
+  ]),
+  
+  # ADDS THE PLAYER TO THE LORD'S PARTY
+  ("event_player_enlists",[
+      
+      #initialize service variables
+      (troop_get_xp, ":xp", "trp_player"),
+      (troop_set_slot, "trp_player", slot_troop_freelancer_start_xp, ":xp"),
+      (store_current_day, ":day"),
+      (troop_set_slot, "trp_player", slot_troop_freelancer_start_date, ":day"),
+      (store_add, "$g_next_pay_time", ":day", 7), #Payday every 7 days. We initiate it here.
+      (party_get_morale, ":morale", "p_main_party"),
+      (party_set_slot, "p_main_party", slot_party_orig_morale, ":morale"),
+      #(assign, "$freelancer_state", 1), #moved to script
+      
+      #needed to stop bug where parties attack the old player party
+      (call_script, "script_set_parties_around_player_ignore_player", 2, 4),
+      
+      #set lord as your commander
+      (assign, "$enlisted_lord", "$g_talk_troop"),
+      (troop_get_slot, "$enlisted_party", "$enlisted_lord", slot_troop_leaded_party),
+      
+      #removes troops from player party
+      (party_get_num_companion_stacks, ":num_stacks", "p_main_party"),
+      (try_for_range_backwards, ":cur_stack", 1, ":num_stacks"), #lower bound is 1 to ignore player character
+        (party_stack_get_troop_id, ":cur_troops", "p_main_party", ":cur_stack"),
+        (party_stack_get_size, ":cur_size", "p_main_party", ":cur_stack"),
+        (party_remove_members, "p_main_party", ":cur_troops", ":cur_size"),
+      (try_end),
+      
+      #set faction relations to allow player to join battles
+      (store_troop_faction, ":commander_faction", "$enlisted_lord"),
+      (try_begin),
+        (store_relation, ":player_relation", ":commander_faction", "fac_player_supporters_faction"),
+        (lt, ":player_relation", 5),
+        (call_script, "script_set_player_relation_with_faction", ":commander_faction", 5),
+      (try_end),
+      (try_for_range, ":cur_faction", kingdoms_begin, kingdoms_end),
+        (neq, ":commander_faction", ":cur_faction"),
+        (faction_slot_eq, ":cur_faction", slot_faction_state, sfs_active),
+        (store_relation, ":player_relation", ":cur_faction", "fac_player_supporters_faction"),
+        (ge, ":player_relation", 0),
+        (call_script, "script_set_player_relation_with_faction", ":cur_faction", -5),
+      (try_end),
+      
+      #adds standard issued equipment
+      (try_begin),
+        (neg|faction_slot_eq, ":commander_faction", slot_faction_freelancer_troop, 0),
+        (faction_get_slot, "$player_cur_troop", ":commander_faction", slot_faction_freelancer_troop),
+      (else_try),
+        (faction_get_slot, "$player_cur_troop", ":commander_faction", slot_faction_tier_1_troop),
+      (try_end),
+      
+      (call_script, "script_freelancer_equip_troop", "$player_cur_troop"),
+      
+      (call_script, "script_freelancer_attach_party"),
+      
+      #makes Lords banner the players
+      (troop_get_slot, ":banner", "$enlisted_lord", slot_troop_banner_scene_prop),
+      (troop_set_slot, "trp_player", slot_troop_banner_scene_prop, ":banner"),
+      (display_message, "@You have been enlisted!"),
+      
+      #Track Player's Freelancer Rank in the Faction. If never enlisted, assign 1st rank - Kham
+      (faction_get_slot, ":freelancer_rank", "$g_talk_troop_faction", slot_freelancer_rank),
+      (try_begin),
+        (lt, ":freelancer_rank", 1),
+        (faction_set_slot, "$g_talk_troop_faction", slot_freelancer_rank , 1),
+      (try_end),
+      
+      #Kham - Freelancer Captain
+      (try_begin),
+        (faction_get_slot, ":is_captain", ":commander_faction", slot_faction_freelancer_captain), #Are they currently a captain for this faction?
+        (lt, ":is_captain", 0),
+        (faction_set_slot, ":commander_faction", slot_faction_freelancer_captain, 0), #-1 means no longer sarge / captain. They will have to prove themselves again, so we set it back to 0.
+      (try_end),
+      #Kham - Freelancer Captain END
+      
+      (str_store_troop_name_link, s13, "$enlisted_lord"),
+      (str_store_faction_name_link, s14, ":commander_faction"),
+      (quest_set_slot, "qst_freelancer_enlisted", slot_quest_target_party, "$enlisted_party"),
+      (quest_set_slot, "qst_freelancer_enlisted", slot_quest_importance, 5),
+      (quest_set_slot, "qst_freelancer_enlisted", slot_quest_xp_reward, 1000),
+      (quest_set_slot, "qst_freelancer_enlisted", slot_quest_gold_reward, 100),
+      (setup_quest_text, "qst_freelancer_enlisted"),
+      (str_clear, s2), #description. necessary?
+      (call_script, "script_start_quest", "qst_freelancer_enlisted", "$enlisted_lord"),
+      (str_store_troop_name, s5, "$player_cur_troop"),
+      (str_store_string, s5, "@Current rank: {s5}"),
+      (add_quest_note_from_sreg, "qst_freelancer_enlisted", 3, s5, 1),
+  ]),
+  
+  #  RUNS IF THE PLAYER LEAVES THE ARMY
+  
+  ("event_player_discharge",
+    [
+      #removes faction relation given at enlist
+      (store_troop_faction, ":commander_faction", "$enlisted_lord"),
+      (call_script, "script_change_player_relation_with_faction_ex", ":commander_faction", 5),
+      (try_for_range, ":cur_faction", kingdoms_begin, kingdoms_end),
+        (neq, ":commander_faction", ":cur_faction"),
+        (faction_slot_eq, ":cur_faction", slot_faction_state, sfs_active),
+        (store_relation, ":player_relation", ":cur_faction", "fac_player_supporters_faction"),
+        (lt, ":player_relation", 0),
+        (call_script, "script_set_player_relation_with_faction", ":cur_faction", 0),
+      (try_end),
+      # removes standard issued equipment
+      # (try_for_range, ":cur_inv_slot", ek_item_0, ek_food),
+      # (troop_get_inventory_slot, ":soldier_equipment", "$player_cur_troop", ":cur_inv_slot"),
+      # (ge, ":soldier_equipment", 0),
+      # (troop_remove_item, "trp_player", ":soldier_equipment"),
+      # (try_end),
+      (call_script, "script_freelancer_unequip_troop", "$player_cur_troop"),
+      (troop_equip_items, "trp_player"),
+      
+      
+      (troop_set_slot, "trp_player", slot_troop_current_mission, 0),
+      (troop_set_slot, "trp_player", slot_troop_days_on_mission, 0),
+      (troop_set_slot, "trp_player", slot_troop_banner_scene_prop, 0),
+      (assign, "$freelancer_state", 0),
+      (call_script, "script_freelancer_detach_party"),
+      
+      #Kham - Freelancer Captain
+      (try_begin),
+        (faction_get_slot, ":is_captain", ":commander_faction", slot_faction_freelancer_captain), #Are they currently a captain for this faction?
+        (ge, ":is_captain", 1),
+        (faction_set_slot, ":commander_faction", slot_faction_freelancer_captain, -1), #-1 means no longer sarge / captain. They will have to prove themselves again.
+      (try_end),
+      #Kham - Freelancer Captain END
+      
+      (rest_for_hours, 0,0,0),
+      (display_message, "@You have left your commander!"),
+      
+      #(call_script, "script_cancel_quest", "qst_freelancer_enlisted"),
+      (call_script, "script_finish_quest", "qst_freelancer_enlisted", 100), #percentage--make based on days served?
+  ]),
+  
+  #  RUNS IF THE PLAYER GOES ON VACATION
+  
+  ("event_player_vacation",
+    [
+      #Kham Changes begin
+      (store_troop_faction, ":commander_faction", "$enlisted_lord"),
+      (faction_get_slot, ":freelancer_rank", ":commander_faction", slot_freelancer_rank),
+      (val_add, ":freelancer_rank", 2), #add 2 days per rank for vacation. So a rank 1 only gets 3 days, rank 2, gets 4, etc...  Tweakable
+      (troop_set_slot, "trp_player", slot_troop_current_mission, plyr_mission_vacation), ###move to quests, not missions
+      (troop_set_slot, "trp_player", slot_troop_days_on_mission, ":freelancer_rank"),
+      #Kham Changes END
+      
+      #removes faction relation given at enlist
+      
+      (try_for_range, ":cur_faction", kingdoms_begin, kingdoms_end),
+        (neq, ":commander_faction", ":cur_faction"),
+        (faction_slot_eq, ":cur_faction", slot_faction_state, sfs_active),
+        (call_script, "script_set_player_relation_with_faction", ":cur_faction", 0),
+      (try_end),
+      
+      # Try to catch unwanted swings in plaver v commander faction relation
+
+      (set_show_messages, 0),
+      (call_script, "script_set_player_relation_with_faction", ":commander_faction", 4),
+      (set_show_messages, 1),
+
+      (assign, "$freelancer_state", 2),
+      (call_script, "script_freelancer_detach_party"),
+      (rest_for_hours, 0,0,0),
+      (display_message, "@You have been granted leave!"),
+      
+      (str_store_troop_name_link, s13, "$enlisted_lord"),
+      (str_store_faction_name_link, s14, ":commander_faction"),
+      (quest_set_slot, "qst_freelancer_vacation", slot_quest_target_party, "$enlisted_party"),
+      (quest_set_slot, "qst_freelancer_vacation", slot_quest_importance, 0),
+      (quest_set_slot, "qst_freelancer_vacation", slot_quest_xp_reward, 50),
+      (quest_set_slot, "qst_freelancer_vacation", slot_quest_expiration_days, ":freelancer_rank"),
+      (setup_quest_text, "qst_freelancer_vacation"),
+      (str_clear, s2), #description. necessary?
+      (call_script, "script_start_quest", "qst_freelancer_vacation", "$enlisted_lord"),
+  ]),
+  
+  # RUNS WHEN PLAYER RETURNS FROM VACATION
+  
+  ("event_player_returns_vacation",
+    [
+      (troop_set_slot, "trp_player", slot_troop_current_mission, 0),
+      (troop_set_slot, "trp_player", slot_troop_days_on_mission, 0),
+      
+      #needed to stop bug where parties attack the old player party
+      (call_script, "script_set_parties_around_player_ignore_player", 2, 4),
+      
+      #removes troops from player party #Caba--could use party_clear? and then add the player back?
+      (party_get_num_companion_stacks, ":num_stacks", "p_main_party"),
+      (try_for_range_backwards, ":cur_stack", 1, ":num_stacks"), #lower bound is 1 to ignore player character
+        (party_stack_get_troop_id, ":cur_troops", "p_main_party", ":cur_stack"),
+        (party_stack_get_size, ":cur_size", "p_main_party", ":cur_stack"),
+        (party_remove_members, "p_main_party", ":cur_troops", ":cur_size"),
+      (try_end),
+      
+      #To fix any errors of the lord changing parties
+      (troop_get_slot, "$enlisted_party", "$enlisted_lord", slot_troop_leaded_party),
+      
+      #set faction relations to allow player to join battles
+      (store_troop_faction, ":commander_faction", "$enlisted_lord"),
+      (try_for_range, ":cur_faction", kingdoms_begin, kingdoms_end),
+        (neq, ":commander_faction", ":cur_faction"),
+        (faction_slot_eq, ":cur_faction", slot_faction_state, sfs_active),
+        (call_script, "script_set_player_relation_with_faction", ":cur_faction", -5),
+      (try_end),
+      (try_begin),
+        (store_relation, ":player_relation", ":commander_faction", "fac_player_supporters_faction"),
+        (lt, ":player_relation", 5),
+        (call_script, "script_set_player_relation_with_faction", ":commander_faction", 5),
+      (try_end),
+      (try_begin),
+        (check_quest_active, "qst_freelancer_vacation"),
+        (assign, ":quest", "qst_freelancer_vacation"),
+      (else_try),
+        (check_quest_active, "qst_freelancer_captured"),
+        (assign, ":quest", "qst_freelancer_captured"),
+      (try_end),
+      (call_script, "script_finish_quest", ":quest", 100),
+      (call_script, "script_freelancer_attach_party"),
+      (display_message, "@You have rejoined your commander!"),
+  ]),
+  
+  #  RUNS IF THE PLAYER GOES ON A MISSION - Kham
+  
+  ("event_player_mission",
+    [
+      
+      (store_troop_faction, ":commander_faction", "$enlisted_lord"),
+      (quest_get_slot, ":mission_days", "$cheat_imposed_quest", slot_quest_expiration_days), #We check how many days the mission should be completed
+      (troop_set_slot, "trp_player", slot_troop_current_mission, plyr_mission_vacation), ###move to quests, not missions
+      (troop_set_slot, "trp_player", slot_troop_days_on_mission, ":mission_days"),
+      
+      #removes faction relation given at enlist
+      (try_for_range, ":cur_faction", kingdoms_begin, kingdoms_end),
+        (neq, ":commander_faction", ":cur_faction"),
+        (faction_slot_eq, ":cur_faction", slot_faction_state, sfs_active),
+        (call_script, "script_set_player_relation_with_faction", ":cur_faction", 0),
+      (try_end),
+      
+      # Try to catch unwanted swings in plaver v commander faction relation
+      (set_show_messages, 0),
+      (call_script, "script_set_player_relation_with_faction", ":commander_faction", 4),
+      (set_show_messages, 1),
+
+      (assign, "$freelancer_state", 2),
+      (troop_set_slot, "trp_player", slot_freelancer_mission, 1),
+      (call_script, "script_freelancer_detach_party"),
+      (rest_for_hours, 0,0,0),
+      (display_message, "@You set forth on your mission."),
+  ]),
+  
+  # RUNS WHEN PLAYER RETURNS FROM MISSION - KHAM
+  
+  ("event_player_returns_mission",
+    [
+      (troop_set_slot, "trp_player", slot_troop_current_mission, 0),
+      (troop_set_slot, "trp_player", slot_troop_days_on_mission, 0),
+      (troop_set_slot, "trp_player", slot_freelancer_mission, 0),
+      (assign, "$cheat_imposed_quest", -1),
+      
+      #needed to stop bug where parties attack the old player party
+      (call_script, "script_set_parties_around_player_ignore_player", 2, 4),
+      
+      #removes troops from player party #Caba--could use party_clear? and then add the player back?
+      (party_get_num_companion_stacks, ":num_stacks", "p_main_party"),
+      (try_for_range_backwards, ":cur_stack", 1, ":num_stacks"), #lower bound is 1 to ignore player character
+        (party_stack_get_troop_id, ":cur_troops", "p_main_party", ":cur_stack"),
+        (party_stack_get_size, ":cur_size", "p_main_party", ":cur_stack"),
+        (party_remove_members, "p_main_party", ":cur_troops", ":cur_size"),
+      (try_end),
+      
+      #To fix any errors of the lord changing parties
+      (troop_get_slot, "$enlisted_party", "$enlisted_lord", slot_troop_leaded_party),
+      
+      #set faction relations to allow player to join battles
+      (store_troop_faction, ":commander_faction", "$enlisted_lord"),
+      (try_for_range, ":cur_faction", kingdoms_begin, kingdoms_end),
+        (neq, ":commander_faction", ":cur_faction"),
+        (faction_slot_eq, ":cur_faction", slot_faction_state, sfs_active),
+        (call_script, "script_set_player_relation_with_faction", ":cur_faction", -5),
+      (try_end),
+      (try_begin),
+        (store_relation, ":player_relation", ":commander_faction", "fac_player_supporters_faction"),
+        (lt, ":player_relation", 5),
+        (call_script, "script_set_player_relation_with_faction", ":commander_faction", 5),
+      (try_end),
+      
+      (assign, "$freelancer_state", 1),
+      (call_script, "script_freelancer_attach_party"),
+      (display_message, "@You have rejoined your commander!"),
+  ]),
+  
+  
+  # RUNS IF PLAYER DESERTS OR IS AWOL
+  ("event_player_deserts",
+    [
+      (store_troop_faction, ":commander_faction", "$enlisted_lord"),
+      (call_script, "script_change_player_relation_with_faction_ex", ":commander_faction", -10),
+      (call_script, "script_change_player_relation_with_troop", "$enlisted_lord", -10),
+      (call_script, "script_change_player_honor", -20),
+      
+      (troop_set_slot, "trp_player", slot_troop_current_mission, 0),
+      (troop_set_slot, "trp_player", slot_troop_days_on_mission, 0),
+      (faction_set_slot, ":commander_faction", slot_faction_freelancer_troop, 0),
+      (troop_set_slot, "trp_player", slot_troop_banner_scene_prop, 0),
+      (rest_for_hours, 0,0,0),
+      (assign, "$freelancer_state", 0),
+      #(display_message, "@You have deserted your commander!"), #Taken care of elsewhere
+      (call_script, "script_fail_quest", "qst_freelancer_enlisted"),
+  ]),
+  
+  
+  # RETURNS PART OF THE ORIGINAL PARTY
+  ("party_restore",
+    [
+      (store_current_day, ":cur_day"),
+      #formula for soldier desertion chance
+      (troop_get_slot, ":service_day_start", "trp_player", slot_troop_freelancer_start_date),
+      (store_sub, ":service_length", ":cur_day", ":service_day_start"), #gets number of days served
+      (party_get_slot, ":morale", "p_main_party", slot_party_orig_morale),
+      (store_add, ":return_chance", 800, ":morale"), #up to 100
+      (val_sub, ":return_chance", ":service_length"), #up to far over 100
+      
+      #loop that looks at each troop stack in a party,
+      #then decides if troops of that stack will return,
+      #and randomly assigns a number of troops in that stack to return
+      (party_get_num_companion_stacks, ":num_stacks", "p_freelancer_party_backup"),
+      (try_for_range, ":cur_stack", 0, ":num_stacks"),
+        (assign, ":stack_amount", 0),
+        (party_stack_get_troop_id, ":return_troop", "p_freelancer_party_backup", ":cur_stack"),
+        (neq, ":return_troop", "trp_player"),
+        (try_begin),
+          (troop_is_hero, ":return_troop"), #bugfix for companions (simple, they always return)
+          (assign, ":stack_amount", 1),
+        (else_try),
+          #limit may need changed for more accurate probability
+          (store_random_in_range, ":return_random", 0, 1000),
+          (is_between, ":return_random", 0, ":return_chance"),
+          (party_stack_get_size, ":stack_size", "p_freelancer_party_backup", ":cur_stack"),
+          #checks what chance there is that all troops in stack will return
+          (store_random_in_range, ":return_random", 0, 1000),
+          (try_begin),
+            (is_between, ":return_random", 0, ":return_chance"),
+            (assign, ":stack_amount", ":stack_size"),
+          (else_try),
+            #else random number of troops return
+            (store_random_in_range, ":stack_amount", 0, ":stack_size"),
+          (try_end),
+        (try_end),
+        (ge, ":stack_amount", 1),
+        (party_add_members, "p_main_party", ":return_troop", ":stack_amount"),
+      (try_end),
+      (party_clear, "p_freelancer_party_backup"),
+  ]),
+  
+  #  CALCULATES NUMBER OF DESERTING TROOPS
+  
+  ("get_desert_troops", #CABA - check this
+    [
+      (party_get_morale, ":commander_party_morale", "$enlisted_party"), #does this actually get tracked for non-player parties?
+      (store_current_day, ":cur_day"),
+      #formula for soldier desertion chance
+      #gets number of days served
+      (troop_get_slot, ":service_day_start", "trp_player", slot_troop_freelancer_start_date),
+      (store_sub, ":service_length", ":cur_day", ":service_day_start"),
+      #inverts the commander's party morale
+      (store_sub, ":commander_neg_morale", 100, ":commander_party_morale"), #still a positive number... 100-80 = 20
+      (store_skill_level, ":cur_leadership", "skl_leadership", "trp_player"),
+      (store_skill_level, ":cur_persuasion", "skl_persuasion", "trp_player"),
+      #had to multiply these skills to give them a decent effect on desertion chance
+      (val_mul, ":cur_leadership", 10), #up to 100
+      (val_mul, ":cur_persuasion", 10), #up to 100
+      (store_add, ":desert_chance", ":cur_leadership", ":cur_persuasion"), #up to 200
+      (val_add, ":desert_chance", ":service_length"), #up to 400 maybe
+      (val_add, ":desert_chance", ":commander_neg_morale"), #up to 450, maybe? if party morale is down to 50
+      #loop that looks at each troop stack in a party,
+      #then decides if troops of that stack will desert,
+      #and randomly assigns a number of troops in that stack to desert
+      (party_get_num_companion_stacks, ":num_stacks", "$enlisted_party"),
+      (try_for_range_backwards, ":cur_stack", 1, ":num_stacks"),
+        #limit may need changed for more accurate probability
+        (store_random_in_range, ":desert_random", 0, 1000),
+        (is_between, ":desert_random", 0, ":desert_chance"),
+        #switching deserting troops to player party
+        (party_stack_get_troop_id, ":desert_troop", "$enlisted_party", ":cur_stack"),
+        (party_stack_get_size, ":stack_size", "$enlisted_party", ":cur_stack"),
+        (store_random_in_range, ":stack_amount", 0, ":stack_size"),
+        (party_remove_members, "$enlisted_party", ":desert_troop", ":stack_amount"),
+        (party_add_members, "p_main_party", ":desert_troop", ":stack_amount"),
+      (try_end),
+  ]),
+  
+  ("freelancer_keep_field_loot",
+    [
+      (get_player_agent_no, ":player"),
+      (try_for_range, ":ek_slot", ek_item_0, ek_head),
+        (agent_get_item_slot, ":item", ":player", ":ek_slot"),
+        (gt, ":item", 0),
+        (neg|troop_has_item_equipped, "trp_player", ":item"),
+        (troop_add_item, "trp_player", ":item"),
+      (try_end),
+      (agent_get_horse, ":horse", ":player"),
+      (try_begin),
+        (gt, ":horse", 0),
+        (agent_get_item_id, ":horse", ":horse"),
+        (troop_get_inventory_slot, ":old_horse", "trp_player", ek_horse),
+        (neq, ":horse", ":old_horse"),
+        (try_begin),
+          (gt, ":old_horse", 0),
+          (troop_get_inventory_slot_modifier, ":horse_imod", "trp_player", ek_horse),
+          (troop_add_item, "trp_player", ":old_horse", ":horse_imod"),
+        (try_end),
+        (troop_set_inventory_slot, "trp_player", ek_horse, ":horse"),
+      (try_end),
+  ]),
+  
+  ("cf_freelancer_player_can_upgrade",
+    #Reg0 outputs reason for failure
+    [
+      (store_script_param_1, ":source_troop"),
+      
+      (troop_get_inventory_capacity, ":troop_cap", ":source_troop"),
+      (assign, ":continue", 1),
+      
+      (assign, ":type_available", 0),
+      (assign, ":type_count", 0),
+      (assign, ":end", itp_type_arrows),
+      (try_for_range, ":type", itp_type_one_handed_wpn, ":end"),
+        #Count Items from Source Troop
+        (assign, ":end2", ":troop_cap"),
+        (try_for_range, ":inv_slot", 0, ":end2"),
+          (troop_get_inventory_slot, ":item", ":source_troop", ":inv_slot"),
+          (gt, ":item", 0),
+          (item_get_type, ":item_type", ":item"),
+          (eq, ":item_type", ":type"),
+          (val_add, ":type_count", 1),
+          (call_script, freelancer_can_use_item, "trp_player", ":item", 0),
+          (eq, reg0, 1),
+          (assign, ":type_available", 1),
+          (assign, ":end2", 0), #break
+        (try_end),
+        (eq, ":type_available", 1),
+        (assign, ":end", itp_type_one_handed_wpn), #break
+      (try_end), #Melee loop
+      (try_begin),
+        (eq, ":type_available", 0),
+        (gt, ":type_count", 0), #only care if there were items possible to equip
+        (assign, ":continue", 0),
+        (assign, reg0, 0),
+      (try_end),
+      (eq, ":continue", 1),
+      
+      (assign, ":type_available", 0),
+      (assign, ":type_count", 0),
+      (assign, ":end2", ":troop_cap"),
+      (try_for_range, ":inv_slot", 0, ":end2"),
+        (troop_get_inventory_slot, ":item", ":source_troop", ":inv_slot"),
+        (gt, ":item", 0),
+        (item_get_type, ":item_type", ":item"),
+        (eq, ":item_type", itp_type_body_armor),
+        (val_add, ":type_count", 1),
+        (call_script, freelancer_can_use_item, "trp_player", ":item", 0),
+        (eq, reg0, 1),
+        (assign, ":type_available", 1),
+        (assign, ":end2", 0), #break
+      (try_end),
+      (try_begin),
+        (eq, ":type_available", 0),
+        (gt, ":type_count", 0), #only care if there were items possible to equip
+        (assign, ":continue", 0),
+        (assign, reg0, 1),
+      (try_end),
+      (eq, ":continue", 1),
+      
+      (try_begin),
+        (troop_is_guarantee_ranged, ":source_troop"),
+        (assign, ":type_available", 0),
+        (assign, ":type_count", 0),
+        (assign, ":end", itp_type_goods),
+        (try_for_range, ":type", itp_type_bow, ":end"),
+          #Count Items from Source Troop
+          (assign, ":end2", ":troop_cap"),
+          (try_for_range, ":inv_slot", 0, ":end2"),
+            (troop_get_inventory_slot, ":item", ":source_troop", ":inv_slot"),
+            (gt, ":item", 0),
+            (item_get_type, ":item_type", ":item"),
+            (eq, ":item_type", ":type"),
+            (val_add, ":type_count", 1),
+            (call_script, freelancer_can_use_item, "trp_player", ":item", 0),
+            (eq, reg0, 1),
+            (assign, ":type_available", 1),
+            (assign, ":end2", 0), #break
+          (try_end),
+          (eq, ":type_available", 1),
+          (assign, ":end", itp_type_bow), #break
+        (try_end), #Ranged loop
+        (eq, ":type_available", 0),
+        (gt, ":type_count", 0), #only care if there were items possible to equip
+        (assign, ":continue", 0),
+        (assign, reg0, 2),
+      (try_end),
+      (eq, ":continue", 1),
+      
+      (try_begin),
+        (troop_is_guarantee_horse, ":source_troop"),
+        (assign, ":type_available", 0),
+        (assign, ":type_count", 0),
+        (assign, ":end2", ":troop_cap"),
+        (try_for_range, ":inv_slot", 0, ":end2"),
+          (troop_get_inventory_slot, ":item", ":source_troop", ":inv_slot"),
+          (gt, ":item", 0),
+          (item_get_type, ":item_type", ":item"),
+          (eq, ":item_type", itp_type_horse),
+          (val_add, ":type_count", 1),
+          (call_script, freelancer_can_use_item, "trp_player", ":item", 0),
+          (eq, reg0, 1),
+          (assign, ":type_available", 1),
+          (assign, ":end2", 0), #break
+        (try_end),
+        (eq, ":type_available", 0),
+        (gt, ":type_count", 0), #only care if there were items possible to equip
+        (assign, ":continue", 0),
+        (assign, reg0, 3),
+      (try_end),
+      (eq, ":continue", 1),
+  ]),
+  
+  
+  ("freelancer_equip_troop",
+    [
+      (store_script_param_1, ":source_troop"),
+      
+      (str_clear, s2),
+      (set_show_messages, 0),
+      
+      (assign, ":recording_slot", slot_freelancer_equip_start),
+      (troop_get_inventory_capacity, ":troop_cap", ":source_troop"),
+      (assign, ":melee_given", 0),
+      (assign, ":needs_ammo", 0),
+      (assign, ":open_weapon_slot", 0),
+      (try_for_range, ":type", itp_type_horse, itp_type_pistol),
+        (neq, ":type", itp_type_goods),
+        (neq, ":type", itp_type_arrows),
+        (neq, ":type", itp_type_bolts),
+        
+        #Assign Prob. of Getting Type
+        (assign, ":continue", 0),
+        (try_begin),
+          (troop_is_guarantee_horse, ":source_troop"),
+          (eq, ":type", itp_type_horse),
+          (assign, ":continue", 1),
+        (else_try),
+          (troop_is_guarantee_ranged, ":source_troop"),
+          (this_or_next|eq, ":type", itp_type_bow),
+          (this_or_next|eq, ":type", itp_type_crossbow),
+          (eq, ":type", itp_type_thrown),
+          (assign, ":continue", 1),
+        (else_try),
+          (this_or_next|eq, ":type", itp_type_shield), #Shields and all armor pieces are guaranteed
+          (ge, ":type", itp_type_head_armor),
+          (assign, ":continue", 1),
+        (else_try),
+          (neq, ":type", itp_type_horse),
+          (lt, ":open_weapon_slot", 4),
+          (store_random_in_range, ":continue", 0, 3), # 1 chance in three of being 1
+        (try_end),
+        (eq, ":continue", 1),
+        
+        #Clear Temp Array
+        (try_for_range, ":inv_slot", 0, 20),
+          (troop_set_slot, "trp_temp_array_a", ":inv_slot", 0),
+        (try_end),
+        
+        #Collect Items from Source Troop
+        (assign, ":type_count", 0),
+        (try_for_range, ":inv_slot", 0, ":troop_cap"),
+          (troop_get_inventory_slot, ":item", ":source_troop", ":inv_slot"),
+          (gt, ":item", 0),
+          (item_get_type, ":item_type", ":item"),
+          (eq, ":item_type", ":type"),
+          (call_script, freelancer_can_use_item, "trp_player", ":item", 0),
+          (eq, reg0, 1),
+          (troop_set_slot, "trp_temp_array_a", ":type_count", ":item"),
+          (val_add, ":type_count", 1),
+        (try_end),
+        (gt, ":type_count", 0),
+        
+        #Pick Random Item of Type from Troop
+        (try_begin),
+          (eq, ":type_count", 1),
+          (assign, ":index", 0),
+        (else_try),
+          (store_random_in_range, ":index", 0, ":type_count"),
+        (try_end),
+        (troop_get_slot, ":item", "trp_temp_array_a", ":index"),
+        (gt, ":item", 0),
+        (str_store_item_name, s3, ":item"),
+        (str_store_string, s2, "@{s3}, {s2}"),
+        
+        #Select correct EK slot to force equip
+        (try_begin),
+          (eq, ":type", itp_type_horse),
+          (assign, ":ek_slot", ek_horse),
+        (else_try),
+          (is_between, ":type", itp_type_head_armor, itp_type_pistol),
+          (store_sub, ":shift", ":type", itp_type_head_armor),
+          (store_add, ":ek_slot", ek_head, ":shift"),
+        (else_try),
+          (store_add, ":ek_slot", ek_item_0, ":open_weapon_slot"),
+        (try_end),
+        
+        #Check for item already there, move it if present
+        (try_begin),
+          (troop_get_inventory_slot, ":old_item", "trp_player", ":ek_slot"),
+          (gt, ":old_item", 0),
+          (troop_get_inventory_slot_modifier, ":old_item_imod", "trp_player", ":ek_slot"),
+          (troop_add_item, "trp_player", ":old_item", ":old_item_imod"),
+        (try_end),
+        
+        #Add Item
+        (troop_set_inventory_slot, "trp_player", ":ek_slot", ":item"),
+        (party_set_slot, "p_freelancer_party_backup", ":recording_slot", ":item"),
+        (val_add, ":recording_slot", 1),
+        (try_begin),
+          (is_between, ":type", itp_type_one_handed_wpn, itp_type_head_armor), #Uses one of the 4 weapon slots
+          (val_add, ":open_weapon_slot", 1),
+          (try_begin),
+            (is_between, ":type", itp_type_one_handed_wpn, itp_type_arrows),
+            (assign, ":melee_given", 1),
+          (else_try),
+            (eq, ":type", itp_type_bow),
+            (assign, ":needs_ammo", itp_type_arrows),
+          (else_try),
+            (eq, ":type", itp_type_crossbow),
+            (assign, ":needs_ammo", itp_type_bolts),
+          (try_end),
+        (try_end),
+      (try_end), #Item Types Loop
+      
+      #add ammo for any equipped bow
+      (try_begin),
+        (neq, ":needs_ammo", 0),
+        #Check for item already in the last slot, move it if present
+        (try_begin),
+          (troop_get_inventory_slot, ":old_item", "trp_player", ek_item_3),
+          (gt, ":old_item", 0),
+          (troop_get_inventory_slot_modifier, ":old_item_imod", "trp_player", ek_item_3),
+          (troop_add_item, "trp_player", ":old_item", ":old_item_imod"),
+        (try_end),
+        
+        (assign, ":end", ":troop_cap"),
+        (try_for_range, ":inv_slot", 0, ":end"),
+          (troop_get_inventory_slot, ":item", ":source_troop", ":inv_slot"),
+          (gt, ":item", 0),
+          (item_get_type, ":type", ":item"),
+          (eq, ":type", ":needs_ammo"),
+          (troop_set_inventory_slot, "trp_player", ek_item_3, ":item"),
+          (party_set_slot, "p_freelancer_party_backup", ":recording_slot", ":item"),
+          (val_add, ":recording_slot", 1),
+          (assign, ":open_weapon_slot", 4),
+          (str_store_item_name, s3, ":item"),
+          (str_store_string, s2, "@{s3}, {s2}"),
+          (assign, ":end", 0),
+        (try_end),
+      (try_end),
+      
+      #double check melee was given
+      (try_begin),
+        (eq, ":melee_given", 0),
+        (assign, ":end", ":troop_cap"),
+        (try_for_range, ":inv_slot", 0, ":end"),
+          (troop_get_inventory_slot, ":item", ":source_troop", ":inv_slot"),
+          (gt, ":item", 0),
+          (item_get_type, ":type", ":item"),
+          (is_between, ":type", itp_type_one_handed_wpn, itp_type_arrows),
+          (call_script, freelancer_can_use_item, "trp_player", ":item", 0),
+          (eq, reg0, 1),
+          (try_begin),
+            (gt, ":open_weapon_slot", 3),
+            (assign, ":open_weapon_slot", 2),
+          (try_end),
+          
+          #Check for item already there
+          (try_begin),
+            (troop_get_inventory_slot, ":old_item", "trp_player", ":open_weapon_slot"),
+            (gt, ":old_item", 0),
+            (troop_get_inventory_slot_modifier, ":old_item_imod", "trp_player", ":open_weapon_slot"),
+            (troop_add_item, "trp_player", ":old_item", ":old_item_imod"),
+          (try_end),
+          
+          (troop_set_inventory_slot, "trp_player", ":open_weapon_slot", ":item"),
+          (party_set_slot, "p_freelancer_party_backup", ":recording_slot", ":item"),
+          (val_add, ":recording_slot", 1),
+          (str_store_item_name, s3, ":item"),
+          (str_store_string, s2, "@{s3}, {s2}"),
+          (assign, ":end", 0),
+        (try_end),
+      (try_end),
+      
+      (set_show_messages, 1),
+      (try_begin),
+        (neg|str_is_empty, s2),
+        (val_sub, ":recording_slot", slot_freelancer_equip_start),
+        (party_set_slot, "p_freelancer_party_backup", slot_freelancer_equip_start - 1, ":recording_slot"),  #Record Number of Items Added
+        
+        (str_store_troop_name, s1, ":source_troop"),
+        (display_message, "@The equipment of a {s1}: {s2}is assigned to you."),
+      (try_end),
+  ]),
+  
+  ("freelancer_unequip_troop",
+    [
+      (store_script_param_1, ":source_troop"),
+      
+      (str_clear, s2),
+      (set_show_messages, 0),
+      
+      (party_get_slot, ":num_items", "p_freelancer_party_backup", slot_freelancer_equip_start - 1), #Num of items previously given
+      
+      (troop_get_inventory_capacity, ":cap", "trp_player"),
+      (try_for_range, ":i", 0, ":num_items"),
+        (store_add, ":slot", slot_freelancer_equip_start, ":i"),
+        (party_get_slot, ":given_item", "p_freelancer_party_backup", ":slot"),
+        (gt, ":given_item", 0),
+        
+        (assign, ":end", ":cap"),
+        (try_for_range, ":inv_slot", 0, ":end"),
+          (troop_get_inventory_slot, ":item", "trp_player", ":inv_slot"),
+          (eq, ":item", ":given_item"),
+          (troop_get_inventory_slot_modifier, ":imod", "trp_player", ":inv_slot"),
+          (eq, ":imod", 0), #Native troop items never have modifiers
+          
+          (troop_set_inventory_slot, "trp_player", ":inv_slot", -1),
+          (str_store_item_name, s3, ":item"),
+          (str_store_string, s2, "@{s3}, {s2}"),
+          
+          (assign, ":end", 0), #Break
+        (try_end), #Player Inventory Loop
+      (try_end), #Item Given Slot Loop
+      
+      (set_show_messages, 1),
+      (try_begin),
+        (neg|str_is_empty, s2),
+        (party_set_slot, "p_freelancer_party_backup", slot_freelancer_equip_start - 1, 0),  #Reset Number of Items Added
+        (str_store_troop_name, s1, ":source_troop"),
+        (display_message, "@The equipment of a {s1}: {s2}is taken from you."),
+      (try_end),
+      (troop_equip_items, "trp_player"),
+  ]),
+  
+  
+  #Kham - script_get_freelancer_mission - Used in Simple Triggers.
+  #Input: n/a
+  #Output: Freelancer mission
+  
+  ("get_freelancer_mission", [
+      (assign, "$cheat_imposed_quest", 0),
+      (store_random_in_range, ":chance", 0, 135),
+      (try_begin),
+        (le, ":chance", 20),
+        (assign, ":continue", 0),
+        (assign, "$cheat_imposed_quest", "qst_deliver_message"), #deliver Message
+        (call_script, "script_get_random_quest", "$enlisted_lord"),
+        (try_begin),
+          (eq, reg0, "$cheat_imposed_quest"),
+          (assign, ":continue", 1),
+        (try_end),
+        (eq, ":continue", 1),
+        (start_map_conversation, "$enlisted_lord"),
+        
+      (else_try),
+        (le, ":chance", 35),
+        (assign, "$cheat_imposed_quest", "qst_scout_waypoints"), #Scout Waypoints
+        (start_map_conversation, "$enlisted_lord"),
+        
+      (else_try),
+        (le, ":chance", 55),
+        (jump_to_menu, "mnu_freelancer_bandits"), #Troublesome Bandits
+        
+      (else_try),
+        (le, ":chance", 70),
+        (assign, ":continue", 0),
+        (assign, "$cheat_imposed_quest", "qst_hunt_down_fugitive"), #hunt down fugitive
+        (call_script, "script_get_random_quest", "$enlisted_lord"),
+        (try_begin),
+          (eq, reg0, "$cheat_imposed_quest"),
+          (assign, ":continue", 1),
+        (try_end),
+        (eq, ":continue", 1),
+      
+      (else_try),
+        (le, ":chance", 85),
+        (assign, "$cheat_imposed_quest", "qst_freelancer_mission_1"), #Hunt down deserters
+        (start_map_conversation, "$enlisted_lord"),
+        
+      (else_try),
+        (jump_to_menu, "mnu_freelancer_looters"), #Looters
+      (try_end),
+  ]),
+  
+  
+  #Kham - freelancer_promoted_to_commander
+  #Input: type: 1 or 2 for Infantry / Ranged.
+  #Input: number: Captain or Sarge.
+  
+  ("freelancer_promoted_to_commander", [
+      
+      (store_script_param_1, ":type"),
+      (store_script_param_2, ":number"),
+      
+      #First we clear the player party
+      #(party_clear, "p_freelancer_player_party"),
+      
+      #Then we add the player
+      #(party_add_leader, "p_freelancer_player_party", "trp_player"),
+      
+      
+      #Then we add the members
+      (store_faction_of_troop, ":commander_faction", "$enlisted_lord"),
+      (faction_get_slot, ":culture", ":commander_faction", slot_faction_culture),
+      (faction_get_slot, ":tier_2_troop", ":culture", slot_faction_tier_2_troop),
+      (faction_get_slot, ":tier_1_troop_archer", ":culture", slot_faction_tier_1_archer),
+      
+      (try_begin),
+        (eq, ":type", 1), #Infantry Sarge
+        (party_add_members, "p_main_party", ":tier_2_troop", ":number"),
+      (else_try),
+        (party_add_members, "p_main_party", ":tier_1_troop_archer", ":number"),
+      (try_end),
+      
+      (display_message, "@{reg0} Troops added"),
+      
+      #Then we change the faction of the party to commander faction
+      #(party_set_faction, "p_freelancer_player_party", ":commander_faction"),
+      
+      #Then we attach the party to the enlisted lord's party
+      #(party_attach_to_party, "p_freelancer_player_party", "$enlisted_party"),
+      
+  ]),
+  
+  ("freelancer_remove_player_party", [
+      (call_script, "script_party_copy", "p_freelancer_player_party", "p_main_party"),
+      (remove_member_from_party, "trp_player","p_freelancer_player_party"),
+      #removes troops from player party #Caba--could use party_clear? and then add the player back?
+      (party_get_num_companion_stacks, ":num_stacks", "p_main_party"),
+      (try_for_range_backwards, ":cur_stack", 1, ":num_stacks"), #lower bound is 1 to ignore player character
+        (party_stack_get_troop_id, ":cur_troops", "p_main_party", ":cur_stack"),
+        (party_stack_get_size, ":cur_size", "p_main_party", ":cur_stack"),
+        (party_remove_members, "p_main_party", ":cur_troops", ":cur_size"),
+      (try_end),
+  ]),
+  
+  ("freelancer_restore_player_party", [
+      (party_get_num_companion_stacks, ":num_stacks", "p_freelancer_player_party"),
+      (try_for_range, ":cur_stack", 0, ":num_stacks"),
+        (assign, ":stack_amount", 0),
+        (party_stack_get_troop_id, ":return_troop", "p_freelancer_player_party", ":cur_stack"),
+        (neq, ":return_troop", "trp_player"),
+        (party_stack_get_size, ":stack_size", "p_freelancer_player_party", ":cur_stack"),
+        (assign, ":stack_amount", ":stack_size"),
+        (ge, ":stack_amount", 1),
+        (party_add_members, "p_main_party", ":return_troop", ":stack_amount"),
+      (try_end),
+      (party_clear, "p_freelancer_player_party"),
+  ]),
+  
+  
+  ("freelancer_mission_scout_waypoints", [
+      (store_script_param_1, ":num_waypoints"),
+      
+      (assign, ":end_cond", 100),
+      (try_begin),
+        (eq, ":num_waypoints", 1),
+        (assign, "$qst_scout_waypoints_wp_1", -1),
+        (assign, "$qst_scout_waypoints_wp_2", 1),
+        (assign, "$qst_scout_waypoints_wp_3", 2),
+      (else_try),
+        (eq, ":num_waypoints", 2),
+        (assign, "$qst_scout_waypoints_wp_1", -1),
+        (assign, "$qst_scout_waypoints_wp_2", -1),
+        (assign, "$qst_scout_waypoints_wp_3", 1),
+      (else_try),
+        (assign, "$qst_scout_waypoints_wp_1", -1),
+        (assign, "$qst_scout_waypoints_wp_2", -1),
+        (assign, "$qst_scout_waypoints_wp_3", -1),
+      (try_end),
+      (assign, ":continue", 0),
+      (try_for_range, ":unused", 0, ":end_cond"),
+        (try_begin),
+          (lt, "$qst_scout_waypoints_wp_1", 0),
+          (call_script, "script_cf_get_random_enemy_center_within_range", "$enlisted_party", 50),
+          (party_is_active, reg0),
+          (assign, "$qst_scout_waypoints_wp_1", reg0),
+        (try_end),
+        (try_begin),
+          (lt, "$qst_scout_waypoints_wp_2", 0),
+          (call_script, "script_cf_get_random_enemy_center_within_range", "$enlisted_party", 50),
+          (neq, "$qst_scout_waypoints_wp_1", reg0),
+          (party_is_active, reg0),
+          (assign, "$qst_scout_waypoints_wp_2", reg0),
+        (try_end),
+        (try_begin),
+          (lt, "$qst_scout_waypoints_wp_3", 0),
+          (call_script, "script_cf_get_random_enemy_center_within_range", "$enlisted_party", 50),
+          (neq, "$qst_scout_waypoints_wp_1", reg0),
+          (neq, "$qst_scout_waypoints_wp_2", reg0),
+          (party_is_active, reg0),
+          (assign, "$qst_scout_waypoints_wp_3", reg0),
+        (try_end),
+        (neq, "$qst_scout_waypoints_wp_1", "$qst_scout_waypoints_wp_2"),
+        (neq, "$qst_scout_waypoints_wp_1", "$qst_scout_waypoints_wp_2"),
+        (neq, "$qst_scout_waypoints_wp_2", "$qst_scout_waypoints_wp_3"),
+        (ge, "$qst_scout_waypoints_wp_1", 0),
+        (ge, "$qst_scout_waypoints_wp_2", 0),
+        (ge, "$qst_scout_waypoints_wp_3", 0),
+        (assign, ":end_cond", 0),
+        (assign, ":continue", 1),
+      (try_end),
+      (eq, ":continue", 1),
+      (try_begin),
+        (eq, ":num_waypoints", 1),
+        (assign, "$qst_scout_waypoints_wp_1_visited", 0),
+        (assign, "$qst_scout_waypoints_wp_2_visited", 1),
+        (assign, "$qst_scout_waypoints_wp_3_visited", 1),
+        (str_store_party_name_link, s13, "$qst_scout_waypoints_wp_1"),
+      (else_try),
+        (eq, ":num_waypoints", 2),
+        (assign, "$qst_scout_waypoints_wp_1_visited", 0),
+        (assign, "$qst_scout_waypoints_wp_2_visited", 0),
+        (assign, "$qst_scout_waypoints_wp_3_visited", 1),
+        (str_store_party_name_link, s13, "$qst_scout_waypoints_wp_1"),
+        (str_store_party_name_link, s14, "$qst_scout_waypoints_wp_2"),
+      (else_try),
+        (assign, "$qst_scout_waypoints_wp_1_visited", 0),
+        (assign, "$qst_scout_waypoints_wp_2_visited", 0),
+        (assign, "$qst_scout_waypoints_wp_3_visited", 0),
+        (str_store_party_name_link, s13, "$qst_scout_waypoints_wp_1"),
+        (str_store_party_name_link, s14, "$qst_scout_waypoints_wp_2"),
+        (str_store_party_name_link, s15, "$qst_scout_waypoints_wp_3"),
+      (try_end),
+      (assign, ":result", "qst_scout_waypoints"),
+      (quest_set_slot, ":result", slot_quest_expiration_days, 10),
+      (quest_set_slot, ":result", slot_quest_dont_give_again_period, 0),]),
+  
+  ("freelancer_start_deserter_quest", [
+      #Spawn
+      (set_spawn_radius, 8),
+      (spawn_around_party, "$enlisted_party", "pt_deserters"),
+      (assign, ":deserter_party", reg0),
+      
+      #Get Commander Faction then add troops based on player level.
+      (store_faction_of_troop, ":commander_faction", "$enlisted_lord"),
+      (faction_get_slot, ":culture", ":commander_faction", slot_faction_culture),
+      (faction_get_slot, ":tier_1_troop", ":culture", slot_faction_tier_1_troop),
+      (store_character_level, ":level", "trp_player"),
+      (store_mul, ":max_number_to_add", ":level", 2),
+      (val_add, ":max_number_to_add", 10),
+      (store_random_in_range, ":number_to_add", 10, ":max_number_to_add"),
+      (party_clear, ":deserter_party"),
+      (party_add_members, ":deserter_party", ":tier_1_troop", ":number_to_add"),
+      
+      #Add XP to Deserter Party
+      (store_random_in_range, ":random_no", 1, 4),
+      (try_for_range, ":unused", 0, ":random_no"),
+        (party_upgrade_with_xp, ":deserter_party", 1000000, 0),
+      (try_end),
+      
+      #Gold and XP reward based on level.
+      (assign, ":xp", 150),
+      (assign, ":gold", 100),
+      (try_begin),
+        (le, ":level", 5),
+        (assign, ":xp", 100),
+        (assign, ":gold", 75),
+      (else_try),
+        (ge, ":level", 12),
+        (assign, ":xp", 320),
+        (assign, ":gold", 200),
+      (try_end),
+      
+      #Init the Deserter Party Behaviour & Flags
+      (party_set_flags, ":deserter_party", pf_quest_party, 1),
+      (party_get_position, pos0, "$enlisted_party"),
+      (party_set_ai_behavior, ":deserter_party", ai_bhvr_patrol_location),
+      (party_set_ai_patrol_radius, ":deserter_party", 2),
+      (party_set_ai_target_position, ":deserter_party", pos0),
+      
+      #Init the quest
+      (str_store_troop_name_link, s9, "$enlisted_lord"),
+      (setup_quest_text, "qst_freelancer_mission_1"),
+      (str_store_string, s2, "@{s9} wants you to hunt down deserters and end them."),
+      (quest_set_slot, "qst_freelancer_mission_1", slot_quest_target_party, ":deserter_party"),
+      (quest_set_slot, "qst_freelancer_mission_1", slot_quest_xp_reward, ":xp"),
+      (quest_set_slot, "qst_freelancer_mission_1", slot_quest_importance, 8),
+      (quest_set_slot, "qst_freelancer_mission_1", slot_quest_gold_reward, ":gold"),
+      (quest_set_slot, "qst_freelancer_mission_1", slot_quest_expiration_days, 15),
+      (call_script, "script_start_quest", "qst_freelancer_mission_1", "$enlisted_lord"),
+      
+  ]),
+
+  ("freelancer_pacify_quest_persuade", [ #Stores success chance in reg0
+
+    (store_skill_level, ":persuade", "skl_persuasion", "trp_player"),
+    (store_skill_level, ":leadership", "skl_persuasion", "trp_player"),
+    (assign, ":success_chance", 10), #starting success chance at 10%
+    
+    (val_mul, ":persuade", 15),
+    (val_div, ":persuade", 2),
+    (val_min, ":persuade", 100),
+
+    (val_mul, ":leadership", 5),
+    (val_div, ":leadership", 2),
+    (val_min, ":leadership", 20), #Max Leadership Gain should be 20
+
+    (val_add, ":success_chance", ":persuade"), 
+    (val_add, ":success_chance", ":leadership"),
+
+    (store_faction_of_troop, ":commander_faction", "$enlisted_lord"),
+    (faction_get_slot, ":is_sarge", ":commander_faction", slot_faction_freelancer_captain),
+    (try_begin),
+      (eq, ":is_sarge", 2),
+      (val_add, ":success_chance", 5), # +5 if sarge
+    (else_try),
+      (eq, ":is_sarge", 1),
+      (val_add, ":success_chance", 10), # +10 if captain
+    (try_end),
+
+    (assign, reg0, ":success_chance"),
+
+    ]),
+  
+  #+freelancer end
+ # script_game_get_upgrade_xp
+  # This script is called from game engine for calculating needed troop upgrade exp
+  # Input:
+  # param1: troop_id,
+  # Output: reg0 = needed exp for upgrade
+  ("game_get_upgrade_xp",
+    [
+      (store_script_param_1, ":troop_id"),
+      
+      (assign, ":needed_upgrade_xp", 0),
+      #formula : int needed_upgrade_xp = 2 * (30 + 0.006f * level_boundaries[troops[troop_id].level + 3]);
+      (store_character_level, ":troop_level", ":troop_id"),
+      (store_add, ":needed_upgrade_xp", ":troop_level", 3),
+      (get_level_boundary, reg0, ":needed_upgrade_xp"),
+      (val_mul, reg0, 6),
+      (val_div, reg0, 1000),
+      (val_add, reg0, 30),
+      
+      (try_begin),
+        (ge, ":troop_id", bandits_begin),
+        (lt, ":troop_id", bandits_end),
+        (val_mul, reg0, 2),
+      (try_end),
+      
+      (set_trigger_result, reg0),
+  ]),
+  
+  # script_game_get_upgrade_cost
+  # This script is called from game engine for calculating needed troop upgrade exp
+  # Input:
+  # param1: troop_id,
+  # Output: reg0 = needed cost for upgrade
+  ("game_get_upgrade_cost",
+    [
+      (store_script_param_1, ":troop_id"),
+      
+      (store_character_level, ":troop_level", ":troop_id"),
+      
+      (try_begin),
+        (is_between, ":troop_level", 0, 6),
+        (assign, reg0, 10),
+      (else_try),
+        (is_between, ":troop_level", 6, 11),
+        (assign, reg0, 20),
+      (else_try),
+        (is_between, ":troop_level", 11, 16),
+        (assign, reg0, 40),
+      (else_try),
+        (is_between, ":troop_level", 16, 21),
+        (assign, reg0, 80),
+      (else_try),
+        (is_between, ":troop_level", 21, 26),
+        (assign, reg0, 120),
+      (else_try),
+        (is_between, ":troop_level", 26, 31),
+        (assign, reg0, 160),
+      (else_try),
+        (assign, reg0, 200),
+      (try_end),
+      
+      (set_trigger_result, reg0),
+  ]),
+  
  ]

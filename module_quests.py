@@ -256,6 +256,37 @@ quests = [
   "None"
   ),
 
+## Freelancer
+("freelancer_enlisted", "Enlisted in the Party of {s13}", 0,
+   "{!}You are currently enlisted in the party of {s13} of {s14}."),
+ ("freelancer_vacation", "Enlisted: On Leave", 0,
+   "{!}You have been granted leave from the party of {s13} of {s14}."),
+ ("freelancer_captured", "Enlisted: Captured", 0,
+   "{!}Your commander's party has been defeated and you have been captured. Return to the service of {s13} of {s14}."),
+
+#Freelancer Missions Placeholders
+
+("freelancer_mission_1", "Freelancer Mission: Hunt Down Deserters", 0,
+  "{!}Placeholder"),
+
+("freelancer_mission_2", "Freelancer Mission: Pacify Unhappy Troops", 0,
+  "{!}Placeholder"),
+("freelancer_mission_3", "Freelancer Mission: ", 0,
+  "{!}Placeholder"),
+("freelancer_mission_4", "Freelancer Mission: ", 0,
+  "{!}Placeholder"),
+("freelancer_mission_5", "Freelancer Mission: ", 0,
+  "{!}Placeholder"),
+("freelancer_mission_6", "Freelancer Mission: ", 0,
+  "{!}Placeholder"),
+("freelancer_mission_7", "Freelancer Mission: ", 0,
+  "{!}Placeholder"),
+("freelancer_mission_8", "Freelancer Mission: ", 0,
+  "{!}Placeholder"),
+("freelancer_mission_9", "Freelancer Mission: ", 0,
+  "{!}Placeholder"),
+
+
  ("quests_end", "Quests End", 0, "."),
 ]
 

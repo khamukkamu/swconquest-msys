@@ -666,3 +666,17 @@ checkbox_show_item_details_label
 default_troop_portrait
 temp2
 troop_detail_dummy_angle
+freelancer_state
+enlisted_party
+freelancer_speed
+g_infinite_camping
+player_cur_troop
+g_presentation_obj_bugdet_report_container
+g_presentation_obj_custom_battle_designer_19
+freelancer_allow_desertion
+g_next_pay_time
+freelancer_enhanced_upgrade
+freelancer_missions
+g_scene_to_use
+enlisted_lord
+cheat_imposed_quest

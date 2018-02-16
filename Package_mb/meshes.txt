@@ -1,4 +1,4 @@
-431
+434
 mesh_pic_bandits 0 pic_bandits 0 0 0 0 0 0 1 1 1
 mesh_pic_mb_warrior_1 0 pic_mb_warrior_1 0 0 0 0 0 0 1 1 1
 mesh_pic_messenger 0 pic_messenger 0 0 0 0 0 0 1 1 1
@@ -430,3 +430,6 @@ mesh_pic_mb_warrior_1 1 pic_mb_warrior_1 0 0 0 0 0 0 1 1 1
 mesh_pic_mb_warrior_2 1 pic_mb_warrior_2 0 0 0 0 0 0 1 1 1
 mesh_pic_mb_warrior_3 1 pic_mb_warrior_3 0 0 0 0 0 0 1 1 1
 mesh_pic_mb_warrior_4 1 pic_mb_warrior_4 0 0 0 0 0 0 1 1 1
+mesh_pic_troop_trees 0 meeting_window 0 0 0 0 0 0 1 1 1
+mesh_pic_units_details 0 meeting_window 0 0 0 0 0 0 1 1 1
+mesh_mp_inventory_choose 0 mp_inventory_choose 0 0 0 0 0 0 1 1 1

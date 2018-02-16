@@ -429,5 +429,8 @@ mesh_pic_mb_warrior_1 = 427
 mesh_pic_mb_warrior_2 = 428
 mesh_pic_mb_warrior_3 = 429
 mesh_pic_mb_warrior_4 = 430
+mesh_pic_troop_trees = 431
+mesh_pic_units_details = 432
+mesh_mp_inventory_choose = 433
 
 

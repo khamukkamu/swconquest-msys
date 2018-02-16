@@ -1983,6 +1983,21 @@ mission_templates = [
                 # (finish_mission,0)
                 ]),
 
+      (ti_on_agent_spawn, 0, 0, [(eq, "$freelancer_state", 1)],
+        [
+          (get_player_agent_no, ":player"),
+          (ge, ":player", 0),
+          (agent_is_active, ":player"),
+          (store_trigger_param_1, ":agent_no"),
+          (eq, ":player", ":agent_no"),
+          (agent_get_team, ":player_team", ":player"),
+          (team_set_order_listener, ":player_team", -1),
+          (val_add, ":player_team", 2),
+          (agent_set_team, ":player", ":player_team"),
+        ]),
+        
+      common_battle_mission_start, #+Freelancer addition of native field battle trigger to sieges
+
       #SW Deathcam
 
       sw_deathcam_follow_troop,
@@ -2081,6 +2096,22 @@ mission_templates = [
               # (call_script, "script_count_mission_casualties_from_agents"),
               # (finish_mission,0)
               ]),
+
+      (ti_on_agent_spawn, 0, 0, [(eq, "$freelancer_state", 1)],
+        [
+          (get_player_agent_no, ":player"),
+          (ge, ":player", 0),
+          (agent_is_active, ":player"),
+          (store_trigger_param_1, ":agent_no"),
+          (eq, ":player", ":agent_no"),
+          (agent_get_team, ":player_team", ":player"),
+          (team_set_order_listener, ":player_team", -1),
+          (val_add, ":player_team", 2),
+          (agent_set_team, ":player", ":player_team"),
+        ]),
+        
+      common_battle_mission_start, #+Freelancer addition of native field battle trigger to sieges
+
       #SW Deathcam
 
       sw_deathcam_follow_troop,
@@ -2287,6 +2318,21 @@ mission_templates = [
           #SW - modified inventory to be available in battle
           #common_inventory_not_available,
           (ti_inventory_key_pressed, 0, 0, [(set_trigger_result,1)], []),
+
+      (ti_on_agent_spawn, 0, 0, [(eq, "$freelancer_state", 1)],
+        [
+          (get_player_agent_no, ":player"),
+          (ge, ":player", 0),
+          (agent_is_active, ":player"),
+          (store_trigger_param_1, ":agent_no"),
+          (eq, ":player", ":agent_no"),
+          (agent_get_team, ":player_team", ":player"),
+          (team_set_order_listener, ":player_team", -1),
+          (val_add, ":player_team", 2),
+          (agent_set_team, ":player", ":player_team"),
+        ]),
+        
+      common_battle_mission_start, #+Freelancer addition of native field battle trigger to sieges
           #SW Deathcam
 
         sw_deathcam_follow_troop,
@@ -2372,6 +2418,21 @@ mission_templates = [
       common_battle_order_panel_tick,
       #SW - modified inventory to be available in battle
       #common_inventory_not_available,
+
+      (ti_on_agent_spawn, 0, 0, [(eq, "$freelancer_state", 1)],
+        [
+          (get_player_agent_no, ":player"),
+          (ge, ":player", 0),
+          (agent_is_active, ":player"),
+          (store_trigger_param_1, ":agent_no"),
+          (eq, ":player", ":agent_no"),
+          (agent_get_team, ":player_team", ":player"),
+          (team_set_order_listener, ":player_team", -1),
+          (val_add, ":player_team", 2),
+          (agent_set_team, ":player", ":player_team"),
+        ]),
+        
+      common_battle_mission_start, #+Freelancer addition of native field battle trigger to sieges
       #SW Deathcam
 
       sw_deathcam_follow_troop,

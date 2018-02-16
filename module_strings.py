@@ -2358,4 +2358,7 @@ We apologize sincerely if you contributed your suggestions and feedback but were
                               ' To all our fans and supporters, may the force be with you, always.'),
 
   ("cmenu_follow", "Accompany"),
+
+  ("reg0", "{!}{reg0}"),
+  
 ]

@@ -1556,5 +1556,6 @@ str_swconquest_credits_years = 1554
 str_swconquest_credits_prefc = 1555
 str_swconquest_credits_contb = 1556
 str_cmenu_follow = 1557
+str_reg0 = 1558
 
 

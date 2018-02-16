@@ -3366,8 +3366,270 @@ simple_triggers = [
 #spare trigger 1
 (24*7,	[
 
+
 	]),
 
+#+freelancer start
+    #  WEEKLY PAY
+    
+    (24 * 7, [
+        (eq, "$freelancer_state", 1),
+        
+        #kham - removed upgrade condition from this block as it takes too long.
+        
+        (store_faction_of_troop, ":commander_faction", "$enlisted_lord"),
+        (faction_get_slot, ":is_sarge", ":commander_faction", slot_faction_freelancer_captain), #is sarge / captain?
+        
+        (store_character_level, ":level", "$player_cur_troop"),
+        #pays player 10 times the troop level
+        (try_begin),
+          (eq, ":is_sarge", 1), #sarge
+          (store_mul, ":weekly_pay", 15, ":level"),
+        (else_try),
+          (eq, ":is_sarge", 2), #cap
+          (store_mul, ":weekly_pay", 22, ":level"),
+        (else_try),
+          (store_mul, ":weekly_pay", 10, ":level"),
+        (try_end),
+        
+        (troop_add_gold, "trp_player", ":weekly_pay"),
+        (add_xp_to_troop, 70, "trp_player"),
+        (play_sound, "snd_money_received", 0),
+        (val_add, "$g_next_pay_time", 7), #We add the next payday here.
+    ]),
+    
+    #  UPGRADE CHECK
+    (24 * 3,[
+        (eq, "$freelancer_state", 1),
+        
+        (troop_get_slot, ":service_xp_start", "trp_player", slot_troop_freelancer_start_xp),
+        (troop_get_xp, ":player_xp_cur", "trp_player"),
+        (store_sub, ":service_xp_cur", ":player_xp_cur", ":service_xp_start"),
+        
+        (store_faction_of_troop, ":commander_faction", "$enlisted_lord"),
+        (faction_get_slot, ":is_sarge", ":commander_faction", slot_faction_freelancer_captain), #is sarge / captain?
+        
+        #Piggy Backing for Sarge / Captain Troop Replenishment
+        
+        (try_begin),
+          (ge, ":is_sarge", 1),
+          (party_get_num_companions, ":num_companions", "p_main_party"),
+          (try_begin),
+            (eq, ":is_sarge", 1),
+            (assign, ":amount_required", 9), #Sarge
+          (else_try),
+            (assign, ":amount_required", 16), #Captain
+          (try_end),
+          (lt, ":num_companions", ":amount_required"),
+          (store_sub, ":required_replenish", ":amount_required", ":num_companions"),
+          (quest_get_slot, ":type", "qst_freelancer_enlisted", slot_quest_current_state), #if 1 = infantry / if 2 = ranged
+          (try_begin),
+            (eq, ":type", 1),
+            (faction_get_slot, ":troop_to_add", ":commander_faction", slot_faction_tier_2_troop),
+          (else_try),
+            (faction_get_slot, ":troop_to_add", ":commander_faction", slot_faction_tier_1_archer),
+          (try_end),
+          (gt, ":troop_to_add", 0),
+          (party_add_members, "p_main_party", ":troop_to_add", ":required_replenish"),
+          (display_message, "@You are given new troops under your command", color_good_news),
+        (try_end),
+        
+        #END Troop Replenishment
+        
+        
+        #ranks for pay levels and to upgrade player equipment based on upgrade troop level times 1000
+        # (try_begin),
+        # (troop_get_upgrade_troop, ":upgrade_troop", "$player_cur_troop", 0),
+        # (gt, ":upgrade_troop", 1), #make sure troop is valid and not player troop
+        # (store_character_level, ":level", ":upgrade_troop"),
+        # (store_pow, ":required_xp", ":level", 2), #square the level and
+        # (val_mul, ":required_xp", 100),           #multiply by 100 to get xp
+        # (ge, ":service_xp_cur", ":level"),
+        # (jump_to_menu, "mnu_upgrade_path"),
+        # (try_end),
+        
+        (try_begin),
+          (troop_get_upgrade_troop, ":upgrade_troop", "$player_cur_troop", 0),
+          #(gt, ":upgrade_troop", 1), #make sure troop is valid and not player troop
+          
+          (try_begin),
+            (eq, "$freelancer_enhanced_upgrade", 0), #Let's put this as a choice for players.
+            (try_begin), #Captain / Sarge Check
+              (gt, ":is_sarge", 0),
+              (store_character_level, ":player_level", "trp_player"),
+              (store_sub, ":cur_xp", ":player_level", 1),
+              (get_level_boundary, ":cur_xp", ":cur_xp"),
+              (val_add, ":player_level", 5), #add 5 levels to current level to become sarge / captain
+              (get_level_boundary, ":required_xp", ":player_level"),
+              (val_sub, ":required_xp", ":cur_xp"),
+            (else_try),
+              (call_script, "script_game_get_upgrade_xp", "$player_cur_troop"),
+              (assign, ":required_xp", reg0),
+            (try_end),
+            
+          (else_try),
+            
+            ##THIS  BLOCK IS ALMOST DEFINITELY BE BETTER than the above two lines which could be commented out in exchange for them. - Implemented by Kham
+            
+            (try_begin), #Captain / Sarge Check
+              (gt, ":is_sarge", 0),
+              (store_character_level, ":player_level", "trp_player"),
+              (store_sub, ":cur_xp", ":player_level", 1),
+              (get_level_boundary, ":cur_xp", ":cur_xp"),
+              (val_add, ":player_level", 5), #add 5 levels to current level to become sarge / captain
+              (get_level_boundary, ":required_xp", ":player_level"),
+              (val_sub, ":required_xp", ":cur_xp"),
+            (else_try),
+              (store_character_level, ":cur_level", "$player_cur_troop"),
+              (val_sub, ":cur_level", 1),
+              (get_level_boundary, ":cur_level", ":cur_level"),
+              (store_character_level, ":required_xp", ":upgrade_troop"),
+              ##Kham Changes Begin
+              (try_begin),
+                (gt, ":required_xp", 19),
+                (assign, ":sub_amount", 1),
+              (else_try),
+                (assign, ":sub_amount", 3),
+              (try_end),
+              #Kham Changes END
+              (val_sub, ":required_xp", ":sub_amount"),
+              (get_level_boundary, ":required_xp", ":required_xp"),
+              (val_sub, ":required_xp", ":cur_level"),
+            (try_end),
+          (try_end), #End Captain / Sarge Check
+          ##
+          
+          (ge, ":service_xp_cur", ":required_xp"),
+          
+          (try_begin),
+            (call_script, "script_cf_freelancer_player_can_upgrade", ":upgrade_troop"),
+            (troop_set_slot, "trp_player", slot_troop_freelancer_start_xp, ":player_xp_cur"),
+            (jump_to_menu, "mnu_upgrade_path"),
+          (else_try),
+            (assign, ":reason", reg0), #from cf_freelancer_player_can_upgrade
+            (try_begin),
+              (eq, ":reason", 0), #not enough strength, for melee weapons
+              (display_message, "@You are not strong enough to lift a weapon fit for your promotion!"),
+            (else_try),
+              (eq, ":reason", 1), #not enough strength, for armor
+              (display_message, "@You are not strong enough to hold all that weight required with promotion!."),
+            (else_try),
+              (eq, ":reason", 2), #not enough power draw/throw/strength for bow/crossbow/throwing
+              (display_message, "@Your arms are to weak to advance in the artillary at this moment."),
+            (else_try),
+              (eq, ":reason", 3), #not enough riding skill for horse
+              (display_message, "@You require more horse riding skills to fit your next poisition!"),
+            (try_end),
+          (try_end),
+        (try_end),
+        
+    ]),
+    
+    #  HOURLY CHECKS
+    
+    (1,[
+        (eq, "$freelancer_state", 1),
+        #so that sight and camera follows near commander's party
+        (set_camera_follow_party, "$enlisted_party"),
+        (party_relocate_near_party, "p_main_party", "$enlisted_party", 1),
+        
+        (assign, ":num_food", 0),
+        (troop_get_inventory_capacity, ":max_inv_slot", "trp_player"),
+        (try_for_range, ":cur_inv_slot", ek_item_0, ":max_inv_slot"),
+          (troop_get_inventory_slot, ":cur_item", "trp_player", ":cur_inv_slot"),
+          (ge, ":cur_item", 0),
+          (is_between, ":cur_item", food_begin, food_end),
+          (val_add, ":num_food", 1),
+        (try_end),
+        (store_faction_of_troop, ":commander_faction", "$enlisted_lord"),
+        (faction_get_slot, ":is_sarge", ":commander_faction", slot_faction_freelancer_captain), #is sarge / captain?
+        (try_begin),
+          (lt, ":num_food", 2),
+          (try_begin),
+            (eq, ":is_sarge", 1), #sarge
+            (troop_add_item, "trp_player", "itm_dried_meat"),
+          (else_try),
+            (eq, ":is_sarge", 2), #cap
+            (troop_add_item, "trp_player", "itm_cattle_meat"),
+          (else_try),
+            (troop_add_item, "trp_player", "itm_bread"),
+          (try_end),
+        (try_end),
+    ]),
+    
+    #+freelancer end
+    
+    #Kham Freelancer Improvement triggers
+    
+    #Random Missions
+    (12,[
+        
+        (eq, "$freelancer_missions", 1),
+        (eq, "$freelancer_state", 1),
+        (store_random_in_range, ":rand", 0, 100),
+        (ge, ":rand", 50), #50% chance for a mission
+        (call_script, "script_get_freelancer_mission"),
+        
+    ]),
+    
+
+    #trigger reserved for future save game compatibility
+    #(999,[]),
+    #trigger reserved for future save game compatibility
+    #(999,[]),
+    #trigger reserved for future save game compatibility
+    (999,[]),
+    
+    #trigger reserved for future save game compatibility
+    (999,[]),
+    #trigger reserved for future save game compatibility
+    (999,[]),
+    #trigger reserved for future save game compatibility
+    (999,[]),
+    #trigger reserved for future save game compatibility
+    (999,[]),
+    #trigger reserved for future save game compatibility
+    (999,[]),
+    #trigger reserved for future save game compatibility
+    (999,[]),
+    #trigger reserved for future save game compatibility
+    (999,[]),
+    #trigger reserved for future save game compatibility
+    (999,[]),
+    #trigger reserved for future save game compatibility
+    (999,[]),
+    #trigger reserved for future save game compatibility
+    (999,[]),
+    #trigger reserved for future save game compatibility
+    (999,[]),
+    #trigger reserved for future save game compatibility
+    (999,[]),
+    #trigger reserved for future save game compatibility
+    (999,[]),
+    #trigger reserved for future save game compatibility
+    (999,[]),
+    #trigger reserved for future save game compatibility
+    (999,[]),
+    #trigger reserved for future save game compatibility
+    (999,[]),
+    #trigger reserved for future save game compatibility
+    (999,[]),
+    #trigger reserved for future save game compatibility
+    (999,[]),
+    #trigger reserved for future save game compatibility
+    (999,[]),
+    #trigger reserved for future save game compatibility
+    (999,[]),
+    #trigger reserved for future save game compatibility
+    (999,[]),
+    #trigger reserved for future save game compatibility
+    (999,[]),
+    #trigger reserved for future save game compatibility
+    (999,[]),
+    #trigger reserved for future save game compatibility
+    (999,[]),
+    #trigger reserved for future save game compatibility
+    (999,[]),
 
 ]
 

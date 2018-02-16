@@ -6133,6 +6133,7 @@ game_menus += [
                                 ]),
 							#------------------------- end of 'board the ship' code							
       ("encounter_order_attack",[
+          (neq, "$freelancer_state", 1),
           (eq, "$encountered_party_friendly", 0),
           (call_script, "script_party_count_members_with_full_health", "p_main_party"),(ge, reg(0), 4),
           ],
@@ -6140,6 +6141,7 @@ game_menus += [
                                                             #(simulate_battle,3)
                                                             ]),
       ("leave_dot",[
+          (neq, "$freelancer_state", 1),
           (eq,"$cant_leave_encounter", 0),
           ],"Leave.",[
 
@@ -6599,10 +6601,12 @@ game_menus += [
             (try_end),
             (call_script,"script_change_player_relation_with_troop", ":ally_leader", ":rel_boost"),
           (try_end),
+          (neq, "$freelancer_state", 1),
           (assign, "$talk_context", tc_ally_thanks),
           (call_script, "script_setup_troop_meeting",":ally_leader", ":ally_leader_dna"),
         (else_try),
           # Talk to enemy leaders
+          (neq, "$freelancer_state", 1),
           (assign, ":done", 0),
           (party_get_num_companion_stacks, ":num_stacks", "p_encountered_party_backup"),
         
@@ -6637,6 +6641,7 @@ game_menus += [
           (eq, ":done", 1),
         (else_try),
           # Talk to freed heroes
+          (neq, "$freelancer_state", 1),
           (assign, ":done", 0),
           (party_get_num_prisoner_stacks, ":num_prisoner_stacks","p_encountered_party_backup"),
           (try_for_range, ":stack_no", "$last_freed_hero", ":num_prisoner_stacks"),
@@ -6696,6 +6701,7 @@ game_menus += [
           (party_get_num_companions, ":num_rescued_prisoners", "p_temp_party"),
           (party_get_num_prisoners,  ":num_captured_enemies", "p_temp_party"),
           (store_add, ":total_capture_size", ":num_rescued_prisoners", ":num_captured_enemies"),
+          (neq, "$freelancer_state", 1),
           (gt, ":total_capture_size", 0),
           (change_screen_exchange_with_party, "p_temp_party"),
         (else_try),
@@ -6945,6 +6951,22 @@ game_menus += [
     [
         (str_store_party_name, 1,"$g_encountered_party"),
         (str_store_party_name, 2,"$g_encountered_party_2"),
+         #Freelancer
+        (eq, "$freelancer_state", 1),
+        (try_begin),
+          (party_get_attached_to, ":attached", "$enlisted_party"),
+          (this_or_next|eq, "$enlisted_party", "$g_encountered_party_2"),
+          (eq, ":attached", "$g_encountered_party_2"),
+          (select_enemy, 0),
+          (assign,"$g_enemy_party","$g_encountered_party"),
+          (assign,"$g_ally_party","$g_encountered_party_2"),
+        (else_try),
+          (select_enemy, 1),
+          (assign,"$g_enemy_party","$g_encountered_party_2"),
+          (assign,"$g_ally_party","$g_encountered_party"),
+        (try_end),
+        (jump_to_menu,"mnu_join_battle"),
+        #Freelancer END
       ],
     [
       ("pre_join_help_attackers",[
@@ -6989,6 +7011,13 @@ game_menus += [
         (try_begin),
           (eq, "$new_encounter", 1),
           (assign, "$new_encounter", 0),
+          #Freelancer
+          (try_begin),
+            (eq, "$freelancer_state", 1),
+            (call_script, "script_let_nearby_parties_join_current_battle", 0, 0),
+            (str_store_party_name, 1,"$g_enemy_party"), #to prevent bug'd text from the above script (which also uses s1)
+          (try_end),
+          #Freelancer END
           (call_script, "script_encounter_init_variables"),
 ##          (assign, "$capture_screen_shown", 0),
 ##          (assign, "$loot_screen_shown", 0),
@@ -7101,16 +7130,27 @@ game_menus += [
 
       ("join_order_attack",[
 #          (gt, "$encountered_party_hostile", 0),
+          (neq, "$freelancer_state", 1),
           (call_script, "script_party_count_members_with_full_health", "p_main_party"),(ge, reg(0), 3),
           ],
-           "Order your troops to attack with your allies while you stay back.",[(party_set_next_battle_simulation_time, "$g_encountered_party", -1),
+           "Order your troops to attack with your allies while you stay back.",[(neq, "$freelancer_state", 1),(party_set_next_battle_simulation_time, "$g_encountered_party", -1),
                                                                          (jump_to_menu,"mnu_join_order_attack"),
                                                             ]),
       
 #      ("join_attack",[],"Lead a charge against the enemies",[(set_jump_mission,"mt_charge_with_allies"),
 #                                (call_script, "script_setup_random_scene"),
 #                                                             (change_screen_mission,0)]),
+      #Freelancer
+      ("join_wounded",
+        [
+          (eq, "$freelancer_state", 1),
+          (troop_is_wounded, "trp_player"),
+        ],
+        "You are too wounded to fight.",[(leave_encounter),(change_screen_map)]),
+      #Freelancer END
+
       ("leave_dot",[],"Leave.",[
+        (neq, "$freelancer_state", 1),
         (try_begin),
            (neg|troop_is_wounded, "trp_player"),
            (call_script, "script_objectionable_action", tmt_aristocratic, "str_flee_battle"),
@@ -7312,6 +7352,18 @@ game_menus += [
         (else_try),
           (set_background_mesh, "mesh_pic_siege_sighted"),
         (try_end),
+        #Freelancer
+        (eq, "$freelancer_state", 1),
+        (try_begin),
+          (store_troop_faction, ":commanders_faction", "$enlisted_lord"),
+          (store_relation, ":relation", ":commanders_faction", "$g_encountered_party_faction"),
+          (this_or_next|eq, ":commanders_faction", "$g_encountered_party_faction"), #encountered party is always the castle/town sieged
+          (ge, ":relation", 0),
+          (jump_to_menu, "mnu_siege_started_defender"),
+        (else_try),
+          (jump_to_menu, "mnu_besiegers_camp_with_allies"),
+        (try_end),
+        #Freelancer END
     ],
     [
       ("approach_besiegers",[(store_faction_of_party, ":faction_no", "$g_encountered_party_2"),
@@ -7473,7 +7525,7 @@ game_menus += [
            (jump_to_menu, "mnu_battle_debrief"),
            (change_screen_mission),
           ]),
-      ("join_siege_stay_back", [(call_script, "script_party_count_members_with_full_health", "p_main_party"),
+      ("join_siege_stay_back", [(neq, "$freelancer_state", 1),(call_script, "script_party_count_members_with_full_health", "p_main_party"),
                                 (ge, reg0, 3),
                                 ],
        "Order your soldiers to join the next assault without you.",
@@ -7493,6 +7545,13 @@ game_menus += [
            (assign, "$g_player_follow_army_warnings", 0),
          (try_end),
          (jump_to_menu,"mnu_spacestation_attack_walls_with_allies_simulate")]),
+       
+       ("join_wounded",[
+          (eq, "$freelancer_state", 1),
+          (troop_is_wounded, "trp_player"),
+        ],
+        "You are too wounded to fight.",[(leave_encounter),(change_screen_map)]),
+
       ("leave_dot",[],"Leave.",[(leave_encounter),(change_screen_return)]),
     ]
   ),
@@ -9175,7 +9234,7 @@ game_menus += [
               (assign, "$g_next_menu", "mnu_siege_started_defender"),
               (jump_to_menu, "mnu_battle_debrief"),
               (change_screen_mission)]),
-      ("siege_defender_troops_join_battle",[(call_script, "script_party_count_members_with_full_health", "p_main_party"),
+      ("siege_defender_troops_join_battle",[(neq, "$freelancer_state", 1),(call_script, "script_party_count_members_with_full_health", "p_main_party"),
                                             (this_or_next|troop_is_wounded,  "trp_player"),
                                             (ge, reg0, 3)],
           "Order your men to join the battle without you.",[
@@ -9185,18 +9244,11 @@ game_menus += [
               (assign,"$g_ally_party","$g_encountered_party"),
               (assign,"$g_siege_join", 1),
               (jump_to_menu,"mnu_siege_join_defense")]),
-##      ("siege_defender_do_not_join_battle",[(call_script, "script_party_count_fit_regulars","p_collective_ally"),
-##                                            (gt, reg0, 0)],
-##       "Don't get involved.", [(leave_encounter),
-##                               (change_screen_return),
-##           ]),
-
-##      ("siege_defender_surrender",[(call_script, "script_party_count_fit_regulars","p_collective_ally"),
-##                                   (this_or_next|eq, reg0, 0),
-##                                   (party_slot_eq, "$g_encountered_party", slot_mainplanet_lord, "trp_player"),
-##                                   ],
-##       "Surrender.",[(assign, "$g_player_surrenders", 1),
-##                     (jump_to_menu,"mnu_under_siege_attacked_continue")]),
+            ("join_wounded",[
+          (eq, "$freelancer_state", 1),
+          (troop_is_wounded, "trp_player"),
+        ],
+        "You are too wounded to fight.",[(leave_encounter),(change_screen_map)]),
     ]
   ),
 
@@ -13573,6 +13625,20 @@ game_menus += [
          (call_script, "script_event_player_captured_as_prisoner"),
          (call_script, "script_stay_captive_for_hours", ":random_hours"),
          (assign,"$auto_menu","mnu_captivity_wilderness_check"),
+         #Freelancer
+          (assign, "$freelancer_state", 2),
+          (troop_set_slot, "trp_player", slot_troop_current_mission, plyr_mission_vacation), ###move to quests, not missions
+          (troop_set_slot, "trp_player", slot_troop_days_on_mission, 50),
+          (str_store_troop_name_link, s13, "$enlisted_lord"),
+          (store_faction_of_troop, ":commander_faction", "$enlisted_lord"),
+          (str_store_faction_name_link, s14, ":commander_faction"),
+          (quest_set_slot, "qst_freelancer_captured", slot_quest_target_party, "$enlisted_party"),
+          (quest_set_slot, "qst_freelancer_captured", slot_quest_importance, 0),
+          (quest_set_slot, "qst_freelancer_captured", slot_quest_xp_reward, 50),
+          (quest_set_slot, "qst_freelancer_captured", slot_quest_expiration_days, 50),
+          (setup_quest_text, "qst_freelancer_captured"),
+          (str_clear, s2), #description. necessary?
+          (call_script, "script_start_quest", "qst_freelancer_captured", "$enlisted_lord"),
          (change_screen_return),
          ]),
       ]
@@ -16869,7 +16935,663 @@ game_menus += [
 ########################################################
 ## Easy regulars upgrading kit end
 ########################################################
-   
+
+#+freelancer start
+  #menu_world_map_soldier
+  ("world_map_soldier",0,
+    "What do you need to do soldier?",
+    "none",
+    [
+      #(set_background_mesh, "mesh_pic_soldier_world_map"),
+      (troop_get_slot, "$enlisted_party", "$enlisted_lord", slot_troop_leaded_party), #CABA - to refresh it? maybe not necessessary
+    ],
+    [
+      ("join_commander_battle",[
+          (party_get_battle_opponent, ":commander_opponent", "$enlisted_party"),
+          (gt, ":commander_opponent", 0),
+          ],"Follow the commander into battle.",[
+          (party_set_slot, "p_freelancer_party_backup", slot_party_last_in_combat, 1), #needed to catch post-battle and detach any attached parties
+          
+          (try_begin),
+            (neg|troop_is_guarantee_horse, "$player_cur_troop"),
+            (troop_get_inventory_slot, ":horse", "trp_player", ek_horse),
+            (gt, ":horse", 0),
+            (troop_get_inventory_slot_modifier, ":horse_imod", "trp_player", ek_horse),
+            (set_show_messages, 0),
+            (troop_add_item, "trp_player", ":horse", ":horse_imod"),
+            (troop_set_inventory_slot, "trp_player", ek_horse, -1),
+            (set_show_messages, 1),
+          (try_end),
+          (start_encounter, "$enlisted_party"),
+          (change_screen_map),
+      ]),
+      
+      ("enter_town",[(party_is_in_any_town,"$enlisted_party"),] ,"Enter stationed town.",
+        [(party_get_cur_town, ":town_no", "$enlisted_party"),(start_encounter, ":town_no"),(change_screen_map),]),
+      
+      ("commander",[(party_get_battle_opponent, ":commander_opponent", "$enlisted_party"),(lt, ":commander_opponent", 0),],
+        "Request audience with your commander.",
+        [(jump_to_menu, "mnu_commander_aud"),]),
+      
+      ("revolt",[],"Revolt against the commander!",
+        [(jump_to_menu, "mnu_ask_revolt"),]),
+      
+      ("desert",[],"Desert the army.(keep equipment but lose relations)",
+        [(jump_to_menu, "mnu_ask_desert"),]),
+      
+      ("report",[],"Commander's Report",
+        [(start_presentation, "prsnt_taragoth_lords_report"),]),
+      
+      ("return_to_duty",[
+          (party_get_battle_opponent, ":commander_opponent", "$enlisted_party"),
+          (this_or_next|lt, ":commander_opponent", 0),
+          (troop_is_wounded, "trp_player"),
+        ],"Return to duty.",
+        [(change_screen_map),
+          (assign, "$g_infinite_camping", 1),
+          (rest_for_hours_interactive, 24 * 365, 5, 1),
+          (assign, "$freelancer_speed", 0),
+      ]),
+  ]),
+  
+  #menu_aud_with_commander
+  (
+    "commander_aud",0,
+    "Your request for a meeting is relayed to your commander's camp, and finally {s6} appears from his tent to speak with you.",
+    "none",
+    [#(set_background_mesh, "mesh_pic_soldier_world_map"),
+    (str_store_troop_name, s6, "$enlisted_lord"),
+    ],
+    [
+      ("continue_audienc",[],
+        "Continue...",
+        [
+          (try_begin),
+            (neg|party_is_in_any_town, "$enlisted_party"),
+            (start_encounter, "$enlisted_party"),
+            (change_screen_map),
+          (else_try),
+            #Fake that it is a party encounter when enlisted party in a town (lines taken from script_game_event_party_encounter)
+            (assign, "$g_encountered_party", "$enlisted_party"),
+            (store_faction_of_party, "$g_encountered_party_faction","$g_encountered_party"),
+            (store_relation, "$g_encountered_party_relation", "$g_encountered_party_faction", "fac_player_faction"),
+            (party_get_slot, "$g_encountered_party_type", "$g_encountered_party", slot_party_type),
+            (party_get_template_id,"$g_encountered_party_template","$g_encountered_party"),
+            (assign, "$talk_context", tc_party_encounter),
+            (call_script, "script_setup_party_meeting", "$g_encountered_party"),
+          (try_end),
+      ]),
+      ("reject_talk_lord",[],"No, nevermind.",
+        [(change_screen_map),]),
+    ]
+  ),
+  
+  #menu_ask_revolt
+  ("ask_revolt",0,
+    "Are you sure you want to revolt?",
+    "none",
+    [#(set_background_mesh, "mesh_pic_soldier_rebel"),
+    (str_store_troop_name, s6, "$enlisted_lord")],[
+      ("confirm_revolt",[],"Yes, {s6} will be the death of us all, it is time to act!",
+        [(jump_to_menu, "mnu_revolt"),]),
+      
+      ("reject_revolt",[],"No, I am loyal to {s6}.",
+        [(change_screen_return),]),
+  ]),
+  
+  #menu_revolt
+  ("revolt",0,
+    "Do you want to release the prisoners to help your men?",
+    "none",
+    [
+      #(set_background_mesh, "mesh_pic_soldier_rebel"),
+      (assign, "$cant_leave_encounter", 1),
+      
+      #revert parties to former settings
+      (call_script, "script_freelancer_detach_party"),
+      (call_script, "script_event_player_deserts"),
+      #adds other troops to join player revolt
+      (call_script, "script_get_desert_troops"),
+      
+      #decreases player relation to his commander and faction
+      (call_script, "script_change_player_relation_with_troop", "$enlisted_lord", -10),
+      
+      (store_troop_faction, ":commander_faction", "$enlisted_lord"),
+      (try_begin),
+        (party_get_battle_opponent, ":commander_enemy", "$enlisted_party"),
+        (gt, ":commander_enemy", 0),
+        (store_faction_of_party, ":other_faction", ":commander_enemy"),
+        (store_relation, ":relation", ":other_faction", ":commander_faction"),
+        (store_sub, ":mod_relation", 100, ":relation"),
+        (val_add, ":mod_relation", 5),
+        (call_script, "script_change_player_relation_with_faction_ex", ":commander_faction", ":mod_relation"),
+      (try_end),
+    ],
+    [
+      ("revolt_prisoners",[],"Yes, I will take the risk for a greater advantage.",
+        [
+          (party_clear, "p_temp_party_2"),
+          #loop adding commander's prisoners to player party as troops
+          (party_get_num_prisoner_stacks, ":num_stacks", "$enlisted_party"),
+          (try_for_range, ":cur_stack", 0, ":num_stacks"),
+            (party_prisoner_stack_get_troop_id , ":prisoner_troop", "$enlisted_party", ":cur_stack"),
+            (ge, ":prisoner_troop", 1),
+            (party_prisoner_stack_get_size, ":stack_size", "$enlisted_party", ":cur_stack"),
+            (party_remove_prisoners, "$enlisted_party", ":prisoner_troop", ":stack_size"),
+            (party_add_members, "p_temp_party_2", ":prisoner_troop", ":stack_size"),
+          (try_end),
+          (party_attach_to_party, "p_temp_party_2", "p_main_party"),
+          (start_encounter, "$enlisted_party"),
+          (change_screen_map),
+      ]),
+      
+      ("revolt_no_prisoners",[],"No, I don't trust prisoners.",
+        [
+          (start_encounter, "$enlisted_party"),
+          (change_screen_map),
+      ]),
+      
+  ]),
+  
+  
+  #menu_ask_desert
+  ("ask_desert",0,
+    "Do you want to desert?",
+    "none",
+    [#(set_background_mesh, "mesh_pic_soldier_desert"),
+    ],[
+      ("confirm_desert",[],"Yes, this is pointless.",
+        [(jump_to_menu, "mnu_desert"),]),
+      
+      ("reject_desert",[],"No, I am loyal to my commander.",
+        [(change_screen_return),]),
+  ]),
+  
+  #menu_desert
+  ("desert",0,
+    "While in the army you've made some good friends. Some could possibly follow you.",
+    "none",
+    [
+      #(set_background_mesh, "mesh_pic_soldier_desert"),
+      
+      (call_script, "script_freelancer_detach_party"),
+      (call_script, "script_event_player_deserts"),
+    ],
+    [
+      ("desert_party",[],"Try to convince them to follow you.",[
+          #1 in 4 chance of being caught with others
+          (store_random_in_range, ":chance_caught", 0, 4),
+          (try_begin),
+            (eq, ":chance_caught", 0),
+            (assign, "$g_encountered_party", "$enlisted_party"),
+            (jump_to_menu, "mnu_captivity_start_wilderness"),
+          (else_try),
+            (call_script, "script_get_desert_troops"),
+            (call_script, "script_party_restore"),
+            (call_script, "script_set_parties_around_player_ignore_player", 2, 4),
+          (try_end),
+          (change_screen_map),(display_message, "@You have deserted, and are now wanted!"), ]),
+      
+      ("desert_alone",[],"No, I have a better chance alone.",[
+          #1 in 10 chance of being caught alone
+          (store_random_in_range, ":chance_caught", 0, 10),
+          (try_begin),
+            (eq, ":chance_caught", 0),
+            (assign, "$g_encountered_party", "$enlisted_party"),
+            (jump_to_menu, "mnu_captivity_start_wilderness"),
+          (else_try),
+            (call_script, "script_party_restore"),
+            #If player is a sarge or captain, remove his party - Kham
+            (store_faction_of_troop, ":commander_faction", "$enlisted_lord"),
+            (try_begin),
+              (faction_get_slot, ":is_sarge", ":commander_faction", slot_faction_freelancer_captain), #is sarge / captain?
+              (gt, ":is_sarge", 0),
+              (call_script, "script_freelancer_remove_player_party"),
+            (try_end),
+            #End Removal of Player Party
+            (call_script, "script_set_parties_around_player_ignore_player", 2, 4),
+          (try_end),
+          (change_screen_map),
+          (display_message, "@You have deserted, and are now wanted!"), ]),
+    ]
+    
+  ),
+  
+  #menu_upgrade_path
+  ("upgrade_path",0,
+    "In recognition of your excellent service, you have been promoted.",
+    "none",
+    [
+      #(set_background_mesh, "mesh_pic_soldier_world_map"),
+      (call_script, "script_freelancer_unequip_troop", "$player_cur_troop"),
+      (troop_get_upgrade_troop, ":path_1_troop", "$player_cur_troop", 0),
+      (troop_get_upgrade_troop, ":path_2_troop", "$player_cur_troop", 1),
+      (assign, reg1, ":path_1_troop"),
+      (assign, reg2, ":path_2_troop"),
+      (display_message, "@{reg1} Path 1 troop -- {reg2} Path2 Troop"),
+    ],
+    [
+      ("upgrade_path_1",[
+          (troop_get_upgrade_troop, ":path_1_troop", "$player_cur_troop", 0),
+          (ge, ":path_1_troop", 1),
+          (str_store_troop_name, s66, ":path_1_troop"),],
+        "{s66}",[
+          (troop_get_upgrade_troop, "$player_cur_troop", "$player_cur_troop", 0),
+          (store_troop_faction, ":commander_faction", "$enlisted_lord"),
+          (faction_set_slot, ":commander_faction", slot_faction_freelancer_troop, "$player_cur_troop"),
+          (call_script, "script_freelancer_equip_troop", "$player_cur_troop"),
+          (str_store_troop_name, s5, "$player_cur_troop"),
+          
+          #Kham - Add to rank
+          (faction_get_slot, ":freelancer_rank", ":commander_faction", slot_freelancer_rank),
+          (val_add, ":freelancer_rank", 1),
+          (faction_set_slot, ":commander_faction", slot_freelancer_rank, ":freelancer_rank"),
+          
+          (str_store_string, s5, "@Current rank: {s5}"),
+          (add_quest_note_from_sreg, "qst_freelancer_enlisted", 3, s5, 1),
+          (change_screen_map),]),
+      
+      ("upgrade_path_2",[
+          (troop_get_upgrade_troop, ":path_2_troop", "$player_cur_troop", 1),
+          (ge, ":path_2_troop", 1),
+          (str_store_troop_name, s67, ":path_2_troop"),],
+        "{s67}",[
+          (troop_get_upgrade_troop, "$player_cur_troop", "$player_cur_troop", 1),
+          (store_troop_faction, ":commander_faction", "$enlisted_lord"),
+          (faction_set_slot, ":commander_faction", slot_faction_freelancer_troop, "$player_cur_troop"),
+          (call_script, "script_freelancer_equip_troop", "$player_cur_troop"),
+          (str_store_troop_name, s5, "$player_cur_troop"),
+          
+          #Kham - Add to rank
+          (faction_get_slot, ":freelancer_rank", ":commander_faction", slot_freelancer_rank),
+          (val_add, ":freelancer_rank", 1),
+          (faction_set_slot, ":commander_faction", slot_freelancer_rank, ":freelancer_rank"),
+          
+          (str_store_string, s5, "@Current rank: {s5}"),
+          (add_quest_note_from_sreg, "qst_freelancer_enlisted", 3, s5, 1),
+          (change_screen_map),]),
+      
+      ("upgrade_path_1_sarge",[ #For Infantry Division
+          (troop_get_upgrade_troop, ":path_1_troop", "$player_cur_troop", 0),
+          (store_troop_faction, ":commander_faction", "$enlisted_lord"),
+          (le, ":path_1_troop", 0),
+          (faction_slot_eq, ":commander_faction", slot_faction_freelancer_captain, 0), #neither sarge or captain
+          (str_store_string, s67, "@Infantry Division Sergeant"),],
+        "{s67}",[
+          (store_troop_faction, ":commander_faction", "$enlisted_lord"),
+          (faction_set_slot, ":commander_faction", slot_faction_freelancer_captain, 1,), #Now a Sergeant
+          (assign, "$talk_context", tc_freelancer_infantry_captain), #We talk to the player to reward him + give him the troops
+          (quest_set_slot, "qst_freelancer_enlisted", slot_quest_current_state, 1), #Let us exploit this for infantry sarge / captain
+          (call_script, "script_freelancer_equip_troop", "$player_cur_troop"), #Give us the same stuff as before
+          #Kham - Add to rank
+          (faction_get_slot, ":freelancer_rank", ":commander_faction", slot_freelancer_rank),
+          (val_add, ":freelancer_rank", 1),
+          (faction_set_slot, ":commander_faction", slot_freelancer_rank, ":freelancer_rank"),
+          (str_store_troop_name, s6, "$enlisted_lord"),
+          (str_store_string, s5, "@Current rank: Infantry Division Sergeant for {s5}"),
+          (add_quest_note_from_sreg, "qst_freelancer_enlisted", 3, s5, 1),
+          (change_screen_map),
+          (start_map_conversation, "$enlisted_lord"),
+      ]),
+      
+      ("upgrade_path_2_sarge",[ #For Ranged Division
+          (troop_get_upgrade_troop, ":path_2_troop", "$player_cur_troop", 1),
+          (store_troop_faction, ":commander_faction", "$enlisted_lord"),
+          (le, ":path_2_troop", 0),
+          (faction_slot_eq, ":commander_faction", slot_faction_freelancer_captain, 0), #neither sarge or captain
+          (str_store_string, s67, "@Ranged Division Sergeant"),],
+        "{s67}",[
+          (store_troop_faction, ":commander_faction", "$enlisted_lord"),
+          (faction_set_slot, ":commander_faction", slot_faction_freelancer_captain, 1,), #Now a Sergeant
+          (assign, "$talk_context", tc_freelancer_ranged_captain), #We talk to the player to reward him + give him the troops
+          (quest_set_slot, "qst_freelancer_enlisted", slot_quest_current_state, 2), #Let us exploit this for ranged sarge / captain
+          (call_script, "script_freelancer_equip_troop", "$player_cur_troop"), #Give us the same stuff as before
+          #Kham - Add to rank
+          (faction_get_slot, ":freelancer_rank", ":commander_faction", slot_freelancer_rank),
+          (val_add, ":freelancer_rank", 1),
+          (faction_set_slot, ":commander_faction", slot_freelancer_rank, ":freelancer_rank"),
+          (str_store_troop_name, s6, "$enlisted_lord"),
+          (str_store_string, s5, "@Current rank: Ranged Division Sergeant for {s5}"),
+          (add_quest_note_from_sreg, "qst_freelancer_enlisted", 3, s5, 1),
+          (change_screen_map),
+          (start_map_conversation, "$enlisted_lord"),
+      ]),
+      
+      ("upgrade_path_1_captain",[ #For Infantry Division
+          (store_troop_faction, ":commander_faction", "$enlisted_lord"),
+          (faction_slot_eq, ":commander_faction", slot_faction_freelancer_captain, 1), #Is sarge already
+          (quest_slot_eq, "qst_freelancer_enlisted", slot_quest_current_state, 1), #Is Infantry Sarge?
+          (str_store_string, s67, "@Infantry Division Captain"),],
+        "{s67}",[
+          (store_troop_faction, ":commander_faction", "$enlisted_lord"),
+          (faction_set_slot, ":commander_faction", slot_faction_freelancer_captain, 2,), #Now a Captain
+          (assign, "$talk_context", tc_freelancer_infantry_captain), #We talk to the player to reward him + give him the troops
+          #Kham - Add to rank
+          (faction_get_slot, ":freelancer_rank", ":commander_faction", slot_freelancer_rank),
+          (val_add, ":freelancer_rank", 1),
+          (faction_set_slot, ":commander_faction", slot_freelancer_rank, ":freelancer_rank"),
+          (str_store_troop_name, s6, "$enlisted_lord"),
+          (str_store_string, s5, "@Current rank: Infantry Division Captain for {s5}"),
+          (add_quest_note_from_sreg, "qst_freelancer_enlisted", 3, s5, 1),
+          (change_screen_map),
+          (start_map_conversation, "$enlisted_lord"),
+      ]),
+      
+      ("upgrade_path_2_captain",[ #For Ranged Division
+          (store_troop_faction, ":commander_faction", "$enlisted_lord"),
+          (faction_slot_eq, ":commander_faction", slot_faction_freelancer_captain, 1), #Is sarge already
+          (quest_slot_eq, "qst_freelancer_enlisted", slot_quest_current_state, 2), #Is Ranged Sarge?
+          (str_store_string, s67, "@Ranged Division Captain"),],
+        "{s67}",[
+          (store_troop_faction, ":commander_faction", "$enlisted_lord"),
+          (faction_set_slot, ":commander_faction", slot_faction_freelancer_captain, 2,), #Now a Captain
+          (assign, "$talk_context", tc_freelancer_ranged_captain), #We talk to the player to reward him + give him the troops
+          #Kham - Add to rank
+          (faction_get_slot, ":freelancer_rank", ":commander_faction", slot_freelancer_rank),
+          (val_add, ":freelancer_rank", 1),
+          (faction_set_slot, ":commander_faction", slot_freelancer_rank, ":freelancer_rank"),
+          (str_store_troop_name, s6, "$enlisted_lord"),
+          (str_store_string, s5, "@Current rank: Ranged Division Captain for {s5}"),
+          (add_quest_note_from_sreg, "qst_freelancer_enlisted", 3, s5, 1),
+          (change_screen_map),
+          (start_map_conversation, "$enlisted_lord"),
+      ]),
+  ]),
+  #+freelancer end
+  
+  #Kham Freelancer Improvements Start
+
+  #Kham Freelancer - Autojoin Lord START
+
+  ("freelancer_autojoin_lord", 0,
+    "Would you like to rejoin your commander now or keep exploring?",
+    "none",[],
+    [
+      ("autojoin_lord", [], "Rejoin Commander",
+        [(assign, "$talk_context", tc_vacation_over),
+         (start_map_conversation, "$enlisted_lord"),
+         (party_relocate_near_party, "p_main_party", "$enlisted_party", 2),
+         (change_screen_return),]
+      ),
+
+      ("continue_exploring", [], "Continue Exploring", 
+        [(change_screen_return)]),
+    ],
+  ),
+
+  
+  #Kham Freelancer - Looters START
+  
+  ("freelancer_looters", 0,
+    "Your commander has asked {s5} to hunt down looters near the camp.",
+    "none",
+    [ (store_troop_faction, ":commander_faction", "$enlisted_lord"),
+      (faction_get_slot, ":freelancer_rank", ":commander_faction", slot_freelancer_rank),
+      (try_begin),
+        (ge, ":freelancer_rank", 3),
+        (str_store_string, s5, "@you and some men from your division"),
+      (else_try),
+        (str_store_string, s5, "@you"),
+      (try_end)],
+    [
+      ("looter_accept", [(neg|troop_is_wounded, "trp_player")], "Accept this mission",
+        [(jump_to_menu, "mnu_freelancer_looter_accept")]),
+      
+      ("looter_reject", [(neg|troop_is_wounded, "trp_player")], "Reject today's mission.",
+        [(change_screen_map)]),
+      
+      ("looter_wounded", [(troop_is_wounded, "trp_player"),], "You are too wounded for this mission.",
+        [(change_screen_map)]),
+    ]
+  ),
+  
+  ("freelancer_looter_accept", 0,
+    "{s5} found the looters nearby. You get ready to attack them.",
+    "none",
+    [ (store_troop_faction, ":commander_faction", "$enlisted_lord"),
+      (faction_get_slot, ":freelancer_rank", ":commander_faction", slot_freelancer_rank),
+      (try_begin),
+        (ge, ":freelancer_rank", 3),
+        (str_store_string, s5, "@You and your men"),
+      (else_try),
+        (str_store_string, s5, "@You"),
+      (try_end),
+      (set_spawn_radius, 1),
+      (spawn_around_party, "p_main_party", "pt_jawas"),
+      (assign, "$g_encountered_party", reg0),
+      (remove_party, reg0),],
+    [
+      ("looter_attack", [
+          (store_troop_faction, ":commander_faction", "$enlisted_lord"),
+          (faction_get_slot, ":freelancer_rank", ":commander_faction", slot_freelancer_rank),
+          (lt, ":freelancer_rank", 3),
+        ], "Attack them",
+        [
+          (store_character_level, ":level"),
+          (try_begin),
+            (lt, ":level", 4),
+            (assign, ":num_looters", 4),
+          (else_try),
+            (assign, ":num_looters", ":level"),
+            (val_min, ":num_looters", 10),
+          (try_end),
+          (assign, "$g_leave_encounter", 0),
+          (call_script, "script_setup_random_scene"),
+          (modify_visitors_at_site, "$g_scene_to_use"),
+          (reset_visitors),
+          (set_visitor, 0, "trp_player"),
+          (set_visitors, 2, "trp_jawa_2", ":num_looters"),
+          (set_jump_mission,"mt_lead_charge"),
+          (jump_to_scene, "$g_scene_to_use"),
+          (assign, "$g_next_menu", "mnu_freelancer_looter_conclusion"),
+          (jump_to_menu, "mnu_battle_debrief"),
+          (change_screen_mission),
+      ]),
+      
+      
+      ("looter_attack_with_troops", [
+          (store_troop_faction, ":commander_faction", "$enlisted_lord"),
+          (faction_get_slot, ":freelancer_rank", ":commander_faction", slot_freelancer_rank),
+          (ge, ":freelancer_rank", 3),
+        ], "You and your men attack them.",
+        [
+          (store_character_level, ":level"),
+          (try_begin),
+            (lt, ":level", 4),
+            (assign, ":num_looters", 8),
+            (assign, ":num_friends", 3),
+          (else_try),
+            (store_random_in_range, ":rand", 5, 11),
+            (assign, ":num_looters", ":level"),
+            (val_add, ":num_looters", ":level"),
+            (val_add, ":num_looters", ":rand"),
+            (val_min, ":num_looters", 22),
+            (assign, ":num_friends", ":rand"),
+          (try_end),
+          (assign, "$g_leave_encounter", 0),
+          (call_script, "script_setup_random_scene"),
+          (modify_visitors_at_site, "$g_scene_to_use"),
+          (reset_visitors),
+          (set_visitor, 0, "trp_player"),
+          (set_visitors, 0, "$player_cur_troop", ":num_friends"),
+          (set_visitors, 2, "trp_jawa_2", ":num_looters"),
+          (set_jump_mission,"mt_lead_charge"),
+          (jump_to_scene, "$g_scene_to_use"),
+          (assign, "$g_next_menu", "mnu_freelancer_looter_conclusion"),
+          (jump_to_menu, "mnu_battle_debrief"),
+          (change_screen_mission),
+      ]),
+    ]
+  ),
+  
+  ("freelancer_looter_conclusion",0,
+    "{s5}",
+    "none",
+    [
+      (try_begin),
+        (ge, "$g_battle_result", 1),
+        (set_background_mesh, "mesh_pic_victory"),
+        (str_store_string, s5, "@You defeated the enemies."),
+        (store_character_level, ":level", "trp_player"),
+        (val_mul, ":level", 8),
+        (val_min, ":level", 100),
+        (add_xp_as_reward, ":level"),
+        (troop_add_gold,  "trp_player", ":level"),
+      (else_try),
+        (set_background_mesh, "mesh_pic_defeat"),
+        (str_store_string, s5, "@You failed to defeat the enemy."),
+      (try_end),],
+    [
+      ("freelancer_training_finish",[],"Go back to your post...",
+        [(change_screen_map)],
+      ),
+  ]),
+  
+  ## Freelancer Looters END
+  ## Freelancer Bandits START
+  
+  ("freelancer_bandits", 0,
+    "Your commander has asked {s5} to hunt down bandits near the camp.",
+    "none",
+    [ (store_troop_faction, ":commander_faction", "$enlisted_lord"),
+      (faction_get_slot, ":freelancer_rank", ":commander_faction", slot_freelancer_rank),
+      (try_begin),
+        (ge, ":freelancer_rank", 3),
+        (str_store_string, s5, "@you and some men from your division"),
+      (else_try),
+        (str_store_string, s5, "@you"),
+      (try_end)],
+    [
+      ("bandit_accept", [(neg|troop_is_wounded, "trp_player")], "Accept this mission",
+        [(jump_to_menu, "mnu_freelancer_bandit_accept")]),
+      
+      ("bandit_reject", [(neg|troop_is_wounded, "trp_player")], "Reject today's mission.",
+        [(change_screen_map)]),
+      
+      ("bandit_wounded", [(troop_is_wounded, "trp_player"),], "You are too wounded for this mission.",
+        [(change_screen_map)]),
+    ]
+  ),
+  
+  ("freelancer_bandit_accept", 0,
+    "{s5} found the bandits nearby. You get ready to attack them.",
+    "none",
+    [ (store_troop_faction, ":commander_faction", "$enlisted_lord"),
+      (faction_get_slot, ":freelancer_rank", ":commander_faction", slot_freelancer_rank),
+      (try_begin),
+        (ge, ":freelancer_rank", 3),
+        (str_store_string, s5, "@You and your men"),
+      (else_try),
+        (str_store_string, s5, "@You"),
+      (try_end),
+      (set_spawn_radius, 1),
+      (spawn_around_party, "p_main_party", "pt_night_fang_pirates"),
+      (assign, "$g_encountered_party", reg0),
+      (remove_party, reg0),],
+    [
+      ("bandit_attack", [
+          (store_troop_faction, ":commander_faction", "$enlisted_lord"),
+          (faction_get_slot, ":freelancer_rank", ":commander_faction", slot_freelancer_rank),
+          (lt, ":freelancer_rank", 3),
+        ], "Attack them",
+        [
+          (store_character_level, ":level"),
+          (try_begin),
+            (lt, ":level", 6),
+            (assign, ":num_looters", 4),
+            (assign, ":enemy_troop", "trp_bandit"),
+          (else_try),
+            (ge, ":level", 15),
+            (assign, ":num_looters", ":level"),
+            (val_min, ":num_looters", 8),
+            (assign, ":enemy_troop", "trp_steppe_bandit"), #Graverobber
+          (else_try),
+            (assign, ":num_looters", ":level"),
+            (val_min, ":num_looters", 8),
+            (assign, ":enemy_troop", "trp_bandit"),
+          (try_end),
+          (assign, "$g_leave_encounter", 0),
+          (call_script, "script_setup_random_scene"),
+          (modify_visitors_at_site, "$g_scene_to_use"),
+          (reset_visitors),
+          (set_visitor, 0, "trp_player"),
+          (set_visitors, 2, ":enemy_troop", ":num_looters"),
+          (set_jump_mission,"mt_lead_charge"),
+          (jump_to_scene, "$g_scene_to_use"),
+          (assign, "$g_next_menu", "mnu_freelancer_bandit_conclusion"),
+          (jump_to_menu, "mnu_battle_debrief"),
+          (change_screen_mission),
+      ]),
+      
+      
+      ("bandit_attack_with_troops", [
+          (store_troop_faction, ":commander_faction", "$enlisted_lord"),
+          (faction_get_slot, ":freelancer_rank", ":commander_faction", slot_freelancer_rank),
+          (ge, ":freelancer_rank", 3),
+        ], "You and your men attack them.",
+        [
+          (store_character_level, ":level"),
+          (try_begin),
+            (lt, ":level", 6),
+            (assign, ":num_looters", 8),
+            (assign, ":num_friends", 4),
+            (assign, ":enemy_troop", "trp_bandit"),
+          (else_try),
+            (ge, ":level", 15),
+            (store_random_in_range, ":rand", 5, 11),
+            (assign, ":num_looters", ":level"),
+            (val_min, ":num_looters", 26),
+            (assign, ":num_friends", ":rand"),
+            (val_add, ":num_friends", ":rand"),
+            (assign, ":enemy_troop", "trp_steppe_bandit"), #Graverobber
+          (else_try),
+            (store_random_in_range, ":rand", 5, 11),
+            (assign, ":num_looters", ":level"),
+            (val_min, ":num_looters", 22),
+            (assign, ":num_friends", ":rand"),
+            (assign, ":enemy_troop", "trp_bandit"),
+          (try_end),
+          (assign, "$g_leave_encounter", 0),
+          (call_script, "script_setup_random_scene"),
+          (modify_visitors_at_site, "$g_scene_to_use"),
+          (reset_visitors),
+          (set_visitor, 0, "trp_player"),
+          (set_visitors, 0, "$player_cur_troop", ":num_friends"),
+          (set_visitors, 2, ":enemy_troop", ":num_looters"),
+          (set_jump_mission,"mt_lead_charge"),
+          (jump_to_scene, "$g_scene_to_use"),
+          (assign, "$g_next_menu", "mnu_freelancer_bandit_conclusion"),
+          (jump_to_menu, "mnu_battle_debrief"),
+          (change_screen_mission),
+      ]),
+    ]
+  ),
+  
+  ("freelancer_bandit_conclusion",0,
+    "{s5}",
+    "none",
+    [
+      (try_begin),
+        (ge, "$g_battle_result", 1),
+        (set_background_mesh, "mesh_pic_victory"),
+        (str_store_string, s5, "@You defeated the enemies."),
+        (store_character_level, ":level", "trp_player"),
+        (val_mul, ":level", 13),
+        (val_min, ":level", 200),
+        (add_xp_as_reward, ":level"),
+        (troop_add_gold,  "trp_player", ":level"),
+      (else_try),
+        (set_background_mesh, "mesh_pic_defeat"),
+        (str_store_string, s5, "@You failed to defeat the enemy."),
+      (try_end),],
+    [
+      ("freelancer_bandit_finish",[],"Go back to your post...",
+        [(change_screen_map)],
+      ),
+  ]),
+  
+  ## Freelancer Bandits END
+
 ]
 
 ######### Quick Scene Chooser integration - http://forums.taleworlds.net/index.php/topic,51851.0.html

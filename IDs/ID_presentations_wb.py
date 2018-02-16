@@ -33,3 +33,4 @@ prsnt_game_escape = 31
 prsnt_game_troop_tree = 32
 prsnt_troop_tree = 33
 prsnt_troop_detail = 34
+prsnt_taragoth_lords_report = 35
