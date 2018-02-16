@@ -458,5 +458,20 @@ script_party_remove_heroes = 456
 script_has_enough_slot = 457
 script_game_get_upgrade_cost = 458
 script_game_get_morale_of_troops_from_faction = 459
+script_troop_tree_precurse = 460
+script_troop_tree_recurse = 461
+script_manage_legs_in_cur_tableau = 462
+script_troop_detail_layout = 463
+script_troop_detail_draw_troop = 464
+script_troop_detail_draw_weapons = 465
+script_troop_detail_draw_weapons_aux = 466
+script_troop_detail_stats = 467
+script_troop_detail_inventory = 468
+script_troop_detail_inventory_tooltip = 469
+script_troop_detail_update_dummy = 470
+script_troop_detail_update_dummy_gear_aux = 471
+script_troop_detail_change_screen = 472
+script_add_troop_to_cur_tableau_for_troop_detail_dummy = 473
+script_game_troop_upgrades_button_clicked = 474
 
 

@@ -572,4 +572,9 @@ meshes = [
   ("pic_mb_warrior_2",    render_order_plus_1, "pic_mb_warrior_2",   0, 0, 0, 0, 0, 0, 1, 1, 1),
   ("pic_mb_warrior_3",    render_order_plus_1, "pic_mb_warrior_3",   0, 0, 0, 0, 0, 0, 1, 1, 1),
   ("pic_mb_warrior_4",    render_order_plus_1, "pic_mb_warrior_4",   0, 0, 0, 0, 0, 0, 1, 1, 1),
+
+  ###VC presentations
+  ("pic_troop_trees", 0, "meeting_window", 0, 0, 0, 0, 0, 0, 1, 1, 1),
+  ("pic_units_details", 0, "meeting_window", 0, 0, 0, 0, 0, 0, 1, 1, 1),
+  ("mp_inventory_choose", 0, "mp_inventory_choose", 0, 0, 0, 0, 0, 0, 1, 1, 1),
 ]

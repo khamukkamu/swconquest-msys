@@ -30,3 +30,6 @@ prsnt_upgrade_troops = 28
 prsnt_game_start = 29
 prsnt_game_custom_battle_designer = 30
 prsnt_game_escape = 31
+prsnt_game_troop_tree = 32
+prsnt_troop_tree = 33
+prsnt_troop_detail = 34

@@ -28,3 +28,5 @@ tableau_retired_troop_alpha_mask = 26
 tableau_retired_troop_color = 27
 tableau_retired_troop = 28
 tableau_starship_icon = 29
+tableau_troop_tree_pic = 30
+tableau_troop_detail_dummy_pic = 31

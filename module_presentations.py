@@ -8407,6 +8407,308 @@ if wb_compile_switch==1:
          (position_set_y, pos1, 0),
          (overlay_set_position, ":empic", pos1),
        ])
-    ])
+    ]),
+
+# Kham - VC Troop Tree Presentations
+#chief presentacion game_troop_tree moto
+#INPUT: reg0 selected troop
+("game_troop_tree", 0, 0, [
+(ti_on_presentation_load, [
+  (presentation_set_duration, 999999),
+  (set_fixed_point_multiplier, 1000),
+  (assign, ":troop", reg0),
+  
+  ###mesh de fondo MOTO must do it this way or won't allow party screen to reappear
+  (create_mesh_overlay, reg0, "mesh_load_window"),
+  (position_set_x, pos1, -1),
+  (position_set_y, pos1, -1),
+  (overlay_set_position, reg0, pos1),
+  (position_set_x, pos1, 1002),
+  (position_set_y, pos1, 1002),
+  (overlay_set_size, reg0, pos1),
+  #Message first part
+  
+  #screen top
+  (create_text_overlay, reg1, "@Troop Tree", tf_center_justify),
+  (position_set_x, pos1, Screen_Width/2),
+  (position_set_y, pos1, Screen_Title_Height),
+  (overlay_set_position, reg1, pos1),
+  
+  #write the trees
+  (call_script, "script_troop_tree_precurse", ":troop", 1, 1),
+  (store_div, "$troop_tree_pic_width", Troop_Tree_Area_Width, reg0),
+  (store_div, "$troop_tree_pic_height", Troop_Tree_Area_Height, reg1),
+  
+  (store_div, ":x_pos", "$troop_tree_pic_width", 2),
+  (val_add, ":x_pos", Screen_Border_Width),
+  (store_mul, ":y_pos", "$troop_tree_pic_height", -1),
+  (val_add, ":y_pos", Screen_Title_Height-2*Screen_Text_Height),
+  (call_script, "script_troop_tree_recurse", ":troop", ":x_pos", ":y_pos"),
+  
+  #screen bottom
+  (create_game_button_overlay, "$presentation_leave_button", "@Done", tf_center_justify),
+  (position_set_x, pos1, Screen_Width/2),
+  (position_set_y, pos1, Screen_Border_Width),
+  (overlay_set_position, "$presentation_leave_button", pos1),
+]),
+
+(ti_on_presentation_run, [
+  (try_begin),
+    (this_or_next|key_clicked, key_escape),
+    (key_clicked, key_xbox_start),
+    (presentation_set_duration, 0),
+  (try_end),
+]),
+
+(ti_on_presentation_event_state_change, [
+  (store_trigger_param_1, ":object"),
+  (eq, ":object", "$presentation_leave_button"),
+  (presentation_set_duration, 0),
+]),
+]), #end troop tree
+
+#chief presentacion troop_tree moto
+("troop_tree", 0, 0, [
+(ti_on_presentation_load, [
+  (presentation_set_duration, 999999),
+  (set_fixed_point_multiplier, 1000),
+  
+  #pic
+  (create_mesh_overlay, reg0, "mesh_pic_troop_trees"),
+  (position_set_x, pos1, -1),
+  (position_set_y, pos1, -1),
+  (overlay_set_position, reg0, pos1),
+  (position_set_x, pos1, 1002),
+  (position_set_y, pos1, 1002),
+  (overlay_set_size, reg0, pos1),
+  
+  #screen top
+  (create_text_overlay, reg1, "@Troop Tree", tf_center_justify),
+  (position_set_x, pos1, Screen_Width/2),
+  (position_set_y, pos1, Screen_Title_Height),
+  (overlay_set_position, reg1, pos1),
+  
+  (overlay_set_display, reg1, 0),
+  (assign, "$troop_tree_counter", -1),
+  
+  (create_text_overlay, reg1, "@Faction: ", tf_right_align),
+  (position_set_x, pos1, Screen_Width/2-50),
+  #(position_set_y, pos1, Screen_Title_Height-Screen_Text_Height),
+  (position_set_y, pos1, 700),
+  
+  (overlay_set_position, reg1, pos1),
+  
+  (create_combo_button_overlay, "$g_presentation_obj_sliders_1"),
+  (position_set_x, pos1, Screen_Width/2 + 80),
+  #(position_set_y, pos1, Screen_Title_Height-Screen_Text_Height-5),
+  (position_set_y, pos1, 700),
+  
+  (overlay_set_position, "$g_presentation_obj_sliders_1", pos1),
+  
+  # (overlay_set_additional_render_height, reg1, 20), #float over report MOTO doesn't help
+  
+  (store_add, ":last_culture", "fac_culture_3", 1),
+  (try_for_range, ":culture", "fac_culture_1", ":last_culture"),
+    (try_begin),
+      (eq, ":culture", "fac_culture_1"),
+      (str_store_string, s1, "@Galactic Empire"),
+    (else_try),
+      (eq, ":culture", "fac_culture_2"),
+      (str_store_string, s1, "@Rebel Alliance"),
+    (else_try),
+      (str_store_string, s1, "@Hutt Cartel"),
+    (try_end),
+    #(str_store_string, s1, "@{s1} {s2}"),
+    (overlay_add_item, "$g_presentation_obj_sliders_1", s1),
+  (try_end),
+  
+  #Other Troops
+  #Human Mercs
+  (str_store_troop_name, s1, "trp_farmer"),
+  (str_store_string, s1, "@Human Mercenaries"),
+  (overlay_add_item, "$g_presentation_obj_sliders_1", s1),
+  
+  #Force Sensitive
+  (str_store_troop_name, s1, "trp_force_sensitive_recruit"),
+  (str_store_string, s1, "@Force Sensitive"),
+  (overlay_add_item, "$g_presentation_obj_sliders_1", s1),
+   
+  (overlay_set_val, "$g_presentation_obj_sliders_1", "$g_presentation_obj_sliders_1_val"),
+  
+  #write the trees
+  (store_add, ":culture", "fac_culture_1", "$g_presentation_obj_sliders_1_val"),
+  
+  (try_begin),
+    (lt, ":culture", ":last_culture"),
+    (faction_get_slot, ":troop", ":culture", slot_faction_tier_1_troop),
+    (call_script, "script_troop_tree_precurse", ":troop", 1, 1),
+    (store_div, "$troop_tree_pic_width", Troop_Tree_Area_Width, reg0),
+    (store_div, "$troop_tree_pic_height", Troop_Tree_Area_Height, reg1),
+    
+  (else_try),
+    (store_sub, ":extra", ":culture", ":last_culture"),
+    
+    (eq, ":extra", 0),
+    (assign, ":troop", "trp_farmer"),
+    (call_script, "script_troop_tree_precurse", ":troop", 1, 1),
+    (store_div, "$troop_tree_pic_width", Troop_Tree_Area_Width, reg0),
+    (store_div, "$troop_tree_pic_height", Troop_Tree_Area_Height, reg1),
+    
+  (else_try),
+    (eq, ":extra", 1),
+    (assign, ":troop", "trp_force_sensitive_recruit"),
+    (call_script, "script_troop_tree_precurse", ":troop", 1, 1),
+    (store_div, "$troop_tree_pic_width", Troop_Tree_Area_Width, reg0),
+    (store_div, "$troop_tree_pic_height", Troop_Tree_Area_Height, reg1),
+  (try_end),
+  
+  (store_div, ":x_pos", "$troop_tree_pic_width", 2),
+  (val_add, ":x_pos", Screen_Border_Width),
+  (store_mul, ":y_pos", "$troop_tree_pic_height", -1),
+  (val_add, ":y_pos", Screen_Title_Height-2*Screen_Text_Height),
+  (call_script, "script_troop_tree_recurse", ":troop", ":x_pos", ":y_pos"),
+  
+  #screen bottom
+  (create_game_button_overlay, "$presentation_leave_button", "@Done", tf_center_justify),
+  (position_set_x, pos1, Screen_Width/2),
+  (position_set_y, pos1, Screen_Border_Width),
+  (overlay_set_position, "$presentation_leave_button", pos1),
+  
+  # Alert that click opens detail
+  (create_text_overlay, reg1, "@(Click on a unit for details)", tf_right_align),
+  (position_set_x, 1, 950),(position_set_y, 1, 25),
+  (overlay_set_position, reg1, 1),
+  (position_set_x, pos1, 1750/2),(position_set_y, pos1, 1750/2),
+  (overlay_set_size, reg1, pos1),
+  (overlay_set_color, reg1, 0x000000),
+  
+]),
+
+(ti_on_presentation_run, [
+  (try_begin),
+    (this_or_next|key_clicked, key_escape),
+    (key_clicked, key_xbox_start),
+    (presentation_set_duration, 0),
+  (try_end),
+]),
+
+(ti_on_presentation_event_state_change, [
+  (store_trigger_param_1, ":object"),
+  (store_trigger_param_2, ":value"),
+  
+  (try_begin),
+    (eq, ":object", "$g_presentation_obj_sliders_1"),
+    (assign, "$g_presentation_obj_sliders_1_val", ":value"),
+    (start_presentation, "prsnt_troop_tree"),
+    
+  (else_try),
+    (eq, ":object", "$presentation_leave_button"),
+    (presentation_set_duration, 0),
+  (try_end),
+]),
+
+(ti_on_presentation_mouse_press, [
+  (store_trigger_param_1, ":object_id"),
+  #(store_trigger_param_2, ":obj_value"),
+  (try_begin),
+    
+    (assign, ":end_loop", 0),
+    (store_add, ":end_loop", "$troop_tree_counter", 1),
+    
+    (try_for_range, ":slot_no", 0, ":end_loop"),
+      (troop_get_slot, ":unused", "trp_temp_array_a", ":slot_no"),
+      (troop_slot_eq, "trp_temp_array_a", ":slot_no", ":object_id"),
+      (troop_get_slot, ":troop_id", "trp_temp_array_b", ":slot_no"),
+      (assign, "$temp_troop", ":troop_id"),
+      (assign, ":end_loop", 0),
+      (assign, "$temp", 1),
+      (start_presentation, "prsnt_troop_detail"),
+    (try_end),
+  (try_end),
+]),
+]), #end troop tree
+#moto troop tree chief acaba
+
+
+# Presentation prsnt_troop_detail
+# Description: from the troop tree you can click on any troop
+#              to see its details: stats, inventory, etc
+("troop_detail", 0, 0, [
+(ti_on_presentation_load,
+[
+  (presentation_set_duration, 999999),
+  (set_fixed_point_multiplier, 1000),
+  
+  (assign, ":draw_troop", "$temp_troop"),
+  
+  #pic
+  (create_mesh_overlay, reg0, "mesh_pic_units_details"),
+  (position_set_x, pos1, -1),
+  (position_set_y, pos1, -1),
+  (overlay_set_position, reg0, pos1),
+  (position_set_x, pos1, 1002),
+  (position_set_y, pos1, 1002),
+  (overlay_set_size, reg0, pos1),
+  
+  
+  (call_script, "script_troop_detail_layout"),
+  (call_script, "script_troop_detail_draw_troop", ":draw_troop"),
+  (call_script, "script_troop_detail_draw_weapons", ":draw_troop"),
+  
+  (try_begin),
+    (eq, "$temp", 1),# ---- Stats ----
+    (call_script, "script_troop_detail_stats", ":draw_troop"),
+    
+  (else_try),# ---- Inventory of troop ----
+    (eq, "$temp", 2),
+    (call_script, "script_troop_detail_inventory"),
+  (try_end),
+  
+]),
+
+(ti_on_presentation_event_state_change,
+[
+  (store_trigger_param_1, ":object"),
+  (store_trigger_param_2, ":value"),
+  
+  (try_begin),# done button
+    (eq, ":object", "$g_presentation_leave_button"),
+    (start_presentation, "prsnt_troop_tree"),
+  (else_try),
+    (eq, ":object", "$g_presentation_obj_1"),
+    (call_script, "script_troop_detail_change_screen", "$temp_troop"),
+    
+  (else_try),
+    (eq, ":object", "$checkbox_show_item_details"),
+    (assign, "$checkbox_show_item_details_val", ":value"),
+  (try_end),
+  
+]),
+
+(ti_on_presentation_mouse_enter_leave,[
+  (call_script, "script_troop_detail_inventory_tooltip"),
+]),
+
+(ti_on_presentation_mouse_press,
+[
+  (eq, "$temp", 2),
+  (store_trigger_param_1, ":object_id"),
+  (call_script, "script_troop_detail_update_dummy", "$temp_troop", ":object_id"),
+]),
+
+(ti_on_presentation_run,
+    [
+      (try_begin),
+        (this_or_next|key_clicked, key_escape),
+        (key_clicked, key_xbox_start),
+        (presentation_set_duration, 0),
+        (change_screen_return,0),
+      (try_end),
+  ]),
+
+] 
+),
+
+
 ]
 

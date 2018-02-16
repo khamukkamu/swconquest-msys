@@ -585,6 +585,10 @@ game_menus = [
        [(jump_to_menu, "mnu_faction_orders"),
         ]
        ),
+      ("view_faction_troop_trees",[],"Review Troop Trees.",
+       [(start_presentation, "prsnt_troop_tree"),
+        ]
+       ),
       ("view_character_report",[],"View character report.",
        [(jump_to_menu, "mnu_character_report"),
         ]

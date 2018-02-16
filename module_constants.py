@@ -1484,3 +1484,33 @@ hrsb_tail_2      = 27
 speech_death    = 3
 speech_victory  = 2
 speech_deployed = 1
+
+
+#Kham Added Constants
+# VC Presentantion Constants
+font_title = 2400
+font_small = 800
+font_normal = 1200
+
+# shows mouse coordinates on presentations (set 0 for production)
+debug_show_presentation_coordinates = 0
+
+#VC Troop Tree Presentation
+#Presentations Constants Moto chief
+Screen_Border_Width = 24
+Screen_Width = 1024-Screen_Border_Width
+Screen_Height = 768-Screen_Border_Width
+Screen_Text_Height = 35
+Screen_Checkbox_Height_Adj = 4
+Screen_Numberbox_Width = 64
+Screen_Title_Height = Screen_Height-Screen_Border_Width-Screen_Text_Height
+Screen_Check_Box_Dimension = 20
+Screen_Undistort_Width_Num = 7  #distortion midway between 1024x768 and 1366x768 -- things will appear a little narrow on thin screens and vice versa
+Screen_Undistort_Width_Den = 8
+Troop_Tree_Num_Levels = 6
+Troop_Tree_Max_Per_Level = 5  #2^(Troop_Tree_Num_Levels-1) opt for counting most upgrade2 over all factions
+Troop_Tree_Area_Height = Screen_Title_Height-4*Screen_Text_Height
+Troop_Tree_Area_Width = Screen_Width-2*Screen_Border_Width
+Troop_Tree_Line_Color = 0x000000
+Troop_Tree_Tableau_Height = 800
+Troop_Tree_Tableau_Width = Troop_Tree_Tableau_Height*Screen_Undistort_Width_Num/Screen_Undistort_Width_Den
