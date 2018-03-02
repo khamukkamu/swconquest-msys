@@ -499,6 +499,10 @@ lord_tell_mission_incriminate_commander_9
 lord_tell_mission_incriminate_commander_fin
 lord_tell_mission_incriminate_commander_10
 lord_mission_accepted
+lord_request_enlistment
+lord_request_retire
+lord_request_vacation
+ask_return_from_leave
 lord_leave_prison
 lord_leave
 lord_leave_give_quest
@@ -560,10 +564,6 @@ seneschal_intro_1
 seneschal_intro_1a
 seneschal_talk
 seneschal_intro_1b
-lord_request_enlistment
-lord_request_retire
-lord_request_vacation
-ask_return_from_leave
 seneschal_ask_something
 seneschal_ask_about_someone
 seneschal_ask_about_someone_2

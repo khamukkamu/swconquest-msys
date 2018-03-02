@@ -230,17 +230,8 @@ dialogs = [
   ],
   
   [anyone|plyr, "freelancer_sarge_1",
-    [
-      (troop_get_type, reg65, "$enlisted_lord"),
-      (try_begin),
-        (eq, reg3, 2),
-        (assign, reg3, 1), #Kham - Jeanne is female
-      (else_try),
-        (gt, reg3, 2), #Kham: other skins are male
-        (assign, reg3, 0),
-      (try_end),
-    ],
-    "Thank you, my {reg3?Lady:Lord}, I try my best to bring honour to your house.^ What decision is that?", "freelancer_sarge_2",
+    [],
+    "Thank you, I try my best to bring honour to your house.^ What decision is that?", "freelancer_sarge_2",
     [],
   ],
   
@@ -307,17 +298,8 @@ dialogs = [
   ],
   
   [anyone|plyr, "freelancer_cap_1",
-    [
-      (troop_get_type, reg65, "$enlisted_lord"),
-      (try_begin),
-        (eq, reg3, 2),
-        (assign, reg3, 1), #Kham - Jeanne is female
-      (else_try),
-        (gt, reg3, 2), #Kham: other skins are male
-        (assign, reg3, 0),
-      (try_end),
-    ],
-    "Thank you, my {reg3?Lady:Lord}. A soldier is only as good as their commander.", "freelancer_cap_2",
+    [],
+    "Thank you. A soldier is only as good as their commander.", "freelancer_cap_2",
     [],
   ],
   
@@ -8244,6 +8226,50 @@ I suppose there are plenty of bounty hunters around to get the job done . . .", 
 
 ##### TODO: QUESTS COMMENT OUT END
 
+## Freelancer
+  # dialog_ask_enlistment
+  
+  [anyone|plyr,"lord_talk", [
+      (eq, "$freelancer_state", 0),
+      (ge, "$g_talk_troop_faction_relation", 0),
+      #(neq, "$players_faction", "$g_talk_troop_faction"),
+      (eq, "$players_faction", 0),
+    ],
+    "I would like to enlist in your army.", "lord_request_enlistment",[]],
+  
+  # dialog_advise_retirement
+  
+  [anyone|plyr,"lord_talk", [
+      (eq, "$g_talk_troop", "$enlisted_lord"),
+      (neq, "$freelancer_state", 0),
+      (ge, "$g_talk_troop_faction_relation", 0),
+      (neq, "$players_faction", "$g_talk_troop_faction"),
+      (eq, "$players_faction", 0),
+    ],
+    "I would like to retire from service.", "lord_request_retire",[]],
+  
+  #dialog_ask_leave
+  [anyone|plyr,"lord_talk",[
+      (eq, "$g_talk_troop", "$enlisted_lord"),
+      (eq, "$freelancer_state", 1),
+      (ge, "$g_talk_troop_faction_relation", 0),
+      (neq, "$players_faction", "$g_talk_troop_faction"),
+      (eq, "$players_faction", 0),
+    ],
+    "I would like to request some personal leave", "lord_request_vacation",[]],
+  
+  #dialog_ask_return_from_leave
+  [anyone|plyr,"lord_talk",[
+      (eq, "$g_talk_troop", "$enlisted_lord"),
+      (eq, "$freelancer_state", 2),
+      (ge, "$g_talk_troop_faction_relation", 0),
+      (neq, "$players_faction", "$g_talk_troop_faction"),
+      (eq, "$players_faction", 0),
+    ],
+    "I am ready to return to your command.", "ask_return_from_leave",[]],
+  
+  ## Freelancer END
+
 #Leave
   [anyone|plyr,"lord_talk", [#(troop_slot_eq, "$g_talk_troop", slot_troop_is_prisoner, 1),
 							 (troop_slot_ge, "$g_talk_troop", slot_troop_prisoner_of_party, 0),
@@ -8324,16 +8350,8 @@ I suppose there are plenty of bounty hunters around to get the job done . . .", 
       (try_end),
       ], "I've got room in my ranks for a {man/woman} of your disposition, {playername}.{s3}I can take you on as a {s1}, with a weekly pay of {s2}. And food, of course.  Plenty of room for promotion and you'll be equipped as befits your rank. You'll have your take of what you can scavange in battle, too.  What do you say?", "lord_request_enlistment_confirm", []],
   
-  [anyone|plyr,"lord_request_enlistment_confirm", [
-      (troop_get_type, reg3, "$g_talk_troop"),
-      (try_begin),
-        (eq, reg3, 2),
-        (assign, reg3, 1), #Kham - Jeanne is female
-      (else_try),
-        (gt, reg3, 2), #Kham: other skins are male
-        (assign, reg3, 0),
-      (try_end),],
-    "Seems a fair lot and steady work in these lands. I'm with you, my {reg3?Lady:Lord}.", "close_window",
+  [anyone|plyr,"lord_request_enlistment_confirm", [],
+    "Seems a fair lot and steady work in these lands. I'm with you, Commander.", "close_window",
     [
       (party_clear, "p_freelancer_party_backup"),
       (call_script, "script_party_copy", "p_freelancer_party_backup", "p_main_party"),
@@ -8346,16 +8364,8 @@ I suppose there are plenty of bounty hunters around to get the job done . . .", 
       (assign, "$g_leave_encounter", 1),
   ]],
   
-  [anyone|plyr,"lord_request_enlistment_confirm",[
-      (troop_get_type, reg3, "$g_talk_troop"),
-      (try_begin),
-        (eq, reg3, 2),
-        (assign, reg3, 1), #Kham - Jeanne is female
-      (else_try),
-        (gt, reg3, 2), #Kham: other skins are male
-        (assign, reg3, 0),
-      (try_end),],
-    "Well, on second thought my {reg3?Lady:Lord}, I might try my luck alone a bit longer. My thanks.", "lord_pretalk",[]],
+  [anyone|plyr,"lord_request_enlistment_confirm",[],
+    "Well, on second thought, I might try my luck alone a bit longer. My thanks.", "lord_pretalk",[]],
   
   # dialog_reject_enlistment
   
@@ -8389,11 +8399,12 @@ I suppose there are plenty of bounty hunters around to get the job done . . .", 
     [
       (ge, "$g_talk_troop_relation", 0),
       (store_troop_faction, ":commander_faction", "$enlisted_lord"),
-      (faction_get_slot, reg3, ":commander_faction", slot_freelancer_rank),
-      (val_add, reg3, 2), #add 2 days per rank for vacation. So a rank 1 only gets 3 days, rank 2, gets 4, etc...
+      (faction_get_slot, ":freelancer_rank", ":commander_faction", slot_freelancer_rank),
+      (val_add, ":freelancer_rank", 2), #add 2 days per rank for vacation. So a rank 1 only gets 3 days, rank 2, gets 4, etc...
+      (assign, reg15, ":freelancer_rank"),
       
     ],
-    "Very well {playername}. You shall take some time off from military duty. Return in {reg3} days.", "lord_pretalk",[
+    "Very well {playername}. You shall take some time off from military duty. Return in {reg15} days.", "lord_pretalk",[
       (call_script, "script_event_player_vacation"),
       #If player is a sarge or captain, remove his party - Kham
       (store_faction_of_troop, ":commander_faction", "$enlisted_lord"),
@@ -8440,6 +8451,8 @@ I suppose there are plenty of bounty hunters around to get the job done . . .", 
   ],
   
   #+freelancer end
+
+  
   
   #### Freelancer - Kham Implementation END ####
 
@@ -9044,81 +9057,6 @@ They are going around making terrible accusations against me, impugning my honor
 ##### TODO: QUESTS COMMENT OUT END
 
 
-## Freelancer
-  # dialog_ask_enlistment
-  
-  [anyone|plyr,"lord_talk", [
-      (eq, "$freelancer_state", 0),
-      (ge, "$g_talk_troop_faction_relation", 0),
-      #(neq, "$players_faction", "$g_talk_troop_faction"),
-      (eq, "$players_faction", 0),
-      (troop_get_type, reg3, "$g_talk_troop"),
-      (try_begin),
-        (eq, reg3, 2),
-        (assign, reg3, 1), #Kham - Jeanne is female
-      (else_try),
-        (gt, reg3, 2), #Kham: other skins are male
-        (assign, reg3, 0),
-      (try_end),
-    ],
-    "My {reg3?Lady:Lord}, I would like to enlist in your army.", "lord_request_enlistment",[]],
-  
-  # dialog_advise_retirement
-  
-  [anyone|plyr,"lord_talk", [
-      (eq, "$g_talk_troop", "$enlisted_lord"),
-      (neq, "$freelancer_state", 0),
-      (ge, "$g_talk_troop_faction_relation", 0),
-      (neq, "$players_faction", "$g_talk_troop_faction"),
-      (eq, "$players_faction", 0),
-      (troop_get_type, reg3, "$g_talk_troop"),
-      (try_begin),
-        (eq, reg3, 2),
-        (assign, reg3, 1), #Kham - Jeanne is female
-      (else_try),
-        (gt, reg3, 2), #Kham: other skins are male
-        (assign, reg3, 0),
-      (try_end),
-    ],
-    "My {reg3?Lady:Lord}, I would like to retire from service.", "lord_request_retire",[]],
-  
-  #dialog_ask_leave
-  [anyone|plyr,"lord_talk",[
-      (eq, "$g_talk_troop", "$enlisted_lord"),
-      (eq, "$freelancer_state", 1),
-      (ge, "$g_talk_troop_faction_relation", 0),
-      (neq, "$players_faction", "$g_talk_troop_faction"),
-      (eq, "$players_faction", 0),
-      (troop_get_type, reg3, "$g_talk_troop"),
-      (try_begin),
-        (eq, reg3, 2),
-        (assign, reg3, 1), #Kham - Jeanne is female
-      (else_try),
-        (gt, reg3, 2), #Kham: other skins are male
-        (assign, reg3, 0),
-      (try_end),
-    ],
-    "My {reg3?Lady:Lord}, I would like to request some personal leave", "lord_request_vacation",[]],
-  
-  #dialog_ask_return_from_leave
-  [anyone|plyr,"lord_talk",[
-      (eq, "$g_talk_troop", "$enlisted_lord"),
-      (eq, "$freelancer_state", 2),
-      (ge, "$g_talk_troop_faction_relation", 0),
-      (neq, "$players_faction", "$g_talk_troop_faction"),
-      (eq, "$players_faction", 0),
-      (troop_get_type, reg3, "$g_talk_troop"),
-      (try_begin),
-        (eq, reg3, 2),
-        (assign, reg3, 1), #Kham - Jeanne is female
-      (else_try),
-        (gt, reg3, 2), #Kham: other skins are male
-        (assign, reg3, 0),
-      (try_end),
-    ],
-    "My {reg3?Lady:Lord}, I am ready to return to your command.", "ask_return_from_leave",[]],
-  
-  ## Freelancer END
 
 
   [anyone|plyr,"seneschal_talk", [(store_relation, ":cur_rel", "fac_player_supporters_faction", "$g_encountered_party_faction"),

@@ -680,3 +680,4 @@ freelancer_missions
 g_scene_to_use
 enlisted_lord
 cheat_imposed_quest
+g_current_opened_item_details

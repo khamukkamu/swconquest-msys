@@ -45,3 +45,4 @@ mst_space_battle_entry = 43
 mst_space_battle = 44
 mst_space_prop = 45
 mst_arena_duel_thing_std = 46
+mst_freelancer_charge = 47

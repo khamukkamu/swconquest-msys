@@ -2915,7 +2915,13 @@ game_menus = [
 		(jump_to_menu, "mnu_camp_cheat"),
         ]
        ),
-################################################################	   
+################################################################	 
+      ("khamtest",[],"Kham Test Menu.",
+       [
+           (jump_to_menu, "mnu_camp_khamtest"),
+        ]
+       ),  
+
       ("resume_travelling",[],"Resume travelling.",
        [
            (change_screen_return),
@@ -2923,6 +2929,66 @@ game_menus = [
        ),
       ]
   ),
+
+#Kham Test Menu
+  ( "camp_khamtest",0,
+    "Kham Test","none",[],
+    [
+      ("action_view_all_items",[],"View all items.",
+       [
+        (assign, "$temp", 0),
+        (start_presentation, "prsnt_all_items"),
+        ]
+       ),
+      ("test_freelancer_looters",[],"Become High Level Freelancer Troop", [(assign, "$player_cur_troop", "trp_swadian_sergent"),
+          (assign, "$enlisted_lord", "trp_knight_1_1"),
+          (store_faction_of_troop, ":commander_faction", "$enlisted_lord"),
+          (faction_set_slot,  ":commander_faction", slot_faction_freelancer_troop, "$player_cur_troop"),
+          (faction_set_slot, ":commander_faction", slot_faction_freelancer_captain, 0),
+          (display_message, "@Enlisted Lord Set to Vader, Player now Sergeant", color_good_news)]),
+      
+      ("set_freelancer_rank",[],"Set Freelancer Rank", [
+          (assign, "$enlisted_lord", "trp_knight_1_1"),
+          (store_faction_of_troop, ":commander_faction", "$enlisted_lord"),
+          (faction_set_slot, ":commander_faction", slot_freelancer_rank, 1),
+          (display_message, "@Enlisted Lord Set to Vader", color_good_news)]),
+      
+      ("become_sarge",[],"Become Sarge / Captain", [
+          (assign, "$enlisted_lord", "trp_knight_1_1"),
+          (store_faction_of_troop, ":commander_faction", "$enlisted_lord"),
+          (faction_set_slot, ":commander_faction", slot_faction_freelancer_captain, 1),
+          (display_message, "@Enlisted Lord Set to Vader - Now a Sarge", color_good_news)]),
+      
+      ("set_freelancer_xp", [], "Set Freelancer Start XP Slot", [
+          (troop_get_xp, ":xp", "trp_player"),
+          (troop_set_slot, "trp_player", slot_troop_freelancer_start_xp, ":xp"),]),
+
+      ("get_freelancer_rank", [], "Get Freelancer Rank", [
+          (store_faction_of_troop, ":commander_faction", "$enlisted_lord"),
+          (faction_get_slot, reg10, ":commander_faction", slot_freelancer_rank),
+          (display_message, "@{reg10} - Freelancer Rank")]),
+
+      ("freelance_upgrade_menu",[],"Freelancer Cheat Upgrade", [
+          (jump_to_menu, "mnu_upgrade_path")]),
+      
+      ("freelancer_script_add_sarge",[],"Freelancer Promote To Sarge", [
+          (call_script, "script_freelancer_promoted_to_commander", 1, 7)]),
+      
+      ("add_freelancer_rank",[], "Add Freelancer Rank", [
+          (store_faction_of_troop, ":commander_faction", "$enlisted_lord"),
+          (faction_get_slot, ":freelancer_rank", ":commander_faction", slot_freelancer_rank),
+          (val_add, ":freelancer_rank", 1),
+          (val_mod, ":freelancer_rank", 10),
+          (assign, reg3, ":freelancer_rank"),
+          (display_message, "@Freelancer Rank - {reg3}"),
+          (faction_set_slot, ":commander_faction", slot_freelancer_rank, ":freelancer_rank"),]),
+      ("impose_messenger_quest",[],"Impose Deliver Message", [(assign, "$cheat_imposed_quest", "qst_deliver_message"),(display_message, "@Quest Imposed!", color_good_news),]),
+      ("impose_none",[],"Reset Impose Quest", [(assign, "$cheat_imposed_quest", -1),(display_message, "@Impose Quest Cleared!", color_good_news),]),
+      ("resume_travelling",[],"Resume travelling.",[(change_screen_return),]),
+      
+  ]),
+  
+  ## Kham Test End
 
   ("walk_around_choose",menu_text_color(0xFF000d2c),
    "What area of the ship do you want to walk around?",
@@ -5992,7 +6058,7 @@ game_menus += [
 ##### Custom Commander(CC)
 ############################################################################################################
     
-      ("commander_change",[(str_store_troop_name,s7,"$g_player_troop")],
+      ("commander_change",[(str_store_troop_name,s7,"$g_player_troop"), (neq, "$freelancer_state", 1)],
         "Change the commander. (Current:{s7})",
         [
           (assign, "$g_next_menu", "mnu_simple_encounter"),
@@ -7081,7 +7147,7 @@ game_menus += [
 ##### Custom Commander(CC)
 ############################################################################################################
     
-      ("commander_change",[(str_store_troop_name,s7,"$g_player_troop")],
+      ("commander_change",[(str_store_troop_name,s7,"$g_player_troop"), (neq, "$freelancer_state", 1)],
         "Change the commander. (Current:{s7})",
         [
           (assign, "$g_next_menu", "mnu_join_battle"),
@@ -7463,7 +7529,7 @@ game_menus += [
 ##### Custom Commander(CC)
 ############################################################################################################
 
-      ("commander_change",[(str_store_troop_name,s7,"$g_player_troop")],
+      ("commander_change",[(str_store_troop_name,s7,"$g_player_troop"),(neq, "$freelancer_state", 1)],
         "Change the commander. (Current:{s7})",
         [
           (assign, "$g_next_menu", "mnu_besiegers_camp_with_allies"),
@@ -8177,6 +8243,7 @@ game_menus += [
           (store_current_hours, ":cur_hours"),
           (ge, ":cur_hours", "$g_siege_method_finish_hours"),
           (str_store_troop_name,s7,"$g_player_troop"),
+          (neq, "$freelancer_state", 1),
         ],
         "Change the commander. (Current:{s7})",
         [
@@ -9187,7 +9254,7 @@ game_menus += [
 ##### Custom Commander(CC)
 ############################################################################################################
     
-      ("commander_change",[(str_store_troop_name,s7,"$g_player_troop")],
+      ("commander_change",[(str_store_troop_name,s7,"$g_player_troop"),(neq, "$freelancer_state", 1)],
         "Change the commander. (Current:{s7})",
         [
           (assign, "$g_next_menu", "mnu_siege_started_defender"),
@@ -9721,7 +9788,7 @@ game_menus += [
       ("commander_change",
       [
         (party_slot_ge, "$current_town", slot_minorplanet_infested_by_bandits, 1),
-        (str_store_troop_name,s7,"$g_player_troop"),
+        (str_store_troop_name,s7,"$g_player_troop"),(neq, "$freelancer_state", 1),
       ],
       "Change the commander. (Current:{s7})",
       [
@@ -17359,7 +17426,7 @@ game_menus += [
       (set_spawn_radius, 1),
       (spawn_around_party, "p_main_party", "pt_jawas"),
       (assign, "$g_encountered_party", reg0),
-      (remove_party, reg0),],
+      ],
     [
       ("looter_attack", [
           (store_troop_faction, ":commander_faction", "$enlisted_lord"),
@@ -17381,7 +17448,7 @@ game_menus += [
           (reset_visitors),
           (set_visitor, 0, "trp_player"),
           (set_visitors, 2, "trp_jawa_2", ":num_looters"),
-          (set_jump_mission,"mt_lead_charge"),
+          (set_jump_mission,"mt_freelancer_charge"),
           (jump_to_scene, "$g_scene_to_use"),
           (assign, "$g_next_menu", "mnu_freelancer_looter_conclusion"),
           (jump_to_menu, "mnu_battle_debrief"),
@@ -17415,7 +17482,7 @@ game_menus += [
           (set_visitor, 0, "trp_player"),
           (set_visitors, 0, "$player_cur_troop", ":num_friends"),
           (set_visitors, 2, "trp_jawa_2", ":num_looters"),
-          (set_jump_mission,"mt_lead_charge"),
+          (set_jump_mission,"mt_freelancer_charge"),
           (jump_to_scene, "$g_scene_to_use"),
           (assign, "$g_next_menu", "mnu_freelancer_looter_conclusion"),
           (jump_to_menu, "mnu_battle_debrief"),
@@ -17443,7 +17510,8 @@ game_menus += [
       (try_end),],
     [
       ("freelancer_training_finish",[],"Go back to your post...",
-        [(change_screen_map)],
+        [ (remove_party, "$g_encountered_party"),
+          (change_screen_map)],
       ),
   ]),
   
@@ -17487,7 +17555,7 @@ game_menus += [
       (set_spawn_radius, 1),
       (spawn_around_party, "p_main_party", "pt_night_fang_pirates"),
       (assign, "$g_encountered_party", reg0),
-      (remove_party, reg0),],
+    ],
     [
       ("bandit_attack", [
           (store_troop_faction, ":commander_faction", "$enlisted_lord"),
@@ -17516,7 +17584,7 @@ game_menus += [
           (reset_visitors),
           (set_visitor, 0, "trp_player"),
           (set_visitors, 2, ":enemy_troop", ":num_looters"),
-          (set_jump_mission,"mt_lead_charge"),
+          (set_jump_mission,"mt_freelancer_charge"),
           (jump_to_scene, "$g_scene_to_use"),
           (assign, "$g_next_menu", "mnu_freelancer_bandit_conclusion"),
           (jump_to_menu, "mnu_battle_debrief"),
@@ -17558,7 +17626,7 @@ game_menus += [
           (set_visitor, 0, "trp_player"),
           (set_visitors, 0, "$player_cur_troop", ":num_friends"),
           (set_visitors, 2, ":enemy_troop", ":num_looters"),
-          (set_jump_mission,"mt_lead_charge"),
+          (set_jump_mission,"mt_freelancer_charge"),
           (jump_to_scene, "$g_scene_to_use"),
           (assign, "$g_next_menu", "mnu_freelancer_bandit_conclusion"),
           (jump_to_menu, "mnu_battle_debrief"),
@@ -17586,7 +17654,9 @@ game_menus += [
       (try_end),],
     [
       ("freelancer_bandit_finish",[],"Go back to your post...",
-        [(change_screen_map)],
+        [(remove_party, "$g_encountered_party"),
+         (change_screen_map),
+        ],
       ),
   ]),
   

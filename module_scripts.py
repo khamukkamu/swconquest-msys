@@ -32022,6 +32022,8 @@ if is_a_wb_script==1:
         (try_end),
         (ge, ":stack_amount", 1),
         (party_add_members, "p_main_party", ":return_troop", ":stack_amount"),
+        #(str_store_troop_name, s5, ":return_troop"),
+        #(display_message, "@{s5}", color_good_news),
       (try_end),
       (party_clear, "p_freelancer_party_backup"),
   ]),
@@ -32430,7 +32432,7 @@ if is_a_wb_script==1:
       (assign, "$cheat_imposed_quest", 0),
       (store_random_in_range, ":chance", 0, 135),
       (try_begin),
-        (le, ":chance", 20),
+        (le, ":chance", 100),
         (assign, ":continue", 0),
         (assign, "$cheat_imposed_quest", "qst_deliver_message"), #deliver Message
         (call_script, "script_get_random_quest", "$enlisted_lord"),

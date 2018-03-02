@@ -577,4 +577,5 @@ meshes = [
   ("pic_troop_trees", 0, "meeting_window", 0, 0, 0, 0, 0, 0, 1, 1, 1),
   ("pic_units_details", 0, "meeting_window", 0, 0, 0, 0, 0, 0, 1, 1, 1),
   ("mp_inventory_choose", 0, "mp_inventory_choose", 0, 0, 0, 0, 0, 0, 1, 1, 1),
+  ("inv_slot", 0, "inv_slot", 0, 0, 0, 0, 0, 0, 1, 1, 1),
 ]

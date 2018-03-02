@@ -432,5 +432,6 @@ mesh_pic_mb_warrior_4 = 430
 mesh_pic_troop_trees = 431
 mesh_pic_units_details = 432
 mesh_mp_inventory_choose = 433
+mesh_inv_slot = 434
 
 

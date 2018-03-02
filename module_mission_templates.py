@@ -6057,4 +6057,156 @@ mission_templates = [
 
 ########################## Duel Mod End ##############################
 
+(
+    "freelancer_charge",mtf_battle_mode,charge,
+    "You lead your men to battle.",
+    [
+     (0,mtef_visitor_source|mtef_team_0,0,aif_start_alarmed,12,[]),
+     (1,mtef_visitor_source|mtef_team_1,0,aif_start_alarmed,12,[]),
+     (2,mtef_visitor_source|mtef_team_1,0,aif_start_alarmed,12,[]),
+     (3,mtef_visitor_source|mtef_team_1,0,aif_start_alarmed,12,[]),
+    ],
+    [
+
+      sw_victory_defeat_conditions,
+      
+      (4, 0, 0, [(eq,"$battle_won",1),(all_enemies_defeated)], [ (display_message,"str_msg_battle_won"), ]),
+
+      #Highlander begin------------------------------------
+      common_physics_init,
+      common_timer,
+      common_physics,
+      #Highlander end--------------------------------------
+
+      (ti_tab_pressed, 0, 0, [],
+        [
+          (try_begin),
+            (eq, "$battle_won", 1),
+            (finish_mission,0),
+          (else_try),
+            (this_or_next|main_hero_fallen),   #CABA EDIT/FIX FOR DEATH CAM
+            (eq, "$pin_player_fallen", 1),
+            (question_box,"str_do_you_want_to_retreat"),
+            (assign, "$g_battle_result", -1),
+          (else_try),
+            (display_message,"str_can_not_retreat"),
+          (try_end),
+      ]),
+
+      (ti_question_answered, 0, 0, [],
+        [(store_trigger_param_1,":answer"),
+          (eq,":answer",0),
+          (assign, "$pin_player_fallen", 0),
+          (try_begin),
+            (store_mission_timer_a, ":elapsed_time"),
+            (gt, ":elapsed_time", 20),
+            (str_store_string, s5, "str_can_not_retreat"),
+          (try_end),
+          (finish_mission,0),]),
+
+      (ti_before_mission_start, 0, 0, [],
+        [
+          (team_set_relation, 0, 2, 1),
+          (team_set_relation, 1, 3, 1),
+          (call_script, "script_place_player_banner_near_inventory_bms"),
+          
+      ]),
+
+      common_music_situation_update,
+      common_battle_check_friendly_kills,
+
+
+
+      (1.39, 4.56, ti_once, [(main_hero_fallen)],
+          [
+        (call_script,"script_battle_speech",3),
+              (assign, "$pin_player_fallen", 1),
+        (display_message, "@You have been knocked out by the enemy. Watch your men continue the fight without you or press Tab to retreat."),
+        (call_script,"script_get_key","$deathcam_forward_key"),
+        (str_store_string,s1,s13),
+        (call_script,"script_get_key","$deathcam_backward_key"),
+        (str_store_string,s2,s13),
+        #(display_message, "@If you choose to watch the fight you can use the M and N keys to change your camera view."),
+        (display_message, "@If you choose to watch the fight you can use the '{s1}' and '{s2}' keys to change your camera view."),
+              # (str_store_string, s5, "str_retreat"),
+              # (call_script, "script_simulate_retreat", 10, 20),
+              # (assign, "$g_battle_result", -1),
+              # (set_mission_result,-1),
+              # (call_script, "script_count_mission_casualties_from_agents"),
+              # (finish_mission,0)
+        ]),
+
+      #SW Deathcam
+
+      sw_deathcam_follow_troop,
+      sw_deathcam_valkyrie_move_camera,
+      sw_deathcam_cycle_fowards,
+      sw_deathcam_cycle_backwards,
+
+      common_battle_inventory,
+
+      #SW - added shield bash integration
+      shield_bash_kit_1,
+      shield_bash_kit_2,
+      shield_bash_kit_3,
+      shield_bash_kit_4,
+
+      #SW - added regen for certain agents
+      #common_regeneration_store_info,
+      #common_regeneration,
+
+      #SW - add custom lightsaber noise
+      #lightsaber_noise_idle,      #commented out, not necessary and idle noise sometimes interupts saber swing
+      lightsaber_noise_player,
+      lightsaber_noise_agent,
+      common_change_fog,
+      common_use_healthpack,
+      #common_use_binocular_1,
+      #common_use_binocular_2,
+      common_zoom_view,
+      common_use_jetpack,
+      common_toggle_weapon_capabilities,
+      common_speeder_trigger_1,
+      common_speeder_trigger_2,
+      common_agent_droid_refill_trigger,
+      common_fix_droid_walking,
+      common_crouch_button,
+
+      #AI Tiggers
+       #(0, 0, ti_once, [
+       #   (store_mission_timer_a,":mission_time"),(ge,":mission_time",2),
+       #   ],
+       #[(call_script, "script_select_battle_tactic"),
+       # (call_script, "script_battle_tactic_init")]),
+
+      #(5, 0, 0, [
+       #   (store_mission_timer_a,":mission_time"),(ge,":mission_time",3),
+       #   (call_script, "script_battle_tactic_apply"),
+       #   ], []),
+
+      common_battle_order_panel,
+      common_battle_order_panel_tick,
+
+      ############################################################################################################
+      ##### Custom Commander(CC)
+      ############################################################################################################
+      common_npc_proficiency_limit,
+      common_npc_raise_proficiency,
+      common_check_player_can_join_battle,
+      ############################################################################################################
+      ##### Custom Commander(CC)
+      ############################################################################################################
+
+      #@> Swyter Battle Speech
+      (3.65, 0, ti_once, [(eq,"$battle_won",1),(all_enemies_defeated)],[(call_script,"script_battle_speech",speech_victory)]),
+      (0, 5.43, ti_once, [], [(call_script,"script_battle_speech",speech_deployed)]),
+
+      #SWY - trigger to make unique agents behavior - custom scripting
+      (0.352, 0, ti_once, [], [(call_script,"script_swy_unique_units_stuff",-1)]),
+      common_gate_system,
+    ]+common_helmet_view,
+  ),
+
+
+
 ]
