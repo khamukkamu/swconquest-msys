@@ -35,3 +35,4 @@ prsnt_troop_tree = 33
 prsnt_troop_detail = 34
 prsnt_taragoth_lords_report = 35
 prsnt_all_items = 36
+prsnt_customize_weapon = 37

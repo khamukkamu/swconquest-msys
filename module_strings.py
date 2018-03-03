@@ -2360,5 +2360,73 @@ We apologize sincerely if you contributed your suggestions and feedback but were
   ("cmenu_follow", "Accompany"),
 
   ("reg0", "{!}{reg0}"),
-  
+  ("done", "Done"),
+  ("reset_to_default", "Reset to Default"),
+
+#Lightsabers Test
+#Colours
+#1 Handed
+("lightsaber_1h_blue", "lightsaber_1h_blue"),
+("lightsaber_1h_green", "lightsaber_1h_green"),
+("lightsaber_1h_orange", "lightsaber_1h_orange"),
+("lightsaber_1h_purple", "lightsaber_1h_purple"),
+("lightsaber_1h_red", "lightsaber_1h_red"),
+("lightsaber_1h_yellow", "lightsaber_1h_yellow"),
+
+#2 Handed
+("lightsaber_2h_blue", "lightsaber_2h_blue"),
+("lightsaber_2h_green", "lightsaber_2h_green"),
+("lightsaber_2h_orange", "lightsaber_2h_orange"),
+("lightsaber_2h_purple", "lightsaber_2h_purple"),
+("lightsaber_2h_red", "lightsaber_2h_red"),
+("lightsaber_2h_yellow", "lightsaber_2h_yellow"),
+
+#Double Top
+("lightsaber_blue_double_top", "lightsaber_blue_double_top"),
+("lightsaber_green_double_top", "lightsaber_green_double_top"),
+("lightsaber_orange_double_top", "lightsaber_orange_double_top"),
+("lightsaber_purple_double_top", "lightsaber_purple_double_top"),
+("lightsaber_red_double_top", "lightsaber_red_double_top"),
+("lightsaber_yellow_double_top", "lightsaber_yellow_double_top"),
+
+#Double bottom
+("lightsaber_blue_double_bottom", "lightsaber_blue_double_bottom"),
+("lightsaber_green_double_bottom", "lightsaber_green_double_bottom"),
+("lightsaber_orange_double_bottom", "lightsaber_orange_double_bottom"),
+("lightsaber_purple_double_bottom", "lightsaber_purple_double_bottom"),
+("lightsaber_red_double_bottom", "lightsaber_red_double_bottom"),
+("lightsaber_yellow_double_bottom", "lightsaber_yellow_double_bottom"),
+
+#Pike
+("lightsaber_pike_blue", "lightsaber_pike_blue"),
+("lightsaber_pike_green", "lightsaber_pike_green"),
+("lightsaber_pike_orange", "lightsaber_pike_orange"),
+("lightsaber_pike_purple", "lightsaber_pike_purple"),
+("lightsaber_pike_red", "lightsaber_pike_red"),
+("lightsaber_pike_yellow", "lightsaber_pike_yellow"),
+
+#End Colours
+
+#Base
+#1H
+("lightsaber_1h_base", "lightsaber_1h_base"),
+("lightsaber_1h_base_2", "lightsaber_1h_base_2"),
+("lightsaber_1h_base_3", "lightsaber_1h_base_3"),
+("lightsaber_1h_base_4", "lightsaber_1h_base_4"),
+("lightsaber_1h_base_5", "lightsaber_1h_base_5"),
+
+#2H
+("lightsaber_2h_base", "lightsaber_2h_base"),
+("lightsaber_2h_base_2", "lightsaber_2h_base_2"),
+("lightsaber_2h_base_3", "lightsaber_2h_base_3"),
+("lightsaber_2h_base_4", "lightsaber_2h_base_4"),
+
+#Pike
+("lightsaber_pike_base", "lightsaber_pike_base"),
+
+#Double
+("lightsaber_double_base", "lightsaber_double_base"),
+("lightsaber_double_base_2", "lightsaber_double_base_2"),
+("lightsaber_double_base_3", "lightsaber_double_base_3"),
+
 ]

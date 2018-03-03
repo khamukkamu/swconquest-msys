@@ -1563,3 +1563,26 @@ tc_freelancer_infantry_captain = 114 #To Reward Player as an Infantry Sarge / Ca
 tc_freelancer_ranged_captain = 115 #To Reward Player as an Ranged Sarge / Captain
 
 #+Freelancer end
+
+#custom
+
+armor_cloth                   = 0
+armor_armor                   = 1
+armor_plate                   = 2
+
+custom_armor_maximum_submaterial = 7 #armor_plate + 4, thanks platemail
+slot_item_materials_begin = 81
+slot_item_materials_end = 82
+slot_item_num_components = 83
+slot_item_init_script = 84
+#mandatory + optional | color
+slot_item_player_slots_begin = 85
+slot_item_player_slots_end = slot_item_player_slots_begin + custom_armor_maximum_submaterial
+slot_item_player_color = slot_item_player_slots_end
+
+custom_item_color_mask = 0xf
+custom_item_color_bits = 4
+
+message_positive = 0x33FF33
+message_negative = 0xFF3333
+message_neutral = 0xFFFF33

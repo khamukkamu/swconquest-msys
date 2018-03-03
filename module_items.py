@@ -1894,6 +1894,62 @@ items = [
 		),
 	]],
 
+
+["lightsaber_custom", "Lightsaber", [("lightsaber_1h_base",0),("lightsaber_greenoff",ixmesh_carry)], itp_type_two_handed_wpn|itp_merchandise| itp_primary|itp_bonus_against_shield|itp_wooden_parry|itp_wooden_attack, itc_lightsaber|itcf_carry_dagger_front_left,
+ 900 , weight(0.5)|abundance(30)|difficulty(12)|spd_rtng(120) | weapon_length(115)|swing_damage(75 , pierce) | thrust_damage(75 ,  pierce),imodbits_lightsaber, 
+ [(ti_on_init_item, 
+  [
+    (store_trigger_param_1, ":agent_no"),
+    # (gt, ":agent_no", -1),
+    (store_trigger_param_2, ":troop_no"),
+    (try_begin), 
+    	(item_get_slot, ":value", "itm_lightsaber_custom", slot_item_player_slots_begin),
+    	(eq, ":value", -1),
+    	(store_random_in_range, ":value", 0, 5),
+  	(try_end),
+    (call_script, "script_init_lightsaber", ":agent_no", ":troop_no", 0, ":value"),
+    (cur_item_add_mesh, s1), #submesh 1
+    (try_begin), 
+    	(item_get_slot, ":value", "itm_lightsaber_custom", slot_item_player_slots_begin + 1),
+    	(eq, ":value", -1),
+    	(store_random_in_range, ":value", 0, 6),
+  	(try_end),
+    (call_script, "script_init_lightsaber", ":agent_no", ":troop_no", 1, ":value"),
+    (cur_item_add_mesh, s1), #submesh 2
+    ])
+  ]],
+
+["lightsaber_double_custom", "Double-Bladed Lightsaber", [("lightsaber_double_base",0),("lightsaber_red_doubleoff",ixmesh_carry)], itp_type_polearm|itp_merchandise|itp_two_handed| itp_spear|itp_primary|itp_bonus_against_shield|itp_wooden_parry|itp_wooden_attack, itc_lightsaber_double|itcf_carry_dagger_front_left, 
+ 1310*lsbr_vluemul , weight(0.8)|abundance(20)|difficulty(14)|spd_rtng(150) | weapon_length(170)|swing_damage(75 , pierce) | thrust_damage(75 ,  pierce),imodbits_lightsaber,
+  [(ti_on_init_item, 
+  [
+    (store_trigger_param_1, ":agent_no"),
+    # (gt, ":agent_no", -1),
+    (store_trigger_param_2, ":troop_no"),
+    (try_begin), 
+    	(item_get_slot, ":value", "itm_lightsaber_double_custom", slot_item_player_slots_begin),
+    	(eq, ":value", -1),
+    	(store_random_in_range, ":value", 0, 3),
+  	(try_end),
+    (call_script, "script_init_double_lightsaber", ":agent_no", ":troop_no", 0, ":value"),
+    (cur_item_add_mesh, s1), #submesh 1
+    (try_begin), 
+    	(item_get_slot, ":value", "itm_lightsaber_double_custom", slot_item_player_slots_begin + 1),
+    	(eq, ":value", -1),
+    	(store_random_in_range, ":value", 0, 6),
+  	(try_end),
+    (call_script, "script_init_double_lightsaber", ":agent_no", ":troop_no", 1, ":value"),
+    (cur_item_add_mesh, s1), #submesh 2
+    (try_begin), 
+    	(item_get_slot, ":value", "itm_lightsaber_double_custom", slot_item_player_slots_begin + 1),
+    	(eq, ":value", -1),
+    	(store_random_in_range, ":value", 0, 6),
+  	(try_end),
+    (call_script, "script_init_double_lightsaber", ":agent_no", ":troop_no", 2, ":value"),
+    (cur_item_add_mesh, s1), #submesh 3
+    ])
+  ]],
+
 # unique melee weapons (melee_punch is lightsaber_noise_end)
 ["melee_punch","_", [("_",0),("ArcTrooperGloves_L",ixmesh_inventory)], itp_unique|itp_type_one_handed_wpn|itp_primary|itp_secondary|itp_no_parry, itc_dagger, 1 , weight(0.1)|abundance(0)|difficulty(0)|spd_rtng(105) | weapon_length(25)|swing_damage(10, blunt) | thrust_damage(10, blunt),imodbits_none ],
 # axe

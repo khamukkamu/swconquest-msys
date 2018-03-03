@@ -30,3 +30,6 @@ tableau_retired_troop = 28
 tableau_starship_icon = 29
 tableau_troop_tree_pic = 30
 tableau_troop_detail_dummy_pic = 31
+tableau_custom_armor_window = 32
+tableau_custom_armor_alpha_mask = 33
+tableau_custom_armor_color = 34

@@ -1728,6 +1728,19 @@ scripts = [
       #@> swy - set aura colors depending of the faction
       (call_script, "script_swy_map_planet_aura_routine",mainplanets_begin,mainplanets_end),
       (call_script, "script_swy_map_planet_aura_routine",minorplanet_begin,minorplanet_end),
+
+
+# Lightsaber Test
+     (item_set_slot, "itm_lightsaber_custom", slot_item_init_script, "script_init_lightsaber"),
+     (item_set_slot, "itm_lightsaber_custom", slot_item_num_components, 3),
+     (item_set_slot, "itm_lightsaber_double_custom", slot_item_init_script, "script_init_double_lightsaber"),
+     (item_set_slot, "itm_lightsaber_double_custom", slot_item_num_components, 4),
+    
+    (try_for_range, ":slot_no", slot_item_player_slots_begin, slot_item_player_slots_end + 1),
+      (item_set_slot, "itm_lightsaber_custom", ":slot_no", -1),
+      (item_set_slot, "itm_lightsaber_double_custom", ":slot_no", -1),
+    (try_end),
+
   ]),
   
   
@@ -31986,44 +31999,15 @@ if is_a_wb_script==1:
   # RETURNS PART OF THE ORIGINAL PARTY
   ("party_restore",
     [
-      (store_current_day, ":cur_day"),
-      #formula for soldier desertion chance
-      (troop_get_slot, ":service_day_start", "trp_player", slot_troop_freelancer_start_date),
-      (store_sub, ":service_length", ":cur_day", ":service_day_start"), #gets number of days served
-      (party_get_slot, ":morale", "p_main_party", slot_party_orig_morale),
-      (store_add, ":return_chance", 800, ":morale"), #up to 100
-      (val_sub, ":return_chance", ":service_length"), #up to far over 100
-      
-      #loop that looks at each troop stack in a party,
-      #then decides if troops of that stack will return,
-      #and randomly assigns a number of troops in that stack to return
       (party_get_num_companion_stacks, ":num_stacks", "p_freelancer_party_backup"),
       (try_for_range, ":cur_stack", 0, ":num_stacks"),
         (assign, ":stack_amount", 0),
         (party_stack_get_troop_id, ":return_troop", "p_freelancer_party_backup", ":cur_stack"),
         (neq, ":return_troop", "trp_player"),
-        (try_begin),
-          (troop_is_hero, ":return_troop"), #bugfix for companions (simple, they always return)
-          (assign, ":stack_amount", 1),
-        (else_try),
-          #limit may need changed for more accurate probability
-          (store_random_in_range, ":return_random", 0, 1000),
-          (is_between, ":return_random", 0, ":return_chance"),
-          (party_stack_get_size, ":stack_size", "p_freelancer_party_backup", ":cur_stack"),
-          #checks what chance there is that all troops in stack will return
-          (store_random_in_range, ":return_random", 0, 1000),
-          (try_begin),
-            (is_between, ":return_random", 0, ":return_chance"),
-            (assign, ":stack_amount", ":stack_size"),
-          (else_try),
-            #else random number of troops return
-            (store_random_in_range, ":stack_amount", 0, ":stack_size"),
-          (try_end),
-        (try_end),
+        (party_stack_get_size, ":stack_size", "p_freelancer_party_backup", ":cur_stack"),
+        (assign, ":stack_amount", ":stack_size"),
         (ge, ":stack_amount", 1),
         (party_add_members, "p_main_party", ":return_troop", ":stack_amount"),
-        #(str_store_troop_name, s5, ":return_troop"),
-        #(display_message, "@{s5}", color_good_news),
       (try_end),
       (party_clear, "p_freelancer_party_backup"),
   ]),
@@ -32768,4 +32752,132 @@ if is_a_wb_script==1:
       (set_trigger_result, reg0),
   ]),
   
+
+#script_add_troop_to_custom_armor_tableau
+  # INPUT: troop_no, item (g_current_opened_item_details), side (g_custom_armor_angle)
+  # OUTPUT: none
+  ("add_troop_to_custom_armor_tableau",
+    [
+       (store_script_param, ":troop_no",1),
+       (store_mul, ":side", "$g_custom_armor_angle", 60), #add some more sides
+       
+       (set_fixed_point_multiplier, 100),
+
+       (cur_tableau_clear_override_items),
+       (cur_tableau_set_override_flags, af_override_weapons),
+
+       (init_position, pos2),
+       (position_rotate_z, pos2, ":side"),
+       (cur_tableau_set_camera_parameters, 1, 4, 6, 10, 10000),
+
+       (init_position, pos5),
+       (assign, ":cam_height", 105),
+#       (val_mod, ":camera_distance", 5),
+       (assign, ":camera_distance", 380),
+       (assign, ":camera_yaw", -15),
+       (assign, ":camera_pitch", -18),
+       (val_clamp, "$g_custom_armor_angle", 0, anim_walk_forward_crouch - anim_walk_backward),
+       (store_add, ":animation", "$g_custom_armor_angle", "anim_walk_backward"),
+
+       (position_set_z, pos5, ":cam_height"),
+
+       # camera looks towards -z axis
+       (position_rotate_x, pos5, -90),
+       (position_rotate_z, pos5, 180),
+
+       # now apply yaw and pitch
+       (position_rotate_y, pos5, ":camera_yaw"),
+       (position_rotate_x, pos5, ":camera_pitch"),
+       (position_move_z, pos5, ":camera_distance", 0),
+       (position_move_x, pos5, 5, 0),
+
+       (try_begin), #shouldn't be necessary, it's already on the troop (player character)
+         (gt, "$g_current_opened_item_details", -1),
+         (cur_tableau_add_override_item, "$g_current_opened_item_details"),
+       (try_end),
+       
+       (cur_tableau_add_troop, ":troop_no", pos2, ":animation", -1),
+       (cur_tableau_set_camera_position, pos5),
+
+       (copy_position, pos8, pos5),
+       (position_rotate_x, pos8, -90), #y axis aligned with camera now. z is up
+       (position_rotate_z, pos8, 30),
+       (position_rotate_x, pos8, -60),
+       (cur_tableau_add_sun_light, pos8, 155,155,155),
+     ]),
+
+# Lightsaber Test
+
+
+  ("init_lightsaber",
+    [
+    (store_script_param, ":agent_no", 1),
+    (store_script_param, ":troop_no", 2),
+    (store_script_param, ":sub_mesh", 3), #0 is torso, 1 is arm, 2 is legs
+    (store_script_param, ":sub_mats", 4), #0 is torso, 1 is arm, 2 is legs
+    (str_clear, s1),
+    #item parameters, 1 mesh variation and both are mandatory
+    (assign, "$g_custom_armor_param_count", 1),
+    (assign, "$g_custom_armor_mandatory", 1),
+    (try_begin),
+      (eq, ":sub_mesh", 0),
+      (is_between, ":sub_mats", 0, 5),
+      (store_add, ":value", ":sub_mats", "str_lightsaber_1h_base"),
+      (assign, "$g_custom_armor_param_count", 5),
+    (else_try),
+      (eq, ":sub_mesh", 1),
+      (is_between, ":sub_mats", 0, 6),
+      (store_add, ":value", ":sub_mats", "str_lightsaber_1h_blue"),
+      (assign, "$g_custom_armor_param_count", 6),
+    (else_try),
+      (assign, "$g_custom_armor_param_count", 0),
+      (assign, "$g_custom_armor_mandatory", 0),
+    (try_end),
+
+    (try_begin),
+      (neq, ":value", -1),
+      (str_store_string, s1, ":value"),
+    (try_end),
+     #(display_message, s1),
+    ]
+  ),
+
+  ("init_double_lightsaber",
+    [
+    (store_script_param, ":agent_no", 1),
+    (store_script_param, ":troop_no", 2),
+    (store_script_param, ":sub_mesh", 3), #0 is torso, 1 is arm, 2 is legs
+    (store_script_param, ":sub_mats", 4), #0 is torso, 1 is arm, 2 is legs
+    (str_clear, s1),
+    #item parameters, 1 mesh variation and both are mandatory
+    (assign, "$g_custom_armor_param_count", 1),
+    (assign, "$g_custom_armor_mandatory", 1),
+    (try_begin),
+      (eq, ":sub_mesh", 0),
+      (is_between, ":sub_mats", 0, 3),
+      (store_add, ":value", ":sub_mats", "str_lightsaber_double_base"),
+      (assign, "$g_custom_armor_param_count", 3),
+    (else_try),
+      (eq, ":sub_mesh", 1),
+      (is_between, ":sub_mats", 0, 6),
+      (store_add, ":value", ":sub_mats", "str_lightsaber_blue_double_top"),
+      (assign, "$g_custom_armor_param_count", 6),
+    (else_try),
+      (eq, ":sub_mesh", 2),
+      (is_between, ":sub_mats", 0, 6),
+      (store_add, ":value", ":sub_mats", "str_lightsaber_blue_double_bottom"),
+      (assign, "$g_custom_armor_param_count", 6),
+    (else_try),
+      (assign, "$g_custom_armor_param_count", 0),
+      (assign, "$g_custom_armor_mandatory", 0),
+    (try_end),
+
+    (try_begin),
+      (neq, ":value", -1),
+      (str_store_string, s1, ":value"),
+    (try_end),
+     #(display_message, s1),
+    ]
+  ),
+
  ]

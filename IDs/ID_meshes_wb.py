@@ -433,5 +433,6 @@ mesh_pic_troop_trees = 431
 mesh_pic_units_details = 432
 mesh_mp_inventory_choose = 433
 mesh_inv_slot = 434
+mesh_mp_score_a = 435
 
 

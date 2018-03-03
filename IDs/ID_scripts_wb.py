@@ -496,5 +496,8 @@ script_freelancer_start_deserter_quest = 494
 script_freelancer_pacify_quest_persuade = 495
 script_game_get_upgrade_xp = 496
 script_game_get_upgrade_cost = 497
+script_add_troop_to_custom_armor_tableau = 498
+script_init_lightsaber = 499
+script_init_double_lightsaber = 500
 
 
