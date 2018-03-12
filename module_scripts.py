@@ -32416,7 +32416,7 @@ if is_a_wb_script==1:
       (assign, "$cheat_imposed_quest", 0),
       (store_random_in_range, ":chance", 0, 135),
       (try_begin),
-        (le, ":chance", 100),
+        (le, ":chance", 20),
         (assign, ":continue", 0),
         (assign, "$cheat_imposed_quest", "qst_deliver_message"), #deliver Message
         (call_script, "script_get_random_quest", "$enlisted_lord"),
