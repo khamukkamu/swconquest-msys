@@ -1,4 +1,4 @@
-1146
+1151
 qstr_2006_2010_THE_STAR_W 2006-2010_THE_STAR_WARS_CONQUEST_DEV_TEAM
 qstr_This_Module_it_s_ded This_Module_it's_dedicated_to_every_person_who_believed_in_us.^^Their_valuable_Work_and_Support_have_inspired_Us_to_Make_this_bigger.^^The_Force_It's_Strong_with_you!_:-)
 qstr_Type_your_Faction_s_ Type_your_Faction's_name:
@@ -661,7 +661,10 @@ qstr_You_were_healed_for_ You_were_healed_for_20_hp_and_have_{reg1}_bacta_capsul
 qstr_You_are_not_hurt. You_are_not_hurt.
 qstr_Can_t_use_while_moun Can't_use_while_mounted!
 qstr_You_don_t_have_a_Jet You_don't_have_a_Jetpack_or_Force_Jump_in_inventory!
-qstr_{s1}_switched_to_{s2 {s1}_switched_to_{s2}
+qstr___Stun_ _(Stun)
+qstr_Damage:_{reg3}{s12}_ Damage:_{reg3}{s12}_--_Accuracy:_{reg5},_--_Velocity:_{reg7}_--_Fire_Rate:_{reg4}
+qstr_Damage:_{reg3}{s12} Damage:_{reg3}{s12}
+qstr_Switched_to_{s2}_Mod Switched_to_{s2}_Mode:_{s12}
 qstr_You_have_attacked_a_ You_have_attacked_a_citizen_and_are_now_wanted_by_the_local_authorities!
 qstr_Alert Alert
 qstr_All_enemies_at_this_ All_enemies_at_this_location_have_been_defeated!
@@ -679,6 +682,8 @@ qstr_{reg3?{s1}_s_proficienc {reg3?{s1}'s_proficiency_in_archery_has_improved_by
 qstr_{reg3?{s1}_s_proficiency {reg3?{s1}'s_proficiency_in_crossbow_has_improved_by_{reg2}_to_{reg1}.:{s1}'s_crossbow_proficiency_have_reach_to_{reg1}.}
 qstr_{reg3?{s1}_s_proficiency_ {reg3?{s1}'s_proficiency_in_throwing_has_improved_by_{reg2}_to_{reg1}.:{s1}'s_throwing_proficiency_have_reach_to_{reg1}.}
 qstr_{reg3?{s1}_s_proficiency_i {reg3?{s1}'s_proficiency_in_firearms_has_improved_by_{reg2}_to_{reg1}.:{s1}'s_firearm_proficiency_have_reach_to_{reg1}.}
+qstr_Zoom_Camera Zoom_Camera
+qstr_Default_Camera Default_Camera
 qstr_You_have_fallen_in_b You_have_fallen_in_battle._You_can_watch_the_rest_of_the_fight_or_press_tab_to_exit
 qstr_You_have_fallen_in_ba You_have_fallen_in_battle._Watch_the_rest_of_the_fight_or_press_tab_to_exit
 qstr_Tutorial Tutorial

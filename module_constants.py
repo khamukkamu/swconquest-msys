@@ -1586,3 +1586,16 @@ custom_item_color_bits = 4
 message_positive = 0x33FF33
 message_negative = 0xFF3333
 message_neutral = 0xFFFF33
+
+
+#autofire begin
+slot_agent_firearm_wander = 30
+slot_agent_autofire_ready = 31
+#autofire end
+
+#autofire begin
+slot_item_accuracy = 62
+slot_item_shoot_speed = 63
+slot_item_speed_rating = 64
+slot_item_sound = 65
+#autofire end

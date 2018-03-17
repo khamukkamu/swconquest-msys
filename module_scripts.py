@@ -40,6 +40,31 @@ def gen_ammodb():
       ammoclip_db.append( (item_set_slot,"itm_"+item[0],slot_item_ammo_clip,get_max_ammo(item[6])) )
   return ammoclip_db
 
+######################################################################
+##################### ADD THESE BELOW OTHER IMPORTS ##################
+################# THESE STORE ITEM STATS IN ITEM_SLOTS ###############
+######################################################################
+from module_items import *
+   
+def get_item_accuracy():
+   item_accuracy = []
+   for i_item in xrange(len(items)):
+    item_accuracy.append((item_set_slot, i_item, slot_item_accuracy, get_leg_armor(items[i_item][6])))
+   return item_accuracy[:]
+
+def get_item_shoot_speed():
+   item_shoot_speed = []
+   for i_item in xrange(len(items)):
+    item_shoot_speed.append((item_set_slot, i_item, slot_item_shoot_speed, get_missile_speed(items[i_item][6])))
+   return item_shoot_speed[:]
+
+def get_item_speed_rating():
+   item_speed_rating = []
+   for i_item in xrange(len(items)):
+    item_speed_rating.append((item_set_slot, i_item, slot_item_speed_rating, get_speed_rating(items[i_item][6])))
+   return item_speed_rating[:]
+
+
 scripts = [
   
   #script_game_start:
@@ -69,6 +94,8 @@ scripts = [
       (assign, "$g_next_pay_time", 0), #Freelancer - Init Paytime
       (assign, "$freelancer_enhanced_upgrade", 1), #Freelancer - Default to Advanced Upgrade system
       (assign, "$freelancer_missions", 1), #Allow Freelancer Missions
+      #Custom Camera Initialize  
+      (call_script, "script_init_camera"),
       
       #assign default keys
       (assign, "$crouch_key", key_left_alt),
@@ -32879,5 +32906,99 @@ if is_a_wb_script==1:
      #(display_message, s1),
     ]
   ),
+
+
+########################################################################
+##################### FIRES WEAPON BASED ON STATS ######################
+########################################################################
+   ("fire_auto_weapon",[
+      (store_script_param, ":shooter_agent", 1),
+      (store_script_param, ":shooter_weapon", 2),
+      (store_script_param, ":shooter_ammo", 3),
+
+  (item_get_slot, ":auto_accuracy", ":shooter_weapon", slot_item_accuracy),
+      (store_sub, ":inaccuracy", 100, ":auto_accuracy"),
+
+#################### CALCULATE AGENT INACCURACY #######################
+      (agent_get_troop_id, ":shooter_troop", ":shooter_agent"),
+      (store_proficiency_level, ":firing_skill", ":shooter_troop", wpt_firearm),
+      (store_sub, ":firing_disability", 500, ":firing_skill"),
+      (val_div, ":firing_disability", 10),
+
+########################### CALCULATE WANDER ##########################
+      (item_get_slot, ":weapon_speed", ":shooter_weapon", slot_item_speed_rating),
+      (store_sub, ":weapon_recoil", 150, ":weapon_speed"),
+      (assign, ":max_recoil", ":weapon_recoil"),
+  (val_div, ":weapon_recoil", 3),
+      (agent_get_slot, ":wander", ":shooter_agent", slot_agent_firearm_wander),
+      (val_add, ":wander", ":weapon_recoil"),
+      (val_clamp, ":wander", 0, ":max_recoil"),
+      (agent_set_slot, ":shooter_agent", slot_agent_firearm_wander, ":wander"),
+  
+      (agent_get_animation, ":cur_anim", ":shooter_agent", 0),
+############### INCREASE INACCURACY DUE TO MOVEMENT ###################
+      (try_begin),
+         (is_between, ":cur_anim", "anim_run_forward", "anim_stand_to_crouch"),
+         (val_mul, ":wander", 2),
+      (try_end),
+################# INCREASE INACCURACY DUE TO JUMP #####################
+      (try_begin),
+         (is_between, ":cur_anim", "anim_jump", "anim_stand_unarmed"),
+         (val_mul, ":wander", 3),
+      (try_end),
+
+      (val_add, ":wander", ":firing_disability"),
+  (val_div, ":wander", 3),
+      (val_add, ":inaccuracy", ":wander"),
+
+############# RAISE POS TO EYE LEVEL & MOVE TO END OF GUN ###############
+      (agent_get_look_position, pos1, ":shooter_agent"),
+      (position_move_y, pos1, 80, 0),
+
+      (try_begin),
+         (agent_get_horse, ":horse", ":shooter_agent"),
+         (gt, ":horse", 0),
+         (position_move_z, pos1, 240, 0),
+      (else_try),
+         (position_move_z, pos1, 150, 0),
+      (try_end),
+
+#################### SOUNDS AND PARTICLES PLAY HERE #####################
+      (item_get_slot, ":sound_id", ":shooter_weapon", slot_item_sound),
+      (agent_play_sound, ":shooter_agent", ":sound_id"),
+
+############ GET INITIAL RANDOMIZED BULLET ANGLE ROTATION ###############
+      (store_random_in_range, ":y_rotation", 0, 360),
+      (position_rotate_y, pos1, ":y_rotation"),
+         
+#################### SPAWN BULLET WITH INACCURACY #######################
+      (store_random_in_range, ":x_inaccuracy", 0, ":inaccuracy"),
+      (set_fixed_point_multiplier, 10),
+      (position_rotate_x_floating, pos1, ":x_inaccuracy"),
+
+  (item_get_slot, ":velocity", ":shooter_weapon", slot_item_shoot_speed),
+      (val_sub, ":velocity", 50), #Balancing
+      (set_fixed_point_multiplier, 1),
+  (add_missile, ":shooter_agent", pos1, ":velocity", ":shooter_weapon", 0, ":shooter_ammo", 0),
+   ]),
+   
+   
+#########################################################################
+################ SCRIPT TO SET ITEM STATS TO ITEM_SLOTS #################
+#########################################################################
+("init_item_accuracy", get_item_accuracy()),
+("init_item_shoot_speed", get_item_shoot_speed()),
+("init_item_speed_rating", get_item_speed_rating()),
+
+  
+
+ #### Custom Camera Scripts by dunde, implemented by Kham
+("init_camera",
+ [(assign, "$key_camera_toggle",      key_right_mouse_button),             # RMB key to toggle camera mode.
+  (assign, "$cam_free", 0),
+  (assign, "$g_camera_z", 180),       
+  (assign, "$g_camera_y", 2000),
+ ]),
+
 
  ]

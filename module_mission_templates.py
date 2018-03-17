@@ -539,6 +539,11 @@ mission_templates = [
       common_crouch_button,
       #common_turret, -> unstable
       common_gate_system,
+      ### Auto fire ####
+      common_init_auto_fire,
+      common_auto_fire_held,
+      common_auto_fire_clicked,
+      common_auto_fire,
      ]+common_helmet_view,
     ),
 
@@ -1301,6 +1306,7 @@ mission_templates = [
       common_timer,
       common_physics,
       #Highlander end--------------------------------------
+    
 
       (ti_on_agent_spawn, 0, 0, [],
        [
@@ -1463,7 +1469,7 @@ mission_templates = [
       #SWY - trigger to make unique agents behavior - custom scripting
       (0.352, 0, ti_once, [], [(call_script,"script_swy_unique_units_stuff",-1)]),
       common_gate_system,
-    ]+common_helmet_view,
+    ]+common_helmet_view + kham_iron_sights_triggers,
   ),
 
 #########################################################################################################################

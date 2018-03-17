@@ -39,6 +39,114 @@ from header_items import *
 #
 ####################################################################################################################
 
+####################################################################
+####################### INITIALIZE AUTOFIRE ########################
+####################################################################
+common_init_auto_fire = (ti_after_mission_start, 0, ti_once, [], 
+    [
+
+############### NEEDED TO PREVENT UNINITIALIZE SLOTS ###############
+      (call_script, "script_init_item_accuracy"),
+      (call_script, "script_init_item_shoot_speed"),
+      (call_script, "script_init_item_speed_rating"),
+    ])
+
+common_auto_fire_held = (
+   0.1, 0.5, 0, [ # adjust the delay to match the time it takes to play the ready animation
+  (game_key_is_down, gk_attack),
+   ],[
+      (get_player_agent_no, ":shooter_agent"),
+  (agent_set_slot, ":shooter_agent", slot_agent_autofire_ready, 1),
+    ])
+
+common_auto_fire_clicked = (
+   0.1, 0, 0, [
+      (get_player_agent_no, ":shooter_agent"),
+      (agent_get_animation, ":shooter_stance", ":shooter_agent", 1),
+      (this_or_next|eq, ":shooter_stance", "anim_reload_crossbow"),
+      (this_or_next|eq, ":shooter_stance", "anim_reload_musket"),
+      (this_or_next|eq, ":shooter_stance", "anim_reload_pistol"),
+  (neg|game_key_is_down, gk_attack),
+   ],[
+      (get_player_agent_no, ":shooter_agent"),
+  (agent_set_slot, ":shooter_agent", slot_agent_autofire_ready, 0),
+    ])
+
+####################################################################
+################## CHECK IF BULLET CAN BE FIRED ####################
+####################################################################
+common_auto_fire = (
+   0.1, 0, 0, [],
+   [
+      (try_for_agents, ":shooter_agent"),
+         (agent_is_alive, ":shooter_agent"),
+         (try_begin),
+############# CHECK IF AGENT WIELDS AN AUTOFIRE WEAPON #############
+            (agent_get_wielded_item, ":cur_weapon", ":shooter_agent", 0),
+            (is_between, ":cur_weapon", "itm_a280", "itm_dh17"),
+
+########### CHECK IF AGENT IS IN READY WEAPON ANIMATION ############
+            (agent_get_animation, ":shooter_stance", ":shooter_agent", 1),
+            (this_or_next|eq, ":shooter_stance", "anim_ready_bow"),
+            (this_or_next|eq, ":shooter_stance", "anim_ready_crossbow"),
+            (this_or_next|eq, ":shooter_stance", "anim_ready_javelin"),
+            (this_or_next|eq, ":shooter_stance", "anim_ready_pistol"),
+            (eq, ":shooter_stance", "anim_ready_musket"), 
+
+
+(assign, ":ready_flag", 0),
+(try_begin), #Limits the AI to burst firing
+   (agent_is_non_player, ":shooter_agent"),
+   (agent_get_combat_state, ":cur_state", ":shooter_agent"),
+   (eq, ":cur_state", 3),
+   (assign, ":ready_flag", 1),
+(else_try), #Check if a player has held down the attack button
+   (neg|agent_is_non_player, ":shooter_agent"),
+   (agent_slot_eq, ":shooter_agent", slot_agent_autofire_ready, 1),
+   (assign, ":ready_flag", 1),
+(try_end),
+(eq, ":ready_flag", 1),
+
+################## FIND WEAPON AND SET AMMO TYPE ##################
+            (try_for_range, ":cur_slot", 0, 4),
+               (agent_get_item_slot, ":cur_item", ":shooter_agent", ":cur_slot"),
+               (try_begin),
+                (eq, ":cur_item", ":cur_weapon"),
+                (assign, ":weapon_slot", ":cur_slot"),
+              (else_try),
+                (is_between, ":cur_item", "itm_laser_bolts_green_rifle", "itm_laser_bolts_training_pistol"),
+                (assign, ":ammo_item", ":cur_item"),
+              (try_end),
+            (try_end),
+
+############################ REDUCE AMMO ###########################
+            (try_begin),
+               (agent_get_ammo_for_slot, ":ammo", ":shooter_agent", ":weapon_slot"),
+               (gt, ":ammo", 0),
+               (val_sub, ":ammo", 1),
+               (agent_set_ammo, ":shooter_agent", ":cur_weapon", ":ammo"),
+
+####################### SET FIRING ANIMATION #######################
+                (try_begin),
+                  (item_has_capability, ":cur_weapon", itcf_shoot_crossbow),
+                  (neq, ":cur_weapon", "itm_z6"),
+                  (agent_set_animation, ":shooter_agent", "anim_release_crossbow", 1),  
+               (else_try),                 
+                  (agent_set_animation, ":shooter_agent", "anim_release_musket", 1),
+               (try_end),
+               (call_script, "script_fire_auto_weapon", ":shooter_agent", ":cur_weapon", ":ammo_item"),
+            (try_end),
+         (else_try),
+################## REDUCES RECOIL FOR ALL AGENTS ###################
+            (agent_get_slot, ":wander", ":shooter_agent", slot_agent_firearm_wander),
+            (val_sub, ":wander", 20),
+            (val_min, ":wander", 0),
+            (agent_set_slot, ":shooter_agent", slot_agent_firearm_wander, ":wander"),
+         (try_end),
+      (try_end),
+   ])
+
+
 ####>>>>>>>
 #Motomataru's new AI
 common_ranged_avoid_melee =  (.3, 0, 0, [], [(call_script, "script_ranged_avoid_melee")])
@@ -1727,42 +1835,20 @@ common_toggle_weapon_capabilities = (0, 0, 0, [
   #(key_clicked, key_t),
   (key_clicked, "$toggle_weapon_key"),
   (neg|conversation_screen_is_active),
+  (get_player_agent_no, ":player_agent"),
+  (agent_get_wielded_item,":wielded_item",":player_agent",0),
+  (gt,":wielded_item",-1),
+  (item_slot_ge, ":wielded_item", slot_item_alternate_weapon, 1),  #see if the item has an alternate weapon slot defined
   ],
+  
   [
+
+
     (get_player_agent_no, ":player_agent"),
     (agent_is_alive, ":player_agent"),
     #clear the strings
     (str_clear, s1),(str_clear, s2),(str_clear, s10),(str_clear, s11),(str_clear, s12),(str_clear, s13),
     (assign, "$show_switch_weapon_dialog", 0),
-    #old code concept below that switches all weapons
-    # (try_for_range, ":slot_no", 0, 4),
-      # (troop_get_inventory_slot, ":item", "$g_player_troop",":slot_no"),  #since custom commander is integrated
-      # (try_begin),
-        # (ge, ":item", 0),  #don't check empty item slots
-        # (item_slot_ge, ":item", slot_item_alternate_weapon, 1),  #see if the item has an alternate weapon slot defined
-        # (item_get_slot, ":alternate_weapon", ":item", slot_item_alternate_weapon),  #get the alternate weapon
-        # (troop_get_inventory_slot_modifier, ":modifier", "$g_player_troop", ":slot_no"),  #get the modifier
-        # (troop_set_inventory_slot, "$g_player_troop", ":slot_no", ":alternate_weapon"),  #set the alternate weapon
-        # (troop_set_inventory_slot_modifier, "$g_player_troop", ":slot_no", ":modifier"),  #set the modifier
-        # #record the names to display in the dialog later
-        # (str_store_item_name, s1, ":item"),
-        # (str_store_item_name, s2, ":alternate_weapon"),
-        # (try_begin),
-          # (eq, ":slot_no", 0),
-          # (str_store_string, s10, "@{s1} switched to {s2}"),
-        # (else_try),
-          # (eq, ":slot_no", 1),
-          # (str_store_string, s11, "@{s1} switched to {s2}"),
-        # (else_try),
-          # (eq, ":slot_no", 2),
-          # (str_store_string, s12, "@{s1} switched to {s2}"),
-        # (else_try),
-          # (eq, ":slot_no", 3),
-          # (str_store_string, s13, "@{s1} switched to {s2}"),
-        # (try_end),
-        # (assign, "$show_switch_weapon_dialog", 1),
-      # (try_end),
-    # (try_end),
     (agent_get_wielded_item,":wielded_item",":player_agent",0),
     (try_begin),
       (gt,":wielded_item",-1),
@@ -1777,14 +1863,40 @@ common_toggle_weapon_capabilities = (0, 0, 0, [
         #record the names to display in the dialog later
         (str_store_item_name, s1, ":wielded_item"),
         (str_store_item_name, s2, ":alternate_weapon"),
-        (str_store_string, s10, "@{s1} switched to {s2}"),
-        (assign, "$show_switch_weapon_dialog", 1),
+        (item_get_thrust_damage, reg3, ":alternate_weapon"),
+        (item_get_speed_rating, reg4, ":alternate_weapon"),
+        (item_get_accuracy, reg5, ":alternate_weapon"),
+        (item_get_missile_speed, reg7, ":alternate_weapon"),
+        (item_get_thrust_damage_type, reg6, ":alternate_weapon"), #0 =cut; 1= Pierce, 2 = Blunt    
+        (try_begin),
+          (eq, reg6, 2),
+          (str_store_string, s11, "@ (Stun)"),
+        (else_try),
+          (str_store_string, s11, "@ "),
+        (try_end),    
+        (try_begin),
+          (is_between, ":alternate_weapon", "itm_ranged_weapons_begin", "itm_ranged_weapons_end"),
+          (str_store_string, s12, "@Damage: {reg3}{s12} -- Accuracy: {reg5}, -- Velocity: {reg7} -- Fire Rate: {reg4}"),
+        (else_try),
+          (str_store_string, s12, "@Damage: {reg3}{s12}"),
+        (try_end),
+        (str_store_string, s10, "@Switched to {s2} Mode: {s12}", message_neutral),
       (try_end),
     (try_end),
+    (item_get_type, ":item_type", ":wielded_item"),
     (try_begin),
-      (eq, "$show_switch_weapon_dialog", 1),
-      (start_mission_conversation, "$g_player_troop"),  #workaround since weapons don't automatically switch
+      (eq, ":item_type", itp_type_crossbow),
+      (agent_set_animation, ":player_agent",  "anim_unequip_bayonet",1),
+    (else_try),
+      (eq, ":item_type", itp_type_pistol),
+      (agent_set_animation, ":player_agent",  "anim_equip_bayonet",1),
+    (else_try),
+      (agent_set_animation, ":player_agent", "anim_alt_sword", 1),
     (try_end),
+    (agent_unequip_item, ":player_agent", ":wielded_item"),
+    (agent_equip_item, ":player_agent", ":alternate_weapon"),
+    (agent_set_wielded_item, ":player_agent", ":alternate_weapon"),
+    (display_message, "@{s10}", color_good_news),
   ])
 #--------------------------------------------------------------------------------------------------------------------------------------------------
 # #SW - new player_damage
@@ -2223,10 +2335,90 @@ common_use_jetpack = (0, 0, 0, [
 
   ])
 #--------------------------------------------------------------------------------------------------------------------------------------------------
+
+kham_iron_sights_triggers = [
+ #-- numeric constants
+
+ # cam_mode_default = 0
+ # cam_mode_free    = 1
+ # cam_mode_fixed   = 2
+
+  #-- camera_init
+  (0, 0, ti_once,
+  [
+    (get_player_agent_no, "$cam_current_agent"),
+    (gt,                  "$cam_current_agent", -1)
+  ],
+  [
+    (assign, "$cam_free",   0),
+    (assign, "$g_camera_z", 180),
+  ]),
+
+#-- camera_set
+  (0, 0, 0,
+  [ 
+    (get_player_agent_no, ":player"),
+    (agent_get_wielded_item, ":weapon", ":player", 0),
+    (is_between, ":weapon", "itm_a280", "itm_dh17"), #Rifles only
+    (key_clicked, "$key_camera_toggle"),
+    (lt, "$cam_mode", 2),
+  ],
+  # toggling only when camera mode = 0, 1, 2 (3 = disable); shoot_mode = 1 temporarily disable toggling
+  [
+    (try_begin),
+      (eq,     "$cam_mode", 0),
+      (assign, "$cam_mode", 1),
+      (display_message, "@Zoom Camera"),
+    (else_try),
+      (eq, "$cam_mode", 1),
+      (assign, "$cam_mode", 0),
+      (display_message, "@Default Camera"),
+    (try_end),
+
+    (mission_cam_set_mode, "$cam_mode"),
+  ]),
+
+   #-- camera_mode
+  (0, 0, 0, [],
+  [
+    (try_begin),
+      (eq, "$cam_mode", 1),
+      (set_fixed_point_multiplier, 100),
+      (agent_get_look_position, pos7, "$cam_current_agent"),
+      (position_get_rotation_around_x, ":angle", pos7),
+      (store_sub, ":reverse", 0, ":angle"),
+      (position_rotate_x, pos7, ":reverse"),
+      (position_move_y, pos7, "$g_camera_y"),
+      (position_move_z, pos7, "$g_camera_z"),
+      (agent_get_horse, ":horse_agent", "$cam_current_agent"),
+      (try_begin),
+        (ge, ":horse_agent", 0),
+        (position_move_z, pos7, 50),
+      (try_end),
+      (store_mul, ":reverse", 1, "$g_camera_y"),
+      (store_atan2, ":drop", "$g_camera_z", ":reverse"),
+      (convert_from_fixed_point, ":drop"),
+      (val_sub, ":angle", ":drop"),
+      (val_add, ":angle", 5),
+      (position_rotate_x, pos7, ":angle"),
+      (mission_cam_animate_to_position, pos7, 100, 0),
+      (start_presentation, "prsnt_iron_sights"),
+    (else_try),
+      (lt, "$cam_mode", 2),
+      (main_hero_fallen),
+      (agent_get_position, 1, "$cam_current_agent"),
+      (get_player_agent_no,   ":player_agent"),
+      (agent_set_position,    ":player_agent", 1),
+    (try_end),
+  ]),
+
+]
+
+
 #SW - zoom in/out code by jik and WilliamBerne - http://forums.taleworlds.net/index.php/topic,68192.0.html - modified further by HokieBT
 common_use_binocular_1 = (0, 0, 0, [
-  #(key_clicked, key_b),
-  (key_clicked, "$binoculars_key"),
+  (key_clicked, key_b),
+  #(key_clicked, "$binoculars_key"),
   (neg|conversation_screen_is_active),
   ],
   [
@@ -2308,7 +2500,7 @@ common_use_binocular_2 = (
       (try_begin),
         (ge, ":player_horse", 0),
         (agent_is_alive, ":player_horse"),  #so we don't try dead agents
-        (agent_set_animation, ":player_horse", "anim_unused_horse_anim_1"),  #so the horse doesn't move, must include module_animations at the top of the python file
+        (agent_set_animation, ":player_horse", "anim_unused_horse_anim_01"),  #so the horse doesn't move, must include module_animations at the top of the python file
       (try_end),
       #(try_for_agents, ":cur_agent"),
       #  (agent_is_alive, ":cur_agent"),  #so we don't try dead agents
@@ -2808,5 +3000,6 @@ tournament_triggers = [
          (try_end),
        (try_end),
        ]),
+
 
   ]

@@ -499,5 +499,10 @@ script_game_get_upgrade_cost = 497
 script_add_troop_to_custom_armor_tableau = 498
 script_init_lightsaber = 499
 script_init_double_lightsaber = 500
+script_fire_auto_weapon = 501
+script_init_item_accuracy = 502
+script_init_item_shoot_speed = 503
+script_init_item_speed_rating = 504
+script_init_camera = 505
 
 

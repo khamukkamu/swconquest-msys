@@ -689,3 +689,9 @@ g_presentation_obj_item_select_3
 g_presentation_obj_profile_banner_selection_1
 g_presentation_obj_profile_banner_selection_2
 g_custom_armor_angle
+cam_current_agent
+cam_free
+g_camera_z
+cam_mode
+key_camera_toggle
+g_camera_y

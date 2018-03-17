@@ -860,11 +860,12 @@ animations = [
  ["release_musket", acf_rot_vertical_bow|acf_anim_length(100), amf_priority_attack|amf_use_weapon_speed|amf_play|amf_client_owner_prediction|amf_rider_rot_crossbow,
    [0.1, "new_rifle_crouch", combat+1330, combat+1331, arf_blend_in_1],
  ],
- ["reload_musket", 0, amf_priority_reload|amf_use_weapon_speed|amf_play,
+ 
+["reload_musket", 0, amf_priority_reload|amf_use_weapon_speed|amf_play,
   #[2.0, "anim_human", combat+2650, combat+2860, arf_blend_in_8],
-  #[1.5, "anim_human", combat+1745, combat+1750, arf_blend_in_8|arf_make_custom_sound, pack2f(0.40, 0.94)],		#from reload_crossbow
-  #[2.2, "reloadpistol", 0, 15, arf_blend_in_8|arf_make_custom_sound, pack2f(0.40, 0.94)],		#Lucke189_animations
-   [2.4, "reload", 0, 39, arf_blend_in_8|arf_make_custom_sound, pack2f(0.40, 0.94)],		#Lucke189_animations
+  #[1.5, "anim_human", combat+1745, combat+1750, arf_blend_in_8|arf_make_custom_sound, pack2f(0.40, 0.94)],   #from reload_crossbow
+  #[2.2, "reloadpistol", 0, 15, arf_blend_in_8|arf_make_custom_sound, pack2f(0.40, 0.94)],    #Lucke189_animations
+   [2.4, "reload", 0, 39, arf_blend_in_8|arf_make_custom_sound, pack2f(0.40, 0.94)],    #Lucke189_animations
  ],
 
  ["ready_swingright_fist", 0, amf_priority_attack|amf_use_weapon_speed|amf_keep|amf_client_owner_prediction|amf_rider_rot_swing_right,
@@ -1891,19 +1892,21 @@ animations = [
  ],
 
 
-
  ### Unused human animations start from here.
- ["equip_bayonet", 0, amf_priority_equip|amf_play|amf_restart|amf_client_prediction,
-  [1.0, "anim_human", 0, 1, 0]],
+ ["equip_bayonet", 0, amf_priority_equip|amf_play|amf_restart|amf_client_prediction, 
+  [0.2, "greatsword_cstance", 0, 91, arf_blend_in_0|arf_make_custom_sound, pack2f(0.40, 0.94)]], #Weapon Mode Toggle Pistol
 ##   [0.8, "equip_arms", 253, 276, arf_blend_in_0]],
- ["unequip_bayonet", 0, amf_priority_equip|amf_play|amf_restart|amf_client_prediction,
-  [1.0, "anim_human", 0, 1, 0]],
+ ["unequip_bayonet", 0, amf_priority_striked|amf_play|amf_restart|amf_client_prediction,
+  [0.2, "new_rifle_stand", 0, 99, arf_blend_in_0|arf_make_custom_sound, pack2f(0.40, 0.94)]], #Weapon Mode Toggle Rifle
 ##   [0.2, "equip_arms", 254, 250, arf_blend_in_0]],
+
+ ["alt_sword", 0, amf_priority_striked|amf_play|amf_restart|amf_client_prediction,
+  [0.2, "sword_loop01", 0, 200, arf_blend_in_0]], #Weapon Mode Toggle Sword
 
 
  ### Unused human animations start from here.
 #["unused_human_anim_01", 0, 0, [1.0, "anim_human", 0, 1, 0]],
- ["unused_human_anim_02", 0, 0, [1.0, "anim_human", 0, 1, 0]],
+ #["unused_human_anim_02", 0, 0, [1.0, "anim_human", 0, 1, 0]],
  ["unused_human_anim_03", 0, 0, [1.0, "anim_human", 0, 1, 0]],
  ["unused_human_anim_04", 0, 0, [1.0, "anim_human", 0, 1, 0]],
  ["unused_human_anim_05", 0, 0, [1.0, "anim_human", 0, 1, 0]],

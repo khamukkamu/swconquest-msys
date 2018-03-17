@@ -2472,7 +2472,7 @@ items = [
 #SW - now using itcf_throw_javelin for e11(itcf_shoot_javelin doesn't work, had to rotate the mesh as well) 
 #["e11", "E-11", [("e11_new_javelin",0),("e11_new_inventory",ixmesh_inventory)], itp_type_crossbow|itp_two_handed |itp_merchandise|itp_primary|itp_bonus_against_shield,itcf_throw_javelin|itcf_carry_spear|itcf_reload_pistol, 
 #removed merch flag since there are two e11's
-["e11", "E-11", [("e11_new",0),("e11_new_inventory",ixmesh_inventory)], itp_type_crossbow|itp_two_handed|itp_primary|itp_bonus_against_shield,itcf_shoot_crossbow|itcf_carry_spear|itcf_reload_pistol, 
+["e11", "E-11", [("e11_new",0),("e11_new_inventory",ixmesh_inventory)], itp_type_crossbow|itp_two_handed|itp_primary|itp_next_item_as_melee|itp_bonus_against_shield,itcf_shoot_crossbow|itcf_carry_spear|itcf_reload_pistol, 
 	1000 , weight(4.5)|abundance(100)|difficulty(0)|spd_rtng(110) | shoot_speed(160) | thrust_damage(36 ,pierce)|max_ammo(100)|accuracy(92),imodbits_gun,
 	[(ti_on_weapon_attack, [(play_sound,"snd_bigblaster15_variant"),(position_move_x, pos1,12),(position_move_y, pos1,15)]
 	+#<muzzleflare system>#

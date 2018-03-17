@@ -60,6 +60,8 @@ get_operation_set_version       = 55 # (get_operation_set_version, <destination>
 
 set_result_string               = 60  # sets the result string for game scripts that need one (set_result_string, <string_id>),
 
+set_camera_in_first_person      = 62  # (set_camera_in_first_person, <value>), # 1 = first, 0 = third person
+
 game_key_get_mapped_key_name    = 65  # (game_key_get_mapped_key_name, <string_register>, <game_key>),
 
 key_is_down                     = 70  # fails if the key is not currently down (key_is_down, <key_id>),
