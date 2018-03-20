@@ -503,6 +503,7 @@ script_fire_auto_weapon = 501
 script_init_item_accuracy = 502
 script_init_item_shoot_speed = 503
 script_init_item_speed_rating = 504
-script_init_camera = 505
+script_init_get_autofire_weapons = 505
+script_init_camera = 506
 
 

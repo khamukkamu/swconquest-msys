@@ -1,4 +1,4 @@
-1151
+1154
 qstr_2006_2010_THE_STAR_W 2006-2010_THE_STAR_WARS_CONQUEST_DEV_TEAM
 qstr_This_Module_it_s_ded This_Module_it's_dedicated_to_every_person_who_believed_in_us.^^Their_valuable_Work_and_Support_have_inspired_Us_to_Make_this_bigger.^^The_Force_It's_Strong_with_you!_:-)
 qstr_Type_your_Faction_s_ Type_your_Faction's_name:
@@ -662,8 +662,8 @@ qstr_You_are_not_hurt. You_are_not_hurt.
 qstr_Can_t_use_while_moun Can't_use_while_mounted!
 qstr_You_don_t_have_a_Jet You_don't_have_a_Jetpack_or_Force_Jump_in_inventory!
 qstr___Stun_ _(Stun)
-qstr_Damage:_{reg3}{s12}_ Damage:_{reg3}{s12}_--_Accuracy:_{reg5},_--_Velocity:_{reg7}_--_Fire_Rate:_{reg4}
-qstr_Damage:_{reg3}{s12} Damage:_{reg3}{s12}
+qstr_Damage:_{reg3}{s11}_ Damage:_{reg3}{s11}_-_Accuracy:_{reg5},_-_Velocity:_{reg7}_-_Fire_Rate:_{reg4}
+qstr_Damage:_{reg3}{s11} Damage:_{reg3}{s11}
 qstr_Switched_to_{s2}_Mod Switched_to_{s2}_Mode:_{s12}
 qstr_You_have_attacked_a_ You_have_attacked_a_citizen_and_are_now_wanted_by_the_local_authorities!
 qstr_Alert Alert
@@ -671,6 +671,10 @@ qstr_All_enemies_at_this_ All_enemies_at_this_location_have_been_defeated!
 qstr_Success Success
 qstr_Cannot_leave_now. Cannot_leave_now.
 qstr_As_you_land_your_shi As_you_land_your_ship_you_notice_that_this_area_is_under_attack!
+qstr_Firing_Mode:_Semi_Au Firing_Mode:_Semi-Auto
+qstr_Firing_Mode:_Full_Au Firing_Mode:_Full-Auto
+qstr_No_firing_mode_optio No_firing_mode_option_available
+qstr_Autofire_Weapon_Deal Autofire_Weapon_Dealt_{reg1}_damage,_Original_Damage_{reg2}
 qstr_You_have_been_knocke You_have_been_knocked_out_by_the_enemy._Watch_your_men_continue_the_fight_without_you_or_press_Tab_to_retreat.
 qstr_If_you_choose_to_wat If_you_choose_to_watch_the_fight_you_can_use_the_'{s1}'_and_'{s2}'_keys_to_change_your_camera_view.
 qstr_A_Power_Droid_refill A_Power_Droid_refilled_your_ammo!
@@ -682,8 +686,6 @@ qstr_{reg3?{s1}_s_proficienc {reg3?{s1}'s_proficiency_in_archery_has_improved_by
 qstr_{reg3?{s1}_s_proficiency {reg3?{s1}'s_proficiency_in_crossbow_has_improved_by_{reg2}_to_{reg1}.:{s1}'s_crossbow_proficiency_have_reach_to_{reg1}.}
 qstr_{reg3?{s1}_s_proficiency_ {reg3?{s1}'s_proficiency_in_throwing_has_improved_by_{reg2}_to_{reg1}.:{s1}'s_throwing_proficiency_have_reach_to_{reg1}.}
 qstr_{reg3?{s1}_s_proficiency_i {reg3?{s1}'s_proficiency_in_firearms_has_improved_by_{reg2}_to_{reg1}.:{s1}'s_firearm_proficiency_have_reach_to_{reg1}.}
-qstr_Zoom_Camera Zoom_Camera
-qstr_Default_Camera Default_Camera
 qstr_You_have_fallen_in_b You_have_fallen_in_battle._You_can_watch_the_rest_of_the_fight_or_press_tab_to_exit
 qstr_You_have_fallen_in_ba You_have_fallen_in_battle._Watch_the_rest_of_the_fight_or_press_tab_to_exit
 qstr_Tutorial Tutorial
@@ -753,6 +755,7 @@ qstr_dusk dusk
 qstr_evening evening
 qstr_midnight midnight
 qstr_You_are_currently_vie You_are_currently_viewing_{s8}_({reg2}%).
+qstr_Item_Given Item_Given
 qstr_Enlisted_Lord_Set_to Enlisted_Lord_Set_to_Vader,_Player_now_Sergeant
 qstr_Enlisted_Lord_Set_to_ Enlisted_Lord_Set_to_Vader
 qstr_Enlisted_Lord_Set_to_V Enlisted_Lord_Set_to_Vader_-_Now_a_Sarge

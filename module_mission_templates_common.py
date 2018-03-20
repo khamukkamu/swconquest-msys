@@ -49,6 +49,7 @@ common_init_auto_fire = (ti_after_mission_start, 0, ti_once, [],
       (call_script, "script_init_item_accuracy"),
       (call_script, "script_init_item_shoot_speed"),
       (call_script, "script_init_item_speed_rating"),
+      (call_script, "script_init_get_autofire_weapons"), #kham
     ])
 
 common_auto_fire_held = (
@@ -84,6 +85,7 @@ common_auto_fire = (
 ############# CHECK IF AGENT WIELDS AN AUTOFIRE WEAPON #############
             (agent_get_wielded_item, ":cur_weapon", ":shooter_agent", 0),
             (is_between, ":cur_weapon", "itm_a280", "itm_dh17"),
+            (item_slot_eq, ":cur_weapon", slot_item_has_autofire, 1),
 
 ########### CHECK IF AGENT IS IN READY WEAPON ANIMATION ############
             (agent_get_animation, ":shooter_stance", ":shooter_agent", 1),
@@ -129,7 +131,6 @@ common_auto_fire = (
 ####################### SET FIRING ANIMATION #######################
                 (try_begin),
                   (item_has_capability, ":cur_weapon", itcf_shoot_crossbow),
-                  (neq, ":cur_weapon", "itm_z6"),
                   (agent_set_animation, ":shooter_agent", "anim_release_crossbow", 1),  
                (else_try),                 
                   (agent_set_animation, ":shooter_agent", "anim_release_musket", 1),
@@ -1876,9 +1877,9 @@ common_toggle_weapon_capabilities = (0, 0, 0, [
         (try_end),    
         (try_begin),
           (is_between, ":alternate_weapon", "itm_ranged_weapons_begin", "itm_ranged_weapons_end"),
-          (str_store_string, s12, "@Damage: {reg3}{s12} -- Accuracy: {reg5}, -- Velocity: {reg7} -- Fire Rate: {reg4}"),
+          (str_store_string, s12, "@Damage: {reg3}{s11} - Accuracy: {reg5}, - Velocity: {reg7} - Fire Rate: {reg4}"),
         (else_try),
-          (str_store_string, s12, "@Damage: {reg3}{s12}"),
+          (str_store_string, s12, "@Damage: {reg3}{s11}"),
         (try_end),
         (str_store_string, s10, "@Switched to {s2} Mode: {s12}", message_neutral),
       (try_end),
@@ -1898,6 +1899,62 @@ common_toggle_weapon_capabilities = (0, 0, 0, [
     (agent_set_wielded_item, ":player_agent", ":alternate_weapon"),
     (display_message, "@{s10}", color_good_news),
   ])
+
+common_toggle_weapon_fire_mode = (0, 0, 0, [
+  (key_clicked, key_y),
+  #(key_clicked, "$toggle_fire_mode_key"),
+  (neg|conversation_screen_is_active),
+  (get_player_agent_no, ":player_agent"),
+  (agent_get_wielded_item,":wielded_item",":player_agent",0),
+  (gt,":wielded_item",-1),
+  (item_slot_ge, ":wielded_item", slot_item_has_autofire, 1),  #see if the item has an autofire slot defined
+  ],
+
+  [ 
+    (get_player_agent_no, ":player_agent"),
+    (agent_is_alive, ":player_agent"),
+    (agent_get_wielded_item,":wielded_item",":player_agent",0),
+    (gt,":wielded_item",-1),
+    (item_get_slot, ":autofire_toggle", ":wielded_item", slot_item_has_autofire),  #see if the item has an autofire slot defined
+    (try_begin),
+      (eq, ":autofire_toggle", 1),
+      (item_set_slot, ":wielded_item", slot_item_has_autofire, 2), #set it to 2 to turn off.
+      (display_message, "@Firing Mode: Semi-Auto", message_neutral),
+      (agent_play_sound, ":player_agent", "snd_reload_crossbow_continue"),
+    (else_try),
+      (eq, ":autofire_toggle", 2),
+      (item_set_slot, ":wielded_item", slot_item_has_autofire, 1),
+      (display_message, "@Firing Mode: Full-Auto", message_neutral),
+      (agent_play_sound, ":player_agent", "snd_reload_crossbow_continue"),
+    (else_try),
+      (display_message, "@No firing mode option available", message_neutral),
+    (try_end),
+  ])
+
+common_autofire_weapons_deal_less_damage = (ti_on_agent_hit, 0, 0, [
+
+    (assign, ":weapon", reg0), #Weapon ID
+    (item_slot_eq, ":weapon", slot_item_has_autofire, 1), #On Autofire Mode
+  ],
+  [ 
+    (assign, ":weapon", reg0),
+    #(store_trigger_param, ":inflicted_agent_id", 1),
+    #(store_trigger_param, ":dealer_agent_id", 2),
+    (store_trigger_param, ":inflicted_damage", 3),
+
+    (assign, reg2, ":inflicted_damage"),
+
+    (item_slot_eq, ":weapon", slot_item_has_autofire, 1),
+    (val_div, ":inflicted_damage", 3), #autofire deals 1/3 damage
+
+    #Debug
+    (assign, reg1, ":inflicted_damage"),
+    (display_message, "@Autofire Weapon Dealt {reg1} damage, Original Damage {reg2}"),
+
+    (set_trigger_result, ":inflicted_damage"),
+
+  ])
+
 #--------------------------------------------------------------------------------------------------------------------------------------------------
 # #SW - new player_damage
 # common_player_damage = (1, 0, ti_once, [
@@ -2350,7 +2407,6 @@ kham_iron_sights_triggers = [
     (gt,                  "$cam_current_agent", -1)
   ],
   [
-    (assign, "$cam_free",   0),
     (assign, "$g_camera_z", 180),
   ]),
 
@@ -2401,6 +2457,8 @@ kham_iron_sights_triggers = [
       (val_sub, ":angle", ":drop"),
       (val_add, ":angle", 5),
       (position_rotate_x, pos7, ":angle"),
+      (position_get_distance_to_ground_level, ":distance", pos7),
+      (val_min, "$g_camera_z", ":distance"),
       (mission_cam_animate_to_position, pos7, 100, 0),
       (start_presentation, "prsnt_iron_sights"),
     (else_try),
@@ -2413,6 +2471,43 @@ kham_iron_sights_triggers = [
   ]),
 
 ]
+
+kham_new_iron_sight_trigger = [(0, 0, 0, [
+  (this_or_next|key_clicked, "$key_camera_toggle"),
+  (game_key_is_down, gk_zoom),],
+
+  [(set_fixed_point_multiplier, 100),
+   
+   (try_begin),
+    (key_clicked, "$key_camera_toggle"),
+    (eq,     "$cam_mode", 0),
+    (assign, "$cam_mode", 1),
+    (set_zoom_amount, 150),
+    (start_presentation, "prsnt_iron_sights"),
+   (else_try),
+    (key_clicked, "$key_camera_toggle"),
+    (eq, "$cam_mode", 1),
+    (assign, "$cam_mode", 0),
+    (set_zoom_amount, 0),
+   (else_try),
+    (eq, "$cam_mode", 0),
+    (set_zoom_amount, 50),
+    (assign, "$cam_mode", 2),
+   (try_end),  
+  ]),
+
+(0,0,0, [
+  (eq, "$cam_mode", 2),
+  (neg|game_key_is_down, gk_zoom)],
+  
+  [(neg|game_key_is_down, gk_zoom),
+   (eq, "$cam_mode", 2),
+   (set_zoom_amount, 0),
+   (assign, "$cam_mode", 0),
+  ]),
+
+]
+
 
 
 #SW - zoom in/out code by jik and WilliamBerne - http://forums.taleworlds.net/index.php/topic,68192.0.html - modified further by HokieBT

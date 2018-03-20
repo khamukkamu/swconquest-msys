@@ -2940,9 +2940,10 @@ game_menus = [
         (start_presentation, "prsnt_all_items"),
         ]
        ),
+      ("give_weapon",[],"Give Weapon", [(troop_add_item, "trp_player", "itm_corellian_destroyer_blaster"), (display_message, "@Item Given", color_good_news),]),
       ("give_custom_armor",[],"Give Custom Armor", [(troop_add_item, "trp_player", "itm_lightsaber_custom"),(troop_add_item, "trp_player", "itm_lightsaber_double_custom"),
          (troop_add_item, "trp_player", "itm_darth_vader_helmet"), (troop_add_item, "trp_player", "itm_darth_vader_armor"), (troop_add_item, "trp_player", "itm_darth_vader_feet")]),
-      ("test_freelancer_looters",[],"Become High Level Freelancer Troop", [(assign, "$player_cur_troop", "trp_swadian_sergent"),
+      ("test_freelancer_looters",[],"Become High Level Freelancer Troop", [(assign, "$player_cur_troop", "trp_imperial_stormtrooper_veteran"),
           (assign, "$enlisted_lord", "trp_knight_1_1"),
           (store_faction_of_troop, ":commander_faction", "$enlisted_lord"),
           (faction_set_slot,  ":commander_faction", slot_faction_freelancer_troop, "$player_cur_troop"),

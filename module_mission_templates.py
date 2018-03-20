@@ -544,6 +544,8 @@ mission_templates = [
       common_auto_fire_held,
       common_auto_fire_clicked,
       common_auto_fire,
+      common_toggle_weapon_fire_mode,
+      common_autofire_weapons_deal_less_damage,
      ]+common_helmet_view,
     ),
 
@@ -1469,7 +1471,7 @@ mission_templates = [
       #SWY - trigger to make unique agents behavior - custom scripting
       (0.352, 0, ti_once, [], [(call_script,"script_swy_unique_units_stuff",-1)]),
       common_gate_system,
-    ]+common_helmet_view + kham_iron_sights_triggers,
+    ]+common_helmet_view + kham_new_iron_sight_trigger,
   ),
 
 #########################################################################################################################

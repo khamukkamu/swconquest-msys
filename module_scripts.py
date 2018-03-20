@@ -16,6 +16,7 @@ from header_terrain_types import *
 from header_music import *
 from header_presentations import*
 from ID_animations import *
+from module_items import *
 
 from module_info import wb_compile_switch as is_a_wb_script
 
@@ -40,12 +41,23 @@ def gen_ammodb():
       ammoclip_db.append( (item_set_slot,"itm_"+item[0],slot_item_ammo_clip,get_max_ammo(item[6])) )
   return ammoclip_db
 
+
 ######################################################################
 ##################### ADD THESE BELOW OTHER IMPORTS ##################
 ################# THESE STORE ITEM STATS IN ITEM_SLOTS ###############
 ######################################################################
-from module_items import *
-   
+
+#Kham - Use itp_has_bayonet to classify autofire weapons
+
+def get_autofire_weapons():
+   autofire_weapon = []
+   for i_item in xrange(len(items)):
+      if items[i_item][3] & itp_has_bayonet == itp_has_bayonet:
+         autofire_weapon.append((item_set_slot, i_item, slot_item_has_autofire, 1))
+   return autofire_weapon[:]
+
+#Kham - Use itp_has_bayonet to classify autofire weapons END
+
 def get_item_accuracy():
    item_accuracy = []
    for i_item in xrange(len(items)):
@@ -367,15 +379,39 @@ scripts = [
       (item_set_slot, "itm_twilek_dagger_throwing", slot_item_alternate_weapon, "itm_twilek_dagger"),
       (item_set_slot, "itm_gamorrean_axe_1h", slot_item_alternate_weapon, "itm_throwing_axes"),
       (item_set_slot, "itm_throwing_axes", slot_item_alternate_weapon, "itm_gamorrean_axe_1h"),
+      
       #rifles
       (item_set_slot, "itm_e11", slot_item_alternate_weapon, "itm_e11_hip"),
-      (item_set_slot, "itm_e11_hip", slot_item_alternate_weapon, "itm_e11"),
+      (item_set_slot, "itm_e11_hip", slot_item_alternate_weapon, "itm_e11_stun"), #kham modified for stun
+      (item_set_slot, "itm_e11_stun", slot_item_alternate_weapon, "itm_e11"),
+
       (item_set_slot, "itm_a280", slot_item_alternate_weapon, "itm_a280_crouch"),
-      (item_set_slot, "itm_a280_crouch", slot_item_alternate_weapon, "itm_a280"),
+      (item_set_slot, "itm_a280_crouch", slot_item_alternate_weapon, "itm_a280_stun"), #kham modified for stun
+      (item_set_slot, "itm_a280_stun", slot_item_alternate_weapon, "itm_a280"),
+
       (item_set_slot, "itm_a295", slot_item_alternate_weapon, "itm_a295_crouch"),
-      (item_set_slot, "itm_a295_crouch", slot_item_alternate_weapon, "itm_a295"),
+      (item_set_slot, "itm_a295_crouch", slot_item_alternate_weapon, "itm_a295_stun"), #kham modified for stun
+      (item_set_slot, "itm_a295_stun", slot_item_alternate_weapon, "itm_a295"),
+      
       (item_set_slot, "itm_dc15a", slot_item_alternate_weapon, "itm_dc15a_hip"),
       (item_set_slot, "itm_dc15a_hip", slot_item_alternate_weapon, "itm_dc15a"),
+
+      (item_set_slot, "itm_ee3", slot_item_alternate_weapon, "itm_ee3_stun"),
+      (item_set_slot, "itm_ee3_stun", slot_item_alternate_weapon, "itm_ee3"),
+
+      # Blasters (pistol)
+      (item_set_slot, "itm_dh17", slot_item_alternate_weapon, "itm_dh17_stun"),
+      (item_set_slot, "itm_dh17_stun", slot_item_alternate_weapon, "itm_dh17"),
+
+      (item_set_slot, "itm_dl44a", slot_item_alternate_weapon, "itm_dl44a_stun"),
+      (item_set_slot, "itm_dl44a_stun", slot_item_alternate_weapon, "itm_dl44a"),
+
+      (item_set_slot, "itm_q2", slot_item_alternate_weapon, "itm_q2_stun"),
+      (item_set_slot, "itm_q2_stun", slot_item_alternate_weapon, "itm_q2"),
+
+      (item_set_slot, "itm_elg3a", slot_item_alternate_weapon, "itm_elg3a_stun"),
+      (item_set_slot, "itm_elg3a_stun", slot_item_alternate_weapon, "itm_elg3a"),
+
       
       #NPC companion changes begin
       (call_script, "script_initialize_npcs"),
@@ -32990,12 +33026,15 @@ if is_a_wb_script==1:
 ("init_item_shoot_speed", get_item_shoot_speed()),
 ("init_item_speed_rating", get_item_speed_rating()),
 
+#Kham
+("init_get_autofire_weapons", get_autofire_weapons()),
+
+
   
 
  #### Custom Camera Scripts by dunde, implemented by Kham
 ("init_camera",
  [(assign, "$key_camera_toggle",      key_right_mouse_button),             # RMB key to toggle camera mode.
-  (assign, "$cam_free", 0),
   (assign, "$g_camera_z", 180),       
   (assign, "$g_camera_y", 2000),
  ]),

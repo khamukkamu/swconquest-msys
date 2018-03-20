@@ -1599,3 +1599,6 @@ slot_item_shoot_speed = 63
 slot_item_speed_rating = 64
 slot_item_sound = 65
 #autofire end
+
+#Kham autofire
+slot_item_has_autofire = 66

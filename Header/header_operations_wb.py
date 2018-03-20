@@ -1612,7 +1612,7 @@ lhs_operations = [try_for_range,
                   agent_get_ammo_for_slot,
                   agent_deliver_damage_to_agent_advanced,
                   team_get_gap_distance,
-                  # add_missile,    MOTO causes local variable unused warnings?
+                  add_missile,    
                   scene_item_get_num_instances,
                   scene_item_get_instance,
                   scene_spawned_item_get_num_instances,
