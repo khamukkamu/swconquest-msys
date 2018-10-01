@@ -61,3 +61,4 @@ pt_faction_trandoshan_reinforcements_c = 59
 pt_faction_droid_reinforcements_a = 60
 pt_faction_droid_reinforcements_b = 61
 pt_faction_droid_reinforcements_c = 62
+pt_jedi_tests = 63

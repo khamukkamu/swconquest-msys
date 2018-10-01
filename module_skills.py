@@ -79,7 +79,7 @@ skills = [
   ("reserved_10","Reserved Skill 10",sf_base_att_agi|sf_inactive,10,"This is a reserved skill."), 
   ("reserved_11","Reserved Skill 11",sf_base_att_agi|sf_inactive,10,"This is a reserved skill."), 
   ("reserved_12","Reserved Skill 12",sf_base_att_agi|sf_inactive,10,"This is a reserved skill."), 
-  ("reserved_13","Reserved Skill 13",sf_base_att_agi|sf_inactive,10,"This is a reserved skill."), 
+  ("deflection","Deflection",sf_base_att_agi,10,"Each point to this skill increases the chances of deflecting a bolt with a lightsaber or an energy shield. Also makes the deflection more accurate. (Personal skill)"),  #Reserved 13
   ("power_draw","Force Knowledge",sf_base_att_str,10,"Lets character use more powerful force powers. Each point to this skill (up to four plus force knowledge requirement) increases force power damage by 14%%. (Personal skill)"),
   ("power_throw","Power Throw",sf_base_att_str,10,"Each point to this skill increases throwing damage by 10%%. (Personal skill)"),
   ("power_strike","Power Strike",sf_base_att_str,10,"Each point to this skill increases melee damage by 8%%. (Personal skill)"),

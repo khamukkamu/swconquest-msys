@@ -1,4 +1,4 @@
-1154
+1170
 qstr_2006_2010_THE_STAR_W 2006-2010_THE_STAR_WARS_CONQUEST_DEV_TEAM
 qstr_This_Module_it_s_ded This_Module_it's_dedicated_to_every_person_who_believed_in_us.^^Their_valuable_Work_and_Support_have_inspired_Us_to_Make_this_bigger.^^The_Force_It's_Strong_with_you!_:-)
 qstr_Type_your_Faction_s_ Type_your_Faction's_name:
@@ -219,6 +219,16 @@ qstr_Weapons Weapons
 qstr_Armors Armors
 qstr_Others Others
 qstr_{s1}_has_{reg1}_comp {s1}_has_{reg1}_component_meshes
+qstr_Stamina: Stamina:
+qstr_Exhausted Exhausted
+qstr_Very_Tired Very_Tired
+qstr_Tired Tired
+qstr_Normal Normal
+qstr_High High
+qstr_Good Good
+qstr_Great! Great!
+qstr_EXCELLENT!! EXCELLENT!!
+qstr_{reg40}x_Combo {reg40}x_Combo
 qstr_{s1}_of_{s3}_was_def {s1}_of_{s3}_was_defeated_in_battle_but_managed_to_escape.
 qstr_DEBUG:_{s1}_no_longe DEBUG:_{s1}_no_longer_leads_a_party.
 qstr_DEBUG:_{s1}_is_no_lo DEBUG:_{s1}_is_no_longer_a_prisoner.
@@ -655,6 +665,16 @@ qstr_The_equipment_of_a_{ The_equipment_of_a_{s1}:_{s2}is_assigned_to_you.
 qstr_The_equipment_of_a_{s The_equipment_of_a_{s1}:_{s2}is_taken_from_you.
 qstr_{reg0}_Troops_added {reg0}_Troops_added
 qstr_{s9}_wants_you_to_hu {s9}_wants_you_to_hunt_down_deserters_and_end_them.
+qstr_Firing_Mode:_Semi_Au Firing_Mode:_Semi-Auto
+qstr_Firing_Mode:_Full_Au Firing_Mode:_Full-Auto
+qstr_No_firing_mode_optio No_firing_mode_option_available
+qstr_Incoming_bolt_deflec Incoming_bolt_deflected.
+qstr_Incoming_bolt_partia Incoming_bolt_partially_deflected.
+qstr_Failed_to_deflect_th Failed_to_deflect_the_bolt.
+qstr_Tier_1_Combo_Effect: Tier_1_Combo_Effect:_You_deal_an_extra_3_damage
+qstr_Tier_2_Combo_Effect: Tier_2_Combo_Effect:_You_deal_an_extra_5_damage
+qstr_Tier_3_Combo_Effect: Tier_3_Combo_Effect:_You_deal_an_extra_7_damage
+qstr_Counter___{reg30}_Ti Counter_-_{reg30},_Timer_-_{reg31}
 qstr_You_don_t_have_a_Bac You_don't_have_a_Bacta_Injector_in_inventory!
 qstr_You_don_t_have_any_B You_don't_have_any_Bacta_Capsules_in_inventory!
 qstr_You_were_healed_for_ You_were_healed_for_20_hp_and_have_{reg1}_bacta_capsules_left.
@@ -671,10 +691,6 @@ qstr_All_enemies_at_this_ All_enemies_at_this_location_have_been_defeated!
 qstr_Success Success
 qstr_Cannot_leave_now. Cannot_leave_now.
 qstr_As_you_land_your_shi As_you_land_your_ship_you_notice_that_this_area_is_under_attack!
-qstr_Firing_Mode:_Semi_Au Firing_Mode:_Semi-Auto
-qstr_Firing_Mode:_Full_Au Firing_Mode:_Full-Auto
-qstr_No_firing_mode_optio No_firing_mode_option_available
-qstr_Autofire_Weapon_Deal Autofire_Weapon_Dealt_{reg1}_damage,_Original_Damage_{reg2}
 qstr_You_have_been_knocke You_have_been_knocked_out_by_the_enemy._Watch_your_men_continue_the_fight_without_you_or_press_Tab_to_retreat.
 qstr_If_you_choose_to_wat If_you_choose_to_watch_the_fight_you_can_use_the_'{s1}'_and_'{s2}'_keys_to_change_your_camera_view.
 qstr_A_Power_Droid_refill A_Power_Droid_refilled_your_ammo!

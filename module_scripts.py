@@ -107,7 +107,7 @@ scripts = [
       (assign, "$freelancer_enhanced_upgrade", 1), #Freelancer - Default to Advanced Upgrade system
       (assign, "$freelancer_missions", 1), #Allow Freelancer Missions
       #Custom Camera Initialize  
-      (call_script, "script_init_camera"),
+      (assign, "$key_camera_toggle",      key_right_mouse_button),             # RMB key to toggle camera mode.
       
       #assign default keys
       (assign, "$crouch_key", key_left_alt),
@@ -33030,14 +33030,66 @@ if is_a_wb_script==1:
 ("init_get_autofire_weapons", get_autofire_weapons()),
 
 
-  
+("cf_combo_effect", [
+   
+   (get_player_agent_no, ":player"), 
+   (agent_get_slot, ":combo_counter", ":player", slot_agent_combo_counter), #Check Current Combo Count
 
- #### Custom Camera Scripts by dunde, implemented by Kham
-("init_camera",
- [(assign, "$key_camera_toggle",      key_right_mouse_button),             # RMB key to toggle camera mode.
-  (assign, "$g_camera_z", 180),       
-  (assign, "$g_camera_y", 2000),
- ]),
+   (agent_get_wielded_item, ":main_weapon", ":player", 0), 
+   (agent_get_wielded_item, ":shield", ":player", 1),
+   (item_get_type, ":main_weapon_type", ":main_weapon"),
 
+   (gt, ":main_weapon", 0),
+
+   (assign, ":continue", 0),
+
+   (try_begin), # This Checks Your Conditions for Having A Special Effect. For This Sample, I Only Have 1 for a Specific Item.
+      
+      (eq, ":main_weapon", "itm_lightsaber_custom"),
+
+      (eq, ":combo_counter", COMBO_ACTION_TIER_1), #You Set Where This Effect Triggers Here
+      
+      (assign,":distance",99999),
+      (get_player_agent_no, ":player_agent"),
+      (try_for_agents,":agent"),
+         (agent_is_alive,":agent"),
+         (agent_is_human,":agent"),
+         (agent_get_look_position, pos2, ":agent"),
+         (get_distance_between_positions,":dist",pos1,pos2),
+         (lt,":dist",":distance"),
+         (assign,":chosen",":agent"),
+         (assign,":distance",":dist"),
+         (agent_get_team  ,":team", ":chosen"),
+      (try_end),
+      (try_for_agents,":agent"),
+         (agent_is_alive,":agent"),
+         (agent_is_human,":agent"), #SW modified
+         (neq, ":agent", ":player_agent"), #SW modified
+         (neq,":agent",":chosen"),
+         (agent_get_team  ,":team2", ":agent"),
+         (neq,":team",":team2"),
+         (agent_get_position, pos2, ":agent"),
+         (agent_get_position,pos1,":chosen"),
+         (get_distance_between_positions,":dist",pos1,pos2),
+         (lt,":dist",1000), #SW - increased distance from 350
+         (agent_play_sound,":player_agent","snd_force_push"),                       
+         (store_random_in_range, ":rand", 0, 100),
+         (try_begin),
+            (lt, ":rand", 35),
+            (agent_set_animation, ":agent", "anim_force_choke"),
+            (store_random_in_range, ":hp_loss", 4, 6),
+         (else_try),
+            (agent_set_animation, ":agent", "anim_force_choke"),
+            (store_random_in_range, ":hp_loss", 6, 10),
+         (try_end),                       
+         (store_agent_hit_points,":hp",":agent",1),
+         (val_sub,":hp",":hp_loss"),
+         (agent_set_hit_points,":agent",":hp",1),
+         (agent_deliver_damage_to_agent,":player_agent",":agent"),
+      (try_end),
+   (try_end),
+
+   (eq, ":continue", 1),
+]),
 
  ]

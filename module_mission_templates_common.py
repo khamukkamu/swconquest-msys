@@ -66,8 +66,9 @@ common_auto_fire_clicked = (
       (agent_get_animation, ":shooter_stance", ":shooter_agent", 1),
       (this_or_next|eq, ":shooter_stance", "anim_reload_crossbow"),
       (this_or_next|eq, ":shooter_stance", "anim_reload_musket"),
+      (this_or_next|eq, ":shooter_stance", "anim_reload_crossbow_horseback"),
       (this_or_next|eq, ":shooter_stance", "anim_reload_pistol"),
-  (neg|game_key_is_down, gk_attack),
+      (neg|game_key_is_down, gk_attack),
    ],[
       (get_player_agent_no, ":shooter_agent"),
   (agent_set_slot, ":shooter_agent", slot_agent_autofire_ready, 0),
@@ -84,6 +85,7 @@ common_auto_fire = (
          (try_begin),
 ############# CHECK IF AGENT WIELDS AN AUTOFIRE WEAPON #############
             (agent_get_wielded_item, ":cur_weapon", ":shooter_agent", 0),
+            (gt, ":cur_weapon", -1),
             (is_between, ":cur_weapon", "itm_a280", "itm_dh17"),
             (item_slot_eq, ":cur_weapon", slot_item_has_autofire, 1),
 
@@ -1934,10 +1936,12 @@ common_toggle_weapon_fire_mode = (0, 0, 0, [
 common_autofire_weapons_deal_less_damage = (ti_on_agent_hit, 0, 0, [
 
     (assign, ":weapon", reg0), #Weapon ID
+    (gt, ":weapon", -1),
     (item_slot_eq, ":weapon", slot_item_has_autofire, 1), #On Autofire Mode
   ],
   [ 
     (assign, ":weapon", reg0),
+    (gt, ":weapon", -1),
     #(store_trigger_param, ":inflicted_agent_id", 1),
     #(store_trigger_param, ":dealer_agent_id", 2),
     (store_trigger_param, ":inflicted_damage", 3),
@@ -1948,8 +1952,8 @@ common_autofire_weapons_deal_less_damage = (ti_on_agent_hit, 0, 0, [
     (val_div, ":inflicted_damage", 3), #autofire deals 1/3 damage
 
     #Debug
-    (assign, reg1, ":inflicted_damage"),
-    (display_message, "@Autofire Weapon Dealt {reg1} damage, Original Damage {reg2}"),
+  #  (assign, reg1, ":inflicted_damage"),
+  #  (display_message, "@Autofire Weapon Dealt {reg1} damage, Original Damage {reg2}"),
 
     (set_trigger_result, ":inflicted_damage"),
 
@@ -2393,84 +2397,6 @@ common_use_jetpack = (0, 0, 0, [
   ])
 #--------------------------------------------------------------------------------------------------------------------------------------------------
 
-kham_iron_sights_triggers = [
- #-- numeric constants
-
- # cam_mode_default = 0
- # cam_mode_free    = 1
- # cam_mode_fixed   = 2
-
-  #-- camera_init
-  (0, 0, ti_once,
-  [
-    (get_player_agent_no, "$cam_current_agent"),
-    (gt,                  "$cam_current_agent", -1)
-  ],
-  [
-    (assign, "$g_camera_z", 180),
-  ]),
-
-#-- camera_set
-  (0, 0, 0,
-  [ 
-    (get_player_agent_no, ":player"),
-    (agent_get_wielded_item, ":weapon", ":player", 0),
-    (is_between, ":weapon", "itm_a280", "itm_dh17"), #Rifles only
-    (key_clicked, "$key_camera_toggle"),
-    (lt, "$cam_mode", 2),
-  ],
-  # toggling only when camera mode = 0, 1, 2 (3 = disable); shoot_mode = 1 temporarily disable toggling
-  [
-    (try_begin),
-      (eq,     "$cam_mode", 0),
-      (assign, "$cam_mode", 1),
-      (display_message, "@Zoom Camera"),
-    (else_try),
-      (eq, "$cam_mode", 1),
-      (assign, "$cam_mode", 0),
-      (display_message, "@Default Camera"),
-    (try_end),
-
-    (mission_cam_set_mode, "$cam_mode"),
-  ]),
-
-   #-- camera_mode
-  (0, 0, 0, [],
-  [
-    (try_begin),
-      (eq, "$cam_mode", 1),
-      (set_fixed_point_multiplier, 100),
-      (agent_get_look_position, pos7, "$cam_current_agent"),
-      (position_get_rotation_around_x, ":angle", pos7),
-      (store_sub, ":reverse", 0, ":angle"),
-      (position_rotate_x, pos7, ":reverse"),
-      (position_move_y, pos7, "$g_camera_y"),
-      (position_move_z, pos7, "$g_camera_z"),
-      (agent_get_horse, ":horse_agent", "$cam_current_agent"),
-      (try_begin),
-        (ge, ":horse_agent", 0),
-        (position_move_z, pos7, 50),
-      (try_end),
-      (store_mul, ":reverse", 1, "$g_camera_y"),
-      (store_atan2, ":drop", "$g_camera_z", ":reverse"),
-      (convert_from_fixed_point, ":drop"),
-      (val_sub, ":angle", ":drop"),
-      (val_add, ":angle", 5),
-      (position_rotate_x, pos7, ":angle"),
-      (position_get_distance_to_ground_level, ":distance", pos7),
-      (val_min, "$g_camera_z", ":distance"),
-      (mission_cam_animate_to_position, pos7, 100, 0),
-      (start_presentation, "prsnt_iron_sights"),
-    (else_try),
-      (lt, "$cam_mode", 2),
-      (main_hero_fallen),
-      (agent_get_position, 1, "$cam_current_agent"),
-      (get_player_agent_no,   ":player_agent"),
-      (agent_set_position,    ":player_agent", 1),
-    (try_end),
-  ]),
-
-]
 
 kham_new_iron_sight_trigger = [(0, 0, 0, [
   (this_or_next|key_clicked, "$key_camera_toggle"),
@@ -2480,10 +2406,13 @@ kham_new_iron_sight_trigger = [(0, 0, 0, [
    
    (try_begin),
     (key_clicked, "$key_camera_toggle"),
+    (get_player_agent_no, ":player"),
+    (agent_get_wielded_item, ":weapon", ":player", 0),
+    (is_between, ":weapon", "itm_a280", "itm_dh17"), #Rifles only - We'll also need to set up which rifles can have more / less zoom.
     (eq,     "$cam_mode", 0),
     (assign, "$cam_mode", 1),
     (set_zoom_amount, 150),
-    (start_presentation, "prsnt_iron_sights"),
+    (start_presentation, "prsnt_zoom_view"),
    (else_try),
     (key_clicked, "$key_camera_toggle"),
     (eq, "$cam_mode", 1),
@@ -3098,3 +3027,514 @@ tournament_triggers = [
 
 
   ]
+
+# For debugging animations
+check_animation = (0,0,0, [
+  (key_is_down, key_o),],
+  [(get_player_agent_no, ":player"),
+  (agent_get_animation, reg22, ":player", 1),
+  (display_message, "@{reg22}")])
+
+
+# Force Shields - Kham
+force_shield_init = (ti_on_agent_spawn, 0, 0, [
+  (store_trigger_param_1, ":agent"),
+  (agent_is_human, ":agent"),
+  (agent_get_troop_id, ":troop_id", ":agent"),
+  (troop_get_slot, ":has_shield", ":troop_id", slot_troop_force_shield),
+  (gt, ":has_shield", 0)],
+  
+  [
+    (store_trigger_param_1, ":agent"),
+    (agent_is_human, ":agent"),
+    (agent_get_troop_id, ":troop_id", ":agent"),
+    (troop_get_slot, ":shield", ":troop_id", slot_troop_force_shield),
+    (agent_set_slot, ":agent", slot_agent_force_shield_active, 1),
+    (agent_set_slot, ":agent", slot_agent_force_shield, ":shield"),
+
+    #Debug
+    #(assign, reg2, ":shield"),
+    #(str_store_troop_name, s33, ":troop_id"),
+    #(display_message, "@{s33}: {reg2} set hp shield."),   
+
+  ])
+
+force_shield_trigger = (ti_on_agent_hit, 0, 0, [
+  (store_trigger_param_1, ":agent"),
+
+  (agent_slot_eq, ":agent", slot_agent_force_shield_active, 1),
+
+  (assign, ":continue", 0),
+  (try_begin),
+    (agent_is_human, ":agent"),
+    (assign, ":continue", 1),
+  (try_end),
+
+  (eq, ":continue", 1),],
+  
+  [  
+    (store_trigger_param_1, ":agent"),
+    (store_trigger_param_2, ":dealer"),
+    (store_trigger_param_3, ":damage"),
+  
+    (agent_get_slot, ":current_hp_shield", ":agent", slot_agent_force_shield),
+    (try_begin),
+      (gt, ":current_hp_shield", 0),
+      (val_sub, ":current_hp_shield", ":damage"),
+      (val_max, ":current_hp_shield", 0),
+      (agent_set_slot, ":agent", slot_agent_force_shield, ":current_hp_shield"),  
+    (else_try),
+      (agent_set_slot, ":agent", slot_agent_force_shield_active, 0),
+    (try_end),
+      
+      #Debug
+      #(assign, reg3, ":current_hp_shield"),
+      #(display_message, "@Hp shield: {reg3} left."), 
+
+    (get_player_agent_no, ":player"),
+    (agent_get_troop_id, ":troop_id", ":agent"),
+    
+    (try_begin),
+      (eq, ":dealer", ":player"),
+      (val_div, ":damage", 2), 
+      (set_trigger_result, ":damage"),
+    (else_try),
+      (set_trigger_result, 0),
+    (try_end),
+  ])
+
+
+  ## Force Shield END
+
+## Lightsaber Deflection Start - Kham
+
+# Trigger Param 1: damage inflicted agent_id
+# Trigger Param 2: damage dealer agent_id
+# Trigger Param 3: inflicted damage
+# Trigger Param 4: hit bone
+# Trigger Param 5: missile item kind no
+# Register 0: damage dealer item_id
+# Position Register 0: position of the blow
+#                      rotation gives the direction of the blow
+
+kham_lightsaber_deflection = (ti_on_agent_hit, 0, 0, [
+    (store_trigger_param, ":agent_hit", 1),
+    (get_player_agent_no, ":player"),
+    (eq, ":agent_hit", ":player"), #For the player only
+    (assign, ":weapon_used", reg0),
+    (is_between, ":weapon_used", "itm_ranged_weapons_begin", "itm_ranged_weapons_end"), 
+    (agent_get_wielded_item, ":weapon", ":agent_hit", 0), #Get weapon
+    (agent_get_wielded_item, ":2h_or_shield", ":agent_hit", 1), #Get 2h or shield
+    (is_between, ":weapon", lightsaber_noise_begin, lightsaber_noise_end),
+    (eq, ":2h_or_shield", -1), #2h or no shield
+    (agent_get_defend_action, ":defending", ":agent_hit"),
+    (ge, ":defending", 1),
+    (position_move_y, pos0, -1000),          
+    (agent_get_look_position, pos22, ":agent_hit"),
+    (position_transform_position_to_local, pos2, pos22, pos0),
+    (position_get_y, ":y", pos2),
+    (ge, ":y", 0),
+    (assign, reg0, ":weapon_used"),],
+  
+  [
+    (assign, ":dealer_weapon", reg0),
+    (store_trigger_param, ":agent_hit", 1),
+    (store_trigger_param, ":damage", 3),
+    (store_trigger_param, ":missile", 5),
+    
+    (item_get_slot, ":velocity", ":dealer_weapon", slot_item_shoot_speed),
+    (agent_get_troop_id, ":troop_id", ":agent_hit"),
+    (store_skill_level, ":deflection", "skl_deflection", ":troop_id"),
+
+    (agent_get_look_position, pos22, ":agent_hit"),
+    (position_move_y, pos22, 100, 0),
+    (try_begin),
+      (agent_get_horse, ":speeder", ":agent_hit"),
+      (gt, ":speeder", 0),
+      (position_move_z, pos22, 240, 0),
+    (else_try),
+      (position_move_z, pos22, 150, 0),
+    (try_end),
+
+    (store_random_in_range, ":rand_x", 80, 200),
+    #(store_random_in_range, ":rand_y", 0, 180),
+    (store_random_in_range, ":rand_z", 80, 280),
+
+    (store_random_in_range, ":chance", 0, 100),
+    (store_random_in_range, ":chance_2", 0,100),
+
+    (store_mul, ":defl_chance", ":deflection", 10), #10% chance increase per skl point
+    (val_add, ":defl_chance", 15), #15% base chance
+
+    (agent_get_defend_action, ":defending", ":agent_hit"),
+    (ge, ":defending", 1),
+    (try_begin), 
+      (le, ":chance", ":defl_chance"),
+      (assign, ":damage", 0),
+      (val_sub, ":velocity", 100),
+
+      (store_mul, ":defl_rotation_x", ":deflection", 20),
+      (store_mul, ":defl_rotation_z", ":deflection", 28),
+
+      (val_sub, ":rand_x", ":defl_rotation_x"),
+      (val_min, ":rand_x", 0),
+      #(val_sub, ":rand_y", ":defl_rotation"),
+      #(val_min, ":rand_y", 0),
+      (val_sub, ":rand_z", ":defl_rotation_z"),
+      (val_min, ":rand_z", 0),
+  
+      (position_rotate_x, pos22, ":rand_x"),
+     # (position_rotate_y, pos22, ":rand_y"),
+      (position_rotate_z, pos22, ":rand_z"),
+  
+      (set_fixed_point_multiplier, 1),
+      (add_missile, ":agent_hit", pos22, ":velocity", ":dealer_weapon", 0, ":missile", 0),
+
+      (agent_set_animation, ":agent_hit", "anim_sw_parry_ranged_lightsaber", 1),
+  
+      (play_sound, "snd_arrow_hit_body"),
+      (display_message, "@Incoming bolt deflected.", message_positive),
+    (else_try),
+      (store_mul, ":defl_damage", ":deflection", 10),
+      (try_begin), #Damage on failed deflection also depend on the skl level.
+        (le, ":chance_2", ":defl_damage"),
+        (val_div, ":damage", 2),
+        (display_message, "@Incoming bolt partially deflected.", message_neutral),
+        (agent_set_animation, ":agent_hit", "anim_deflect_forward_onehanded_keep", 1),
+      (else_try),
+        (display_message, "@Failed to deflect the bolt.", message_negative),
+      (try_end),
+    (try_end),
+
+    #Debug
+    #(assign, reg1, ":defending"),
+    #(assign, reg2, ":velocity"),
+    #(assign, reg3, ":chance"),
+    #(assign, reg4, ":chance_2"),
+    #(display_message, "@{reg1}, {reg2}, Chance1: {reg3} - Chance2 {reg4}", color_bad_news),
+
+    (set_trigger_result, ":damage"),
+    (assign, reg0, ":dealer_weapon"),
+  ])  
+
+kham_lightsaber_deflection_ai_init = (5, 0, ti_once, [(store_mission_timer_a, ":deflect_timer"), (ge, ":deflect_timer", 3)],
+[
+  (try_for_agents, ":ai_agent"),
+    (agent_is_human, ":ai_agent"),
+    (agent_is_non_player, ":ai_agent"),
+    (agent_get_wielded_item, ":ai_weapon", ":ai_agent", 0),
+    (agent_get_wielded_item, ":ai_2h_or_shield", ":ai_agent", 1),
+    (is_between, ":ai_weapon", lightsaber_noise_begin, lightsaber_noise_end),
+    (eq, ":ai_2h_or_shield", -1),
+    (agent_get_troop_id, ":ai_troop", ":ai_agent"),
+    (store_skill_level, ":ai_deflection", "skl_deflection", ":ai_troop"),
+    (val_mul, ":ai_deflection", 5), #5 times skill = how many times they will be deflecting
+    (val_add, ":ai_deflection", 10), #10 times deflection as base.
+    (agent_set_slot, ":ai_agent", slot_agent_deflection_max, ":ai_deflection"),
+    #(agent_set_no_dynamics, ":ai_agent", 1), #debugging
+  (try_end),
+])
+
+kham_lightsaber_deflection_ai = (ti_on_agent_hit, 0, 0, [
+    (store_trigger_param, ":agent_hit", 1),
+    (get_player_agent_no, ":player"),
+    (neq, ":agent_hit", ":player"), #AI
+    (assign, ":weapon_used", reg0),
+    (is_between, ":weapon_used", "itm_ranged_weapons_begin", "itm_ranged_weapons_end"), 
+    (agent_get_wielded_item, ":weapon", ":agent_hit", 0), #Get weapon
+    (agent_get_wielded_item, ":2h_or_shield", ":agent_hit", 1), #Get 2h or shield
+    (is_between, ":weapon", lightsaber_noise_begin, lightsaber_noise_end),
+    (eq, ":2h_or_shield", -1), #2h or no shield
+    (position_move_y, pos0, -1000),          
+    (agent_get_look_position, pos23, ":agent_hit"),
+    (position_transform_position_to_local, pos2, pos23, pos0),
+    (position_get_y, ":y", pos2),
+    (ge, ":y", 0),
+    (agent_slot_ge, ":agent_hit", slot_agent_deflection_max, 1), #Has to have deflection left
+    (assign, reg0, ":weapon_used"),
+  ],
+  
+  [
+    (assign, ":dealer_weapon", reg0),
+    (store_trigger_param, ":agent_hit", 1),
+    (store_trigger_param, ":damage", 3),
+    (store_trigger_param, ":missile", 5),
+    (agent_get_slot, ":deflection_max", ":agent_hit", slot_agent_deflection_max),
+    (store_random_in_range, ":ai_chance_deflect", 0, 100),
+    (le, ":ai_chance_deflect", 55), #55% chance for AI to attempt deflection. This is just here so that they are not so OP.
+
+    (item_get_slot, ":velocity", ":dealer_weapon", slot_item_shoot_speed),
+    (agent_get_troop_id, ":troop_id", ":agent_hit"),
+    (store_skill_level, ":deflection", "skl_deflection", ":troop_id"),
+
+
+    (store_random_in_range, ":chance", 0, 100),
+    (store_random_in_range, ":chance_2", 0,100),
+
+    (store_mul, ":defl_chance", ":deflection", 10), #10% chance increase per skl point
+    (val_add, ":defl_chance", 15), #15% base chance
+    (val_min, ":defl_chance", 100),
+
+    (try_begin), 
+      (le, ":chance", ":defl_chance"),
+      (val_sub, ":velocity", 100),
+      
+      (agent_set_animation, ":agent_hit", "anim_sw_parry_ranged_lightsaber", 1),
+
+      (assign, ":damage", 0),
+      (val_sub, ":deflection_max", 1), #Reduce the amount of deflections they can do
+      (agent_set_slot, ":agent_hit", slot_agent_deflection_max, ":deflection_max"),
+      
+      (agent_get_look_position, pos23, ":agent_hit"),
+      (position_move_y, pos23, 100, 0),
+      (try_begin),
+         (agent_get_horse, ":speeder", ":agent_hit"),
+         (gt, ":speeder", 0),
+         (position_move_z, pos23, 240, 0),
+      (else_try),
+         (position_move_z, pos23, 150, 0),
+      (try_end),
+
+      (store_random_in_range, ":rand_x", 80, 200),
+      #(store_random_in_range, ":rand_y", 0, 180),
+      (store_random_in_range, ":rand_z", 90, 270),
+      
+      (store_random_in_range, ":chance_return",0, 120),
+
+      (try_begin),
+        (gt, ":chance_return", ":defl_chance"),
+        (position_rotate_z, pos23, ":rand_z"),
+        #(position_rotate_y, pos23, ":rand_y"),
+        (position_rotate_x, pos23, ":rand_x"),
+      (try_end),
+
+      (set_fixed_point_multiplier, 1),
+      (add_missile, ":agent_hit", pos23, ":velocity", ":dealer_weapon", 0, ":missile", 0),
+      
+      (play_sound, "snd_arrow_hit_body"),
+    (else_try),
+      (store_mul, ":defl_damage", ":deflection", 10),
+      (try_begin), #Damage on failed deflection also depend on the skl level.
+        (le, ":chance_2", ":defl_damage"),
+        (val_div, ":damage", 2),
+        (agent_set_animation, ":agent_hit", "anim_deflect_forward_onehanded_keep", 1),
+      (try_end),
+    (try_end),
+
+    #Debug
+    #(assign, reg1, ":defl_chance"),
+    #(assign, reg2, ":ai_chance_deflect"),
+    #(assign, reg3, ":deflection_max"),
+    #(assign, reg4, ":chance_2"),
+    #(display_message, "@Defl Chance: {reg1}, Attempt Chance: {reg2}, Defl Max: {reg3}", color_bad_news),
+
+    (set_trigger_result, ":damage"),
+    (assign, reg0, ":dealer_weapon"),
+  ])  
+
+
+#Force Stamina System
+
+force_stamina = ( 
+  ti_on_agent_spawn, 0, 0,
+  [
+    (store_trigger_param_1, ":agent_no"),
+    (agent_is_alive,":agent_no"), #
+    (agent_is_human, ":agent_no"),
+    (get_player_agent_no, ":player"),
+    (eq, ":agent_no", ":player"), #For the player only
+    (store_skill_level, ":skill", "skl_power_draw", "trp_player"), #If force sensitive
+    (ge, ":skill", 1),
+
+  ],
+  [
+    (store_trigger_param_1, ":agent_no"),
+    (agent_is_alive,":agent_no"), #
+    (agent_is_human, ":agent_no"),
+    (get_player_agent_no, ":player"),
+    (eq, ":agent_no", ":player"), #For the player only
+    (store_skill_level, ":skill", "skl_power_draw", "trp_player"), #If force sensitive
+    (ge, ":skill", 1),
+    
+    (store_troop_health,":cur_agent_hp","trp_player",1),
+    (assign, ":basic_stamina",":cur_agent_hp"),
+    (store_skill_level, ":fatigue",  "skl_power_draw", "trp_player"), #Force Power provides more stamina
+    (val_add, ":fatigue", 1), #total fatigue min 90 max 210
+    (val_mul, ":fatigue", 2), #total fatigue min 90 max 210
+    (val_add, ":basic_stamina", ":fatigue"), #total fatigue min 60 max 141
+    
+    (agent_set_slot, ":agent_no", slot_agent_initial_force_stamina, ":basic_stamina"), #we apply it to the agent
+    (agent_set_slot, ":agent_no", slot_agent_force_stamina, ":basic_stamina"), #we apply it to the agent
+])
+
+start_display_force_stamina = (
+  ti_after_mission_start, 0, ti_once, 
+  [ (store_skill_level, ":skill", "skl_power_draw", "trp_player"), #If force sensitive
+    (ge, ":skill", 1),], 
+  [
+    (start_presentation, "prsnt_staminabar"),
+])
+
+continue_force_stamina_presentation = (1, 0, 0, [
+    (this_or_next|game_key_is_down, gk_move_forward),
+    (this_or_next|game_key_is_down, gk_move_backward),
+    (this_or_next|game_key_is_down, gk_move_left),
+    (game_key_is_down, gk_move_right),
+    (neg|is_presentation_active, "prsnt_staminabar"),
+    (neg|is_presentation_active, "prsnt_battle"),
+    (neg|main_hero_fallen),
+    ],[    
+    (start_presentation, "prsnt_staminabar"),
+])
+
+recuperate_force_stamina = (3, 0, 0, [
+    (neg|game_key_is_down, gk_move_forward),
+    (neg|game_key_is_down, gk_move_backward),
+    (neg|game_key_is_down, gk_move_left),
+    (neg|game_key_is_down, gk_move_right),
+    ],[    #10 seconds = 20 up
+    (get_player_agent_no, ":player"),
+    (agent_is_alive,":player"), #  test for alive players.
+    (agent_is_human, ":player"),
+    (agent_get_slot, ":basic_stamina", ":player", slot_agent_force_stamina),
+    (agent_get_slot, ":basic_stamina_i", ":player", slot_agent_initial_force_stamina),
+    (try_begin),
+      (lt, ":basic_stamina", ":basic_stamina_i"),
+      (store_div, ":fatigue", ":basic_stamina_i", 5),
+      (val_add, ":fatigue", 1), #
+      (val_add, ":basic_stamina", ":fatigue"), #Recuperate every 2 seconds
+      (val_clamp, ":basic_stamina", 0, ":basic_stamina_i"),
+      
+      (agent_set_slot, ":player", slot_agent_force_stamina, ":basic_stamina"), #apply it to the agent
+
+      (neg|is_presentation_active, "prsnt_battle"),
+      (start_presentation, "prsnt_staminabar"),
+    (try_end),
+    
+])
+
+# Melee Combo & Effects by Khamukkamu END
+
+
+# Melee Combo & Effects by Khamukkamu START
+
+# Main MT Trigger List
+
+combo_effects = [
+
+# Melee Combo Counter Reset - When Combo Timer Slot Value is Lower Than The Current Mission Time, Set Combo Counter to Zero
+
+  (0,0,0, 
+    [
+      (get_player_agent_no, ":player"), 
+      (store_mission_timer_a, ":time_active"),
+      (agent_slot_ge, ":player", slot_agent_combo_counter, 1),
+      (agent_get_slot, ":combo_timer", ":player", slot_agent_combo_timer),
+      (lt, ":combo_timer", ":time_active"),
+    ],
+    [
+      (get_player_agent_no, ":player"),
+      (agent_set_slot, ":player", slot_agent_combo_counter, 0),
+  ]),
+
+# Combo Counter Occurs on Agent Hit
+
+  (ti_on_agent_hit, 0,0, [],[
+    
+    (store_trigger_param_1, ":agent_hit"), # Agent that was hit
+    (store_trigger_param_2, ":agent_dealer"), #Agent dealing the damage
+    (store_trigger_param_3, ":damage"), # Damage Amount Stored for Damage Effects
+    (assign, ":weapon_used", reg0), # Weapon Used Stored for Weapon Checks
+
+
+    (agent_is_human, ":agent_hit"), # Combo Only Works on Alive Humans
+    (gt, ":weapon_used", 0), #Must have a weapon (Unless Otherwise Specified by Mod)
+
+    (store_mission_timer_a, ":time_active"), #Stores the Current Time so that We Can Limit How Long Combo Effects Last
+
+    (get_player_agent_no, ":player_agent"),
+    
+    (assign, ":continue", 0),
+
+    (try_begin),
+      (eq, ":agent_hit", ":player_agent"),
+      (eq, DAMAGE_TO_PLAYER_RESETS_COMBO, 1),
+      (agent_set_slot, ":player_agent", slot_agent_combo_counter, 0),
+      (assign, ":continue", 0), #For Consistency
+    (else_try),
+      (eq, ":agent_dealer", ":player_agent"),
+      (assign, ":continue", 1),
+    (try_end),
+
+    (eq, ":continue", 1),
+
+    (agent_get_slot, ":combo_counter", ":agent_dealer", slot_agent_combo_counter), #Check Current Combo Count
+    
+    (try_begin), #Sets Initial Combo Timer
+      (eq, ":combo_counter", 0),
+      (agent_set_slot, ":agent_dealer", slot_agent_combo_timer, ":time_active"),
+    (try_end),
+
+    (agent_get_slot, ":combo_timer", ":agent_dealer", slot_agent_combo_timer),
+
+    (assign, ":continue", 0),
+
+    (try_begin), #When Current Time is Lower Than Combo Timer, we Continue with the Combo
+      (le,  ":time_active", ":combo_timer"),
+      (assign, ":continue", 1),
+    (try_end),
+
+    (eq, ":continue", 1),
+
+    # Item Type Checks - Default is Melee Weapons Only
+
+    (item_get_type, ":item_type", ":weapon_used"),
+    (this_or_next|neq, ":item_type", itp_type_bow),
+    (this_or_next|neq, ":item_type", itp_type_crossbow),
+    (this_or_next|neq, ":item_type", itp_type_thrown),
+    (neq, ":item_type", itp_type_pistol),
+
+    (store_add, ":combo_timer_limit", ":time_active", COMBO_TIMER_ADDITION), #We Add the Duration of the Combo Here
+    (agent_set_slot, ":agent_dealer", slot_agent_combo_timer, ":combo_timer_limit"), 
+    (val_add, ":combo_counter", 1),
+    (agent_set_slot, ":agent_dealer", slot_agent_combo_counter, ":combo_counter"), #Combo Counter is Set
+
+    
+    # Combo Effect Tiers are Set Below. You Can Add As Many Tiers as Your Mod Requires. See CONSTANTS for Tiers.
+    # For this Iteration, We Just Do A Simple Damage Bonus
+    # Messages are for flavour. Not necessary.
+
+    (try_begin),
+      (call_script, "script_cf_combo_effect"), #If You Want A Special Effect to Occur During a Specific Combo Tier, You Can Create A Script Here.
+    (else_try),
+      (is_between, ":combo_counter", COMBO_TIER_1_MIN, COMBO_TIER_1_MAX),
+      (val_add, ":damage", 3),
+      (display_message, "@Tier 1 Combo Effect: You deal an extra 3 damage"), 
+    (else_try),
+      (is_between, ":combo_counter", COMBO_TIER_2_MIN, COMBO_TIER_2_MAX),
+      (val_add, ":damage", 5),
+      (display_message, "@Tier 2 Combo Effect: You deal an extra 5 damage"),
+    (else_try),
+      (ge, ":combo_counter", COMBO_TIER_2_MAX),
+      (val_add, ":damage", 7),
+      (display_message, "@Tier 3 Combo Effect: You deal an extra 7 damage"),
+    (try_end),
+
+    #Debug
+    (try_begin),
+      (eq, COMBO_DEBUG, 1),
+      (assign, reg30, ":combo_counter"),
+      (assign, reg31, ":combo_timer"),
+      (display_message, "@Counter - {reg30}, Timer - {reg31}", COMBO_TEXT_GOOD),
+    (try_end),
+    #Debug End
+
+    (assign, reg0, ":weapon_used"), #Reset reg0
+
+  ]),
+
+# This MT Trigger Runs the Presentation
+  (0,0,0, [(get_player_agent_no, ":player"), (agent_slot_ge, ":player", slot_agent_combo_counter, 2)], [(start_presentation, "prsnt_show_combo_multiplier"),]),
+
+]
+# Melee Combo & Effects by Khamukkamu END

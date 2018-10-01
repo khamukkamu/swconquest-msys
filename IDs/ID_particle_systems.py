@@ -78,3 +78,6 @@ psys_deflector_shield_hit_red = 76
 psys_swy_damage_smoke = 77
 psys_swy_damage_sparks = 78
 psys_swy_muzzleflare = 79
+psys_sw_lightning = 80
+psys_sw_lightning_b = 81
+psys_sw_lightning_victim = 82

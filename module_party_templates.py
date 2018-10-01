@@ -181,4 +181,7 @@ party_templates = [
 ##  ("faction_5_reinforcements_a", "faction_5_reinforcements_a", 0, 0, fac_commoners, 0, [(trp_rhodok_spearman,3,7),(trp_rhodok_crossbowman,5,10),(trp_rhodok_tribesman,11,26)]),
 ##  ("faction_5_reinforcements_b", "faction_5_reinforcements_b", 0, 0, fac_commoners, 0, [(trp_rhodok_trained_spearman,4,9),(trp_rhodok_spearman,5,10),(trp_rhodok_crossbowman,3,8)]),
 ##  ("faction_5_reinforcements_c", "faction_5_reinforcements_c", 0, 0, fac_commoners, 0, [(trp_rhodok_sergeant,3,7),(trp_rhodok_veteran_spearman,2,5),(trp_rhodok_veteran_crossbowman,2,5)]),
+
+("jedi_tests", "Wild Jedi", icon_tran_slaver,0, fac_deserters, soldier_personality, [(trp_jedi_warrior_master, 1,1)]),
+
 ] 

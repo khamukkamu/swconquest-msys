@@ -1,5 +1,5 @@
 partytemplatesfile version 1
-63
+64
 pt_none <none> 38 0 1 7 -1 -1 -1 -1 -1 -1 
 pt_rescued_prisoners Rescued_Prisoners 35 0 1 7 -1 -1 -1 -1 -1 -1 
 pt_enemy Enemy 32 0 24 7 -1 -1 -1 -1 -1 -1 
@@ -63,3 +63,4 @@ pt_faction_trandoshan_reinforcements_c <faction_trandoshan_reinforcements_c> 0 0
 pt_faction_droid_reinforcements_a <faction_clone_reinforcements_a> 0 0 1 0 96 6 12 0 -1 -1 -1 -1 -1 
 pt_faction_droid_reinforcements_b <faction_clone_reinforcements_b> 0 0 1 0 96 5 9 0 97 1 3 0 -1 -1 -1 -1 
 pt_faction_droid_reinforcements_c <faction_clone_reinforcements_c> 0 0 1 0 102 3 6 0 104 1 2 0 -1 -1 -1 -1 
+pt_jedi_tests Wild_Jedi 27 0 21 137 167 1 1 0 -1 -1 -1 -1 -1 

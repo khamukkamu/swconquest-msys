@@ -1,4 +1,4 @@
-670
+669
  stand 0 16777216  4
   3 anim_human 50 52 1342177280 0 0 0 0  0.25 
   3 anim_human 60 62 1342177280 0 0 0 0  0.75 
@@ -254,9 +254,9 @@
  walk_forward_crouch 256 0  1
   1.7 low_walk 0 48 536870912 58726 0 0 0 0.0 
  stand_to_crouch 256 0  1
-  1 crouch_down 0 81 2 0 0 0 0  0.0 
+  1.3 crouch_down 0 50 2 0 0 0 0  0.0 
  crouch_to_stand 256 0  1
-  1 crouch_down 154 185 2 0 0 0 0  0.0 
+  1 crouch_down 56 91 2 0 0 0 0  0.0 
  ride_0 256 16777216  1
   8 sw_pilot_stand 0 49 268435467 0 0 0 0 0.0 
  ride_1 257 16777216  1
@@ -947,16 +947,80 @@
   3 poses 6 6 268435456 0 0 0 0 0.0 
  pose_5 0 0  1
   3 poses 8 8 268435456 0 0 0 0 0.0 
- equip_bayonet 0 184549446  1
+ equip_bayonet 0 184549456  1
   0.2 greatsword_cstance 0 91 513 61286 0 0 0 0.0 
  unequip_bayonet 0 184549456  1
   0.2 new_rifle_stand 0 99 513 61286 0 0 0 0.0 
  alt_sword 0 184549456  1
   0.2 sword_loop01 0 200 1 0 0 0 0 0.0 
- unused_human_anim_03 0 0  1
-  1 anim_human 0 1 0 0 0 0 0 0.0 
- unused_human_anim_04 0 0  1
-  1 anim_human 0 1 0 0 0 0 0 0.0 
+ crouch_unarmed 0 16777216  1
+  11 crouch_stand_man 0 315 1342177280 0 0 0 0  0.25 
+ crouch_single 0 16777216  1
+  11 crouch_stand_man 0 315 1342177280 0 0 0 0  0.25 
+ crouch_greatsword 0 16777216  1
+  6 crouch_greatsword_cstance 0 170 1342177280 0 0 0 0  0.25 
+ crouch_staff 0 16777216  1
+  5 crouch_staff_cstance 0 120 1342177280 0 0 0 0  0 
+ crouch_crossbow 0 16777216  1
+  5 crouch_staff_cstance 0 120 1342177280 0 0 0 0  0 
+ crouch_ready_pistol 1679818752 606093322  1
+  0.3 crouch_fire_pistol 1 12 7 0 0 0 0 0.0 
+ crouch_release_pistol 1679818752 572538890  1
+  0.3 crouch_fire_pistol 12 21 2 0 0 0 0 0.0 
+ reload_musket_full 0 35651644  1
+  2.5 man_reload 0 340 67108868 0 0 0 0 0.0 
+ reload_musket_two_third 0 35651644  1
+  1.7 man_reload 110 340 67108868 0 0 0 0 0.0 
+ reload_musket_one_third 0 35651644  1
+  0.6 man_reload 270 340 67108868 0 0 0 0 0.0 
+ crouch_pike 0 16777216  1
+  11 crouch_stand_man 0 315 1342177280 0 0 0 0  0.25 
+ crouch_pike_recover 0 16777216  1
+  11 crouch_stand_man 0 315 1342177280 0 0 0 0  0.25 
+ ready_overswing_spear 0 16777216  1
+  6 crouch_greatsword_cstance 0 170 1342177280 0 0 0 0  0.25 
+ release_overswing_spear 0 16777216  1
+  5 crouch_staff_cstance 0 120 1342177280 0 0 0 0  0 
+ release_overswing_spear_continue 0 572522497  1
+  0.3 attacks_staff_thrust_overhead 43 50 3 0 0 0 0 0.0 
+ parried_overswing_spear 1679818752 606093322  1
+  0.3 crouch_fire_pistol 1 12 7 0 0 0 0 0.0 
+ blocked_overswing_spear 1679818752 572538890  1
+  0.3 crouch_fire_pistol 12 21 2 0 0 0 0 0.0 
+ reload_pistol_half 0 35651644  1
+  1.2 reload_pistol_new 125 250 4 0 0 0 0 0.0 
+ ready_overswing_musket 2621440 1679843338  1
+  0.35 1h_spear_thrust_overhead 0 20 7 0 0 0 0 0.0 
+ release_overswing_musket 2621440 2183159818  1
+  0.45 1h_spear_thrust_overhead 20 41 6 0 0 0 0 0.0 
+ release_overswing_musket_continue 0 572547073  1
+  0.3 1h_spear_thrust_overhead 41 52 3 0 0 0 0 0.0 
+ parried_overswing_musket 0 35651599  1
+  0.3 1h_spear_thrust_overhead 26 22 6 0 0 0 0 0.0 
+ blocked_overswing_musket 0 35651599  1
+  0.3 1h_spear_thrust_overhead 26 22 6 0 0 0 0 0.0 
+ ready_thrust_musket 1678835712 1679818762  1
+  0.35 attacks_staff_thrust 14 21 7 0 0 0 0 0.0 
+ release_thrust_musket 1678835712 35651594  1
+  0.45 attacks_staff_thrust 21 40 6 0 0 0 0 0.0 
+ release_thrust_musket_continue 1678835712 572522506  1
+  0.6 attacks_staff_thrust 40 58 6 0 0 0 0 0.0 
+ parried_thrust_musket 1678770176 35651599  1
+  0.7 anim_human 27316 27313 3 0 0 0 0 0.0 
+ blocked_thrust_musket 1678770176 35651599  1
+  0.6 anim_human 27316 27313 3 0 0 0 0 0.0 
+ equip_pistol_melee 0 184549446  1
+  0.3 equip_pistol 0 10 1 0 0 0 0 0.0 
+ unequip_pistol_melee 0 184549446  1
+  0.3 equip_pistol 0 10 1 0 0 0 0 0.0 
+ deflect_forward_onehanded_keep 0 33554448  3
+  0.6 anim_human 35410 35410 9 0 0 0 0 0.0 
+  0.6 anim_human 35520 35520 9 0 0 0 0 0.0 
+  0.6 anim_human 35620 35620 9 0 0 0 0 0.0 
+ sw_parry_ranged_lightsaber 0 33554448  3
+  0.6 parry_attack_thrust_onehanded 12 30 9 0 0 0 0 0.0 
+  0.6 defend_up_onehanded 10 20 9 0 0 0 0 0.0 
+  0.6 defend_left_onehanded 15 28 9 0 0 0 0 0.0 
  unused_human_anim_05 0 0  1
   1 anim_human 0 1 0 0 0 0 0 0.0 
  unused_human_anim_06 0 0  1
@@ -1032,68 +1096,6 @@
  unused_human_anim_41 0 0  1
   1 anim_human 0 1 0 0 0 0 0 0.0 
  unused_human_anim_42 0 0  1
-  1 anim_human 0 1 0 0 0 0 0 0.0 
- unused_human_anim_43 0 0  1
-  1 anim_human 0 1 0 0 0 0 0 0.0 
- unused_human_anim_44 0 0  1
-  1 anim_human 0 1 0 0 0 0 0 0.0 
- unused_human_anim_45 0 0  1
-  1 anim_human 0 1 0 0 0 0 0 0.0 
- unused_human_anim_46 0 0  1
-  1 anim_human 0 1 0 0 0 0 0 0.0 
- unused_human_anim_47 0 0  1
-  1 anim_human 0 1 0 0 0 0 0 0.0 
- unused_human_anim_48 0 0  1
-  1 anim_human 0 1 0 0 0 0 0 0.0 
- unused_human_anim_49 0 0  1
-  1 anim_human 0 1 0 0 0 0 0 0.0 
- unused_human_anim_50 0 0  1
-  1 anim_human 0 1 0 0 0 0 0 0.0 
- unused_human_anim_51 0 0  1
-  1 anim_human 0 1 0 0 0 0 0 0.0 
- unused_human_anim_52 0 0  1
-  1 anim_human 0 1 0 0 0 0 0 0.0 
- unused_human_anim_53 0 0  1
-  1 anim_human 0 1 0 0 0 0 0 0.0 
- unused_human_anim_54 0 0  1
-  1 anim_human 0 1 0 0 0 0 0 0.0 
- unused_human_anim_55 0 0  1
-  1 anim_human 0 1 0 0 0 0 0 0.0 
- unused_human_anim_56 0 0  1
-  1 anim_human 0 1 0 0 0 0 0 0.0 
- unused_human_anim_57 0 0  1
-  1 anim_human 0 1 0 0 0 0 0 0.0 
- unused_human_anim_58 0 0  1
-  1 anim_human 0 1 0 0 0 0 0 0.0 
- unused_human_anim_59 0 0  1
-  1 anim_human 0 1 0 0 0 0 0 0.0 
- unused_human_anim_60 0 0  1
-  1 anim_human 0 1 0 0 0 0 0 0.0 
- unused_human_anim_61 0 0  1
-  1 anim_human 0 1 0 0 0 0 0 0.0 
- unused_human_anim_62 0 0  1
-  1 anim_human 0 1 0 0 0 0 0 0.0 
- unused_human_anim_63 0 0  1
-  1 anim_human 0 1 0 0 0 0 0 0.0 
- unused_human_anim_64 0 0  1
-  1 anim_human 0 1 0 0 0 0 0 0.0 
- unused_human_anim_65 0 0  1
-  1 anim_human 0 1 0 0 0 0 0 0.0 
- unused_human_anim_66 0 0  1
-  1 anim_human 0 1 0 0 0 0 0 0.0 
- unused_human_anim_67 0 0  1
-  1 anim_human 0 1 0 0 0 0 0 0.0 
- unused_human_anim_68 0 0  1
-  1 anim_human 0 1 0 0 0 0 0 0.0 
- unused_human_anim_69 0 0  1
-  1 anim_human 0 1 0 0 0 0 0 0.0 
- unused_human_anim_70 0 0  1
-  1 anim_human 0 1 0 0 0 0 0 0.0 
- unused_human_anim_71 0 0  1
-  1 anim_human 0 1 0 0 0 0 0 0.0 
- unused_human_anim_72 0 0  1
-  1 anim_human 0 1 0 0 0 0 0 0.0 
- unused_human_anim_73 0 0  1
   1 anim_human 0 1 0 0 0 0 0 0.0 
  slave_dance 1024 50331743  1
   10 dancer_stand 0 177 1342177280 0 0 0 0  0.2 

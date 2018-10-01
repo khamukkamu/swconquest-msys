@@ -699,8 +699,7 @@ presentations = [
 			#-----------------------------------------------------------
 
 		(try_begin),
-      (this_or_next|eq, "$cam_mode", 0),
-			(neg|game_key_is_down,gk_zoom),
+      (eq, "$cam_mode", 0),
 			#(assign, "$zoom_view", 0),
 			(presentation_set_duration, 0),
 		(try_end),
@@ -708,116 +707,7 @@ presentations = [
 ]),
 
 
-("iron_sights", prsntf_read_only, 0, [    #must use prsntf_read_only or you cannot attack
-  (ti_on_presentation_load,
-    [
-    (assign, ":view", 0),
-    (get_player_agent_no, ":player_agent"),
-    (agent_get_wielded_item, ":item_handone", ":player_agent", 0),
-    #(agent_get_wielded_item, ":item_handtwo", ":player_agent", 1),
-    (try_begin),
-      (eq, ":item_handone", -1),
-      (assign, ":view", 1), #use binoculars
-    (else_try),
-      #(ge, ":item_handone", 0),
-      (item_get_type, ":item_type_handone", ":item_handone"),
-      (try_begin),
-        (this_or_next|eq, ":item_type_handone", itp_type_one_handed_wpn),
-        (this_or_next|eq, ":item_type_handone", itp_type_two_handed_wpn),
-        (this_or_next|eq, ":item_type_handone", itp_type_bow),
-        (eq, ":item_type_handone", itp_type_polearm),
-        (assign, ":view", 1), #use binoculars
-      (else_try),
-        (this_or_next|eq, ":item_type_handone", itp_type_crossbow),
-        (eq, ":item_type_handone", itp_type_pistol),
-        (assign, ":view", 2), #use scope
-      (else_try),
-        (assign, ":view", 0), #pistol, other, don't do anything
-      (try_end),
-    (try_end),
 
-    (try_begin),
-      (eq, ":view", 1),
-       (create_mesh_overlay, reg1, "mesh_binocular_display"),
-       (position_set_x, pos1, 0),
-       (position_set_y, pos1, 0),
-       (overlay_set_position, reg1, pos1),
-    (else_try),
-      (eq, ":view", 2),
-      (create_mesh_overlay, reg1, "mesh_weapon_display"),
-      (position_set_x, pos1, 0),
-      (position_set_y, pos1, 0),
-      (overlay_set_position, reg1, pos1),
-    (try_end),
-
-    (presentation_set_duration, 999999),
-
-    # --------------------------
-              # Little Pos Helper by Kuba begin---------
-              # (create_text_overlay, "$g_little_pos_helper", "@X: 00,Y: 00"),
-              # (overlay_set_color, "$g_little_pos_helper", 0xFFFFFFFF),
-              # (position_set_x, pos1, 10),
-              # (position_set_y, pos1, 700),
-              # (overlay_set_position, "$g_little_pos_helper", pos1),
-              # ----------------------------------------
-
-              # (create_mesh_overlay, reg1, "mesh_binocular_display"),
-              # (position_set_x, pos1, 0),
-              # (position_set_y, pos1, 0),
-              # (position_set_z, pos1, 0),
-              # (overlay_set_position, reg1, pos1),
-
-              ##Dynamic numbers by Swyter - Rotation
-              # (create_text_overlay, "$g_rotation", "@Binocular Rotation"),
-              # (position_set_x, pos1, 465),
-              # (position_set_y, pos1, 200),
-              # (position_set_z, pos1, 0),
-              # (overlay_set_position, "$g_rotation", pos1),
-              # (overlay_set_color, "$g_rotation", 0xde9e62),
-
-              ##Dynamic numbers by Swyter - Distance
-              # (create_text_overlay, "$g_distance", "@Binocular Distance"),
-              # (position_set_x, pos1, 238),
-              # (position_set_y, pos1, 140),
-              # (position_set_z, pos1, 0),
-              # (overlay_set_position, "$g_distance", pos1),
-              # (overlay_set_color, "$g_distance", 0x3e1213),
-    #-----------------------------------------------------------
-    ]),
-
-  (ti_on_presentation_event_state_change,
-    [
-    #(presentation_set_duration, 0),
-    ]),
-
-  (ti_on_presentation_run,
-          [
-        #-----------------------------------------------------------
-        # (mouse_get_position, pos1),
-        # (position_get_x, reg1, pos1),
-        # (position_get_y, reg2, pos1),
-        # (overlay_set_text, "$g_little_pos_helper", "@X: {reg1},Y: {reg2}"),
-
-
-        # (get_player_agent_no,":bin_player"),
-        # (agent_get_position, pos2,":bin_player"),
-        # (position_get_rotation_around_z,":bin_rotation",pos2),
-        # (str_store_string,reg60,":bin_rotation"),
-
-        # (agent_get_look_position, pos3, ":bin_player"),
-        # (get_distance_between_positions,":bin_distance",pos2,pos3),
-        # (store_div,":bin_distance",":bin_distance",1000),
-
-        # (overlay_set_text, "$g_rotation", "@{reg60}"),
-        # (overlay_set_text, "$g_distance", ":bin_distance"),
-      #-----------------------------------------------------------
-
-    (try_begin),
-      (eq, "$cam_mode", 0),
-      (presentation_set_duration, 0),
-    (try_end),
-  ]),
-]),
 
 
 ("binocular_display", prsntf_read_only, 0, [
@@ -9654,5 +9544,125 @@ if wb_compile_switch==1:
         (try_end),
       ]),
     ]),
+
+
+#Force Stamina - Credit to VC Team
+("staminabar", prsntf_read_only|prsntf_manual_end_only, 0, [
+    (ti_on_presentation_load, [
+        (set_fixed_point_multiplier, 1000),
+        
+        (str_clear, s12),
+        
+        (create_text_overlay, "$stamina_bar", "@Stamina:", tf_center_justify),
+        (overlay_set_color, "$stamina_bar", 0xDDDDDD),
+        (position_set_x, pos1, 889),
+        (position_set_y, pos1, 40),
+        (overlay_set_position, "$stamina_bar", pos1),
+        (position_set_x, pos1, 800),
+        (position_set_y, pos1, 800),
+        (overlay_set_size, "$stamina_bar", pos1),
+        ##
+        (get_player_agent_no,":player_agent"),
+        (agent_is_active, ":player_agent"),
+        (agent_is_alive,":player_agent"), #  test for alive players.
+        (agent_is_human, ":player_agent"),
+        (agent_get_slot, ":basic_stamina_i", ":player_agent", slot_agent_initial_force_stamina),
+        (store_div, ":stamine_div10", ":basic_stamina_i", 10), #10 #
+        (store_div, ":stamine_div2", ":basic_stamina_i", 2), #50%
+        (store_mul, ":stamine_div3o4", ":basic_stamina_i", 3), #3/4
+        (val_div, ":stamine_div3o4", 4),
+        
+        (agent_get_slot, ":basic_stamina", ":player_agent", slot_agent_force_stamina),
+        # (assign, reg0,":basic_stamina"),
+        
+        (try_begin),
+          (lt, ":basic_stamina", 5),
+          (str_store_string,s12,"@Exhausted"),
+        (else_try),
+          (lt, ":basic_stamina", ":stamine_div10"),
+          (str_store_string,s12,"@Very Tired"),
+        (else_try),
+          (lt, ":basic_stamina", ":stamine_div2"),
+          (str_store_string,s12,"@Tired"),
+        (else_try),
+          (lt, ":basic_stamina", ":stamine_div3o4"),
+          (str_store_string,s12,"@Normal"),
+        (else_try),
+          (str_store_string,s12,"@High"),
+        (try_end),
+        
+        (create_text_overlay, reg1, s12, tf_center_justify),
+        (position_set_x, pos1, 800),
+        (position_set_y, pos1, 800),
+        (overlay_set_size, reg1, pos1),
+        (position_set_x, pos1, 949),
+        (position_set_y, pos1, 40),
+        (overlay_set_position, reg1, pos1),
+        (overlay_set_color, reg1, 0x0000bb), #azul
+        
+        (presentation_set_duration, 999999),
+    ]),
+    (ti_on_presentation_run,
+      [
+    ]),
+]),
+
+
+# Melee Combo & Effects by Khamukkamu START
+# Combo Presentation
+
+("show_combo_multiplier", prsntf_read_only, 0, [
+    (ti_on_presentation_load, [
+        (set_fixed_point_multiplier, 1000),
+        
+        (get_player_agent_no, ":player"),
+        (agent_get_slot, ":combo_multiplier", ":player", slot_agent_combo_counter),
+        (assign, reg40, ":combo_multiplier"),
+        (str_clear, s25),
+        (str_clear, s24),
+
+        # The Below Block Sets Up The Text That Appears When Combo Tiers are Reached
+        (try_begin),
+          (is_between, reg40, COMBO_TIER_1_MIN, COMBO_TIER_1_MAX),
+          (assign, ":colour", COMBO_TEXT_GOOD),
+          (str_store_string, s25, "@Good"),
+        (else_try),
+          (is_between, reg40, COMBO_TIER_2_MIN, COMBO_TIER_2_MAX),
+          (assign, ":colour", COMBO_TEXT_GREAT),
+          (str_store_string, s25, "@Great!"),
+        (else_try),
+          (ge, reg40, COMBO_TIER_2_MAX),
+          (assign, ":colour", COMBO_TEXT_EXCELLENT),
+          (str_store_string, s25, "@EXCELLENT!!"),
+        (try_end),
+
+        # Combo Multiplier Text
+        (str_store_string, s24, "@{reg40}x Combo"),
+        (create_text_overlay, "$combo_options_overlay_1", s24, tf_center_justify),
+        (overlay_set_color, "$combo_options_overlay_1", ":colour"),
+        (position_set_x, pos1, 850),
+        (position_set_y, pos1, 230),
+        (overlay_set_position, "$combo_options_overlay_1", pos1),
+        (position_set_x, pos1, 3000),
+        (position_set_y, pos1, 3000),
+        (overlay_set_size, "$combo_options_overlay_1", pos1),
+        
+        # Combo "Motivator" Text
+        (create_text_overlay, "$combo_options_overlay_2", s25, tf_center_justify),
+        (overlay_set_color, "$combo_options_overlay_2", ":colour"),
+        (position_set_x, pos1, 850),
+        (position_set_y, pos1, 190),
+        (overlay_set_position, "$combo_options_overlay_2", pos1),
+        (position_set_x, pos1, 2800),
+        (position_set_y, pos1, 2800),
+        (overlay_set_size, "$combo_options_overlay_2", pos1),
+        (presentation_set_duration, 470),
+
+    ]),
+    (ti_on_presentation_run,
+      []),
+]),
+
+# Melee Combo & Effects by Khamukkamu END
 ]
 

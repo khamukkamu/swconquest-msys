@@ -1366,4 +1366,44 @@ particle_systems = [
      0,                         #rotation speed
      0,                         #rotation damping
     ),
+
+    ("sw_lightning", psf_turn_to_velocity|psf_randomize_rotation|psf_randomize_size,  "prt_lightning",
+     100, 0.1, 0, 0, 10.0, 0.02,     #num_particles, life, damping, gravity_strength, turbulance_size, turbulance_strength
+     (0.66, 1), (1, 0),          #alpha keys
+     (0.1, 0.7), (1, 0.5),      #red keys
+     (0.1, 0.5),(1, 0.5),       #green keys
+     (0.1, 0.1), (1, 0.7),      #blue keys
+     (0.1, 0.3),   (1, 2.0),  #scale keys
+     (0.1, 0.1, 0.1),           #emit box size
+     (0, 0.3, 0),               #emit velocity
+     0.16,                       #emit dir randomness
+     0,
+     0,
+    ),
+    ("sw_lightning_b", psf_billboard_2d|psf_global_emit_dir|psf_randomize_size, "prt_mesh_fire_2",
+     10, 0.25, 0.2, 0.0, 10.0, 0.0,     #num_particles, life, damping, gravity_strength, turbulance_size, turbulance_strength
+     (0.5, 0.5), (1, 0),          #alpha keys
+     (0.1, 0.5), (1, 0.5),      #red keys
+     (0.1, 0.5),(1, 0.5),       #green keys
+     (0.1, 0.7), (1, 0.7),      #blue keys
+     (0, 7),   (1.0, 7),        #scale keys
+     (0.0, 0.0, 0.0),           #emit box size
+     (0, 0, 0),                 #emit velocity
+     0.0,                       #emit dir randomness
+     0,
+     0
+    ),
+    ("sw_lightning_victim", psf_turn_to_velocity|psf_randomize_rotation|psf_randomize_size,  "prt_lightning",
+     100, 0.1, 0, 0, 10.0, 0.02,     #num_particles, life, damping, gravity_strength, turbulance_size, turbulance_strength
+     (0.66, 0.7), (1, 0),          #alpha keys
+     (0.1, 0.7), (1, 0.5),      #red keys
+     (0.1, 0.5),(1, 0.5),       #green keys
+     (0.1, 0.1), (1, 0.7),      #blue keys
+     (0.1, 0.2),   (1, 0.6),  #scale keys
+     (0.2, 0.2, 0.2),           #emit box size
+     (0, 0.3, 0),               #emit velocity
+     1,                       #emit dir randomness
+     0,
+     0,
+    ),
 ]

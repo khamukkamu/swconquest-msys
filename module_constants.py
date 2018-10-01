@@ -1602,3 +1602,56 @@ slot_item_sound = 65
 
 #Kham autofire
 slot_item_has_autofire = 66
+
+#Force Shield- kham
+slot_troop_force_shield = 161
+slot_agent_force_shield_active = 43
+slot_agent_force_shield = 44
+
+#Deflection AI - Kham
+slot_agent_deflection_max = 45
+
+#Force Fatigue
+slot_agent_initial_force_stamina = 46
+slot_agent_force_stamina = 47
+
+# Melee Combo & Effects by Khamukkamu START
+
+# Agent Slots for Counting Hits and Time Since Last Hit
+
+slot_agent_combo_counter = 1002
+slot_agent_combo_timer = 1003
+
+# Set the Following Option To 1 if You Want To Reset The Combo to 0 if the Player is Hit. Otherwise, set it to 0.
+DAMAGE_TO_PLAYER_RESETS_COMBO = 0
+
+# Change the Value Below in Seconds to Set The Duration / Length of the Combo Time (i.e How Long The Combo Multiplier Lasts Before it Resets to 0)
+COMBO_TIMER_ADDITION = 5 #Seconds
+
+
+# Constants for Combo Tiers (More Can Be Added Depending on Mod)
+# Min Values are the start of the tier, Max Values - 1 are the end of a tier.
+
+COMBO_TIER_1_MIN = 2
+COMBO_TIER_1_MAX = 4 
+
+COMBO_TIER_2_MIN = COMBO_TIER_1_MAX
+COMBO_TIER_2_MAX = COMBO_TIER_2_MIN + 2
+
+# Combo Action Tiers - If You Want To Have A Special Action / Effect To Happen at A Specific Combo Hit, You Can Set it Up Here.
+# The Value is the Current Combo Hit That Occurred Which Will Trigger The Effect
+
+COMBO_ACTION_TIER_1 = 3
+COMBO_ACTION_TIER_2 = 6
+COMBO_ACTION_TIER_3 = 10
+
+# Combo Text Colours
+COMBO_TEXT_GOOD = 0x33FF33
+COMBO_TEXT_GREAT = 0xFFFF33
+COMBO_TEXT_EXCELLENT = 0xFF3333
+
+
+# Debug Switch - Set to 1 to Show Debug Messages
+COMBO_DEBUG = 1
+
+# Melee Combo & Effects by Khamukkamu END

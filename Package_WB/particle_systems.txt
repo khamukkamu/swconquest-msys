@@ -1,5 +1,5 @@
 particle_systemsfile version 1
-80
+83
 psys_game_rain 274 prtcl_rain  1500 0.5 0.33 1 10 0 
 1 0.3   1 0.3
 1 1   1 1
@@ -639,4 +639,28 @@ psys_swy_muzzleflare 4626 swy_psys_muzzleflare  1 0.0001 0 0 0 0
 1 1.2   1 1
 0 1   1 1
 0 0 0   0 0 0   0 
+0 0 
+psys_sw_lightning 13312 prt_lightning  100 0.1 0 0 10 0.02 
+0.66 1   1 0
+0.1 0.7   1 0.5
+0.1 0.5   1 0.5
+0.1 0.1   1 0.7
+0.1 0.3   1 2
+0.1 0.1 0.1   0 0.3 0   0.16 
+0 0 
+psys_sw_lightning_b 8464 prt_mesh_fire_2  10 0.25 0.2 0 10 0 
+0.5 0.5   1 0
+0.1 0.5   1 0.5
+0.1 0.5   1 0.5
+0.1 0.7   1 0.7
+0 7   1 7
+0 0 0   0 0 0   0 
+0 0 
+psys_sw_lightning_victim 13312 prt_lightning  100 0.1 0 0 10 0.02 
+0.66 0.7   1 0
+0.1 0.7   1 0.5
+0.1 0.5   1 0.5
+0.1 0.1   1 0.7
+0.1 0.2   1 0.6
+0.2 0.2 0.2   0 0.3 0   1 
 0 0 
