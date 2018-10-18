@@ -491,7 +491,7 @@ script_get_freelancer_mission = 489
 script_freelancer_promoted_to_commander = 490
 script_freelancer_remove_player_party = 491
 script_freelancer_restore_player_party = 492
-script_freelancer_mission_scout_waypoints = 493
+script_cf_freelancer_mission_scout_waypoints = 493
 script_freelancer_start_deserter_quest = 494
 script_freelancer_pacify_quest_persuade = 495
 script_game_get_upgrade_xp = 496
@@ -505,5 +505,10 @@ script_init_item_shoot_speed = 503
 script_init_item_speed_rating = 504
 script_init_get_autofire_weapons = 505
 script_cf_combo_effect = 506
+script_check_equipped_items = 507
+script_unequip_items = 508
+script_refresh_center_armories = 509
+script_refresh_center_weaponsmiths = 510
+script_refresh_center_stables = 511
 
 

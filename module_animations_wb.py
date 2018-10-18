@@ -148,7 +148,8 @@ animations = [
  ],
  ["stand_crossbow", 0, amf_client_prediction,
   #[2.0, "staff_cstance", 0, 60, arf_use_stand_progress|arf_cyclic, 0, (0, 0, 0), 0.0],  		#native
-   [6.0, "new_rifle_stand", 0, 99, arf_use_stand_progress|arf_cyclic, 0, (0, 0, 0), 0.0],  	#from 1866 mod
+   #[6.0, "new_rifle_stand", 0, 99, arf_use_stand_progress|arf_cyclic, 0, (0, 0, 0), 0.0],  	#from 1866 mod
+   [2.0, "rifle_stand_ani", 0, 29, arf_use_stand_progress|arf_cyclic, 0, (0, 0, 0), 0.0],     #DM-TAS
  ],
  ["turn_right", acf_enforce_lowerbody, amf_play|amf_client_prediction,
    [0.95, "stand_man", 0, 30, arf_use_stand_progress|arf_cyclic, 0, (0, 0, 0), 0.25], #TODO
@@ -209,7 +210,8 @@ animations = [
 ## [0.8, "run_greatsword", 0, 22, arf_use_walk_progress|arf_cyclic|arf_make_walk_sound,pack2f(0.4,0.9), (0, 0, 0), 0.0],
 ###[0.8, "run_forward_staff", 0, 24, arf_use_walk_progress|arf_cyclic|arf_make_walk_sound,pack2f(0.4,0.9), (0, 0, 0), 0.4],
  ##[0.8, "sw_staff_anim", 0, 99, arf_use_walk_progress|arf_cyclic|blend_in_walk|arf_make_walk_sound,pack2f(0.4,0.9), (0, 0, 0), 0.4],
-	 [0.8, "run_man_forward_onehanded", 0, 24, arf_use_walk_progress|arf_cyclic|arf_make_walk_sound,pack2f(0.4,0.9), (0, 0, 0), 0.4],
+	 #[0.8, "run_man_forward_onehanded", 0, 24, arf_use_walk_progress|arf_cyclic|arf_make_walk_sound,pack2f(0.4,0.9), (0, 0, 0), 0.4], #SWC
+   [0.8, "run_rifle", 0, 25, arf_use_walk_progress|arf_cyclic|arf_make_walk_sound,pack2f(0.4,0.9), (0, 0, 0), 0.0],
  ],
  ["run_forward_greatsword", acf_enforce_lowerbody, amf_use_cycle_period|amf_client_prediction,
 #   [0.8, "anim_human", 7200, 7240, arf_use_walk_progress|arf_cyclic|arf_make_walk_sound,pack2f(0.4,0.9), (0, 0, 0), 0.0],
@@ -794,12 +796,15 @@ animations = [
  ["ready_crossbow", acf_rot_vertical_bow|acf_anim_length(100), amf_priority_attack|amf_use_weapon_speed|amf_keep|amf_client_owner_prediction|amf_rider_rot_crossbow,
   #[1.5, "anim_human", combat+1300, combat+1320, blend_in_ready],	#native animation
   #[0.3, "new_rifle", 21300, 21330, blend_in_ready],	#1866 animation
-   [0.3, "new_rifle_old", 21275, 21300, blend_in_ready],	#1866 animation old animation (better for SWC)
+   #[0.3, "new_rifle_old", 21275, 21300, blend_in_ready],	#1866 animation old animation (better for SWC) 
+   [0.3, "rifle_aim", 18, 18, blend_in_ready],  #DM-TAS
+
  ],
  ["release_crossbow", acf_rot_vertical_bow|acf_anim_length(100), amf_priority_attack|amf_use_weapon_speed|amf_play|amf_client_owner_prediction|amf_rider_rot_crossbow,
   #[0.2, "anim_human", combat+1330, combat+1331, arf_blend_in_1],		#native animation
   #[0.1, "anim_human", 21330, 21331, arf_blend_in_1],		#1866 animation
-   [0.1, "anim_human", 21300, 21300, arf_blend_in_1],		#1866 animation old (better for SWC)
+   #[0.1, "anim_human", 21300, 21300, arf_blend_in_1],		#1866 animation old (better for SWC)
+   [3.5, "rifle_fire_160", 18, 26, arf_blend_in_1],  #DM-TAS
  ],
  ["reload_crossbow", 0, amf_priority_reload|amf_use_weapon_speed|amf_play,
   #[1.0, "anim_human", combat+1700, combat+1750, arf_blend_in_8|arf_make_custom_sound, pack2f(0.40, 0.94)],
@@ -809,12 +814,23 @@ animations = [
  ["reload_crossbow_horseback", 0, amf_priority_reload|amf_use_weapon_speed|amf_play,
    [1.6, "anim_human", combat+1800, combat+1877, arf_blend_in_8|arf_make_custom_sound, pack2f(0.27, 0.94)],
  ],
- ["ready_javelin", acf_rot_vertical_bow, amf_priority_attack|amf_use_weapon_speed|amf_keep|amf_client_owner_prediction|amf_rider_rot_throw,
-   [0.3, "holding_big_gun", 270, 285, blend_in_ready],	#animation from WWII China Battlefield
+ 
+ #["ready_javelin", acf_rot_vertical_bow, amf_priority_attack|amf_use_weapon_speed|amf_keep|amf_client_owner_prediction|amf_rider_rot_throw,
+ #  [0.3, "holding_big_gun", 270, 285, blend_in_ready],	#animation from WWII China Battlefield
+ #],
+ #["release_javelin", acf_rot_vertical_bow, amf_priority_throw|amf_use_weapon_speed|amf_play|amf_client_owner_prediction|amf_rider_rot_throw,
+ #  [0.1, "holding_big_gun", 285, 285, arf_blend_in_1],		#animation from WWII China Battlefield
+ #],
+ 
+ # DM-TAS START
+ ["ready_javelin", acf_rot_vertical_bow|acf_anim_length(100), amf_priority_attack|amf_use_weapon_speed|amf_keep|amf_client_owner_prediction|amf_rider_rot_crossbow,
+   [0.3, "rifle_aim_hip", 18, 18,  blend_in_ready], 
  ],
- ["release_javelin", acf_rot_vertical_bow, amf_priority_throw|amf_use_weapon_speed|amf_play|amf_client_owner_prediction|amf_rider_rot_throw,
-   [0.1, "holding_big_gun", 285, 285, arf_blend_in_1],		#animation from WWII China Battlefield
+ ["release_javelin", acf_rot_vertical_bow|acf_anim_length(100), amf_priority_attack|amf_use_weapon_speed|amf_play|amf_client_owner_prediction|amf_rider_rot_crossbow,
+   [3.5, "rifle_fire_hip_160", 0, 26, arf_blend_in_1],    
  ],
+ # DM-TAS END
+
  ["ready_throwing_knife", acf_rot_vertical_bow, amf_priority_attack|amf_use_weapon_speed|amf_keep|amf_client_owner_prediction|amf_rider_rot_throw,
    [0.3, "throw_knife", 10, 30, blend_in_ready],
    [0.3, "anim_human", 22100, 22110, blend_in_ready, 0, (0, 0, 0), 0.2],	#acm new
@@ -842,12 +858,14 @@ animations = [
 #SW[0.8, "throw_knife", 30, 70, arf_blend_in_0],   #from release_throwing_knife (doesn't work, I was hoping to keep the spinning knife animation but have the item disapear like stones do...)
  ],
  ["ready_pistol", acf_rot_vertical_sword|acf_anim_length(100), amf_priority_attack|amf_use_weapon_speed|amf_keep|amf_client_owner_prediction|amf_rider_rot_pistol,
-   [0.3, "anim_human", combat+2500, combat+2515, arf_blend_in_8], 						#native
+  # [0.3, "anim_human", combat+2500, combat+2515, arf_blend_in_8], 						#native
   #[0.3, "readypistol_fixed_by_swy", 0, 1, arf_blend_in_8], 						#Lucke189 + CMW animations (fixed by Swyter)	- issue where it doesn't look up/down with aiming tho..
+  [0.3, "pistol_shoot", 14, 14, arf_blend_in_8],  #DM-TAS
  ],
  ["release_pistol", acf_rot_vertical_sword|acf_anim_length(100), amf_priority_attack|amf_use_weapon_speed|amf_play|amf_client_owner_prediction|amf_rider_rot_pistol,
-   [0.3, "anim_human", combat+2520, combat+2527, arf_blend_in_1],
+  # [0.3, "anim_human", combat+2520, combat+2527, arf_blend_in_1],
   #[0.3, "releasepistol_fixed_by_swy", 0, 3, arf_blend_in_1],	#Lucke189 + CMW animations (fixed by Swyter)	- issue where it doesn't look up/down with aiming tho..
+   [0.3, "aim_sky_pistol", 15, 15, arf_blend_in_1], #DM-TAS
  ],
  ["reload_pistol", 0, amf_priority_reload|amf_use_weapon_speed|amf_play,
   #[2.0, "anim_human", combat+2650, combat+2860, arf_blend_in_8],
@@ -856,10 +874,12 @@ animations = [
    [2.4, "reloadpistol_fixed_by_swy", 0, 14, arf_blend_in_8|arf_make_custom_sound, pack2f(0.40, 0.94)],		#Lucke189_animations  (fixed by Swyter)
  ],
  ["ready_musket", acf_rot_vertical_bow|acf_anim_length(100), amf_priority_attack|amf_use_weapon_speed|amf_keep|amf_client_owner_prediction|amf_rider_rot_crossbow,
-   [0.5, "new_rifle_crouch", combat+1300, combat+1330, blend_in_ready],
+   #[0.5, "new_rifle_crouch", combat+1300, combat+1330, blend_in_ready],
+   [0.5, "kneeling_fire_curve", 10, 10, blend_in_ready], #DM-TAS
  ],
  ["release_musket", acf_rot_vertical_bow|acf_anim_length(100), amf_priority_attack|amf_use_weapon_speed|amf_play|amf_client_owner_prediction|amf_rider_rot_crossbow,
-   [0.1, "new_rifle_crouch", combat+1330, combat+1331, arf_blend_in_1],
+   #[0.1, "new_rifle_crouch", combat+1330, combat+1331, arf_blend_in_1],
+   [0.1, "kneeling_fire_rise", 10, 15, arf_blend_in_1], #DM-TAS
  ],
 
 ["reload_musket", 0, amf_priority_reload|amf_use_weapon_speed|amf_play,
@@ -1782,10 +1802,20 @@ animations = [
  ["fall_chest_front", acf_enforce_all|acf_align_with_ground|acf_lock_camera, amf_priority_die|amf_accurate_body|amf_keep|amf_client_prediction,
   #[1.0, "death_chest", 4, 37, arf_blend_in_16|arf_make_custom_sound, pack2f(0.9, 0.0), (0,0,0), 0.5],
    [1.0, "swy_sw_death_chest", 0, 50, arf_blend_in_16|arf_make_custom_sound, pack2f(0.9, 0.0), (0,0,0), 0.5],
+   #DM-TAS
+   [2, "mongol_death_4", 0, 84, arf_blend_in_16|arf_make_custom_sound, pack2f(0.9, 0.0), (0,0,0), 0.5],
+   [1.5, "mongol_death_5", 7, 35, arf_blend_in_16|arf_make_custom_sound, pack2f(0.9, 0.0), (0,0,0), 0.5],
+   [1.0, "mongol_death_6", 0, 101, arf_blend_in_16|arf_make_custom_sound, pack2f(0.9, 0.0), (0,0,0), 0.5],
+   [1.0, "mongol_death_7", 0, 30, arf_blend_in_16|arf_make_custom_sound, pack2f(0.9, 0.0), (0,0,0), 0.5],
+
  ],
  ["fall_abdomen_hold_front", acf_enforce_all|acf_align_with_ground|acf_lock_camera, amf_priority_die|amf_accurate_body|amf_keep|amf_client_prediction,
   #[2.7, "death_abdomen", 5, 96, arf_blend_in_16|arf_make_custom_sound, pack2f(0.4, 0.0), (0,0,0), 0.5],
    [1.7, "swy_sw_death_side", 0, 50, arf_blend_in_16|arf_make_custom_sound, pack2f(0.4, 0.0), (0,0,0), 0.5],
+   #DM-TAS
+   [3.0, "mongol_death_3", 0, 99, arf_blend_in_16|arf_make_custom_sound, pack2f(0.4, 0.0), (0,0,0), 0.5],
+   [3.0, "mongol_death_6", 0, 101, arf_blend_in_16|arf_make_custom_sound, pack2f(0.4, 0.0), (0,0,0), 0.5],
+
  ],
  ["fall_head_front", acf_enforce_all|acf_align_with_ground|acf_lock_camera, amf_priority_die|amf_accurate_body|amf_keep|amf_client_prediction,
    [1.2, "anim_human", blow+100, blow+138, arf_blend_in_16|arf_make_custom_sound, pack2f(0.8, 0.0), (0,0,0), 0.8],
@@ -1797,9 +1827,18 @@ animations = [
    [0.8, "anim_human", 21700, 21713, arf_blend_in_16|arf_make_custom_sound, pack2f(0.8, 0.0), (0,0,0), 0.05],	#acm new
    [1.5, "anim_human", 24335, 24300, arf_blend_in_16|arf_make_custom_sound, pack2f(0.8, 0.0), (0,0,0), 1.0],	#acm new
    [2.0, "anim_human", 29515, 29535, arf_blend_in_16|arf_make_custom_sound, pack2f(0.8, 0.0), (0,0,0), 1.1],	#acm new
+   [1.0, "mongol_death_7", 0, 30, arf_blend_in_16|arf_make_custom_sound, pack2f(0.8, 0.0), (0,0,0), 0.8], #DM-TAS
+
  ],
  ["fall_right_front", acf_enforce_all|acf_align_with_ground|acf_lock_camera, amf_priority_die|amf_accurate_body|amf_keep|amf_client_prediction,
    [2.0, "death2", 0, 53, arf_blend_in_16|arf_make_custom_sound, pack2f(0.65, 0.0), (0,0,0), 1.0],
+   #DM-TAS
+   [2.3, "mongol_death_2", 0, 46, arf_blend_in_16|arf_make_custom_sound, pack2f(0.65, 0.0), (0,0,0), 1.0],
+   [2.0, "mongol_death_4", 0, 84, arf_blend_in_16|arf_make_custom_sound, pack2f(0.65, 0.0), (0,0,0), 1.0],
+   [2.0, "mongol_death_5", 0, 35, arf_blend_in_16|arf_make_custom_sound, pack2f(0.65, 0.0), (0,0,0), 1.0],
+   [3.0, "mongol_death_6", 0, 101, arf_blend_in_16|arf_make_custom_sound, pack2f(0.65, 0.0), (0,0,0), 1.0],
+   [1.0, "mongol_death_7", 0, 30, arf_blend_in_16|arf_make_custom_sound, pack2f(0.8, 0.0), (0,0,0), 0.8],
+   [1.5, "mongol_death_8", 0, 42, arf_blend_in_16|arf_make_custom_sound, pack2f(0.65, 0.0), (0,0,0), 1.0],
  ],
  ["fall_body_back", acf_enforce_all|acf_align_with_ground|acf_lock_camera, amf_priority_die|amf_accurate_body|amf_keep|amf_client_prediction,
    [2.7, "death", 0, 83, arf_blend_in_16|arf_make_custom_sound, pack2f(0.47, 0.82), (0,0,0), 1.5],
@@ -1807,6 +1846,11 @@ animations = [
    [1.7, "anim_human", 45400, 45438, arf_blend_in_16|arf_make_custom_sound, pack2f(0.47, 0.82), (0,0,0), 1.6], 	#acm new
    [1.7, "anim_human", 40100, 40138, arf_blend_in_16|arf_make_custom_sound, pack2f(0.47, 0.82), (0,0,0), 1.5], 	#acm new
    [2.7, "death", 16, 99, arf_blend_in_16|arf_make_custom_sound, pack2f(0.47, 0.82), (0,0,0), 1.7], 	#acm new
+   #DM-TAS
+   [3.0, "mongol_death_6", 0, 101, arf_blend_in_16|arf_make_custom_sound, pack2f(0.65, 0.0), (0,0,0), 1.0],
+   [1.0, "mongol_death_7", 0, 30, arf_blend_in_16|arf_make_custom_sound, pack2f(0.8, 0.0), (0,0,0), 0.8],
+   [1.5, "mongol_death_8", 0, 42, arf_blend_in_16|arf_make_custom_sound, pack2f(0.65, 0.0), (0,0,0), 1.0],
+   
  ],
 ## ["fall_rider_head_front", acf_enforce_all,
 ##   [2.2, "anim_human", blow+200, blow+275, arf_blend_in_3],

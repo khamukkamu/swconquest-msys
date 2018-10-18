@@ -139,97 +139,19 @@ triggers = [
                      ]),
 
 # Refresh Armor sellers
-  (0.0, 0, 24.0, [], [
-                      (reset_item_probabilities,100),
-                      (set_merchandise_modifier_quality,150),
-                      (try_for_range,reg(2),armor_merchants_begin,armor_merchants_end),
-
-			#SW - modified refresh armor sellers trigger
-                        #(troop_add_merchandise,reg(2),itp_type_body_armor,16),
-                        #(troop_add_merchandise,reg(2),itp_type_head_armor,16),
-                        #(troop_add_merchandise,reg(2),itp_type_foot_armor,8),
-                        #(troop_add_merchandise,reg(2),itp_type_hand_armor,4),
-                        (troop_add_merchandise,reg(2),itp_type_head_armor,5),
-                        (troop_add_merchandise,reg(2),itp_type_hand_armor,5),
-			(troop_add_merchandise,reg(2),itp_type_body_armor,5),
-			(troop_add_merchandise,reg(2),itp_type_body_armor,5),
-			(troop_add_merchandise,reg(2),itp_type_body_armor,5),
-                        (troop_add_merchandise,reg(2),itp_type_foot_armor,5),
-
-                        (troop_ensure_inventory_space,reg(2),merchant_inventory_space),
-                        (troop_sort_inventory, reg(2)),
-                        (store_troop_gold, reg(6),reg(2)),
-                        (lt,reg(6),900),
-                        (store_random_in_range,":new_gold",200,400),
-                        (call_script, "script_troop_add_gold",reg(2),":new_gold"),
-                      (end_try,0),
+  (0.0, 0, 168.0, [], [
+                      (call_script, "script_refresh_center_armories"),
                      ]),
 
 
 # Refresh Weapon sellers
-  (0.0, 0, 24.0, [], [
-                      (reset_item_probabilities,100),
-                      (set_merchandise_modifier_quality,150),
-                      (try_for_range,reg(2),weapon_merchants_begin,weapon_merchants_end),
-
-			#SW - modified refresh weapon sellers trigger (added musket, pistol, bullets, etc)
-                        #(troop_add_merchandise,reg(2),itp_type_one_handed_wpn,5),
-                        #(troop_add_merchandise,reg(2),itp_type_two_handed_wpn,5),
-                        #(troop_add_merchandise,reg(2),itp_type_polearm,5),
-                        #(troop_add_merchandise,reg(2),itp_type_shield,6),
-                        #(troop_add_merchandise,reg(2),itp_type_bow,4),
-                        #(troop_add_merchandise,reg(2),itp_type_crossbow,3),
-                        #(troop_add_merchandise,reg(2),itp_type_thrown,5),
-                        #(troop_add_merchandise,reg(2),itp_type_arrows,2),
-                        #(troop_add_merchandise,reg(2),itp_type_bolts,2),
-
-						#melee
-                        (troop_add_merchandise,reg(2),itp_type_one_handed_wpn,5),
-                        (troop_add_merchandise,reg(2),itp_type_two_handed_wpn,5),
-                        (troop_add_merchandise,reg(2),itp_type_polearm,5),
-						#ranged
-						(troop_add_merchandise,reg(2),itp_type_thrown,4),
-						#(troop_add_merchandise,reg(2),itp_type_bow,3),		#bows are used for force powers and appear on force-sensitive merchants in cantina's
-						(troop_add_merchandise,reg(2),itp_type_crossbow,5),
-						(troop_add_merchandise,reg(2),itp_type_crossbow,5),
-						(troop_add_merchandise,reg(2),itp_type_musket,5),	#muskets are no longer used and were switched to crossbows
-						#(troop_add_merchandise,reg(2),itp_type_musket,5),	#muskets are no longer used and were switched to crossbows
-                        (troop_add_merchandise,reg(2),itp_type_pistol,5),						
-						(troop_add_merchandise,reg(2),itp_type_pistol,5),
-						#ammo
-						(troop_add_merchandise,reg(2),itp_type_bolts,5),
-						#(troop_add_merchandise,reg(2),itp_type_arrows,2),		#arrows are used for force powers and appear on force-sensitive merchants in cantina's
-                        (troop_add_merchandise,reg(2),itp_type_bullets,5),											
-						#other
-                        (troop_add_merchandise,reg(2),itp_type_shield,4),
-						(troop_add_merchandise,reg(2),itp_type_shield,4),
-
-                        (troop_ensure_inventory_space,reg(2),merchant_inventory_space),
-                        (troop_sort_inventory, reg(2)),
-                        (store_troop_gold, reg(6),reg(2)),
-                        (lt,reg(6),900),
-                        (store_random_in_range,":new_gold",200,400),
-                      (call_script, "script_troop_add_gold",reg(2),":new_gold"),
-                      (end_try,0),
+  (0.0, 0, 168.0, [], [
+                      (call_script, "script_refresh_center_weaponsmiths"),
                      ]),
 
 # Refresh Horse sellers
-  (0.0, 0, 24.0, [], [
-                      (reset_item_probabilities,100),
-                      (set_merchandise_modifier_quality,150),
-                      (try_for_range,":cur_merchant",horse_merchants_begin,horse_merchants_end),
-			#SW - increased horse refresh from 5 to 8
-                        #(troop_add_merchandise,":cur_merchant",itp_type_horse,5),
-			(troop_add_merchandise,":cur_merchant",itp_type_horse,8),
-			#SW - switched to merchant_inventory_space constant
-                        #(troop_ensure_inventory_space,":cur_merchant",65),
-			(troop_ensure_inventory_space,":cur_merchant",merchant_inventory_space),
-                        (troop_sort_inventory, ":cur_merchant"),
-                        (store_troop_gold, ":cur_gold",":cur_merchant"),
-                        (lt,":cur_gold",600),
-                        (store_random_in_range,":new_gold",200,400),
-                        (call_script, "script_troop_add_gold",":cur_merchant",":new_gold"),
-                      (try_end),
+  (0.0, 0, 168.0, [], [
+                      (call_script, "script_refresh_center_stables"),
                      ]),
   
 

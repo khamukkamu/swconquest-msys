@@ -93,7 +93,6 @@ member_review_spacestation_garrison
 member_castellan_pretalk
 member_review_castellan_equipment
 member_castellan_join
-member_wilderness_talk
 kidnapped_girl_chat_1
 kidnapped_girl_chat_2
 member_lady_1
@@ -963,7 +962,6 @@ disbanded_troop_join
 enemy_talk_1
 enemy_talk_2
 sell_prisoner_outlaws
-sell_prisoner_outlaws_finished
 prisoner_chat_2
 town_merchant_talk
 trade_requested_weapons

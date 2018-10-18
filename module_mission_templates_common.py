@@ -42,7 +42,7 @@ from header_items import *
 ####################################################################
 ####################### INITIALIZE AUTOFIRE ########################
 ####################################################################
-common_init_auto_fire = (ti_after_mission_start, 0, ti_once, [], 
+common_init_auto_fire = (ti_before_mission_start, 0, ti_once, [], 
     [
 
 ############### NEEDED TO PREVENT UNINITIALIZE SLOTS ###############
@@ -50,6 +50,7 @@ common_init_auto_fire = (ti_after_mission_start, 0, ti_once, [],
       (call_script, "script_init_item_shoot_speed"),
       (call_script, "script_init_item_speed_rating"),
       (call_script, "script_init_get_autofire_weapons"), #kham
+      (call_script, "script_unequip_items", "trp_player"),
     ])
 
 common_auto_fire_held = (
@@ -134,7 +135,10 @@ common_auto_fire = (
                 (try_begin),
                   (item_has_capability, ":cur_weapon", itcf_shoot_crossbow),
                   (agent_set_animation, ":shooter_agent", "anim_release_crossbow", 1),  
-               (else_try),                 
+               (else_try),
+                  (item_has_capability, ":cur_weapon", itcf_throw_javelin),
+                  (agent_set_animation, ":shooter_agent", "anim_release_javelin", 1),   
+               (else_try),                
                   (agent_set_animation, ":shooter_agent", "anim_release_musket", 1),
                (try_end),
                (call_script, "script_fire_auto_weapon", ":shooter_agent", ":cur_weapon", ":ammo_item"),
@@ -730,6 +734,7 @@ common_battle_mission_start = (
     (team_set_relation, 0, 2, 1),
     (team_set_relation, 1, 3, 1),
     (call_script, "script_change_banners_and_chest"),
+
     ])
 
 common_battle_tab_press = (
@@ -1345,6 +1350,7 @@ lightsaber_noise_player = (
 common_switch_sw_scene_props = (
   ti_before_mission_start, 0, 0, [],
   [
+    (call_script, "script_unequip_items", "trp_player"),
     #get the current towns faction
     (store_faction_of_party, ":center_faction", "$current_town"),
     (try_begin),
@@ -1909,7 +1915,8 @@ common_toggle_weapon_fire_mode = (0, 0, 0, [
   (get_player_agent_no, ":player_agent"),
   (agent_get_wielded_item,":wielded_item",":player_agent",0),
   (gt,":wielded_item",-1),
-  (item_slot_ge, ":wielded_item", slot_item_has_autofire, 1),  #see if the item has an autofire slot defined
+  (is_between, ":wielded_item", "itm_ranged_weapons_begin", "itm_ranged_weapons_end"),
+  #(item_slot_ge, ":wielded_item", slot_item_has_autofire, 1),  #see if the item has an autofire slot defined
   ],
 
   [ 
@@ -1946,10 +1953,10 @@ common_autofire_weapons_deal_less_damage = (ti_on_agent_hit, 0, 0, [
     #(store_trigger_param, ":dealer_agent_id", 2),
     (store_trigger_param, ":inflicted_damage", 3),
 
-    (assign, reg2, ":inflicted_damage"),
-
+   #(assign, reg2, ":inflicted_damage"),
     (item_slot_eq, ":weapon", slot_item_has_autofire, 1),
-    (val_div, ":inflicted_damage", 3), #autofire deals 1/3 damage
+    (val_mul, ":inflicted_damage", 100),
+    (val_div, ":inflicted_damage", 250), #autofire deals 2.5 less damage
 
     #Debug
   #  (assign, reg1, ":inflicted_damage"),
@@ -2434,6 +2441,8 @@ kham_new_iron_sight_trigger = [(0, 0, 0, [
    (set_zoom_amount, 0),
    (assign, "$cam_mode", 0),
   ]),
+
+(ti_inventory_key_pressed, 0, 0, [], [(call_script, "script_unequip_items", "$g_talk_troop")]),
 
 ]
 
@@ -3383,6 +3392,8 @@ continue_force_stamina_presentation = (1, 0, 0, [
     (neg|is_presentation_active, "prsnt_staminabar"),
     (neg|is_presentation_active, "prsnt_battle"),
     (neg|main_hero_fallen),
+    (store_skill_level, ":skill", "skl_power_draw", "trp_player"), #If force sensitive
+    (ge, ":skill", 1),
     ],[    
     (start_presentation, "prsnt_staminabar"),
 ])
@@ -3392,6 +3403,8 @@ recuperate_force_stamina = (3, 0, 0, [
     (neg|game_key_is_down, gk_move_backward),
     (neg|game_key_is_down, gk_move_left),
     (neg|game_key_is_down, gk_move_right),
+    (store_skill_level, ":skill", "skl_power_draw", "trp_player"), #If force sensitive
+    (ge, ":skill", 1),
     ],[    #10 seconds = 20 up
     (get_player_agent_no, ":player"),
     (agent_is_alive,":player"), #  test for alive players.
@@ -3538,3 +3551,5 @@ combo_effects = [
 
 ]
 # Melee Combo & Effects by Khamukkamu END
+
+

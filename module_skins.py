@@ -174,7 +174,7 @@ comp_greater_than   =  1;
 skins = [
   (
     "man", 0,
-    "man_body", "man_calf_l", "m_handL",
+    "new_man_body", "0", "m_handL",
     "male_head_new", man_face_keys,
     #["man_hair_s","man_hair_m","man_hair_n","man_hair_o", "man_hair_y10", "man_hair_y12","man_hair_p","man_hair_r","man_hair_q","man_hair_v","man_hair_t","man_hair_y6","man_hair_y3","man_hair_y7","man_hair_y9","man_hair_y11","man_hair_u","man_hair_y","man_hair_y2","man_hair_y4"], #man_hair_meshes ,"man_hair_y5","man_hair_y8",
 	["man_hair_o", "man_hair_y10", "man_hair_y12","man_hair_u","man_hair_y4","man_hair_s","man_hair_n","man_hair_p","man_hair_r","man_hair_q","man_hair_v","man_hair_t","man_hair_y9","man_hair_y","man_hair_y11","man_hair_y2","man_hair_y3","man_hair_y6","man_hair_y7","man_hair_m","man_hair_y5","man_hair_y8","zabrak_horns"], #man_hair_meshes
@@ -234,7 +234,7 @@ skins = [
 
   (
     "woman", skf_use_morph_key_10,
-    "woman_body",  "woman_calf_l", "w_handL",
+    "new_woman_body",  "0", "w_handL",
     "female_head_new", woman_face_keys,
     ["woman_hair_p","woman_hair_n","woman_hair_o","woman_hair_q","woman_hair_r","woman_hair_t","woman_hair_s","woman_hair_buns","zabrak_horns"], #woman_hair_meshes
 	#    ["woman_hair_a","woman_hair_b","woman_hair_c","woman_hair_d","woman_hair_e","woman_hair_f","woman_hair_g"], #woman_hair_meshes
@@ -343,7 +343,7 @@ skins = [
  #SW - new moncal skin
    (
      "moncal", 0,
-     "moncal_body", "moncal_calf_l", "moncal_mittenL",
+     "new_moncal_body", "0", "moncal_mittenL",
 #     "moncal_body", "moncal_calf_l", "moncal_mittenL",
      "moncal_head", moncal_face_keys,
      [],
@@ -363,8 +363,8 @@ skins = [
      "trandoshan", 0,
 	 #"trandoshan_body", "trandoshan_foot_L", "trandoshan_handL",
 	 #"trandoshan_body", "trandoshan_foot_L", "trandoshan_clawL",
-	 "trandoshan_nocolor_body", "trandoshan_nocolor_foot_L", "trandoshan_nocolor_clawL",
-     "trandoshan_head", trandoshan_face_keys,
+	 "new_trandoshan_body", "0", "0",
+     "0", trandoshan_face_keys,
      [],
      [],
      ["hair_blonde"], #hair textures NOTE - you MUST have a hair texture (even if it is not used) for the game not to crash
@@ -423,7 +423,7 @@ skins = [
  #SW - new wookiee skin
    (
      "wookiee", 0,
-     "wookiee_body", "wookiee_calf_l", "wookiee_mittenL",
+     "new_wookiee_body", "0", "0",
      #"wookiee_head_new_half", wookiee_face_keys,
 	 "wookiee_head_new_half", wookiee_face_keys,
      [],
@@ -446,7 +446,7 @@ skins = [
 #SW - new sullustan skin
    (
      "sullustan", 0,
-     "sullustan_body", "sullustan_calf_l", "sullustan_handL",
+     "new_sullustan_body", "0", "sullustan_handL",
      "sullustan_head", sullustan_face_keys,
      [],
      [],
@@ -480,7 +480,7 @@ skins = [
  #SW - new twilek skin
    (
      "twilek", 0,
-     "twilek_body", "twilek_calf_l", "twilek_handL",
+     "new_twilek_body", "0", "twilek_handL",
      "twilek_head", twilek_face_keys,
      [],
      [],
@@ -507,7 +507,7 @@ skins = [
   (
     "twilek_female", skf_use_morph_key_10,
     #"twilek_female_body",  "twilek_female_calf_l", "twilek_female_handL",
-	"oola", "oola_foot_L", "twilek_female_handL",
+	"new_twilekwomen_body", "0", "twilek_female_handL",
     "twilek_female_head_new", twilek_female_face_keys,
     [], #woman_hair_meshes
     [],
@@ -531,7 +531,7 @@ skins = [
  #SW - new bothan skin
    (
      "bothan", 0,
-     "bothan_body", "bothan_calf_l", "bothan_handL",
+     "new_bothan_body", "0", "bothan_handL",
      "bothan_head", bothan_face_keys,
      ["bothan_hair_a","bothan_hair_b","bothan_hair_c"],	#hair meshes
      [],
@@ -549,7 +549,7 @@ skins = [
  #SW - new geonosian skin
    (
      "geonosian", 0,
-     "geonosian_body", "geonosian_calf_l", "geonosian_handL",
+     "new_geonosian_body", "0", "0",
      "geonosian_head", geonosian_face_keys,
      [],
      [],

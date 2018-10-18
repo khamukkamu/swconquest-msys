@@ -1655,3 +1655,12 @@ COMBO_TEXT_EXCELLENT = 0xFF3333
 COMBO_DEBUG = 1
 
 # Melee Combo & Effects by Khamukkamu END
+
+
+#TLD equipment tracking
+slot_troop_helm_type = 164
+slot_troop_armor_type = 165
+slot_troop_boots_type = 166
+slot_troop_horse_type = 167
+
+slot_item_race = 67

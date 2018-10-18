@@ -37,15 +37,15 @@ swc_kham_battle_triggers = [
       common_auto_fire_clicked,
       common_auto_fire,
       common_toggle_weapon_fire_mode,
-      common_autofire_weapons_deal_less_damage,
+      common_autofire_weapons_deal_less_damage, 
       kham_lightsaber_deflection,
       kham_lightsaber_deflection_ai_init,
       kham_lightsaber_deflection_ai,
-      force_stamina,
-      start_display_force_stamina,
-      continue_force_stamina_presentation,
-      recuperate_force_stamina,
-  ] + kham_new_iron_sight_trigger + combo_effects
+      #force_stamina,
+      #start_display_force_stamina,
+      #continue_force_stamina_presentation,
+      #recuperate_force_stamina,
+  ] + kham_new_iron_sight_trigger
 
 mission_templates = [
   (
@@ -5293,6 +5293,15 @@ mission_templates = [
           (set_trigger_result,1)], []),
       (ti_tab_pressed, 0, 0, [
           (set_trigger_result,1)], []),
+
+      (0,0,0, [(key_clicked, key_b)], [
+          (get_player_agent_no, ":player"), 
+          (agent_get_look_position, pos19, ":player"), 
+          (set_fixed_point_multiplier, 100),
+          (position_get_x, reg50, pos19),
+          (position_get_y, reg51, pos19),
+          (position_get_z, reg52, pos19),
+          (display_message, "@X: {reg50}, Y: {reg51}, Z: {reg52", color_good_news)]),
 
       (4, 0, 0, [], [    #run every X seconds
       (get_player_agent_no, ":player_agent"),

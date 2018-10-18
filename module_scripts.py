@@ -17,6 +17,7 @@ from header_music import *
 from header_presentations import*
 from ID_animations import *
 from module_items import *
+from module_scripts_ai import *
 
 from module_info import wb_compile_switch as is_a_wb_script
 
@@ -107,7 +108,17 @@ scripts = [
       (assign, "$freelancer_enhanced_upgrade", 1), #Freelancer - Default to Advanced Upgrade system
       (assign, "$freelancer_missions", 1), #Allow Freelancer Missions
       #Custom Camera Initialize  
-      (assign, "$key_camera_toggle",      key_right_mouse_button),             # RMB key to toggle camera mode.
+      (assign, "$key_camera_toggle",      key_left_shift),             # RMB key to toggle camera mode.
+
+      #Init Race item Slots
+      (try_for_range, ":wookiee", "itm_wookiee_fullbody", "itm_kaminoan_female_head"), #wookies
+         (item_set_slot, ":wookiee", slot_item_race, tf_wookiee),
+      (try_end),
+
+      (item_set_slot, "itm_geonosian_armor", slot_item_race, tf_geonosian),
+      (item_set_slot, "itm_trandoshan_armor", slot_item_race, tf_trandoshan),
+      (item_set_slot, "itm_gamorrean_armor", slot_item_race, tf_gamorrean),
+      
       
       #assign default keys
       (assign, "$crouch_key", key_left_alt),
@@ -393,7 +404,8 @@ scripts = [
       (item_set_slot, "itm_a295_crouch", slot_item_alternate_weapon, "itm_a295_stun"), #kham modified for stun
       (item_set_slot, "itm_a295_stun", slot_item_alternate_weapon, "itm_a295"),
       
-      (item_set_slot, "itm_dc15a", slot_item_alternate_weapon, "itm_dc15a_hip"),
+      (item_set_slot, "itm_dc15a", slot_item_alternate_weapon, "itm_dc15a_stun"),
+      (item_set_slot, "itm_dc15a_stun", slot_item_alternate_weapon, "itm_dc15a_hip"),
       (item_set_slot, "itm_dc15a_hip", slot_item_alternate_weapon, "itm_dc15a"),
 
       (item_set_slot, "itm_ee3", slot_item_alternate_weapon, "itm_ee3_stun"),
@@ -3439,6 +3451,13 @@ scripts = [
           (eq, ":extra_text_id", 0),
           (set_result_string, "@Requires Force Push or Force Lightning"),
           (set_trigger_result, 0xffffff), #white text
+        (try_end),
+      (else_try),
+        (item_slot_eq, ":item_no", slot_item_has_autofire, 1),
+        (try_begin),
+          (eq, ":extra_text_id", 2),
+          (set_result_string, "@Has Autofire"),
+          (set_trigger_result, 0x00ff7f), #green text
         (try_end),
       (else_try),
         (this_or_next|eq, ":item_no", "itm_force_lightning_ammo"),
@@ -31965,6 +31984,7 @@ if is_a_wb_script==1:
         (assign, ":quest", "qst_freelancer_captured"),
       (try_end),
       (call_script, "script_finish_quest", ":quest", 100),
+      (assign, "$freelancer_state", 1),
       (call_script, "script_freelancer_attach_party"),
       (display_message, "@You have rejoined your commander!"),
   ]),
@@ -32587,7 +32607,7 @@ if is_a_wb_script==1:
   ]),
   
   
-  ("freelancer_mission_scout_waypoints", [
+  ("cf_freelancer_mission_scout_waypoints", [
       (store_script_param_1, ":num_waypoints"),
       
       (assign, ":end_cond", 100),
@@ -32874,8 +32894,8 @@ if is_a_wb_script==1:
 
   ("init_lightsaber",
     [
-    (store_script_param, ":agent_no", 1),
-    (store_script_param, ":troop_no", 2),
+    #(store_script_param, ":agent_no", 1),
+    #(store_script_param, ":troop_no", 2),
     (store_script_param, ":sub_mesh", 3), #0 is torso, 1 is arm, 2 is legs
     (store_script_param, ":sub_mats", 4), #0 is torso, 1 is arm, 2 is legs
     (str_clear, s1),
@@ -32907,8 +32927,8 @@ if is_a_wb_script==1:
 
   ("init_double_lightsaber",
     [
-    (store_script_param, ":agent_no", 1),
-    (store_script_param, ":troop_no", 2),
+    #(store_script_param, ":agent_no", 1),
+    #(store_script_param, ":troop_no", 2),
     (store_script_param, ":sub_mesh", 3), #0 is torso, 1 is arm, 2 is legs
     (store_script_param, ":sub_mats", 4), #0 is torso, 1 is arm, 2 is legs
     (str_clear, s1),
@@ -33036,8 +33056,8 @@ if is_a_wb_script==1:
    (agent_get_slot, ":combo_counter", ":player", slot_agent_combo_counter), #Check Current Combo Count
 
    (agent_get_wielded_item, ":main_weapon", ":player", 0), 
-   (agent_get_wielded_item, ":shield", ":player", 1),
-   (item_get_type, ":main_weapon_type", ":main_weapon"),
+   #(agent_get_wielded_item, ":shield", ":player", 1),
+   #(item_get_type, ":main_weapon_type", ":main_weapon"),
 
    (gt, ":main_weapon", 0),
 
@@ -33092,4 +33112,133 @@ if is_a_wb_script==1:
    (eq, ":continue", 1),
 ]),
 
+# TLD Racial Item Checks modified - Kham
+
+#script_check_equipped_items
+("check_equipped_items",[
+   (store_script_param_1, ":npc"),
+   (assign,"$remove_item", 0),
+   (troop_get_type, ":race", ":npc"),
+   (try_for_range,":inv_slot",ek_head,ek_gloves),        # EQUIPMENT CHECKS
+      (troop_get_inventory_slot, ":item", ":npc", ":inv_slot"),
+      (ge, ":item", 0),
+      (store_add,":item_slot",slot_troop_helm_type-ek_head,":inv_slot"), #slot_troop_armor_type, slot_troop_boots_type consequtive slots
+      (neg|troop_slot_eq,":npc",":item_slot",":item"), # equipped item changed to other?
+      (item_get_slot, ":item_race", ":item", slot_item_race),
+      (ge, ":item_race", 0),
+      (try_begin),(eq,":race",tf_wookiee),(neq,":item_race",tf_wookiee),(assign,"$remove_item",1),
+      (else_try),(eq,":race",tf_gamorrean),(neq,":item_race",tf_gamorrean),(assign,"$remove_item",1),
+      (else_try),(eq,":race",tf_trandoshan),(neq,":item_race",tf_trandoshan),(assign,"$remove_item",1),
+      (else_try),(eq,":race",tf_geonosian),(neq,":item_race",tf_geonosian),(assign,"$remove_item",1),
+      (try_end),
+      (try_begin),
+         (eq,"$remove_item",1),
+         (dialog_box,"@Item you just equipped does not fit characters of this race and will be removed into player inventory shortly^^Make sure your equipment has space for the item, or it will be lost","@Inappropriate equipment"),
+         (troop_set_slot,":npc",":item_slot",-1),     # needs removing!
+      (else_try),
+         (troop_set_slot,":npc",":item_slot", ":item"),  #remember new equipment
+      (try_end),
+   (try_end),
+
+]),
+("unequip_items",[
+   (store_script_param_1, ":npc"),
+   (try_begin),
+      (eq,"$remove_item",1),
+      (try_for_range,":inv_slot",ek_head,ek_gloves),           # CHECKS FOR EQUIPMENT REMOVAL for body and feet
+         (troop_get_inventory_slot, ":item", ":npc", ":inv_slot"),
+         (ge, ":item", 0),
+         (troop_get_inventory_slot_modifier, ":mod", ":npc", ":inv_slot"),
+         (store_add,":item_slot",slot_troop_helm_type-ek_head,":inv_slot"),
+         (troop_slot_eq,":npc",":item_slot", -1),           # item marked for removal?
+         (troop_set_inventory_slot, ":npc", ":inv_slot", -1),  # remove item from equipment
+         (troop_add_item, "trp_player", ":item", ":mod"),      # move item into player's inventory
+      (try_end),
+      #(troop_get_inventory_slot, ":item", ":npc", ek_horse),
+     # (troop_set_slot,":npc",slot_troop_horse_type, ":item"),
+      (assign,"$remove_item", 0),
+   (try_end),
+]),
+
+## WB Center Refresh Scripts
+
+  # script_refresh_center_armories
+  ("refresh_center_armories",
+    [
+      (reset_item_probabilities, 100),
+      (set_merchandise_modifier_quality, 150),
+      (try_for_range, ":cur_merchant", armor_merchants_begin, armor_merchants_end),
+        (store_sub, ":cur_town", ":cur_merchant", armor_merchants_begin),
+        (val_add, ":cur_town", towns_begin),
+        (troop_clear_inventory, ":cur_merchant"),
+        (party_get_slot, ":cur_faction", ":cur_town", slot_center_original_faction),
+        (troop_add_merchandise_with_faction, ":cur_merchant", ":cur_faction", itp_type_body_armor, 5),
+        (troop_add_merchandise_with_faction, ":cur_merchant", ":cur_faction", itp_type_body_armor, 5),
+        (troop_add_merchandise_with_faction, ":cur_merchant", ":cur_faction", itp_type_body_armor, 5),
+        (troop_add_merchandise_with_faction, ":cur_merchant", ":cur_faction", itp_type_head_armor, 5),
+        (troop_add_merchandise_with_faction, ":cur_merchant", ":cur_faction", itp_type_foot_armor, 5),
+        (troop_add_merchandise_with_faction, ":cur_merchant", ":cur_faction", itp_type_hand_armor, 5),
+        (troop_ensure_inventory_space, ":cur_merchant", merchant_inventory_space),
+        (troop_sort_inventory, ":cur_merchant"),
+        (store_troop_gold, reg6, ":cur_merchant"),
+        (lt, reg6, 1000),
+        (store_random_in_range, ":new_gold", 250, 500),
+        (call_script, "script_troop_add_gold", ":cur_merchant", ":new_gold"),
+      (end_try),
+  ]),
+
+ # script_refresh_center_weaponsmiths
+  ("refresh_center_weaponsmiths",
+    [
+      (reset_item_probabilities, 100),
+      (set_merchandise_modifier_quality, 150),
+      (try_for_range, ":cur_merchant", weapon_merchants_begin, weapon_merchants_end),
+        (store_sub, ":cur_town", ":cur_merchant", weapon_merchants_begin),
+        (val_add, ":cur_town", towns_begin),
+        (troop_clear_inventory, ":cur_merchant"),
+        (party_get_slot, ":cur_faction", ":cur_town", slot_center_original_faction),
+        (troop_add_merchandise_with_faction, ":cur_merchant", ":cur_faction", itp_type_one_handed_wpn, 5),
+        (troop_add_merchandise_with_faction, ":cur_merchant", ":cur_faction", itp_type_two_handed_wpn, 5),
+        (troop_add_merchandise_with_faction, ":cur_merchant", ":cur_faction", itp_type_polearm, 5),
+        (troop_add_merchandise_with_faction, ":cur_merchant", ":cur_faction", itp_type_shield, 4),
+        #(troop_add_merchandise_with_faction, ":cur_merchant", ":cur_faction", itp_type_bow, 0),
+        (troop_add_merchandise_with_faction, ":cur_merchant", ":cur_faction", itp_type_crossbow, 5),
+        (troop_add_merchandise_with_faction, ":cur_merchant", ":cur_faction", itp_type_crossbow, 5),
+        (troop_add_merchandise_with_faction, ":cur_merchant", ":cur_faction", itp_type_pistol, 5),
+        (troop_add_merchandise_with_faction, ":cur_merchant", ":cur_faction", itp_type_thrown, 4),
+        #(troop_add_merchandise_with_faction, ":cur_merchant", ":cur_faction", itp_type_arrows, 4),
+        (troop_add_merchandise_with_faction, ":cur_merchant", ":cur_faction", itp_type_bolts, 5),
+        (troop_add_merchandise_with_faction, ":cur_merchant", ":cur_faction", itp_type_bullets, 5),
+        (troop_ensure_inventory_space, ":cur_merchant", merchant_inventory_space),
+        (troop_sort_inventory, ":cur_merchant"),
+        (store_troop_gold, reg6, ":cur_merchant"),
+        (lt, reg6, 1000),
+        (store_random_in_range, ":new_gold", 250, 500),
+        (call_script, "script_troop_add_gold", ":cur_merchant", ":new_gold"),
+      (try_end),
+  ]),
+  
+  # script_refresh_center_stables
+  ("refresh_center_stables",
+    [
+      (reset_item_probabilities, 100),
+      (set_merchandise_modifier_quality, 150),
+      (try_for_range, ":cur_merchant", horse_merchants_begin, horse_merchants_end),
+        (troop_clear_inventory, ":cur_merchant"),
+        (store_sub, ":cur_town", ":cur_merchant", horse_merchants_begin),
+        (val_add, ":cur_town", towns_begin),
+        (party_get_slot, ":cur_faction", ":cur_town", slot_center_original_faction),
+        (troop_add_merchandise_with_faction, ":cur_merchant", ":cur_faction", itp_type_horse, 8),
+        (troop_ensure_inventory_space, ":cur_merchant", merchant_inventory_space),
+        (troop_sort_inventory, ":cur_merchant"),
+        (store_troop_gold, ":cur_gold", ":cur_merchant"),
+        (lt, ":cur_gold", 600),
+        (store_random_in_range, ":new_gold", 250, 500),
+        (call_script, "script_troop_add_gold", ":cur_merchant", ":new_gold"),
+      (try_end),
+  ]),
+
+
  ]
+
+scripts = scripts + ai_scripts

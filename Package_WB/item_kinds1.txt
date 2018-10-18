@@ -1,5 +1,5 @@
 itemsfile version 2
-841
+895
  itm_no_item <dummy> <dummy> 1  dummy_mesh 0  0 0 0 0 0 100 0 0 0 0 0 0 0 0 0 0 0
 0
 
@@ -921,6 +921,162 @@ itemsfile version 2
  itm_pirate_armor Armor Armor 1  sw_armor3_white 0  553713677 0 230 123731968 7 80 0 28 12 0 0 0 0 0 0 0 0
 0
 
+ itm_ind_clothes_outfitvest_red Civilian_vest Civilian_vest 1  civilian_outfit_vest_1 0  553717517 0 150 123731968 2 30 0 16 8 0 0 0 0 0 0 0 0
+0
+
+ itm_ind_clothes_outfitvest_green Civilian_vest Civilian_vest 1  civilian_outfit_vest_2 0  553717517 0 150 123731968 2 30 0 16 8 0 0 0 0 0 0 0 0
+0
+
+ itm_ind_clothes_securityguarda1 Security_Guard_Armor Security_Guard_Armor 1  security_guard_1 0  553717517 0 320 123731968 5 100 0 25 12 0 0 0 0 0 0 0 0
+0
+
+ itm_ind_clothes_securityguarda2 Security_Guard_Armor Security_Guard_Armor 1  security_guard_2 0  553717517 0 320 123731968 5 100 0 25 12 0 0 0 0 0 0 0 0
+0
+
+ itm_ind_clothes_securityguarda3 Security_Guard_Armor Security_Guard_Armor 1  security_guard_3 0  553717517 0 320 123731968 5 100 0 25 12 0 0 0 0 0 0 0 0
+0
+
+ itm_ind_clothes_securityguarda4 Security_Guard_Armor Security_Guard_Armor 1  security_guard_4 0  553717517 0 320 123731968 5 100 0 25 12 0 0 0 0 0 0 0 0
+0
+
+ itm_ind_clothes_securityguarda5 Security_Guard_Armor Security_Guard_Armor 1  security_guard_5 0  553717517 0 320 123731968 5 100 0 25 12 0 0 0 0 0 0 0 0
+0
+
+ itm_ind_clothes_tightcoverall_blue Tight_coverall Tight_coverall 1  fem_bodyglove_blue 0  553717517 0 400 123731968 10 100 0 44 30 0 0 0 0 0 0 0 0
+0
+
+ itm_ind_clothes_tightcoverall_red Tight_coverall Tight_coverall 1  fem_bodyglove_red 0  553717517 0 400 123731968 10 100 0 44 30 0 0 0 0 0 0 0 0
+0
+
+ itm_ind_clothes_tightcoverall_green Tight_coverall Tight_coverall 1  fem_bodyglove_green 0  553717517 0 400 123731968 10 100 0 44 30 0 0 0 0 0 0 0 0
+0
+
+ itm_ind_clothes_tightcoverall_wblue Tight_coverall Tight_coverall 1  fem_bodyglove_wblue 0  553717517 0 400 123731968 10 100 0 44 30 0 0 0 0 0 0 0 0
+0
+
+ itm_ind_clothes_tightcoverall_wred Tight_coverall Tight_coverall 1  fem_bodyglove_wred 0  553717517 0 400 123731968 10 100 0 44 30 0 0 0 0 0 0 0 0
+0
+
+ itm_ind_clothes_tightcoverall_sato Saato_armor Saato_armor 1  saato_armor 0  553717517 0 400 123731968 10 100 0 44 30 0 0 0 0 0 0 0 0
+0
+
+ itm_ind_clothes_outfsmuggler_red Smuggler_Outfit Smuggler_Outfit 1  smuggler_outfit_1 0  553717517 0 320 123731968 5 70 0 25 12 0 0 0 0 0 0 0 0
+0
+
+ itm_ind_clothes_outfsmuggler_green Smuggler_Outfit Smuggler_Outfit 1  smuggler_outfit_2 0  553717517 0 320 123731968 5 70 0 25 12 0 0 0 0 0 0 0 0
+0
+
+ itm_ind_clothes_outfsmuggleralter1_red Smuggler's_Jacket Smuggler's_Jacket 1  smuggler_outfit_3 0  553717517 0 320 123731968 5 70 0 25 12 0 0 0 0 0 0 0 0
+0
+
+ itm_ind_clothes_outfsmuggleralter1_green Smuggler's_Jacket Smuggler's_Jacket 1  smuggler_outfit_4 0  553717517 0 320 123731968 5 70 0 25 12 0 0 0 0 0 0 0 0
+0
+
+ itm_ind_clothes_hutttunic_red Hutt_tunic Hutt_tunic 1  hutt_tuniccl1 0  553717517 0 400 123731968 5 50 0 32 12 0 0 0 0 0 0 0 0
+0
+
+ itm_ind_clothes_hutttunic_grey Hutt_tunic Hutt_tunic 1  hutt_tuniccl2 0  553717517 0 400 123731968 5 50 0 32 12 0 0 0 0 0 0 0 0
+0
+
+ itm_ind_clothes_hutttunic_brown Hutt_tunic Hutt_tunic 1  hutt_tuniccl3 0  553717517 0 400 123731968 5 50 0 32 12 0 0 0 0 0 0 0 0
+0
+
+ itm_ind_clothes_hutttuniccape_red Hutt_tunic_with_cape Hutt_tunic_with_cape 1  hutt_tunic1 0  553717517 0 400 123731968 5 50 0 32 12 0 0 0 0 0 0 0 0
+0
+
+ itm_ind_clothes_hutttuniccape_grey Hutt_tunic_with_cape Hutt_tunic_with_cape 1  hutt_tunic2 0  553717517 0 400 123731968 5 50 0 32 12 0 0 0 0 0 0 0 0
+0
+
+ itm_ind_clothes_hutttuniccape_brown Hutt_tunic_with_cape Hutt_tunic_with_cape 1  hutt_tunic3 0  553717517 0 400 123731968 5 50 0 32 12 0 0 0 0 0 0 0 0
+0
+
+ itm_ind_arm_lightmercenarya1 Light_Mercenary_Armor_(A1) Light_Mercenary_Armor_(A1) 1  light_mercenary_armor 0  553717517 0 420 123731968 6 100 0 35 14 0 0 0 0 0 0 0 0
+0
+
+ itm_ind_arm_lightmercenarya2 Light_Mercenary_Armor_(A2) Light_Mercenary_Armor_(A2) 1  light_mercenary_armor2 0  553717517 0 420 123731968 6 100 0 35 14 0 0 0 0 0 0 0 0
+0
+
+ itm_ind_arm_lightmercenarya3 Light_Mercenary_Armor_(A3) Light_Mercenary_Armor_(A3) 1  light_mercenary_armor3 0  553717517 0 420 123731968 6 100 0 35 14 0 0 0 0 0 0 0 0
+0
+
+ itm_ind_arm_lightmercenarya4 Light_Mercenary_Armor_(A4) Light_Mercenary_Armor_(A4) 1  light_mercenary_armor4 0  553717517 0 420 123731968 6 100 0 35 14 0 0 0 0 0 0 0 0
+0
+
+ itm_ind_arm_lightmercenaryb1 Light_Mercenary_Armor_(B1) Light_Mercenary_Armor_(B1) 1  light_mercenary_armorb 0  553717517 0 420 123731968 6 100 0 35 14 0 0 0 0 0 0 0 0
+0
+
+ itm_ind_arm_lightmercenaryb2 Light_Mercenary_Armor_(B2) Light_Mercenary_Armor_(B2) 1  light_mercenary_armorb2 0  553717517 0 420 123731968 6 100 0 35 14 0 0 0 0 0 0 0 0
+0
+
+ itm_ind_arm_lightmercenaryb3 Light_Mercenary_Armor_(B3) Light_Mercenary_Armor_(B3) 1  light_mercenary_armorb3 0  553717517 0 420 123731968 6 100 0 35 14 0 0 0 0 0 0 0 0
+0
+
+ itm_ind_arm_lightmercenaryb4 Light_Mercenary_Armor_(B4) Light_Mercenary_Armor_(B4) 1  light_mercenary_armorb4 0  553717517 0 420 123731968 6 100 0 35 14 0 0 0 0 0 0 0 0
+0
+
+ itm_ind_arm_lightmercenaryc1 Light_Mercenary_Armor_(C1) Light_Mercenary_Armor_(C1) 1  light_mercenary_armorc 0  553717517 0 420 123731968 6 100 0 35 14 0 0 0 0 0 0 0 0
+0
+
+ itm_ind_arm_lightmercenaryc2 Light_Mercenary_Armor_(C2) Light_Mercenary_Armor_(C2) 1  light_mercenary_armorc2 0  553717517 0 420 123731968 6 100 0 35 14 0 0 0 0 0 0 0 0
+0
+
+ itm_ind_arm_lightmercenaryc3 Light_Mercenary_Armor_(C3) Light_Mercenary_Armor_(C3) 1  light_mercenary_armorc3 0  553717517 0 420 123731968 6 100 0 35 14 0 0 0 0 0 0 0 0
+0
+
+ itm_ind_arm_lightmercenaryc4 Light_Mercenary_Armor_(C4) Light_Mercenary_Armor_(C4) 1  light_mercenary_armorc4 0  553717517 0 420 123731968 6 100 0 35 14 0 0 0 0 0 0 0 0
+0
+
+ itm_ind_arm_lightmercenaryd1 Light_Mercenary_Armor_(D1) Light_Mercenary_Armor_(D1) 1  light_mercenary_armord 0  553717517 0 420 123731968 6 100 0 35 14 0 0 0 0 0 0 0 0
+0
+
+ itm_ind_arm_lightmercenaryd2 Light_Mercenary_Armor_(D2) Light_Mercenary_Armor_(D2) 1  light_mercenary_armord2 0  553717517 0 420 123731968 6 100 0 35 14 0 0 0 0 0 0 0 0
+0
+
+ itm_ind_arm_lightmercenaryd3 Light_Mercenary_Armor_(D3) Light_Mercenary_Armor_(D3) 1  light_mercenary_armord3 0  553717517 0 420 123731968 6 100 0 35 14 0 0 0 0 0 0 0 0
+0
+
+ itm_ind_arm_lightmercenaryd4 Light_Mercenary_Armor_(D4) Light_Mercenary_Armor_(D4) 1  light_mercenary_armord4 0  553717517 0 420 123731968 6 100 0 35 14 0 0 0 0 0 0 0 0
+0
+
+ itm_ind_rep_guardarmor2 Guard_Armor Guard_Armor 1  guard_armor2 0  553713677 0 720 704643236 10 100 0 42 18 0 0 0 0 0 0 0 0
+0
+
+ itm_ind_rep_guardarmor_black Guard_Armor_(Black) Guard_Armor_(Black) 1  guard_armor_black 0  553713677 0 720 704643236 10 100 0 42 18 0 0 0 0 0 0 0 0
+0
+
+ itm_ind_rep_guardarmor_hutt Guard_Armor_(Hutt) Guard_Armor_(Hutt) 1  guard_armor_hutt 0  553713677 0 720 704643236 10 100 0 42 18 0 0 0 0 0 0 0 0
+0
+
+ itm_ind_arm_heavyarmor_blue Heavy_Armor_(Blue) Heavy_Armor_(Blue) 1  heavy_armor2 0  553713677 0 801 704643236 10 40 0 43 19 6 0 0 0 0 0 0 0
+0
+
+ itm_ind_arm_heavyarmor_purple Heavy_Armor_(Purple) Heavy_Armor_(Purple) 1  heavy_armor3 0  553713677 0 801 704643236 10 40 0 43 19 6 0 0 0 0 0 0 0
+0
+
+ itm_ind_arm_heavyarmor_green Heavy_Armor_(Green) Heavy_Armor_(Green) 1  heavy_armor4 0  553713677 0 801 704643236 10 40 0 43 19 6 0 0 0 0 0 0 0
+0
+
+ itm_ind_arm_heavyarmor_silver Heavy_Armor_(Silver) Heavy_Armor_(Silver) 1  heavy_armor5 0  553713677 0 801 704643236 10 40 0 43 19 6 0 0 0 0 0 0 0
+0
+
+ itm_ind_helm_heavyhelmet_silver Heavy_Helmet_(Silver) Heavy_Helmet_(Silver) 1  heavy_helmet5 0  2684420108 0 275 704643236 2 40 18 0 0 5 0 0 0 0 0 0 0
+0
+
+ itm_ind_arm_heavyarmor_gold Heavy_Armor_(Gold) Heavy_Armor_(Gold) 1  heavy_armor 0  553713677 0 801 704643236 10 40 0 43 19 6 0 0 0 0 0 0 0
+0
+
+ itm_ind_helm_heavyhelmet_gold Heavy_Helmet_(Gold) Heavy_Helmet_(Gold) 1  heavy_helmet 0  2684420108 0 275 704643236 2 40 18 0 0 5 0 0 0 0 0 0 0
+0
+
+ itm_ind_helm_heavyhelmet_blue Heavy_Helmet_(Blue) Heavy_Helmet_(Blue) 1  heavy_helmet2 0  2684420108 0 275 704643236 2 40 18 0 0 5 0 0 0 0 0 0 0
+0
+
+ itm_ind_helm_heavyhelmet_purple Heavy_Helmet_(Purple) Heavy_Helmet_(Purple) 1  heavy_helmet3 0  2684420108 0 275 704643236 2 40 18 0 0 5 0 0 0 0 0 0 0
+0
+
+ itm_ind_helm_heavyhelmet_green Heavy_Helmet_(Green) Heavy_Helmet_(Green) 1  heavy_helmet4 0  2684420108 0 275 704643236 2 40 18 0 0 5 0 0 0 0 0 0 0
+0
+
  itm_imperial_uniform_black Imperial_Officer_Uniform Imperial_Officer_Uniform 1  imperial_uniform_black 0  553713677 0 580 123731968 2 100 0 42 18 0 0 0 0 0 0 0 0
 0
 
@@ -948,7 +1104,10 @@ itemsfile version 2
  itm_republic_trooper_armor Rebel_Trooper_Armor Rebel_Trooper_Armor 1  republic_trooper_armor 0  553713677 0 340 123731968 6 100 0 35 12 0 0 0 0 0 0 0 0
 0
 
- itm_rebel_heavy_trooper_armor Rebel_Heavy_Trooper_Armor Rebel_Heavy_Trooper_Armor 1  rebel_heavy_trooper_armor 0  553713677 0 550 123731968 10 60 0 50 20 0 0 0 0 0 0 0 0
+ itm_rebel_heavy_trooper_armor Rebel_Heavy_Trooper_Armor Rebel_Heavy_Trooper_Armor 1  guard_armor1 0  553713677 0 550 704643236 10 60 0 50 20 0 0 0 0 0 0 0 0
+0
+
+ itm_rebel_heavy_trooper_armor_1 Rebel_Heavy_Trooper_Armor Rebel_Heavy_Trooper_Armor 1  guard_armor3 0  553713677 0 550 704643236 10 60 0 50 20 0 0 0 0 0 0 0 0
 0
 
  itm_jedi_initiate_robe Jedi_Initiate_Robe Jedi_Initiate_Robe 1  jedi_padawan_robe1 0  553713677 0 400 123731968 1.25 80 0 25 8 0 0 0 0 0 0 0 0
@@ -1191,16 +1350,13 @@ itemsfile version 2
  itm_ubese_armor_alt Ubese_Armor Ubese_Armor 1  ubese_armour_alt 0  553713677 0 430 123731968 5 80 0 35 14 0 0 0 0 0 0 0 0
 0
 
- itm_wookiee_armor1 Wookiee_Armor Wookiee_Armor 1  wookiee_body1 0  553652237 0 530 123731968 3 50 0 35 14 0 0 0 0 0 0 0 0
+ itm_wookiee_fullbody Wookiee_Skin Wookiee_Skin 1  Wookie 0  2709520397 0 530 704643236 3 50 0 35 14 0 0 0 0 0 0 0 0
 0
 
- itm_wookiee_armor1_merch Wookiee_Armor Wookiee_Armor 1  wookiee_body1 0  553713677 0 530 123731968 3 50 0 35 14 0 0 0 0 0 0 0 0
+ itm_wookiee_armor1 Wookiee_Chestarmor Wookiee_Chestarmor 1  wookie_armor 0  562036750 0 530 704643236 3 50 0 20 0 0 0 0 0 0 0 0 0
 0
 
- itm_wookiee_armor2 Wookiee_Armor Wookiee_Armor 1  wookiee_body2 0  553652237 0 530 123731968 3 50 0 35 14 0 0 0 0 0 0 0 0
-0
-
- itm_wookiee_armor2_merch Wookiee_Armor Wookiee_Armor 1  wookiee_body2 0  553713677 0 530 123731968 3 50 0 35 14 0 0 0 0 0 0 0 0
+ itm_wookiee_armor2 Wookiee_Chestarmor Wookiee_Chestarmor 1  wookie_armor 0  562036750 0 530 704643236 3 50 0 20 0 0 0 0 0 0 0 0 0
 0
 
  itm_wookiee_hunter_armor Wookiee_Hunter_Armor Wookiee_Hunter_Armor 1  wookiee_hunter_armor 0  553713677 0 700 123731968 5 40 0 42 16 0 0 0 0 0 0 0 0
@@ -1562,7 +1718,7 @@ itemsfile version 2
  itm_trandoshan_armor Trandoshan_Armor Trandoshan_Armor 1  trandoshan_armor 0  553713677 0 760 704643236 5 70 0 42 14 0 0 0 0 0 0 0 0
 0
 
- itm_geonosian_armor Geonosian_Armor Geonosian_Armor 1  geonosian_armor 0  553652237 0 510 123731968 5 50 0 40 16 0 0 0 0 0 0 0 0
+ itm_geonosian_armor Geonosian_Armor Geonosian_Armor 1  geonosian_armor 0  2709524237 0 400 704643236 10 100 0 44 30 0 0 0 0 0 0 0 0
 0
 
  itm_armors_end <dummy> <dummy> 1  dummy_mesh 0  0 0 0 0 0 100 0 0 0 0 0 0 0 0 0 0 0
@@ -1709,11 +1865,11 @@ itemsfile version 2
 
  itm_lightsaber_custom Lightsaber Lightsaber 2  lightsaber_1h_base 0  lightsaber_greenoff 3458764513820540928  71761923 9223635920677241343 907 286740 0.5 30 0 0 0 12 11264 120 0 115 0 331 331
 1
--50  16 2071 1 1224979098644774912 2072 1 1224979098644774913 4 0 527 3 1224979098644774914 568 85 31 2 1224979098644774914 -1 2136 3 1224979098644774914 0 5 3 0 1 5 499 1224979098644774912 1224979098644774913 0 1224979098644774914 1964 1 1 4 0 527 3 1224979098644774914 568 86 31 2 1224979098644774914 -1 2136 3 1224979098644774914 0 6 3 0 1 5 499 1224979098644774912 1224979098644774913 1 1224979098644774914 1964 1 1 
+-50  16 2071 1 1224979098644774912 2072 1 1224979098644774913 4 0 527 3 1224979098644774914 620 85 31 2 1224979098644774914 -1 2136 3 1224979098644774914 0 5 3 0 1 5 499 1224979098644774912 1224979098644774913 0 1224979098644774914 1964 1 1 4 0 527 3 1224979098644774914 620 86 31 2 1224979098644774914 -1 2136 3 1224979098644774914 0 6 3 0 1 5 499 1224979098644774912 1224979098644774913 1 1224979098644774914 1964 1 1 
 
  itm_lightsaber_double_custom Double-Bladed_Lightsaber Double-Bladed_Lightsaber 2  lightsaber_double_base 0  lightsaber_red_doubleoff 3458764513820540928  73891844 4222125657296640 2229 286740 0.75 20 0 0 0 14 11264 150 0 170 0 331 331
 1
--50  23 2071 1 1224979098644774912 2072 1 1224979098644774913 4 0 527 3 1224979098644774914 569 85 31 2 1224979098644774914 -1 2136 3 1224979098644774914 0 3 3 0 1 5 500 1224979098644774912 1224979098644774913 0 1224979098644774914 1964 1 1 4 0 527 3 1224979098644774914 569 86 31 2 1224979098644774914 -1 2136 3 1224979098644774914 0 6 3 0 1 5 500 1224979098644774912 1224979098644774913 1 1224979098644774914 1964 1 1 4 0 527 3 1224979098644774914 569 86 31 2 1224979098644774914 -1 2136 3 1224979098644774914 0 6 3 0 1 5 500 1224979098644774912 1224979098644774913 2 1224979098644774914 1964 1 1 
+-50  23 2071 1 1224979098644774912 2072 1 1224979098644774913 4 0 527 3 1224979098644774914 621 85 31 2 1224979098644774914 -1 2136 3 1224979098644774914 0 3 3 0 1 5 500 1224979098644774912 1224979098644774913 0 1224979098644774914 1964 1 1 4 0 527 3 1224979098644774914 621 86 31 2 1224979098644774914 -1 2136 3 1224979098644774914 0 6 3 0 1 5 500 1224979098644774912 1224979098644774913 1 1224979098644774914 1964 1 1 4 0 527 3 1224979098644774914 621 86 31 2 1224979098644774914 -1 2136 3 1224979098644774914 0 6 3 0 1 5 500 1224979098644774912 1224979098644774913 2 1224979098644774914 1964 1 1 
 
  itm_melee_punch _ _ 2  dummy_mesh 0  ArcTrooperGloves_L 1152921504606846976  12603394 9223372036879941647 1 0 0 100 0 0 0 0 10240 105 0 25 0 522 522
 0
@@ -2352,7 +2508,7 @@ itemsfile version 2
 1
 -51  3 600 1 176 720 2 1 14 721 2 1 18 
 
- itm_corellian_destroyer_blaster Corellian_Destroyer_Blaster Corellian_Destroyer_Blaster 2  corellian_destroyer_blaster 0  corellian_destroyer_blaster_inventory 1152921504606846976  35184445554697 555930353664 1250 270342 5.5 70 0 0 93 0 0 120 180 0 30 301 0
+ itm_corellian_destroyer_blaster Corellian_Destroyer_Blaster Corellian_Destroyer_Blaster 2  corellian_destroyer_blaster 0  corellian_destroyer_blaster_inventory 1152921504606846976  73465865 555930353664 1250 270342 5.5 70 0 0 93 0 0 120 180 0 30 301 0
 1
 -51  3 600 1 176 720 2 1 14 721 2 1 18 
 
@@ -2364,9 +2520,9 @@ itemsfile version 2
 1
 -51  3 600 1 177 720 2 1 4 721 2 1 5 
 
- itm_dlt20a DLT-20A DLT-20A 2  DLT20A 0  DLT20A_inventory 1152921504606846976  35184445554697 555929845760 1300 270342 6.5 100 0 0 97 0 0 100 190 0 30 311 0
+ itm_dlt20a DLT-20A DLT-20A 2  DLT20A 0  DLT20A_inventory 1152921504606846976  35184445554697 555929845760 1300 270342 6.5 100 0 0 97 0 0 100 190 0 30 55 0
 1
--51  3 600 1 177 720 2 1 4 721 2 1 5 
+-50  1 507 3 823 65 177 
 
  itm_e17d E-17d E-17d 2  uio0000_E-17d 0  uio0000_E-17d_inv 1152921504606846976  73465865 555930353664 730 270342 3.5 90 0 0 110 0 0 70 170 0 5 344 0
 1
@@ -2376,17 +2532,25 @@ itemsfile version 2
 1
 -51  3 600 1 177 720 2 1 4 721 2 1 5 
 
- itm_dc15a DC-15A DC-15A 2  DC15A 0  DC15A_inv 1152921504606846976  73400329 35740301934592 1380 270342 6.75 100 0 0 96 0 0 90 190 0 244 316 0
+ itm_dc15a DC-15A DC-15A 2  DC15A 0  DC15A_inv 1152921504606846976  35184445489161 555929845760 1380 270342 6.75 100 0 0 96 0 0 90 190 0 244 60 0
+1
+-50  1 507 3 826 65 177 
+
+ itm_dc15a_hip DC-15A DC-15A 2  DC15A 0  DC15A_inv 1152921504606846976  35184445489161 555930091520 1380 270342 6.75 100 0 0 96 0 0 90 190 0 244 60 0
+1
+-50  1 507 3 827 65 177 
+
+ itm_dc15a_hip2 DC-15A DC-15A 2  DC15A_javelin 0  DC15A_inv 1152921504606846976  35184445554697 551903559680 1380 270342 6.75 100 0 0 96 0 0 90 190 0 244 60 0
+1
+-50  1 507 3 828 65 177 
+
+ itm_dc15a_stun DC-15A DC-15A 2  DC15A 0  DC15A_inv 1152921504606846976  73400329 555929845760 1380 270342 6.75 100 0 0 96 0 0 90 190 0 244 316 0
 1
 -51  3 600 1 177 720 2 1 4 721 2 1 5 
 
- itm_dc15a_hip DC-15A DC-15A 2  DC15A_javelin 0  DC15A_inv 1152921504606846976  35184445554697 551903559680 1380 270342 6.75 100 0 0 96 0 0 90 190 0 244 316 0
+ itm_dc15s DC-15S DC-15S 2  DC15S 0  DC15S_inventory 1152921504606846976  35184445554697 487210369024 980 270342 4.5 100 0 0 94 0 0 120 150 0 244 35 0
 1
--51  3 600 1 177 720 2 1 4 721 2 1 5 
-
- itm_dc15s DC-15S DC-15S 2  DC15S 0  DC15S_inventory 1152921504606846976  35184445554697 487210369024 980 270342 4.5 100 0 0 94 0 0 120 150 0 244 291 0
-1
--51  3 600 1 176 720 2 1 14 721 2 1 18 
+-50  1 507 3 830 65 176 
 
  itm_trandoshan_acp_array_gun Trandoshan_ACP_Array_Gun Trandoshan_ACP_Array_Gun 2  trandoshan_acp_array_gun_javelin 0  trandoshan_acp_array_gun_inventory 1152921504606846976  73465865 483184082944 880 270342 4.5 70 0 0 79 0 0 100 170 0 8 321 0
 1
@@ -2396,41 +2560,41 @@ itemsfile version 2
 1
 -51  3 600 1 184 720 2 1 14 721 2 1 18 
 
- itm_quicksnap_36t QuickSnap_36T QuickSnap_36T 2  QuickSnap_36T_carabine 0  QuickSnap_36T_carabine_inventory 1152921504606846976  35184445554697 487210369024 300 270342 2 70 0 0 93 0 0 100 170 0 100 292 0
+ itm_quicksnap_36t QuickSnap_36T QuickSnap_36T 2  QuickSnap_36T_carabine 0  QuickSnap_36T_carabine_inventory 1152921504606846976  35184445554697 487210369024 300 270342 2 70 0 0 93 0 0 100 170 0 100 36 0
 1
--51  3 600 1 176 720 2 1 14 721 2 1 18 
+-50  1 507 3 833 65 176 
 
  itm_bothan_bola_carabine Bothan_Bola_Carabine Bothan_Bola_Carabine 2  bothan_bola_carabine 0  bothan_bola_carabine_inventory 1152921504606846976  73465865 555930353664 300 270342 2.5 70 0 0 95 0 0 80 170 0 16 298 0
 1
 -51  3 600 1 177 720 2 1 14 721 2 1 18 
 
- itm_ee3 EE-3 EE-3 2  EE3 0  EE3_inventory 1152921504606846976  35184445554697 487210369024 970 270342 6.5 100 0 0 96 0 0 100 170 0 30 292 0
+ itm_ee3 EE-3 EE-3 2  EE3 0  EE3_inventory 1152921504606846976  35184445554697 487210369024 970 270342 6.5 100 0 0 96 0 0 100 170 0 30 36 0
 1
--51  3 600 1 181 720 2 1 14 721 2 1 18 
+-50  1 507 3 835 65 181 
 
  itm_ee3_stun Stun_EE-3 Stun_EE-3 2  EE3 0  EE3_inventory 1152921504606846976  73400329 487210369024 870 270342 6.5 80 0 0 96 0 0 100 170 0 30 548 0
 1
 -51  3 600 1 184 720 2 1 14 721 2 1 18 
 
- itm_mg15 RT-97C RT-97C 2  MG15 0  MG15_inventory 1152921504606846976  35184445554697 555930353664 2000 270342 6.25 100 0 0 97 0 0 90 180 0 244 303 0
+ itm_mg15 RT-97C RT-97C 2  MG15 0  MG15_inventory 1152921504606846976  35184445554697 555930353664 2000 270342 6.25 100 0 0 97 0 0 90 180 0 244 47 0
 1
--51  3 600 1 176 720 2 1 14 721 2 1 18 
+-50  1 507 3 837 65 176 
 
- itm_e5 E-5 E-5 2  e5_new_javelin 0  e5_new_inventory 1152921504606846976  35184445554697 483184082944 900 270342 2 70 0 0 94 0 0 100 150 0 244 288 0
+ itm_e5 E-5 E-5 2  e5_new_javelin 0  e5_new_inventory 1152921504606846976  35184445554697 483184082944 900 270342 2 70 0 0 94 0 0 100 150 0 244 32 0
 1
--51  3 600 1 274 720 2 1 12 721 2 1 15 
+-50  1 507 3 838 65 274 
 
- itm_e11 E-11 E-11 2  e11_new 0  e11_new_inventory 1152921504606846976  35184445489161 487210369024 1000 270342 4.5 100 0 0 92 0 0 110 160 0 100 292 0
+ itm_e11 E-11 E-11 2  e11_new 0  e11_new_inventory 1152921504606846976  35184445489161 487210369024 1000 270342 4.5 100 0 0 92 0 0 110 160 0 100 36 0
 1
--51  3 600 1 178 720 2 1 12 721 2 1 15 
+-50  1 507 3 839 65 178 
 
- itm_e11_hip E-11 E-11 2  e11_new_javelin 0  e11_new_inventory 1152921504606846976  35184445554697 483184082944 1000 270342 4.5 100 0 0 92 0 0 110 160 0 100 292 0
+ itm_e11_hip E-11 E-11 2  e11_new_javelin 0  e11_new_inventory 1152921504606846976  35184445554697 483184082944 1000 270342 4.5 100 0 0 92 0 0 110 160 0 100 36 0
 1
--51  3 600 1 178 720 2 1 12 721 2 1 15 
+-50  1 507 3 840 65 178 
 
  itm_e11_stun Stun_E-11 Stun_E-11 2  e11_new_javelin 0  e11_new_inventory 1152921504606846976  35184445489161 487210614784 1000 270342 4.5 80 0 0 94 0 0 110 160 0 100 548 0
 1
--51  3 600 1 184 720 2 1 12 721 2 1 15 
+-50  1 507 3 841 65 184 
 
  itm_wookiee_bowcaster Bowcaster Bowcaster 1  wookiee_bowcaster 0  73465865 555392974848 900 270342 6.25 100 0 0 94 0 0 120 160 0 35 306 0
 1
@@ -2448,7 +2612,7 @@ itemsfile version 2
 1
 -51  3 600 1 183 720 2 1 14 721 2 1 18 
 
- itm_t21 T-21 T-21 2  T21 0  T21_inventory 1152921504606846976  35184445554697 555930353664 2000 270342 4.5 60 0 0 96 0 0 80 170 0 30 321 0
+ itm_t21 T-21 T-21 2  T21 0  T21_inventory 1152921504606846976  73465865 555930353664 2000 270342 4.5 60 0 0 96 0 0 80 170 0 30 321 0
 1
 -51  3 600 1 177 720 2 1 4 721 2 1 5 
 
@@ -2464,13 +2628,13 @@ itemsfile version 2
 1
 -51  3 600 1 182 720 2 1 14 721 2 1 18 
 
- itm_heavy_repeater Imperial_Heavy_Repeater Imperial_Heavy_Repeater 3  HeavyRepeater 0  HeavyRepeater_inv 1152921504606846976  HeavyRepeater_carried 3458764513820540928  35184445554697 483184082944 1500 270342 4.5 100 0 0 94 0 0 120 169 0 144 292 0
+ itm_heavy_repeater Imperial_Heavy_Repeater Imperial_Heavy_Repeater 3  HeavyRepeater 0  HeavyRepeater_inv 1152921504606846976  HeavyRepeater_carried 3458764513820540928  35184445554697 483184082944 1500 270342 4.5 100 0 0 94 0 0 120 169 0 144 36 0
 1
--51  3 600 1 186 720 2 1 30 721 2 1 30 
+-50  1 507 3 850 65 186 
 
- itm_storm_rifle StormTrooper_Rifle StormTrooper_Rifle 2  uio0000_stormtrooperrifle 0  uio0000_stormtrooperrifle_inv 1152921504606846976  35184445554697 555929845760 870 270342 3.25 70 0 0 94 0 0 85 170 0 30 303 0
+ itm_storm_rifle StormTrooper_Rifle StormTrooper_Rifle 2  uio0000_stormtrooperrifle 0  uio0000_stormtrooperrifle_inv 1152921504606846976  35184445554697 555929845760 870 270342 3.25 70 0 0 94 0 0 85 170 0 30 47 0
 1
--51  3 600 1 187 720 2 1 6 721 2 1 8 
+-50  1 507 3 851 65 187 
 
  itm_dh17 DH-17 DH-17 1  DH17 0  71368720 483452715008 550 270342 1 100 0 0 88 0 0 110 160 0 244 292 0
 1

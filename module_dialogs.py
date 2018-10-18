@@ -461,7 +461,8 @@ dialogs = [
   #Dialogue for Scout Waypoints
   
   [anyone, "freelancer_mission_start",
-    [(eq, "$cheat_imposed_quest", "qst_scout_waypoints"),],
+    [(eq, "$cheat_imposed_quest", "qst_scout_waypoints"),
+    ],
     "{playername}, I need a volunteer to scout the area. We're sorely lacking on information, " +
     "and I simply must have a better picture of the situation before we can proceed. " +
     "Do you want to accept this mission?", "freelancer_lord_mission_told_scout_waypoints",
@@ -480,7 +481,7 @@ dialogs = [
       (else_try),
         (assign, ":waypoints", 3),
       (try_end),
-      (call_script, "script_freelancer_mission_scout_waypoints", ":waypoints")]],
+      (call_script, "script_cf_freelancer_mission_scout_waypoints", ":waypoints")]],
   [anyone|plyr, "freelancer_lord_mission_told_scout_waypoints", [], "I cannot accept this mission.", "freelancer_lord_mission_told_scout_waypoints_rejected",[]],
   
   [anyone,"freelancer_lord_mission_told_scout_waypoints_accepted",
@@ -1092,7 +1093,7 @@ dialogs = [
   [anyone,"start", [(troop_slot_eq,"$g_talk_troop", slot_troop_occupation, slto_player_companion),
                     (neg|main_party_has_troop,"$g_talk_troop"),
                     (eq, "$talk_context", tc_party_encounter)],
-   "Do you want me to rejoin you?", "member_wilderness_talk",[]],
+   "{!}Do you want me to rejoin you?", "close_window",[]], # unused
 #  [anyone,"start", [(neg|main_party_has_troop,"$g_talk_troop"),(eq, "$g_encountered_party", "p_four_ways_inn")], "Do you want me to rejoin you?", "member_inn_talk",[]],
 #  [anyone,"start", [(neg|main_party_has_troop,"$g_talk_troop")], "Do you want me to rejoin you?", "member_inn_talk",[]],
 #  [anyone,"member_separate_inn", [], "I don't know what you will do without me, but you are the boss. I'll wait for you at the Four Ways inn.", "close_window",
@@ -1288,9 +1289,9 @@ dialogs = [
                           (str_store_string, s5, ":honorific"),
                           ], "Yes, {s5}?", "member_talk",[]],
 
-  [anyone|plyr,"member_talk", [],
+  [anyone|plyr,"member_talk", [(call_script, "script_unequip_items", "$g_talk_troop")],
 
-   "Let me see your equipment.", "member_trade",[]],
+   "Let me see your equipment.", "member_trade",[(call_script, "script_unequip_items", "$g_talk_troop")]],
   [anyone,"member_trade", [], "Very well, it's all here...", "do_member_trade",[
 #      (change_screen_trade)
       (change_screen_equip_other),
@@ -13394,7 +13395,7 @@ I suppose there are plenty of bounty hunters around to get the job done...", "ta
 
   [anyone,"goods_merchant_pretalk", [], "Anything else?", "goods_merchant_talk",[]],
 
-  [anyone|plyr,"goods_merchant_talk", [], "I want to buy a few items... and perhaps sell some.", "goods_trade_requested",[]],
+  [anyone|plyr,"goods_merchant_talk", [(call_script, "script_check_equipped_items", "trp_player")], "I want to buy a few items... and perhaps sell some.", "goods_trade_requested",[]],
   [anyone,"goods_trade_requested", [], "Sure, sure... Here, have a look at my stock...", "goods_trade_completed",[[change_screen_trade]]],
   [anyone,"goods_trade_completed", [], "Anything else?", "goods_merchant_talk",[]],
 
@@ -14369,7 +14370,7 @@ I suppose there are plenty of bounty hunters around to get the job done...", "ta
   [anyone,"sell_prisoner_outlaws", [[store_troop_kind_count,0,"trp_brigand"],[ge,reg(0),1],[assign,reg(1),reg(0)],[val_mul,reg(1),30],[assign,reg(2),reg(0)],[val_mul,reg(2),30]],
    "Well well, you've captured {reg0} brigands. Each one is worth 30 credits, so I'll give you {reg1} for them in total.", "sell_prisoner_outlaws",
    [[call_script, "script_troop_add_gold", "trp_player",reg(1)],[add_xp_to_troop,reg(2)],[remove_member_from_party,"trp_brigand"]]],
-  [anyone,"sell_prisoner_outlaws", [], "I suppose that'll be all, then.", "sell_prisoner_outlaws_finished",[]],
+  [anyone,"sell_prisoner_outlaws", [], "I suppose that'll be all, then.", "close_window",[]],
 # Ryan END
 
   [anyone|plyr,"prisoner_chat", [], "Do not try running away or trying something stupid. I will be watching you.", "prisoner_chat_2",[]],
@@ -14387,11 +14388,11 @@ I suppose there are plenty of bounty hunters around to get the job done...", "ta
                     (this_or_next|is_between,"$g_talk_troop",armor_merchants_begin, armor_merchants_end),
                     (             is_between,"$g_talk_troop",horse_merchants_begin, horse_merchants_end)], "Good day. What can I do for you?", "town_merchant_talk",[]],
 
-  [anyone|plyr,"town_merchant_talk", [(is_between,"$g_talk_troop",weapon_merchants_begin,weapon_merchants_end)],
+  [anyone|plyr,"town_merchant_talk", [(is_between,"$g_talk_troop",weapon_merchants_begin,weapon_merchants_end), (call_script, "script_check_equipped_items", "trp_player")],
    "I want to buy a new weapon. Show me your wares.", "trade_requested_weapons",[]],
-  [anyone|plyr,"town_merchant_talk", [(is_between,"$g_talk_troop",armor_merchants_begin,armor_merchants_end)],
+  [anyone|plyr,"town_merchant_talk", [(is_between,"$g_talk_troop",armor_merchants_begin,armor_merchants_end), (call_script, "script_check_equipped_items", "trp_player")],
    "I am looking for some equipment. Show me what you have.", "trade_requested_armor",[]],
-  [anyone|plyr,"town_merchant_talk", [(is_between,"$g_talk_troop",horse_merchants_begin,horse_merchants_end)],
+  [anyone|plyr,"town_merchant_talk", [(is_between,"$g_talk_troop",horse_merchants_begin,horse_merchants_end), (call_script, "script_check_equipped_items", "trp_player")],
    "I am thinking of buying a vehicle.", "trade_requested_horse",[]],
 
   [anyone,"trade_requested_weapons", [], "Ah, yes {sir/madam}. These arms are the best you'll find anywhere.", "merchant_trade",[[change_screen_trade]]],

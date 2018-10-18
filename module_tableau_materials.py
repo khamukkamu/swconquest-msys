@@ -49,6 +49,13 @@ tableaus = [
   ("game_inventory_window", 0, "tableau_with_transparency", 1024, 1024, 0, 0, 180, 270,
    [
        (store_script_param, ":troop_no", 1),
+
+        (try_begin), # TLD equipment appropriateness check
+          (this_or_next|eq, ":troop_no", "trp_player"),
+          (is_between, ":troop_no", companions_begin, companions_end),
+          (call_script, "script_check_equipped_items", ":troop_no"),
+        (try_end),
+
        (cur_tableau_set_background_color, 0xFF888888),
        (cur_tableau_set_ambient_light, 10,11,15),
        (set_fixed_point_multiplier, 100),

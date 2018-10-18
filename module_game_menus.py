@@ -1470,15 +1470,28 @@ game_menus = [
 ##           (try_end),
 
 
-      #swy-- jawas get special jawa robes, unattainable in any other way
-     (try_begin),
-       (troop_get_type, ":character_race", "trp_player"),
+      #swy-- jawas get special jawa robes, unattainable in any other way - Kham: added the other aliens
+    (troop_get_type, ":character_race", "trp_player"),
+    
+    (try_begin),
        (eq,             ":character_race",  tf_jawa),
        # --
        (troop_add_item, "trp_player", "itm_jawa_hood",  0),
        (troop_add_item, "trp_player", "itm_jawa_robe",  0),
        (troop_add_item, "trp_player", "itm_jawa_boots", 0),
-     (try_end),
+    (else_try),
+      (eq, ":character_race", tf_geonosian),
+      (troop_add_item, "trp_player", "itm_geonosian_armor", 0),
+    (else_try),
+      (eq, ":character_race", tf_wookiee),
+      (troop_add_item, "trp_player", "itm_wookiee_fullbody", 0),
+    (else_try),
+      (eq, ":character_race", tf_trandoshan),
+      (troop_add_item, "trp_player", "itm_trandoshan_armor", 0),
+    (else_try),
+      (eq, ":character_race", tf_gamorrean),
+      (troop_add_item, "trp_player", "itm_gamorrean_armor", 0),
+    (try_end),
 
 #---------------------------------------------------
 #SW - new classes (commented out old ones below)
@@ -2940,7 +2953,7 @@ game_menus = [
         (start_presentation, "prsnt_all_items"),
         ]
        ),
-      ("give_weapon",[],"Give Weapon", [(troop_raise_skill, "trp_player", "skl_deflection", 5), (troop_add_item, "trp_player", "itm_corellian_destroyer_blaster"), (display_message, "@Item Given", color_good_news),]),
+      ("give_weapon",[],"Give Item", [ (troop_add_item, "trp_player", "itm_wookiee_armor2"), (display_message, "@Item Given", color_good_news),]),
       ("give_custom_armor",[],"Give Custom Armor", [(troop_add_item, "trp_player", "itm_lightsaber_custom"),(troop_add_item, "trp_player", "itm_lightsaber_double_custom"),
          (troop_add_item, "trp_player", "itm_darth_vader_helmet"), (troop_add_item, "trp_player", "itm_darth_vader_armor"), (troop_add_item, "trp_player", "itm_darth_vader_feet"),
          (set_spawn_radius, 2), (spawn_around_party, "p_main_party", "pt_jedi_tests"),]),
@@ -5867,8 +5880,8 @@ game_menus += [
             (assign, ":closest_dist", 100000),     
             (assign, ":closest_town", -1),     
             (try_for_range, ":cur_town", mainplanets_begin, mainplanets_end),       
-                (store_distance_to_party_from_party, ":dist", ":cur_town", "p_main_party"),       
-                (lt, ":dist", ":closest_dist"),       
+                (store_distance_to_party_from_party, ":dist", ":cur_town", "p_main_party"),      
+                 (lt, ":dist", ":closest_dist"),       
                 (assign, ":closest_dist", ":dist"),       
                 (assign, ":closest_town", ":cur_town"),     
             (try_end),     
