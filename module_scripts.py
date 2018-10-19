@@ -1816,6 +1816,10 @@ scripts = [
       (item_set_slot, "itm_lightsaber_double_custom", ":slot_no", -1),
     (try_end),
 
+    (call_script, "script_refresh_center_armories"),
+    (call_script, "script_refresh_center_weaponsmiths"),
+    (call_script, "script_refresh_center_stables"),
+
   ]),
   
   
@@ -33140,6 +33144,29 @@ if is_a_wb_script==1:
       (try_end),
    (try_end),
 
+   (try_for_range, ":inv_slot", ek_item_0, ek_head),
+      (troop_get_inventory_slot, ":item", ":npc", ":inv_slot"),
+      (ge, ":item", 0),
+      (try_begin),
+         (item_has_faction, ":item", "fac_rebelalliance"),
+         (display_message, "@Rebel Alliance", color_neutral_news),
+      (else_try),
+         (item_has_faction, ":item", "fac_galacticempire"),
+         (display_message, "@Galactic empire", color_bad_news),
+      (else_try),
+         (item_has_faction, ":item", "fac_huttcartel"),
+         (display_message, "@Galactic empire", color_good_news),
+      (else_try),
+         (this_or_next|item_has_faction, ":item", "fac_culture_8"),
+         (item_has_faction, ":item", "fac_culture_9"),
+         (display_message, "@Force"),
+      (else_try),
+         (display_message, "@No Faction"),
+      (try_end),
+   (try_end),
+
+
+
 ]),
 ("unequip_items",[
    (store_script_param_1, ":npc"),
@@ -33191,7 +33218,7 @@ if is_a_wb_script==1:
   ("refresh_center_weaponsmiths",
     [
       (reset_item_probabilities, 100),
-      (set_merchandise_modifier_quality, 150),
+      (set_merchandise_modifier_quality, 100),
       (try_for_range, ":cur_merchant", weapon_merchants_begin, weapon_merchants_end),
         (store_sub, ":cur_town", ":cur_merchant", weapon_merchants_begin),
         (val_add, ":cur_town", towns_begin),
@@ -33222,7 +33249,7 @@ if is_a_wb_script==1:
   ("refresh_center_stables",
     [
       (reset_item_probabilities, 100),
-      (set_merchandise_modifier_quality, 150),
+      (set_merchandise_modifier_quality, 100),
       (try_for_range, ":cur_merchant", horse_merchants_begin, horse_merchants_end),
         (troop_clear_inventory, ":cur_merchant"),
         (store_sub, ":cur_town", ":cur_merchant", horse_merchants_begin),

@@ -1350,7 +1350,7 @@ itemsfile version 2
  itm_ubese_armor_alt Ubese_Armor Ubese_Armor 1  ubese_armour_alt 0  553713677 0 430 123731968 5 80 0 35 14 0 0 0 0 0 0 0 0
 0
 
- itm_wookiee_fullbody Wookiee_Skin Wookiee_Skin 1  Wookie 0  2709520397 0 530 704643236 3 50 0 35 14 0 0 0 0 0 0 0 0
+ itm_wookiee_fullbody Wookiee_Skin Wookiee_Skin 1  Wookie 0  2709520397 0 530 704643236 3 50 5 35 14 0 0 0 0 0 0 0 0
 0
 
  itm_wookiee_armor1 Wookiee_Chestarmor Wookiee_Chestarmor 1  wookie_armor 0  562036750 0 530 704643236 3 50 0 20 0 0 0 0 0 0 0 0 0
@@ -1715,10 +1715,10 @@ itemsfile version 2
  itm_tusken_armor Tusken_Armor Tusken_Armor 1  tusken_armor 0  553713677 0 310 123731968 3 70 0 24 10 0 0 0 0 0 0 0 0
 0
 
- itm_trandoshan_armor Trandoshan_Armor Trandoshan_Armor 1  trandoshan_armor 0  553713677 0 760 704643236 5 70 0 42 14 0 0 0 0 0 0 0 0
+ itm_trandoshan_armor Trandoshan_Armor Trandoshan_Armor 1  new_trandoshan_body 0  553713677 0 760 704643236 5 70 5 42 14 0 0 0 0 0 0 0 0
 0
 
- itm_geonosian_armor Geonosian_Armor Geonosian_Armor 1  geonosian_armor 0  2709524237 0 400 704643236 10 100 0 44 30 0 0 0 0 0 0 0 0
+ itm_geonosian_armor Geonosian_Armor Geonosian_Armor 1  new_geonosian_body 0  2709524237 0 400 704643236 10 100 5 44 30 0 0 0 0 0 0 0 0
 0
 
  itm_armors_end <dummy> <dummy> 1  dummy_mesh 0  0 0 0 0 0 100 0 0 0 0 0 0 0 0 0 0 0

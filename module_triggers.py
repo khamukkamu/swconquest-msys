@@ -139,18 +139,18 @@ triggers = [
                      ]),
 
 # Refresh Armor sellers
-  (0.0, 0, 168.0, [], [
+  (0.0, 0, 24.0, [], [
                       (call_script, "script_refresh_center_armories"),
                      ]),
 
 
 # Refresh Weapon sellers
-  (0.0, 0, 168.0, [], [
+  (0.0, 0, 24.0, [], [
                       (call_script, "script_refresh_center_weaponsmiths"),
                      ]),
 
 # Refresh Horse sellers
-  (0.0, 0, 168.0, [], [
+  (0.0, 0, 24.0, [], [
                       (call_script, "script_refresh_center_stables"),
                      ]),
   
