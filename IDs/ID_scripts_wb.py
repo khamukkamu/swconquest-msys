@@ -510,5 +510,7 @@ script_unequip_items = 508
 script_refresh_center_armories = 509
 script_refresh_center_weaponsmiths = 510
 script_refresh_center_stables = 511
+script_cf_is_not_restrictive_alien = 512
+script_init_faction_gender_ratio = 513
 
 

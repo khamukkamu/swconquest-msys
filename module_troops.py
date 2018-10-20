@@ -1755,7 +1755,7 @@ troops = [
    [itm_pipe1,itm_pipe2,itm_melee_punch,itm_q2,itm_ddc_defender,itm_dl44a,itm_laser_bolts_orange_pistol,itm_laser_bolts_yellow_pistol,itm_vibro_blade1,itm_durasteel_staff,itm_quarter_staff,itm_vibro_blade2,itm_vibro_blade3,itm_club,itm_leather_cap,itm_leather_apron,itm_linen_tunic,itm_coarse_tunic,itm_jacket_open_c,itm_vest_closed_a,itm_vest_closed_b,itm_vest_closed_a,itm_leather_gloves,itm_leather_boots,itm_nomad_boots,itm_wrapping_boots],
    def_attrib|level(6),wp(60),knows_common,sw_man_face_1, sw_man_face_2],
 
-  ["civilian","Civilian","Civilians",tf_guarantee_boots|tf_guarantee_armor,no_scene,reserved,fac_commoners,
+  ["civilian","Civilian","Civilians",tf_guarantee_armor,no_scene,reserved,fac_commoners,
 	[
 		itm_baton,
 		itm_pipe1,
@@ -1767,17 +1767,10 @@ troops = [
 		itm_dl44a,
 		itm_laser_bolts_orange_pistol,
 		itm_laser_bolts_yellow_pistol,
-		itm_jacket_closed_a,
-		itm_jacket_closed_c,
-		itm_jacket_open_a,
-		itm_jacket_open_c,
-		itm_vest_closed_a,
-		itm_vest_open_a,
-		itm_vest_open_b,
-		itm_leather_gloves,
-		itm_leather_gloves,
-		itm_leather_boots,
-		itm_leather_boots
+    itm_ind_clothes_outfitvest_red,
+    itm_ind_clothes_outfitvest_green,
+    itm_ind_clothes_outfitvest_blue,
+    itm_ind_clothes_outfitvest_light,
 	],
 	def_attrib_1|level(10),
 	wp(100)|wp_firearm(105),
@@ -1797,12 +1790,12 @@ troops = [
 		itm_dl44a,
 		itm_laser_bolts_orange_pistol,
 		itm_laser_bolts_yellow_pistol,
-		itm_vest_closed_b,
-		itm_vest_closed_b,		
-		itm_jacket_closed_b,
-		itm_jacket_closed_b,
-		itm_leather_boots,
-		itm_leather_boots
+    itm_blast_armor_red,
+    itm_blast_armor_black,
+    itm_blast_armor_grey,
+    itm_blast_armor_bluegrey,
+    itm_leather_boots,
+    itm_leather_boots
 	],
 	def_attrib_2|level(16),
 	wp(110)|wp_firearm(125),
@@ -1810,7 +1803,7 @@ troops = [
    sw_man_face_1, sw_man_face_2
   ],
 
-  ["security_guard","Security Guard","Security Guards",tf_guarantee_boots|tf_guarantee_armor|tf_guarantee_shield,no_scene,reserved,fac_commoners,
+  ["security_guard","Security Guard","Security Guards",tf_guarantee_armor|tf_guarantee_shield,no_scene,reserved,fac_commoners,
 	[
 		itm_baton,
 		itm_baton,
@@ -1824,12 +1817,11 @@ troops = [
 		itm_energy_shield_yellow_small,
 		itm_laser_bolts_orange_pistol,
 		itm_laser_bolts_yellow_pistol,
-		itm_blast_armor_red,
-		itm_blast_armor_black,
-		itm_blast_armor_grey,
-		itm_blast_armor_bluegrey,
-		itm_leather_boots,
-		itm_leather_boots
+		itm_ind_clothes_securityguarda1,
+		itm_ind_clothes_securityguarda2,
+		itm_ind_clothes_securityguarda3,
+		itm_ind_clothes_securityguarda4,
+    itm_ind_clothes_securityguarda5,
 	],
 	def_attrib_3|level(24),
 	wp(135)|wp_firearm(140),
@@ -1837,7 +1829,7 @@ troops = [
    sw_man_face_1, sw_man_face_2
   ],   
 
-  ["soldier","Soldier","Soldiers",tf_guarantee_boots|tf_guarantee_armor|tf_guarantee_ranged,no_scene,reserved,fac_commoners,
+  ["soldier","Soldier","Soldiers",tf_guarantee_armor|tf_guarantee_ranged,no_scene,reserved,fac_commoners,
 	[
 		itm_baton,
 		itm_baton,
@@ -1845,12 +1837,8 @@ troops = [
 		itm_a280_crouch,
 		itm_laser_bolts_orange_rifle,
 		itm_laser_bolts_yellow_rifle,
-		itm_vest_closed_b,
-		itm_vest_closed_b,		
-		itm_jacket_closed_b,
-		itm_jacket_closed_b,
-		itm_leather_boots,
-		itm_leather_boots
+    itm_ind_merc_soldier_1,
+    itm_ind_merc_soldier_2,
 	],
 	def_attrib_3|level(24),
 	wp(135)|wp_firearm(140),
@@ -1858,7 +1846,7 @@ troops = [
    sw_man_face_1, sw_man_face_2
   ],     
 
-  ["bodyguard","Bodyguard","Bodyguards",tf_guarantee_boots|tf_guarantee_armor|tf_guarantee_shield,no_scene,reserved,fac_commoners,
+  ["bodyguard","Bodyguard","Bodyguards",tf_guarantee_armor|tf_guarantee_shield,no_scene,reserved,fac_commoners,
 	[
 		itm_vibro_sword3_gold,
 		itm_vibro_sword3_gold,
@@ -1868,12 +1856,22 @@ troops = [
 		itm_laser_bolts_yellow_rifle,		
 		itm_energy_shield_yellow_medium,
 		itm_energy_shield_yellow_medium,
-		itm_blast_armor_red,
-		itm_blast_armor_black,
-		itm_blast_armor_grey,
-		itm_blast_armor_bluegrey,
-		itm_leather_boots,
-		itm_leather_boots
+    itm_ind_arm_lightmercenarya1,
+    itm_ind_arm_lightmercenarya2,
+    itm_ind_arm_lightmercenarya3,
+    itm_ind_arm_lightmercenarya4,
+    itm_ind_arm_lightmercenaryb1,
+    itm_ind_arm_lightmercenaryb2,
+    itm_ind_arm_lightmercenaryb3,
+    itm_ind_arm_lightmercenaryb4,
+    itm_ind_arm_lightmercenaryc1,
+    itm_ind_arm_lightmercenaryc2,
+    itm_ind_arm_lightmercenaryc3,
+    itm_ind_arm_lightmercenaryc4,
+    itm_ind_arm_lightmercenaryd1,
+    itm_ind_arm_lightmercenaryd2,
+    itm_ind_arm_lightmercenaryd3,
+    itm_ind_arm_lightmercenaryd4,
 	],
 	def_attrib_4|level(30),
 	wp(150)|wp_firearm(160),
@@ -1881,7 +1879,7 @@ troops = [
    sw_man_face_1, sw_man_face_2
   ],   
 
-  ["commando","Commando","Commandos",tf_guarantee_boots|tf_guarantee_armor|tf_guarantee_ranged,no_scene,reserved,fac_commoners,
+  ["commando","Commando","Commandos",tf_guarantee_armor|tf_guarantee_ranged,no_scene,reserved,fac_commoners,
 	[
 		itm_baton,
 		itm_baton,
@@ -1889,12 +1887,9 @@ troops = [
 		itm_a280_crouch,
 		itm_laser_bolts_orange_rifle,
 		itm_laser_bolts_yellow_rifle,
-		itm_vest_closed_b,
-		itm_vest_closed_b,		
-		itm_jacket_closed_b,
-		itm_jacket_closed_b,
-		itm_leather_boots,
-		itm_leather_boots
+    itm_ind_rep_guardarmor1,
+    itm_ind_rep_guardarmor2,
+    itm_ind_rep_guardarmor3,
 	],
 	def_attrib_4|level(30),
 	wp(150)|wp_firearm(160),
@@ -4476,7 +4471,7 @@ def_attrib_2|level(16),wp(80),starwars_skills_2,sw_rebel_face_1, sw_rebel_face_2
     itm_ind_clothes_hutttuniccape_grey,
     itm_ind_clothes_hutttuniccape_brown,
 		#itm_klatooinian_armor,
-		itm_klatooinian_armor,
+		#itm_klatooinian_armor,
 		itm_vibro_blade1,
 		itm_vibro_blade2,
 		itm_laser_bolts_orange_rifle,
@@ -4526,7 +4521,7 @@ def_attrib_2|level(16),wp(80),starwars_skills_2,sw_rebel_face_1, sw_rebel_face_2
     itm_ind_arm_lightmercenaryd3,
     itm_ind_arm_lightmercenaryd4,
 		#itm_klatooinian_armor,
-		itm_klatooinian_armor,		
+		#itm_klatooinian_armor,		
 		itm_vibro_blade1,
 		itm_vibro_blade2,
 		itm_laser_bolts_orange_rifle,
@@ -4635,7 +4630,7 @@ def_attrib_2|level(16),wp(80),starwars_skills_2,sw_rebel_face_1, sw_rebel_face_2
     itm_ind_rep_guardarmor_black,
     itm_ind_rep_guardarmor_hutt,
 		#itm_klatooinian_armor,
-		itm_klatooinian_armor,
+		#itm_klatooinian_armor,
 		itm_vibro_blade1,
 		itm_vibro_blade2,
 		itm_laser_bolts_orange_rifle,
@@ -6705,7 +6700,7 @@ upgrade(troops,"townsman","civilian")
 upgrade2(troops,"civilian","militia","thug")
 upgrade2(troops,"militia","security_guard","soldier")
 upgrade(troops,"security_guard", "bodyguard")
-upgrade2(troops,"soldier","commando","pilot")
+upgrade(troops,"soldier","commando") #removed second Pilot option for now, til I get better Pilot assets
 upgrade2(troops,"thug","goon","biker")
 upgrade(troops,"goon", "assassin")
 upgrade(troops,"biker", "biker_scout")

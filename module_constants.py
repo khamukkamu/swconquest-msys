@@ -1664,3 +1664,5 @@ slot_troop_boots_type = 166
 slot_troop_horse_type = 167
 
 slot_item_race = 67
+
+slot_faction_gender_ratio = 165

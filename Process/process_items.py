@@ -18,7 +18,7 @@ def save_python_header():
 def write_items(variable_list,variable_uses,tag_uses,quick_strings):
   itemkinds_file_name = export_dir + "item_kinds1.txt"
   ofile = open(itemkinds_file_name,"w")
-  ofile.write("itemsfile version 2\n")
+  ofile.write("itemsfile version 3\n")
   ofile.write("%d\n"%len(items))
   for item in items:
     if (item[3] & itp_merchandise) > 0:
@@ -84,14 +84,14 @@ def write_items(variable_list,variable_uses,tag_uses,quick_strings):
                                                    get_thrust_damage(item[6]),
                                                    get_swing_damage(item[6]),
                                                                ))
-    if (wb_compile_switch == 1):
-      if (len(item) > 9):
-        ofile.write(" %d\n"%(len(item[9])))
-        for item_faction in item[9]:
-          ofile.write(" %d"%item_faction)
-        ofile.write("\n")
-      else:
-        ofile.write(" 0\n")
+
+    if (len(item) > 9):
+      ofile.write(" %d\n"%(len(item[9])))
+      for item_faction in item[9]:
+        ofile.write(" %d"%item_faction)
+      ofile.write("\n")
+    else:
+      ofile.write(" 0\n")
     trigger_list = []
     if (len(item) > 8):
       trigger_list = item[8]

@@ -6,7 +6,7 @@ from os import system, environ
 
 # Set it to True/False depending if you want to build
 # for Warband/1.011, respectively. Easy as pie.
-wb_compile_switch = True
+wb_compile_switch = False
 
 
 # By default it will be built either on the parent folder or a _wb sibling.

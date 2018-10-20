@@ -89,6 +89,7 @@ scripts = [
       #Autoloot:
       # init stuff
       (call_script, "script_init_item_difficulties"),
+      (call_script, "script_init_faction_gender_ratio"),
       #end Autoloot:
       
       #SW - init variables
@@ -33144,30 +33145,8 @@ if is_a_wb_script==1:
       (try_end),
    (try_end),
 
-   (try_for_range, ":inv_slot", ek_item_0, ek_head),
-      (troop_get_inventory_slot, ":item", ":npc", ":inv_slot"),
-      (ge, ":item", 0),
-      (try_begin),
-         (item_has_faction, ":item", "fac_rebelalliance"),
-         (display_message, "@Rebel Alliance", color_neutral_news),
-      (else_try),
-         (item_has_faction, ":item", "fac_galacticempire"),
-         (display_message, "@Galactic empire", color_bad_news),
-      (else_try),
-         (item_has_faction, ":item", "fac_huttcartel"),
-         (display_message, "@Galactic empire", color_good_news),
-      (else_try),
-         (this_or_next|item_has_faction, ":item", "fac_culture_8"),
-         (item_has_faction, ":item", "fac_culture_9"),
-         (display_message, "@Force"),
-      (else_try),
-         (display_message, "@No Faction"),
-      (try_end),
-   (try_end),
-
-
-
 ]),
+
 ("unequip_items",[
    (store_script_param_1, ":npc"),
    (try_begin),
@@ -33265,6 +33244,45 @@ if is_a_wb_script==1:
       (try_end),
   ]),
 
+# script_cf_is_not_restrictive_alien
+# if it fails, the NPC is not an restrictive alien, and we can give them non-restrictive gear
+
+("cf_is_not_restrictive_alien", [
+ 
+    (store_script_param_1, ":player"),
+
+    (troop_get_type, ":character_race", ":player"),
+
+    (assign, ":is_restrictive", 0),
+
+    (try_begin),
+      (this_or_next|eq, ":character_race", tf_geonosian),
+      (this_or_next|eq, ":character_race", tf_jawa),
+      (this_or_next|eq, ":character_race", tf_wookiee),
+      (this_or_next|eq, ":character_race", tf_trandoshan),
+      (eq, ":character_race", tf_gamorrean),
+      (assign, ":is_restrictive", 1),
+    (try_end),
+    
+    (eq, ":is_restrictive", 0),
+
+ ]),
+
+("init_faction_gender_ratio", [
+  (faction_set_slot, "fac_galacticempire", slot_faction_gender_ratio, 10),
+  (faction_set_slot, "fac_rebelalliance", slot_faction_gender_ratio, 50),
+  (faction_set_slot, "fac_huttcartel", slot_faction_gender_ratio, 40),
+
+  (faction_set_slot, "fac_player_faction", slot_faction_gender_ratio, 50),
+  (faction_set_slot, "fac_player_supporters_faction", slot_faction_gender_ratio, 50),
+  (faction_set_slot, "fac_commoners", slot_faction_gender_ratio, 50),
+  (faction_set_slot, "fac_neutral", slot_faction_gender_ratio, 100),
+  (faction_set_slot, "fac_outlaws", slot_faction_gender_ratio, 5),
+
+  (faction_set_slot, "fac_black_sun_pirates", slot_faction_gender_ratio, 60),
+  (faction_set_slot, "fac_blazing_claw_pirates", slot_faction_gender_ratio, 60),
+  ]
+),
 
  ]
 

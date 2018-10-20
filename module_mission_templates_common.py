@@ -3553,3 +3553,46 @@ combo_effects = [
 # Melee Combo & Effects by Khamukkamu END
 
 
+random_unisex_troop = (ti_on_agent_spawn, 0, 0, [
+  (store_trigger_param_1, ":agent_no"),
+  (agent_get_troop_id, ":troop_no", ":agent_no"),
+  (neg|troop_is_hero, ":troop_no"), #exclude original gender here
+
+  (troop_get_type, ":type", ":troop_no"),
+
+  (neg|is_between, ":type", tf_jawa, tf_twilek),
+  (neg|is_between, ":type", tf_bothan, tf_rancor+1),
+
+  (neg|is_between, ":troop_no", "trp_peasant_woman", "trp_local_merchant"),
+  
+  ],[
+  
+  (store_trigger_param_1, ":agent_no"),
+  (agent_get_troop_id, ":troop_no", ":agent_no"),
+  (neg|troop_is_hero, ":troop_no"), #exclude original gender here
+  (troop_get_type, ":type", ":troop_no"),
+  (neg|is_between, ":type", tf_jawa, tf_twilek),
+  (neg|is_between, ":type", tf_bothan, tf_rancor+1),
+
+  (neg|is_between, ":troop_no", "trp_peasant_woman", "trp_local_merchant"),
+
+  #get individual faction chances
+  (store_faction_of_troop, ":faction_no", ":troop_no"),
+  (faction_get_slot, ":ratio", ":faction_no", slot_faction_gender_ratio),
+  (store_random_in_range, ":gender", -100, ":ratio"),
+  (try_begin),
+    (le, ":gender", 0),
+    (eq, ":type", tf_twilek_female),
+    (troop_set_type, ":troop_no", tf_twilek),
+  (else_try),
+    (le, ":gender", 0),
+    (troop_set_type, ":troop_no", tf_male),
+  (else_try),
+    (eq, ":type", tf_twilek),
+    (troop_set_type, ":troop_no", tf_twilek_female), 
+  (else_try),
+      (troop_set_type, ":troop_no", tf_female),
+  (try_end),
+  ])
+
+

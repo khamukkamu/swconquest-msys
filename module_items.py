@@ -672,18 +672,23 @@ items = [
 ["ind_clothes_outfitvest_green", "Civilian vest", [("civilian_outfit_vest_2",0)], itp_merchandise|itp_type_body_armor|itp_attach_armature|itp_covers_legs|itp_civilian, 0, 
  150 , weight(2)|abundance(30)|head_armor(0)|body_armor(16)|leg_armor(8)|difficulty(0) ,imodbits_cloth ],
 
+["ind_clothes_outfitvest_blue", "Civilian vest", [("civilian_outfit_vest_4",0)], itp_merchandise|itp_type_body_armor|itp_attach_armature|itp_covers_legs|itp_civilian, 0, 
+ 150 , weight(2)|abundance(30)|head_armor(0)|body_armor(16)|leg_armor(8)|difficulty(0) ,imodbits_cloth ],
+["ind_clothes_outfitvest_light", "Civilian vest", [("civilian_outfit_vest_3",0)], itp_merchandise|itp_type_body_armor|itp_attach_armature|itp_covers_legs|itp_civilian, 0, 
+ 150 , weight(2)|abundance(30)|head_armor(0)|body_armor(16)|leg_armor(8)|difficulty(0) ,imodbits_cloth ],
+
 
 ### - Civilians - Security guard armors:
 ["ind_clothes_securityguarda1", "Security Guard Armor", [("security_guard_1",0)], itp_merchandise|itp_type_body_armor|itp_attach_armature|itp_covers_legs|itp_civilian, 0, 
- 320 , weight(5)|abundance(100)|head_armor(0)|body_armor(25)|leg_armor(12)|difficulty(0) ,imodbits_cloth ],   
+ 390 , weight(5)|abundance(60)|head_armor(0)|body_armor(35)|leg_armor(14)|difficulty(0) ,imodbits_cloth ], 
 ["ind_clothes_securityguarda2", "Security Guard Armor", [("security_guard_2",0)], itp_merchandise|itp_type_body_armor|itp_attach_armature|itp_covers_legs|itp_civilian, 0, 
- 320 , weight(5)|abundance(100)|head_armor(0)|body_armor(25)|leg_armor(12)|difficulty(0) ,imodbits_cloth ],   
+ 390 , weight(5)|abundance(60)|head_armor(0)|body_armor(35)|leg_armor(14)|difficulty(0) ,imodbits_cloth ],    
 ["ind_clothes_securityguarda3", "Security Guard Armor", [("security_guard_3",0)], itp_merchandise|itp_type_body_armor|itp_attach_armature|itp_covers_legs|itp_civilian, 0, 
- 320 , weight(5)|abundance(100)|head_armor(0)|body_armor(25)|leg_armor(12)|difficulty(0) ,imodbits_cloth ],   
+ 390 , weight(5)|abundance(60)|head_armor(0)|body_armor(35)|leg_armor(14)|difficulty(0) ,imodbits_cloth ],    
 ["ind_clothes_securityguarda4", "Security Guard Armor", [("security_guard_4",0)], itp_merchandise|itp_type_body_armor|itp_attach_armature|itp_covers_legs|itp_civilian, 0, 
- 320 , weight(5)|abundance(100)|head_armor(0)|body_armor(25)|leg_armor(12)|difficulty(0) ,imodbits_cloth ],   
+ 390 , weight(5)|abundance(60)|head_armor(0)|body_armor(35)|leg_armor(14)|difficulty(0) ,imodbits_cloth ],    
 ["ind_clothes_securityguarda5", "Security Guard Armor", [("security_guard_5",0)], itp_merchandise|itp_type_body_armor|itp_attach_armature|itp_covers_legs|itp_civilian, 0, 
- 320 , weight(5)|abundance(100)|head_armor(0)|body_armor(25)|leg_armor(12)|difficulty(0) ,imodbits_cloth ],   
+ 390 , weight(5)|abundance(60)|head_armor(0)|body_armor(35)|leg_armor(14)|difficulty(0) ,imodbits_cloth ],    
 
 
 ### - Civilians - Tight Coveralls (TAS):
@@ -709,17 +714,23 @@ items = [
 # Replaces itm_armor
 ### - Civilians - Hutts (TAS):
 ["ind_clothes_hutttunic_red", "Hutt tunic", [("hutt_tuniccl1",0)], itp_merchandise|itp_type_body_armor|itp_attach_armature|itp_covers_legs|itp_civilian, 0, 
- 400 , weight(5)|abundance(50)|head_armor(0)|body_armor(32)|leg_armor(12)|difficulty(0) ,imodbits_cloth], 
+ 400 , weight(5)|abundance(50)|head_armor(0)|body_armor(32)|leg_armor(12)|difficulty(0) ,imodbits_cloth, [], hutt_fac], 
 ["ind_clothes_hutttunic_grey", "Hutt tunic", [("hutt_tuniccl2",0)], itp_merchandise|itp_type_body_armor|itp_attach_armature|itp_covers_legs|itp_civilian, 0, 
- 400 , weight(5)|abundance(50)|head_armor(0)|body_armor(32)|leg_armor(12)|difficulty(0) ,imodbits_cloth], 
+ 400 , weight(5)|abundance(50)|head_armor(0)|body_armor(32)|leg_armor(12)|difficulty(0) ,imodbits_cloth, [], hutt_fac], 
 ["ind_clothes_hutttunic_brown", "Hutt tunic", [("hutt_tuniccl3",0)], itp_merchandise|itp_type_body_armor|itp_attach_armature|itp_covers_legs|itp_civilian, 0, 
- 400 , weight(5)|abundance(50)|head_armor(0)|body_armor(32)|leg_armor(12)|difficulty(0) ,imodbits_cloth], 
+ 400 , weight(5)|abundance(50)|head_armor(0)|body_armor(32)|leg_armor(12)|difficulty(0) ,imodbits_cloth, [], hutt_fac], 
 ["ind_clothes_hutttuniccape_red", "Hutt tunic with cape", [("hutt_tunic1",0)], itp_merchandise|itp_type_body_armor|itp_attach_armature|itp_covers_legs|itp_civilian, 0, 
- 400 , weight(5)|abundance(50)|head_armor(0)|body_armor(32)|leg_armor(12)|difficulty(0) ,imodbits_cloth], 
+ 400 , weight(5)|abundance(50)|head_armor(0)|body_armor(32)|leg_armor(12)|difficulty(0) ,imodbits_cloth, [], hutt_fac], 
 ["ind_clothes_hutttuniccape_grey", "Hutt tunic with cape", [("hutt_tunic2",0)], itp_merchandise|itp_type_body_armor|itp_attach_armature|itp_covers_legs|itp_civilian, 0, 
- 400 , weight(5)|abundance(50)|head_armor(0)|body_armor(32)|leg_armor(12)|difficulty(0) ,imodbits_cloth], 
+ 400 , weight(5)|abundance(50)|head_armor(0)|body_armor(32)|leg_armor(12)|difficulty(0) ,imodbits_cloth, [], hutt_fac], 
 ["ind_clothes_hutttuniccape_brown", "Hutt tunic with cape", [("hutt_tunic3",0)], itp_merchandise|itp_type_body_armor|itp_attach_armature|itp_covers_legs|itp_civilian, 0, 
- 400 , weight(5)|abundance(50)|head_armor(0)|body_armor(32)|leg_armor(12)|difficulty(0) ,imodbits_cloth], 
+ 400 , weight(5)|abundance(50)|head_armor(0)|body_armor(32)|leg_armor(12)|difficulty(0) ,imodbits_cloth, [], hutt_fac], 
+
+# - Merc Soldier Armours (uses Republic Commando Soldier mesh)
+["ind_merc_soldier_1", "Mercenary Soldier Armor", [("merc_soldier_1",0)], itp_merchandise|itp_type_body_armor|itp_attach_armature|itp_covers_legs|itp_civilian, 0, 
+ 435 , weight(6)|abundance(100)|head_armor(0)|body_armor(38)|leg_armor(16)|difficulty(0) ,imodbits_cloth ],
+["ind_merc_soldier_2", "Mercenary Soldier Armor", [("merc_soldier_1",0)], itp_merchandise|itp_type_body_armor|itp_attach_armature|itp_covers_legs|itp_civilian, 0, 
+ 435 , weight(6)|abundance(100)|head_armor(0)|body_armor(38)|leg_armor(16)|difficulty(0) ,imodbits_cloth ],
 
 # - Light Mercenary Armor
 ["ind_arm_lightmercenarya1", "Light Mercenary Armor (A1)", [("light_mercenary_armor",0)], itp_merchandise|itp_type_body_armor|itp_attach_armature|itp_covers_legs|itp_civilian, 0, 
@@ -757,12 +768,12 @@ items = [
 
 
 # - Guard armors (TAS)
-#["ind_rep_guardarmor1", "Guard Armor", [("guard_armor1",0)], itp_merchandise|itp_type_body_armor|itp_covers_legs|itp_civilian, 0, 
-# 550 , weight(15)|abundance(60)|head_armor(0)|body_armor(50)|leg_armor(20)|difficulty(0) ,imodbits_cloth ], 
+["ind_rep_guardarmor1", "Guard Armor", [("guard_armor1",0)], itp_merchandise|itp_type_body_armor|itp_covers_legs|itp_civilian, 0, 
+ 720 , weight(10)|abundance(100)|head_armor(0)|body_armor(42)|leg_armor(18)|difficulty(0) ,imodbits_armor, [], [] ],
 ["ind_rep_guardarmor2", "Guard Armor", [("guard_armor2",0)], itp_merchandise|itp_type_body_armor|itp_covers_legs|itp_civilian, 0, 
  720 , weight(10)|abundance(100)|head_armor(0)|body_armor(42)|leg_armor(18)|difficulty(0) ,imodbits_armor, [], [] ],
-#["ind_rep_guardarmor3", "Guard Armor", [("guard_armor3",0)], itp_merchandise|itp_type_body_armor|itp_covers_legs|itp_civilian, 0, 
-# 550 , weight(15)|abundance(60)|head_armor(0)|body_armor(50)|leg_armor(20)|difficulty(0) ,imodbits_cloth ], 
+["ind_rep_guardarmor3", "Guard Armor", [("guard_armor3",0)], itp_merchandise|itp_type_body_armor|itp_covers_legs|itp_civilian, 0, 
+ 720 , weight(10)|abundance(100)|head_armor(0)|body_armor(42)|leg_armor(18)|difficulty(0) ,imodbits_armor, [], [] ],
 
 ["ind_rep_guardarmor_black", "Guard Armor (Black)", [("guard_armor_black",0)], itp_merchandise|itp_type_body_armor|itp_covers_legs|itp_civilian, 0, 
  720 , weight(10)|abundance(100)|head_armor(0)|body_armor(42)|leg_armor(18)|difficulty(0) ,imodbits_armor, [], hutt_fac ],
@@ -995,15 +1006,16 @@ items = [
  290 , weight(5)|abundance(70)|head_armor(0)|body_armor(28)|leg_armor(10)|difficulty(0) ,imodbits_cloth ],
 ["guard_armor_red", "Guardian Armor", [("sw_armor2_red",0)], itp_merchandise| itp_type_body_armor |itp_covers_legs |itp_civilian  ,0, 
  430 , weight(5)|abundance(70)|head_armor(0)|body_armor(28)|leg_armor(12)|difficulty(0) ,imodbits_cloth ],
-["blast_armor_black", "Blast Armor", [("blast_armour_black",0)], itp_merchandise| itp_type_body_armor |itp_covers_legs |itp_civilian  ,0, 
- 430 , weight(5)|abundance(60)|head_armor(0)|body_armor(35)|leg_armor(14)|difficulty(0) ,imodbits_cloth ], 
-["blast_armor_red", "Blast Armor", [("blast_armour_red",0)], itp_merchandise| itp_type_body_armor |itp_covers_legs |itp_civilian  ,0, 
- 430 , weight(5)|abundance(60)|head_armor(0)|body_armor(35)|leg_armor(14)|difficulty(0) ,imodbits_cloth ], 
-["blast_armor_grey", "Blast Armor", [("blast_armour_grey",0)], itp_merchandise| itp_type_body_armor |itp_covers_legs |itp_civilian  ,0, 
- 430 , weight(5)|abundance(60)|head_armor(0)|body_armor(35)|leg_armor(14)|difficulty(0) ,imodbits_cloth ], 
-["blast_armor_bluegrey", "Blast Armor", [("blast_armour_bluegrey",0)], itp_merchandise| itp_type_body_armor |itp_covers_legs |itp_civilian  ,0, 
- 430 , weight(5)|abundance(60)|head_armor(0)|body_armor(35)|leg_armor(14)|difficulty(0) ,imodbits_cloth ],  
 
+["blast_armor_black", "Blast Armor", [("blast_armour_black",0)], itp_merchandise| itp_type_body_armor |itp_covers_legs |itp_civilian  ,0, 
+ 320 , weight(5)|abundance(100)|head_armor(0)|body_armor(25)|leg_armor(12)|difficulty(0) ,imodbits_cloth ],   
+["blast_armor_red", "Blast Armor", [("blast_armour_red",0)], itp_merchandise| itp_type_body_armor |itp_covers_legs |itp_civilian  ,0, 
+  320 , weight(5)|abundance(100)|head_armor(0)|body_armor(25)|leg_armor(12)|difficulty(0) ,imodbits_cloth ],   
+["blast_armor_grey", "Blast Armor", [("blast_armour_grey",0)], itp_merchandise| itp_type_body_armor |itp_covers_legs |itp_civilian  ,0, 
+  320 , weight(5)|abundance(100)|head_armor(0)|body_armor(25)|leg_armor(12)|difficulty(0) ,imodbits_cloth ],   
+["blast_armor_bluegrey", "Blast Armor", [("blast_armour_bluegrey",0)], itp_merchandise| itp_type_body_armor |itp_covers_legs |itp_civilian  ,0, 
+ 320 , weight(5)|abundance(100)|head_armor(0)|body_armor(25)|leg_armor(12)|difficulty(0) ,imodbits_cloth ],
+ 
 #other
 ["ubese_armor", "Ubese Armor", [("ubese_armour",0)], itp_merchandise| itp_type_body_armor |itp_covers_legs |itp_civilian  ,0, 
  430 , weight(5)|abundance(80)|head_armor(0)|body_armor(35)|leg_armor(14)|difficulty(0) ,imodbits_cloth ],   
@@ -1393,13 +1405,13 @@ items = [
 
 # special arena lightsabers with no strength requirements (this is lightsaber_noise_begin)
 ["lightsaber_green_arena", "Lightsaber", [("lightsaber_green",0),("lightsaber_greenoff",ixmesh_carry)], itp_type_two_handed_wpn|itp_unique| itp_primary|itp_bonus_against_shield|itp_wooden_parry|itp_wooden_attack, itc_lightsaber|itcf_carry_dagger_front_left,
- 1500*lsbr_vluemul , weight(0.5)|abundance(0)|difficulty(0)|spd_rtng(120) | weapon_length(115)|swing_damage(50, blunt) | thrust_damage(35, blunt),imodbits_none ],
+ 1500*lsbr_vluemul , weight(0.5)|abundance(0)|difficulty(0)|spd_rtng(120) | weapon_length(115)|swing_damage(50, blunt) | thrust_damage(35, blunt),imodbits_none, [], force_fac ],
 ["lightsaber_blue_arena", "Lightsaber", [("lightsaber_blue",0),("lightsaber_blueoff",ixmesh_carry)], itp_type_two_handed_wpn|itp_unique| itp_primary|itp_bonus_against_shield|itp_wooden_parry|itp_wooden_attack, itc_lightsaber|itcf_carry_dagger_front_left,
- 1500*lsbr_vluemul , weight(0.5)|abundance(0)|difficulty(0)|spd_rtng(120) | weapon_length(115)|swing_damage(50, blunt) | thrust_damage(35, blunt),imodbits_none ],
+ 1500*lsbr_vluemul , weight(0.5)|abundance(0)|difficulty(0)|spd_rtng(120) | weapon_length(115)|swing_damage(50, blunt) | thrust_damage(35, blunt),imodbits_none, [], force_fac ],
 ["lightsaber_yellow_arena", "Lightsaber", [("lightsaber_yellow",0),("lightsaber_yellowoff",ixmesh_carry)], itp_type_two_handed_wpn|itp_unique| itp_primary|itp_bonus_against_shield|itp_wooden_parry|itp_wooden_attack, itc_lightsaber|itcf_carry_dagger_front_left,
- 1500*lsbr_vluemul , weight(0.5)|abundance(0)|difficulty(0)|spd_rtng(120) | weapon_length(115)|swing_damage(50, blunt) | thrust_damage(35, blunt),imodbits_none ],
+ 1500*lsbr_vluemul , weight(0.5)|abundance(0)|difficulty(0)|spd_rtng(120) | weapon_length(115)|swing_damage(50, blunt) | thrust_damage(35, blunt),imodbits_none, [], force_fac ],
 ["lightsaber_red_arena", "Lightsaber", [("lightsaber_red",0),("lightsaber_redoff",ixmesh_carry)], itp_type_two_handed_wpn|itp_unique| itp_primary|itp_bonus_against_shield|itp_wooden_parry|itp_wooden_attack, itc_lightsaber|itcf_carry_dagger_front_left,
- 1500*lsbr_vluemul , weight(0.5)|abundance(0)|difficulty(0)|spd_rtng(120) | weapon_length(115)|swing_damage(50, blunt) | thrust_damage(35, blunt),imodbits_none ],
+ 1500*lsbr_vluemul , weight(0.5)|abundance(0)|difficulty(0)|spd_rtng(120) | weapon_length(115)|swing_damage(50, blunt) | thrust_damage(35, blunt),imodbits_none, [], force_fac ],
 
 # weapons - lightsabers  (abundance is reduced since you can buy them all from the force-sensitive merchant at the trade federation base)
 ["weapons_begin", "<dummy>", [("_",0)], 0,0,0,0,imodbits_none],
@@ -1566,7 +1578,7 @@ items = [
     (call_script, "script_init_lightsaber", ":agent_no", ":troop_no", 1, ":value"),
     (cur_item_add_mesh, s1), #submesh 2
     ])
-  ]],
+  ], force_fac],
 
 ["lightsaber_double_custom", "Double-Bladed Lightsaber", [("lightsaber_double_base",0),("lightsaber_red_doubleoff",ixmesh_carry)], itp_type_polearm|itp_merchandise|itp_two_handed| itp_spear|itp_primary|itp_bonus_against_shield|itp_wooden_parry|itp_wooden_attack, itc_lightsaber_double|itcf_carry_dagger_front_left, 
  1310*lsbr_vluemul , weight(0.8)|abundance(20)|difficulty(14)|spd_rtng(150) | weapon_length(170)|swing_damage(75 , pierce) | thrust_damage(75 ,  pierce),imodbits_lightsaber,
@@ -1597,7 +1609,7 @@ items = [
     (call_script, "script_init_double_lightsaber", ":agent_no", ":troop_no", 2, ":value"),
     (cur_item_add_mesh, s1), #submesh 3
     ])
-  ]],
+  ], force_fac],
 
 # unique melee weapons (melee_punch is lightsaber_noise_end)
 ["melee_punch","_", [("_",0),("ArcTrooperGloves_L",ixmesh_inventory)], itp_unique|itp_type_one_handed_wpn|itp_primary|itp_secondary|itp_no_parry, itc_dagger, 1 , weight(0.1)|abundance(0)|difficulty(0)|spd_rtng(105) | weapon_length(25)|swing_damage(10, blunt) | thrust_damage(10, blunt),imodbits_none ],
@@ -1649,7 +1661,7 @@ items = [
 ["weapons_end", "<dummy>", [("_",0)], 0,0,0,0,imodbits_none],
 
 # practice/training/tutorial lightsabers (no merchandise flag)
-["tutorial_lightsaber", "Lightsaber", [("lightsaber_yellow",0),("lightsaber_yellowoff",ixmesh_carry)], itp_type_two_handed_wpn| itp_primary|itp_bonus_against_shield|itp_wooden_parry|itp_wooden_attack, itc_lightsaber|itcf_carry_dagger_front_left, 1500 , weight(2.25)|difficulty(0)|spd_rtng(120) | weapon_length(115)|swing_damage(50, pierce) | thrust_damage(35,  pierce),imodbits_none ],
+["tutorial_lightsaber", "Lightsaber", [("lightsaber_yellow",0),("lightsaber_yellowoff",ixmesh_carry)], itp_type_two_handed_wpn| itp_primary|itp_bonus_against_shield|itp_wooden_parry|itp_wooden_attack, itc_lightsaber|itcf_carry_dagger_front_left, 1500 , weight(2.25)|difficulty(0)|spd_rtng(120) | weapon_length(115)|swing_damage(50, pierce) | thrust_damage(35,  pierce),imodbits_none, [], force_fac ],
 ["practice_vibro_axe_medium", "Gamorrean Vibro-Axe", [("vibro_axe1",0)], itp_type_one_handed_wpn| itp_primary|itp_secondary|itp_bonus_against_shield, itc_scimitar|itcf_carry_axe_left_hip, 500 , weight(2.5)|abundance(100)|difficulty(0)|spd_rtng(95) | weapon_length(75)|swing_damage(35, cut) | thrust_damage(0 ,  pierce),imodbits_none ],
 ["practice_vibro_axe_long","BD-1 Cutter Vibro-Axe", [("vibro_axe2",0)], itp_type_two_handed_wpn| itp_two_handed|itp_primary|itp_secondary|itp_bonus_against_shield, itc_nodachi|itcf_carry_axe_back, 700 , weight(4.5)|difficulty(0)|spd_rtng(90) | weapon_length(110)|swing_damage(40 , cut) | thrust_damage(0 ,  pierce),imodbits_none ], 
 ["practice_vibro_axe_long_no_attack","BD-1 Cutter Vibro-Axe", [("vibro_axe2",0)],itp_type_polearm|itp_spear|itp_primary|itp_penalty_with_shield,itc_parry_polearm|itcf_carry_sword_back,9, weight(3.5)|spd_rtng(120) | weapon_length(115)|swing_damage(0,blunt) | thrust_damage(0,blunt),imodbits_none],
@@ -2248,82 +2260,82 @@ items = [
 
  # ONE HANDED BLASTERS (ie. pistol)
 ["dh17", "DH-17", [("DH17",0)], itp_type_pistol |itp_merchandise|itp_primary|itp_bonus_against_shield,itcf_shoot_pistol|itcf_carry_revolver_right|itcf_reload_pistol, 
-	550 , weight(1.24)|abundance(100)|difficulty(0)|spd_rtng(110) | shoot_speed(160) | thrust_damage(36 ,pierce)|max_ammo(500)|accuracy(88),imodbits_gun,
+	550 , weight(1.24)|abundance(100)|difficulty(0)|spd_rtng(170) | shoot_speed(160) | thrust_damage(36 ,pierce)|max_ammo(500)|accuracy(88),imodbits_gun,
 	[(ti_on_weapon_attack, [(play_sound,"snd_dh17"),(position_move_x, pos1,12),(position_move_y, pos1,15)]
 	)]],
 ["dh17_stun", "Stun DH-17", [("DH17",0)], itp_type_pistol |itp_primary|itp_bonus_against_shield,itcf_shoot_pistol|itcf_carry_revolver_right|itcf_reload_pistol, 
-	550 , weight(1.24)|abundance(80)|difficulty(0)|spd_rtng(110) | shoot_speed(160) | thrust_damage(36 ,blunt)|max_ammo(500)|accuracy(88),imodbits_gun,
+	550 , weight(1.24)|abundance(80)|difficulty(0)|spd_rtng(170) | shoot_speed(160) | thrust_damage(36 ,blunt)|max_ammo(500)|accuracy(88),imodbits_gun,
 	[(ti_on_weapon_attack, [(play_sound,"snd_stunblaster"),(position_move_x, pos1,12),(position_move_y, pos1,15)]
 	)]], 
 
 ["se14r", "SE-14R", [("se_14r",0)], itp_type_pistol |itp_merchandise|itp_primary|itp_bonus_against_shield,itcf_shoot_pistol|itcf_carry_revolver_right|itcf_reload_pistol, 
-	410 , weight(2)|abundance(100)|difficulty(0)|spd_rtng(110) | shoot_speed(160) | thrust_damage(36 ,pierce)|max_ammo(16)|accuracy(88),imodbits_gun,
+	410 , weight(2)|abundance(100)|difficulty(0)|spd_rtng(170) | shoot_speed(160) | thrust_damage(36 ,pierce)|max_ammo(16)|accuracy(88),imodbits_gun,
 	[(ti_on_weapon_attack, [(play_sound,"snd_bigblaster19"),(position_move_x, pos1,12),(position_move_y, pos1,15)]
 	)]],	
 ["dl44a", "DL-44", [("DL44a",0)], itp_type_pistol |itp_merchandise|itp_primary|itp_bonus_against_shield,itcf_shoot_pistol|itcf_carry_revolver_right|itcf_reload_pistol, 
-	750 , weight(1.5)|abundance(100)|difficulty(0)|spd_rtng(120) | shoot_speed(140) | thrust_damage(26,pierce)|max_ammo(25)|accuracy(87),imodbits_gun,
+	750 , weight(1.5)|abundance(100)|difficulty(0)|spd_rtng(180) | shoot_speed(140) | thrust_damage(26,pierce)|max_ammo(25)|accuracy(87),imodbits_gun,
 	[(ti_on_weapon_attack, [(play_sound,"snd_bigblaster19"),(position_move_x, pos1,12),(position_move_y, pos1,15)]
 	)]],
 ["dl44a_stun", "Stun DL-44", [("DL44a",0)], itp_type_pistol |itp_primary|itp_bonus_against_shield,itcf_shoot_pistol|itcf_carry_revolver_right|itcf_reload_pistol, 
-	750 , weight(1.5)|abundance(80)|difficulty(0)|spd_rtng(120) | shoot_speed(140) | thrust_damage(26,blunt)|max_ammo(25)|accuracy(87),imodbits_gun,
+	750 , weight(1.5)|abundance(80)|difficulty(0)|spd_rtng(180) | shoot_speed(140) | thrust_damage(26,blunt)|max_ammo(25)|accuracy(87),imodbits_gun,
 	[(ti_on_weapon_attack, [(play_sound,"snd_stunblaster"),(position_move_x, pos1,12),(position_move_y, pos1,15)]
 	)]], 
 ["dl44b", "Modified DL-44", [("DL44b",0)], itp_type_pistol |itp_merchandise|itp_primary|itp_bonus_against_shield,itcf_shoot_pistol|itcf_carry_revolver_right|itcf_reload_pistol, 
-	860 , weight(1.6)|abundance(70)|difficulty(0)|spd_rtng(140) | shoot_speed(160) | thrust_damage(32,pierce)|max_ammo(25)|accuracy(89),imodbits_gun,
+	860 , weight(1.6)|abundance(70)|difficulty(0)|spd_rtng(200) | shoot_speed(160) | thrust_damage(32,pierce)|max_ammo(25)|accuracy(89),imodbits_gun,
 	[(ti_on_weapon_attack, [(play_sound,"snd_bigblaster19"),(position_move_x, pos1,4),(position_move_y, pos1,5)]
 	)]], 
 #removed the carry flag from the q2 since its typically a small hidden weapon
 ["q2", "Q2", [("Q2",0)], itp_type_pistol |itp_merchandise|itp_primary|itp_bonus_against_shield,itcf_shoot_pistol|itcf_reload_pistol, 
-	300 , weight(0.51)|abundance(100)|difficulty(0)|spd_rtng(120) | shoot_speed(140) | thrust_damage(24 ,pierce)|max_ammo(6)|accuracy(85),imodbits_gun,
+	300 , weight(0.51)|abundance(100)|difficulty(0)|spd_rtng(180) | shoot_speed(140) | thrust_damage(24 ,pierce)|max_ammo(6)|accuracy(85),imodbits_gun,
 	[(ti_on_weapon_attack, [(play_sound,"snd_littleblaster"),(position_move_x, pos1,14),(position_move_y, pos1,18)]
 	)]], 
 ["q2_stun", "Stun Q2", [("Q2",0)], itp_type_pistol |itp_primary|itp_bonus_against_shield,itcf_shoot_pistol|itcf_carry_revolver_right|itcf_reload_pistol, 
-	300 , weight(0.51)|abundance(80)|difficulty(0)|spd_rtng(120) | shoot_speed(140) | thrust_damage(24 ,blunt)|max_ammo(6)|accuracy(85),imodbits_gun,
+	300 , weight(0.51)|abundance(80)|difficulty(0)|spd_rtng(180) | shoot_speed(140) | thrust_damage(24 ,blunt)|max_ammo(6)|accuracy(85),imodbits_gun,
 	[(ti_on_weapon_attack, [(play_sound,"snd_stunblaster"),(position_move_x, pos1,14),(position_move_y, pos1,18)]
 	)]],  
 ["elg3a", "ELG-3A", [("ELG_3A",0)], itp_type_pistol |itp_merchandise|itp_primary|itp_bonus_against_shield,itcf_shoot_pistol|itcf_carry_revolver_right|itcf_reload_pistol, 
-	500 , weight(0.51)|abundance(80)|difficulty(0)|spd_rtng(125) | shoot_speed(150) | thrust_damage(29 ,pierce)|max_ammo(100)|accuracy(88),imodbits_gun,
+	500 , weight(0.51)|abundance(80)|difficulty(0)|spd_rtng(185) | shoot_speed(150) | thrust_damage(29 ,pierce)|max_ammo(100)|accuracy(88),imodbits_gun,
 	[(ti_on_weapon_attack, [(play_sound,"snd_littleblaster"),(position_move_x, pos1,14),(position_move_y, pos1,18)]
 	)]], 
 ["elg3a_stun", "Stun ELG-3A", [("ELG_3A",0)], itp_type_pistol |itp_primary|itp_bonus_against_shield,itcf_shoot_pistol|itcf_carry_revolver_right|itcf_reload_pistol, 
-	500 , weight(0.51)|abundance(60)|difficulty(0)|spd_rtng(125) | shoot_speed(150) | thrust_damage(29 ,blunt)|max_ammo(100)|accuracy(88),imodbits_gun,
+	500 , weight(0.51)|abundance(60)|difficulty(0)|spd_rtng(185) | shoot_speed(150) | thrust_damage(29 ,blunt)|max_ammo(100)|accuracy(88),imodbits_gun,
 	[(ti_on_weapon_attack, [(play_sound,"snd_stunblaster"),(position_move_x, pos1,14),(position_move_y, pos1,18)]
 	)]],	
 ["scout_trooper_pistol", "Scout Trooper Pistol", [("scout_trooper_pistol",0)], itp_type_pistol |itp_merchandise|itp_primary|itp_bonus_against_shield,itcf_shoot_pistol|itcf_carry_revolver_right|itcf_reload_pistol, 
-	595 , weight(1.5)|abundance(100)|difficulty(0)|spd_rtng(130) | shoot_speed(150) | thrust_damage(28 ,pierce)|max_ammo(14)|accuracy(90),imodbits_gun,
+	595 , weight(1.5)|abundance(100)|difficulty(0)|spd_rtng(190) | shoot_speed(150) | thrust_damage(28 ,pierce)|max_ammo(14)|accuracy(90),imodbits_gun,
 	[(ti_on_weapon_attack, [(play_sound,"snd_littleblaster"),(position_move_x, pos1,14),(position_move_y, pos1,18)]
 	)]], 
 ["ddc_defender", "DDC Defender", [("DDC_defender",0)], itp_type_pistol |itp_merchandise|itp_primary|itp_bonus_against_shield,itcf_shoot_pistol|itcf_carry_revolver_right|itcf_reload_pistol, 
-	347 , weight(1.17)|abundance(100)|difficulty(0)|spd_rtng(130) | shoot_speed(140) | thrust_damage(24 ,pierce)|max_ammo(100)|accuracy(90),imodbits_gun,
+	347 , weight(1.17)|abundance(100)|difficulty(0)|spd_rtng(190) | shoot_speed(140) | thrust_damage(24 ,pierce)|max_ammo(100)|accuracy(90),imodbits_gun,
 	[(ti_on_weapon_attack, [(play_sound,"snd_littleblaster"),(position_move_x, pos1,12),(position_move_y, pos1,15)]
 	)]],  
 ["geonosian_sonic_pistol", "Geonosian Sonic Pistol", [("geonosian_sonic_pistol",0)], itp_type_pistol |itp_merchandise|itp_primary|itp_bonus_against_shield,itcf_shoot_pistol|itcf_carry_revolver_right|itcf_reload_pistol, 
-	772 , weight(1.5)|abundance(70)|difficulty(0)|spd_rtng(90) | shoot_speed(150) | thrust_damage(36 ,blunt)|max_ammo(10)|accuracy(89),imodbits_gun,
+	772 , weight(1.5)|abundance(70)|difficulty(0)|spd_rtng(130) | shoot_speed(150) | thrust_damage(36 ,blunt)|max_ammo(10)|accuracy(89),imodbits_gun,
 	[(ti_on_weapon_attack, [(play_sound,"snd_sonicblaster"),(position_move_x, pos1,14),(position_move_y, pos1,18)]
 	)]],   
 ["dl18", "DL-18", [("dl18",0)], itp_type_pistol |itp_merchandise|itp_primary|itp_bonus_against_shield,itcf_shoot_pistol|itcf_carry_revolver_right|itcf_reload_pistol, 
-	500 , weight(1.13)|abundance(100)|difficulty(0)|spd_rtng(120) | shoot_speed(130) | thrust_damage(22 ,pierce)|max_ammo(100)|accuracy(89),imodbits_gun,
+	500 , weight(1.13)|abundance(100)|difficulty(0)|spd_rtng(180) | shoot_speed(130) | thrust_damage(22 ,pierce)|max_ammo(100)|accuracy(89),imodbits_gun,
 	[(ti_on_weapon_attack, [(play_sound,"snd_laser_fire"),(position_move_x, pos1,7),(position_move_y, pos1,9)]
 	)]],  
 ["westar", "Westar-34", [("westar",0)], itp_type_pistol |itp_merchandise|itp_primary|itp_bonus_against_shield,itcf_shoot_pistol|itcf_carry_revolver_right|itcf_reload_pistol, 
-	1300 , weight(1.5)|abundance(40)|difficulty(0)|spd_rtng(130) | shoot_speed(140) | thrust_damage(40 ,pierce)|max_ammo(20)|accuracy(90),imodbits_gun,
+	1300 , weight(1.5)|abundance(40)|difficulty(0)|spd_rtng(190) | shoot_speed(140) | thrust_damage(40 ,pierce)|max_ammo(20)|accuracy(90),imodbits_gun,
 	[(ti_on_weapon_attack, [(play_sound,"snd_westar"),(position_move_x, pos1,7),(position_move_y, pos1,9)]
 	)]],  
 ["westar_stun", "Stun Westar-34", [("westar",0)], itp_type_pistol |itp_primary|itp_bonus_against_shield,itcf_shoot_pistol|itcf_carry_revolver_right|itcf_reload_pistol, 
-	1300 , weight(1.5)|abundance(40)|difficulty(0)|spd_rtng(130) | shoot_speed(140) | thrust_damage(40 ,blunt)|max_ammo(20)|accuracy(90),imodbits_gun,
+	1300 , weight(1.5)|abundance(40)|difficulty(0)|spd_rtng(190) | shoot_speed(140) | thrust_damage(40 ,blunt)|max_ammo(20)|accuracy(90),imodbits_gun,
 	[(ti_on_weapon_attack, [(play_sound,"snd_westar"),(position_move_x, pos1,17),(position_move_y, pos1,9)]
 	)]],    
 ["ion_pistol", "Ion Pistol", [("ion_pistol",0)], itp_type_pistol |itp_merchandise|itp_primary|itp_bonus_against_shield,itcf_shoot_pistol|itcf_carry_revolver_right|itcf_reload_pistol, 
-	800 , weight(3.1)|abundance(70)|difficulty(0)|spd_rtng(60) | shoot_speed(120) | thrust_damage(36,blunt)|max_ammo(15)|accuracy(85),imodbits_gun,
+	800 , weight(3.1)|abundance(70)|difficulty(0)|spd_rtng(120) | shoot_speed(120) | thrust_damage(36,blunt)|max_ammo(15)|accuracy(85),imodbits_gun,
 	[(ti_on_weapon_attack, [(play_sound,"snd_ionblaster"),(position_move_x, pos1,14),(position_move_y, pos1,18)]
 	)]], 
 #["trandoshan_supressor", "Trandoshan Supressor", [("trandoshan_supressor",0)], itp_type_pistol |itp_merchandise|itp_primary|itp_bonus_against_shield,itcf_shoot_pistol|itcf_carry_revolver_right|itcf_reload_pistol, 
 ["trandoshan_supressor", "Trandoshan Supressor", [("trandoshan_supressor",0)], itp_type_pistol |itp_merchandise|itp_primary|itp_bonus_against_shield,itcf_shoot_pistol|itcf_carry_quiver_right_vertical|itcf_reload_pistol, 
-	795 , weight(1.5)|abundance(70)|difficulty(0)|spd_rtng(110) | shoot_speed(150) | thrust_damage(32,blunt)|max_ammo(10)|accuracy(90),imodbits_gun,
+	795 , weight(1.5)|abundance(70)|difficulty(0)|spd_rtng(170) | shoot_speed(150) | thrust_damage(32,blunt)|max_ammo(10)|accuracy(90),imodbits_gun,
 	[(ti_on_weapon_attack, [(play_sound,"snd_stunblaster"),(position_move_x, pos1,10),(position_move_y, pos1,14)]
 	)]],    
 ["wrist_blaster", "Wrist Mounted Blaster", [("_",0),("wrist_blaster",ixmesh_inventory)], itp_merchandise|itp_type_pistol|itp_primary|itp_bonus_against_shield,itcf_shoot_pistol|itcf_reload_pistol, 
-	500 , weight(1.3)|abundance(60)|difficulty(0)|spd_rtng(105) | shoot_speed(135) | thrust_damage(35,pierce)|max_ammo(24)|accuracy(90),imodbits_none,
+	500 , weight(1.3)|abundance(60)|difficulty(0)|spd_rtng(165) | shoot_speed(135) | thrust_damage(35,pierce)|max_ammo(24)|accuracy(90),imodbits_none,
 	[(ti_on_weapon_attack, [(play_sound,"snd_laser_fire"),(position_move_x, pos1,0),(position_move_y, pos1,0)]
 	)]],
 
