@@ -1666,3 +1666,7 @@ slot_troop_horse_type = 167
 slot_item_race = 67
 
 slot_faction_gender_ratio = 165
+
+slot_agent_is_running_away = 48
+skirmish_min_distance = 1500 #Min distance you wish maintained, in cm. Where agent will retreat
+skirmish_max_distance = 2500 #Max distance to maintain, in cm. Where agent will stop retreating

@@ -1033,13 +1033,13 @@ items = [
 
 #added unique flag so it is not left in the loot after battles, but the player can buy it from the shops if they want (nevermind, this didn't work, need to have separate items for unique vs shop)
 
-["wookiee_fullbody", "Wookiee Skin", [("Wookie",0)], itp_type_body_armor|itp_covers_head|itp_replaces_helm|itp_covers_legs|itp_civilian, 0, 
+["wookiee_fullbody", "Wookiee Skin", [("wookie",0)], itp_type_body_armor|itp_covers_head|itp_replaces_helm|itp_covers_legs|itp_civilian, 0, 
  530 , weight(3)|abundance(50)|head_armor(5)|body_armor(35)|leg_armor(14)|difficulty(0) ,imodbits_armor ],
 
-["wookiee_armor1", "Wookiee Chestarmor", [("wookie_armor",0)], itp_type_foot_armor|itp_replaces_helm|itp_covers_legs|itp_civilian, 0, 
+["wookiee_armor1", "Wookiee Chestarmor", [("wookie_armor",0)], itp_type_foot_armor|itp_attach_armature|itp_civilian, 0, 
  530 , weight(3)|abundance(50)|head_armor(0)|body_armor(20)|leg_armor(0)|difficulty(0) ,imodbits_armor ],
 
-["wookiee_armor2", "Wookiee Chestarmor", [("wookie_armor",0)], itp_type_foot_armor|itp_replaces_helm|itp_covers_legs|itp_civilian, 0, 
+["wookiee_armor2", "Wookiee Chestarmor", [("wookie_armor",0)], itp_type_foot_armor|itp_attach_armature|itp_civilian, 0, 
  530 , weight(3)|abundance(50)|head_armor(0)|body_armor(20)|leg_armor(0)|difficulty(0) ,imodbits_armor ],
 
 ["wookiee_hunter_armor", "Wookiee Hunter Armor", [("wookiee_hunter_armor",0)], itp_merchandise|itp_type_body_armor |itp_covers_legs |itp_civilian  ,0, 
@@ -1391,7 +1391,16 @@ items = [
  # 25, weight(0.25)|abundance(80)|body_armor(1)|difficulty(0),imodbits_cloth],
 
 #trandoshan 
-["trandoshan_armor", "Trandoshan Armor", [("new_trandoshan_body",0)], itp_merchandise|itp_type_body_armor |itp_covers_legs |itp_civilian  ,0, 
+["trandoshan_armor", "Trandoshan Armor", [("new_trandoshan_body",0)], itp_unique|itp_type_body_armor |itp_covers_legs |itp_civilian  ,0, 
+ 765 , weight(5)|abundance(70)|head_armor(5)|body_armor(42)|leg_armor(14)|difficulty(0) ,imodbits_armor ], 
+
+["trandoshan_armor_2", "Trandoshan Armor", [("new_trandoshan_body_2",0)], itp_unique|itp_type_body_armor |itp_covers_legs |itp_civilian  ,0, 
+ 765 , weight(5)|abundance(70)|head_armor(5)|body_armor(42)|leg_armor(14)|difficulty(0) ,imodbits_armor ], 
+
+["trandoshan_armor_3", "Trandoshan Armor", [("new_trandoshan_body_3",0)], itp_unique|itp_type_body_armor |itp_covers_legs |itp_civilian  ,0, 
+ 765 , weight(5)|abundance(70)|head_armor(5)|body_armor(42)|leg_armor(14)|difficulty(0) ,imodbits_armor ], 
+
+["trandoshan_armor_4", "Trandoshan Armor", [("new_trandoshan_body_4",0)], itp_unique|itp_type_body_armor |itp_covers_legs |itp_civilian  ,0, 
  765 , weight(5)|abundance(70)|head_armor(5)|body_armor(42)|leg_armor(14)|difficulty(0) ,imodbits_armor ], 
  
 #added unique flag so it is not left in the loot after battles, but the player can buy it from the shops if they want (nevermind, this didn't work, need to have separate items for unique vs shop)

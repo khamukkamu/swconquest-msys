@@ -423,9 +423,9 @@ skins = [
  #SW - new wookiee skin
    (
      "wookiee", 0,
-     "new_wookiee_body", "_", "_",
+     "wookie", "_", "_",
      #"wookiee_head_new_half", wookiee_face_keys,
-	 "wookiee_head_new_half", wookiee_face_keys,
+	 "_", wookiee_face_keys,
      [],
      [],
      ["hair_blonde"], #hair textures NOTE - you MUST have a hair texture (even if it is not used) for the game not to crash

@@ -3555,6 +3555,7 @@ combo_effects = [
 
 random_unisex_troop = (ti_on_agent_spawn, 0, 0, [
   (store_trigger_param_1, ":agent_no"),
+  (agent_is_human, ":agent_no"),
   (agent_get_troop_id, ":troop_no", ":agent_no"),
   (neg|troop_is_hero, ":troop_no"), #exclude original gender here
 
@@ -3568,6 +3569,7 @@ random_unisex_troop = (ti_on_agent_spawn, 0, 0, [
   ],[
   
   (store_trigger_param_1, ":agent_no"),
+  (agent_is_human, ":agent_no"),
   (agent_get_troop_id, ":troop_no", ":agent_no"),
   (neg|troop_is_hero, ":troop_no"), #exclude original gender here
   (troop_get_type, ":type", ":troop_no"),
@@ -3580,18 +3582,19 @@ random_unisex_troop = (ti_on_agent_spawn, 0, 0, [
   (store_faction_of_troop, ":faction_no", ":troop_no"),
   (faction_get_slot, ":ratio", ":faction_no", slot_faction_gender_ratio),
   (store_random_in_range, ":gender", -100, ":ratio"),
+  (store_random_in_range, ":twilek", 0, 100),
   (try_begin),
     (le, ":gender", 0),
-    (eq, ":type", tf_twilek_female),
-    (troop_set_type, ":troop_no", tf_twilek),
-  (else_try),
-    (le, ":gender", 0),
+    (le, ":twilek", 55),
     (troop_set_type, ":troop_no", tf_male),
   (else_try),
-    (eq, ":type", tf_twilek),
-    (troop_set_type, ":troop_no", tf_twilek_female), 
+    (le, ":gender", 0),
+    (troop_set_type, ":troop_no", tf_twilek),
   (else_try),
-      (troop_set_type, ":troop_no", tf_female),
+    (le, ":twilek", 55),
+    (troop_set_type, ":troop_no", tf_female), 
+  (else_try),
+      (troop_set_type, ":troop_no", tf_twilek_female),
   (try_end),
   ])
 

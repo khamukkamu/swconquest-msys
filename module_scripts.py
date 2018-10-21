@@ -29720,6 +29720,77 @@ scripts = [
                   (try_end)
               ]),
               
+
+              # script_ranged_avoid_melee by motomataru - modified by kham
+              # Input: none
+              # Output: none
+              #   Note: Uses scripted movement
+              ("new_ranged_avoid_melee", [
+
+                  (set_fixed_point_multiplier, 1),
+                  (get_scene_boundaries, pos2, pos3),
+                  (position_get_x, ":bound_right", pos2),
+                  (position_get_y, ":bound_top", pos2),
+                  (position_get_x, ":bound_left", pos3),
+                  (position_get_y, ":bound_bottom", pos3),
+
+                  (try_for_agents, ":agent_no"),
+                    (agent_is_active, ":agent_no"),
+                    (agent_is_human, ":agent_no"),
+                    (agent_get_class, ":agent_class", ":agent_no"),
+                    (eq, ":agent_class", grc_archers),
+                    (agent_slot_eq, ":agent_no", slot_agent_is_running_away, 0), #Is not routing or ordered to retreat
+                    (agent_is_alive, ":agent_no"),
+                    (agent_get_team, ":team_no", ":agent_no"),
+                    (agent_get_wielded_item, ":item_no", ":agent_no", 0),
+                    
+                    (try_begin),
+                      (neg|is_between, ":item_no", ranged_weapons_begin, ranged_weapons_end),
+                      (agent_get_ammo, ":ammo_left", ":agent_no"),
+                      (gt, ":ammo_left", 0),
+                      (team_get_movement_order, ":ranged_order", ":team_no", grc_archers),
+                      (neq, ":ranged_order", mordr_charge),
+                      (neq, ":item_no", -1),
+                      (assign, ":forced_into_melee", 1),
+                    (else_try),
+                      (assign, ":forced_into_melee", 0),
+                    (try_end),
+                    
+                    (agent_get_position, pos1, ":agent_no"),
+                    (position_get_x, ":agent_x", pos1),
+                    (position_get_y, ":agent_y", pos1),
+                    (store_sub, ":dist_right", ":agent_x", ":bound_right"),
+                    (store_sub, ":dist_top", ":agent_y", ":bound_top"),
+                    (store_sub, ":dist_left", ":bound_left", ":agent_x"),
+                    (store_sub, ":dist_bottom", ":bound_bottom", ":agent_y"),
+
+                    (try_begin), #boundaries
+                      (this_or_next|le, ":dist_right", 20),  #Limits accidental routing, of cav in particular
+                      (this_or_next|le, ":dist_top", 20),
+                      (this_or_next|le, ":dist_left", 20),
+                      (le, ":dist_bottom", 20),
+                      (agent_stop_running_away, ":agent_no"),
+                    (else_try),
+                      (call_script, "script_get_closest3_distance_of_enemies_at_pos1", ":team_no"),
+                      (assign, ":avg_dist", reg0),
+                      (assign, ":closest_dist", reg1),
+                      (try_begin),
+                        (this_or_next|lt, ":avg_dist", skirmish_min_distance),
+                        (lt, ":closest_dist", 700), #If enemy group is getting near or an enemy is on top of agent
+                        (agent_start_running_away, ":agent_no"),  
+                      (else_try),    
+                        (ge, ":avg_dist", skirmish_max_distance), #If distance from enemy is (too) large, resume previous order
+                        (agent_stop_running_away, ":agent_no"),         
+                      (try_end), #Distance to enemy
+                    (else_try),
+                     (eq, ":forced_into_melee", 1),
+                     (this_or_next|lt, ":avg_dist", skirmish_min_distance),
+                     (lt, ":closest_dist", 700), #If enemy group is getting near or an enemy is on top of agent
+                     (agent_start_running_away, ":agent_no"),  
+                    (try_end),
+                  (try_end)
+              ]),
+              
               
               # script_SW_team_field_ranged_tactics v2 by motomataru
               # Input: AI team, size relative to largest team in %, size relative to battle in %
@@ -30104,291 +30175,6 @@ scripts = [
                   (assign, reg0, ":num_casualties"),
                   (gt, ":num_casualties", 0)
               ]),
-              
-              
-              # script_SW_team_field_ranged_tactics by motomataru
-              # Input: AI team, size relative to largest team in %, size relative to battle in %
-              # Output: none
-              # Used: pos10, pos11, pos60, pos61, pos62, pos63
-              ("SW_team_field_ranged_tactics",
-                [ (store_script_param, ":team_no", 1),
-                  (store_script_param, ":rel_army_size", 2),
-                  (store_script_param, ":battle_presence", 3),
-                  (call_script, "script_team_average_troop_level", ":team_no"),
-                  (store_div, ":level_bump", reg0, 3),
-                  (store_random_in_range, ":rand_no", 2, 11),	#10 is max level bump, 2 minimum
-                  (store_add, ":decision_index", ":battle_presence", ":level_bump"),
-                  (val_sub, ":decision_index", ":rand_no"),
-                  
-                  (try_begin),
-                    (gt, ":decision_index", 80),	#outnumber enemies more than 4:1?
-                    (team_give_order, ":team_no", grc_archers, mordr_charge),
-                  (else_try),
-                    (assign, ":hold_point", 50),	#outnumbered 1:2
-                    (assign, ":shot_distance", 50),	#intended distance from enemy to set up fire line(m)
-                    (assign, ":flag_advance", 0),
-                    (store_add, ":decision_index", ":rel_army_size", ":level_bump"),
-                    (val_sub, ":decision_index", ":rand_no"),
-                    
-                    #get ranged position
-                    (try_begin),
-                      (ge, ":decision_index", ":hold_point"),	#army large enough to advance?
-                      (call_script, "script_cf_team_get_average_position_of_agents_with_type_to_pos1", ":team_no", grc_archers),
-                      (copy_position, pos61, pos1),
-                      (call_script, "script_team_get_average_position_of_enemies", ":team_no"),
-                      (copy_position, pos60, pos0),
-                      (position_transform_position_to_local, pos62, pos61, pos60), #pos62 = vector to enemy
-                      (position_normalize_origin, ":distance_to_move", pos62),
-                      (convert_from_fixed_point, ":distance_to_move"),
-                      (try_begin),
-                        (gt, ":distance_to_move", ":shot_distance"),	#need to move to closer firing position?
-                        (val_sub, ":distance_to_move", ":shot_distance"),
-                        (store_add, ":scale_factor", 100, ":hold_point"),
-                        (store_mul, ":battle_hold_point", ":hold_point", 100),
-                        (val_div, ":battle_hold_point", ":scale_factor"),
-                        (store_sub, ":advance_more_point", 100, ":battle_hold_point"),
-                        (try_begin),
-                          (lt, ":battle_presence", ":advance_more_point"),	#expect to meet halfway
-                          (val_div, ":distance_to_move", 2),
-                        (try_end),
-                        (position_get_x, ":dir_x", pos62),
-                        (position_get_y, ":dir_y", pos62),
-                        (val_mul, ":dir_x", ":distance_to_move"),
-                        (val_mul, ":dir_y", ":distance_to_move"),
-                        (position_set_x, pos62, ":dir_x"),
-                        (position_set_y, pos62, ":dir_y"),
-                        (position_transform_position_to_parent, pos63, pos61, pos62),
-                        (position_set_z_to_ground_level, pos63),
-                        (copy_position, pos61, pos63),
-                      (else_try),
-                        (gt, "$cur_casualties", 0),
-                        (eq, "$cur_casualties", "$prev_casualties"),	#no new casualties after 10 seconds in firing position
-                        (assign, ":flag_advance", 1),
-                      (try_end),
-                    (try_end),
-                    
-                    (try_begin),	#first position find high ground
-                      (eq, "$cur_casualties", 0),
-                      (copy_position, pos1, pos61),
-                      (store_div, reg0, ":shot_distance", 3),
-                      (call_script, "script_find_high_ground_around_pos1_corrected", reg0),
-                      (copy_position, pos61, pos10),
-                    (try_end),
-                    
-                    (try_begin),
-                      (gt, ":flag_advance", 0),
-                      (team_give_order, ":team_no", grc_archers, mordr_advance),
-                    (else_try),
-                      (team_give_order, ":team_no", grc_archers, mordr_hold),
-                      (team_set_order_position, ":team_no", grc_archers, pos61),
-                    (try_end),
-                  (try_end)
-              ]),
-              
-              
-              # script_SW_team_field_melee_tactics by motomataru
-              # Input: AI team, size relative to largest team in %, size relative to battle in %
-              # Output: none
-              # Used: pos10, pos11, pos60, pos61, pos62, pos63
-              ("SW_team_field_melee_tactics", [
-                  (store_script_param, ":team_no", 1),
-                  #	(store_script_param, ":rel_army_size", 2),
-                  (store_script_param, ":battle_presence", 3),
-                  (call_script, "script_team_get_class_percentages", ":team_no", 0),
-                  (assign, ":ai_perc_infantry", reg0),
-                  (assign, ":ai_perc_cavalry", reg2),
-                  (store_mul, ":portion_cavalry", ":ai_perc_cavalry", ":battle_presence"),
-                  (val_div, ":portion_cavalry", 100),
-                  (store_sub, ":rel_enemy_size", 100, ":battle_presence"),
-                  
-                  #find closest distance of enemy to infantry, cavalry troops
-                  (assign, ":melee_range", 2000),	#start melee regardless if enemy within 20m
-                  (store_add, ":inf_closest_dist", ":melee_range", 1),
-                  (store_add, ":cav_closest_dist", ":melee_range", 1),
-                  (try_for_agents, ":cur_agent"),
-                    (agent_is_alive, ":cur_agent"),
-                    (agent_is_human, ":cur_agent"),
-                    (agent_get_team, ":cur_team_no", ":cur_agent"),
-                    (eq, ":cur_team_no", ":team_no"),
-                    (agent_get_class, ":cur_class_no", ":cur_agent"),
-                    (try_begin),
-                      (eq, ":cur_class_no", grc_infantry),
-                      (agent_get_position, pos1, ":cur_agent"),
-                      (call_script, "script_get_closest3_distance_of_enemies_at_pos1", ":team_no"),
-                      (try_begin),
-                        (gt, ":inf_closest_dist", reg1),
-                        (assign, ":inf_closest_dist", reg1),
-                      (try_end),
-                    (else_try),
-                      (eq, ":cur_class_no", grc_cavalry),
-                      (agent_get_position, pos1, ":cur_agent"),
-                      (call_script, "script_get_closest3_distance_of_enemies_at_pos1", ":team_no"),
-                      (try_begin),
-                        (gt, ":cav_closest_dist", reg1),
-                        (assign, ":cav_closest_dist", reg1),
-                      (try_end),
-                    (try_end),
-                  (try_end),
-                  
-                  (team_get_movement_order, ":ranged_order", ":team_no", grc_archers),
-                  (team_get_order_position, pos0, ":team_no", grc_archers),
-                  
-                  #cavalry AI
-                  (try_begin),
-                    (eq, "$cur_casualties", 0),
-                    (lt, ":portion_cavalry", ":rel_enemy_size"),
-                    (gt, ":cav_closest_dist", ":melee_range"),
-                    (neq, ":ranged_order", mordr_charge),
-                    (team_give_order, ":team_no", grc_cavalry, mordr_hold),
-                    (team_set_order_position, ":team_no", grc_cavalry, pos0),
-                  (else_try),	#fighting started or more cavalry than enemy or enemy within melee or everyone's charging
-                    (team_give_order, ":team_no", grc_cavalry, mordr_charge),
-                  (try_end),
-                  
-                  #infantry AI
-                  (try_begin),
-                    (lt, ":portion_cavalry", ":rel_enemy_size"),
-                    (gt, ":inf_closest_dist", ":melee_range"),
-                    (neq, ":ranged_order", mordr_charge),
-                    (try_begin),
-                      (gt, "$cur_casualties", 0),
-                      (gt, ":ai_perc_infantry", 33), #more than 1/3 infantry?
-                      (team_give_order, ":team_no", grc_infantry, mordr_charge),
-                    (else_try),
-                      (team_set_order_position, ":team_no", grc_infantry, pos0),
-                      (team_give_order, ":team_no", grc_infantry, mordr_fall_back),
-                    (try_end),
-                  (else_try),	#more cavalry than enemy or enemy within melee or everyone's charging
-                    (team_give_order, ":team_no", grc_infantry, mordr_charge),
-                  (try_end)
-              ]),
-              
-              
-              # script_SW_field_tactics v2 by motomataru
-              # Input: flag 1 to include ranged
-              # Output: none
-              ("SW_field_tactics",
-                [ (store_script_param, ":include_ranged", 1),
-                  #measure teams
-                  (assign, ":battle_size", 0),
-                  (assign, ":team0_size", 0),
-                  (assign, ":team1_size", 0),
-                  (assign, ":team2_size", 0),
-                  (assign, ":team3_size", 0),
-                  (assign, ":team4_size", 0),
-                  (assign, ":team5_size", 0),	#max 6 teams handled
-                  (try_for_agents, ":cur_agent"),
-                    (agent_get_team, ":agent_team", ":cur_agent"),
-                    (try_begin),
-                      (agent_is_alive, ":cur_agent"),
-                      (agent_is_human, ":cur_agent"),
-                      (val_add, ":battle_size", 1),
-                      (try_begin),
-                        (eq, ":agent_team", 0),
-                        (val_add, ":team0_size", 1),
-                      (else_try),
-                        (eq, ":agent_team", 1),
-                        (val_add, ":team1_size", 1),
-                      (else_try),
-                        (eq, ":agent_team", 2),
-                        (val_add, ":team2_size", 1),
-                      (else_try),
-                        (eq, ":agent_team", 3),
-                        (val_add, ":team3_size", 1),
-                      (else_try),
-                        (eq, ":agent_team", 4),
-                        (val_add, ":team4_size", 1),
-                      (else_try),
-                        (eq, ":agent_team", 5),
-                        (val_add, ":team5_size", 1),
-                      (else_try),
-                        (display_message, "@too many teams for AI"),
-                      (try_end),
-                    (try_end),
-                  (try_end),
-                  
-                  #find largest team size
-                  (get_player_agent_no, ":player_agent"),
-                  (agent_get_team, ":player_team", ":player_agent"),
-                  (assign, ":num_teams", 2),
-                  (assign, ":largest_team_size", ":team0_size"),
-                  (try_begin),
-                    (lt, ":largest_team_size", ":team1_size"),
-                    (assign, ":largest_team_size", ":team1_size"),
-                  (try_end),
-                  (try_begin),
-                    (gt, ":team2_size", 0),
-                    (assign, ":num_teams", 3),
-                    (try_begin),
-                      (neg|teams_are_enemies, 2, ":player_team"),
-                      (val_add, ":team2_size", ":team0_size"),	#ally 2 takes player team 0 into account
-                    (try_end),
-                    (lt, ":largest_team_size", ":team2_size"),
-                    (assign, ":largest_team_size", ":team2_size"),
-                  (try_end),
-                  (try_begin),
-                    (gt, ":team3_size", 0),
-                    (assign, ":num_teams", 4),
-                    (try_begin),
-                      (neg|teams_are_enemies, 3, ":player_team"),
-                      (val_add, ":team3_size", ":team1_size"),	#ally 3 takes player team 1 into account
-                    (try_end),
-                    (lt, ":largest_team_size", ":team3_size"),
-                    (assign, ":largest_team_size", ":team3_size"),
-                  (try_end),
-                  (try_begin),
-                    (gt, ":team4_size", 0),
-                    (assign, ":num_teams", 5),
-                    (lt, ":largest_team_size", ":team4_size"),
-                    (assign, ":largest_team_size", ":team4_size"),
-                  (try_end),
-                  (try_begin),
-                    (gt, ":team5_size", 0),
-                    (assign, ":num_teams", 6),
-                    (lt, ":largest_team_size", ":team5_size"),
-                    (assign, ":largest_team_size", ":team5_size"),
-                  (try_end),
-                  
-                  #apply tactics to every AI team
-                  (try_for_range, ":ai_team", 0, ":num_teams"),
-                    (assign, ":ai_team_size", 0),
-                    (try_begin),
-                      (eq, ":ai_team", 0),
-                      (assign, ":ai_team_size", ":team0_size"),
-                    (else_try),
-                      (eq, ":ai_team", 1),
-                      (assign, ":ai_team_size", ":team1_size"),
-                    (else_try),
-                      (eq, ":ai_team", 2),
-                      (assign, ":ai_team_size", ":team2_size"),
-                    (else_try),
-                      (eq, ":ai_team", 3),
-                      (assign, ":ai_team_size", ":team3_size"),
-                    (else_try),
-                      (eq, ":ai_team", 4),
-                      (assign, ":ai_team_size", ":team4_size"),
-                    (else_try),
-                      (eq, ":ai_team", 5),
-                      (assign, ":ai_team_size", ":team5_size"),
-                    (try_end),
-                    
-                    (try_begin),
-                      (gt, ":ai_team_size", 0),
-                      (neg|eq, ":ai_team", ":player_team"),
-                      (val_mul, ":ai_team_size", 100),
-                      (store_div, ":team_percentage", ":ai_team_size", ":largest_team_size"),
-                      (store_div, ":team_battle_presence", ":ai_team_size", ":battle_size"),
-                      (try_begin),
-                        (eq, ":include_ranged", 1),
-                        (call_script, "script_SW_team_field_ranged_tactics", ":ai_team", ":team_percentage", ":team_battle_presence"),
-                      (try_end),
-                      (call_script, "script_SW_team_field_melee_tactics", ":ai_team", ":team_percentage", ":team_battle_presence"),
-                    (try_end),
-                  (try_end),
-                  (assign, "$prev_casualties", "$cur_casualties")
-              ]),
-              
-              ####>>>>>>>
               
               #Battle Speech by Swyter
               #Input: speech kind

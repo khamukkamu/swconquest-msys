@@ -153,8 +153,8 @@ droid 0
 0
 
 wookiee 0
- new_wookiee_body dummy_mesh dummy_mesh
- wookiee_head_new_half 0 
+ wookie dummy_mesh dummy_mesh
+ dummy_mesh 0 
 0
 
  0
