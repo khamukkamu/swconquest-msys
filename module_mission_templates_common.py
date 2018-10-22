@@ -156,32 +156,41 @@ common_auto_fire = (
 
 ####>>>>>>>
 #Motomataru's new AI
-common_ranged_avoid_melee =  (.3, 0, 0, [], [(call_script, "script_ranged_avoid_melee")])
+common_ranged_avoid_melee =  (.3, 0, 0, [], [
+
+ (store_current_scene, ":scene"),
+ (try_begin),
+   (neg|is_between,":scene","scn_ship_hangar_imp","scn_space_battle"), #Land Battle
+   (call_script, "script_new_ranged_avoid_melee"),
+ (else_try),
+   (call_script, "script_ranged_avoid_melee"),
+ (try_end),
+ ])
 
 #AI triggers v3 by motomataru
 AI_triggers = [
 
-  (ti_inventory_key_pressed, 0, 0,
-      [
-        (game_key_is_down, gk_view_char),
+  #(ti_inventory_key_pressed, 0, 0,
+  #    [
+  #      (game_key_is_down, gk_view_char),
         # (set_trigger_result,1),
-      ], [
-        (get_player_agent_no, ":player_agent"),
-        (assign, ":end", ek_foot), #should add a global as iterator
-        (try_for_range, ":item_slot", ek_item_0, ":end"),
-          (agent_get_item_slot, ":item_no", ":player_agent", ":item_slot"),
-          (gt, ":item_no", -1),
-          (item_slot_ge, ":item_no", slot_item_num_components, 1),
-          (assign, "$g_current_opened_item_details", ":item_no"),
-          (assign, ":end", -1),
-          (start_presentation, "prsnt_customize_weapon"),
-        (try_end),
-        (try_begin), #none found
-          (eq, ":end", ek_foot),
-          (display_message, "str_cant_use_inventory_tutorial"),
-          (assign, "$g_current_opened_item_details", -1),
-        (try_end),
-      ]),
+  #    ], [
+  #      (get_player_agent_no, ":player_agent"),
+  #      (assign, ":end", ek_foot), #should add a global as iterator
+  #      (try_for_range, ":item_slot", ek_item_0, ":end"),
+  #        (agent_get_item_slot, ":item_no", ":player_agent", ":item_slot"),
+  #        (gt, ":item_no", -1),
+  #        (item_slot_ge, ":item_no", slot_item_num_components, 1),
+  #        (assign, "$g_current_opened_item_details", ":item_no"),
+  #        (assign, ":end", -1),
+  #        (start_presentation, "prsnt_customize_weapon"),
+  #      (try_end),
+  #      (try_begin), #none found
+  #        (eq, ":end", ek_foot),
+  #        (display_message, "str_cant_use_inventory_tutorial"),
+  #        (assign, "$g_current_opened_item_details", -1),
+  #      (try_end),
+  #    ]),
 
   (ti_before_mission_start, 0, 0, [], [
     (assign, "$cur_casualties", 0),
@@ -3425,6 +3434,14 @@ recuperate_force_stamina = (3, 0, 0, [
     (try_end),
     
 ])
+
+
+mission_start_fade_in =  (ti_after_mission_start, 0, 0, [],
+          [(mission_cam_set_screen_color,        0xFF000000), 
+           (mission_cam_animate_to_screen_color, 0x00000000, 2500),
+          ])
+        
+
 
 # Melee Combo & Effects by Khamukkamu END
 

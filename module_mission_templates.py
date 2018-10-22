@@ -46,6 +46,7 @@ swc_kham_battle_triggers = [
       #continue_force_stamina_presentation,
       #recuperate_force_stamina,
       random_unisex_troop,
+      mission_start_fade_in,
   ] + kham_new_iron_sight_trigger
 
 mission_templates = [

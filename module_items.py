@@ -699,6 +699,14 @@ items = [
 ["ind_clothes_tightcoverall_wred", "Tight coverall", [("fem_bodyglove_wred",0)], itp_merchandise|itp_type_body_armor|itp_attach_armature|itp_covers_legs|itp_civilian, 0, 400, weight(10)|abundance(100)|head_armor(0)|body_armor(44)|leg_armor(30)|difficulty(0), imodbits_cloth ], 
 ["ind_clothes_tightcoverall_sato", "Saato armor", [("saato_armor",0)], itp_merchandise|itp_type_body_armor|itp_attach_armature|itp_covers_legs|itp_civilian, 0, 400, weight(10)|abundance(100)|head_armor(0)|body_armor(44)|leg_armor(30)|difficulty(0), imodbits_cloth ], 
 
+### - Civilians - Twilek Slaves / Dancers (TAS)
+
+#### Twileks:
+["twilek_slave_a", "Twilek Slave", [("twilek_slave_a",0)], itp_type_body_armor|itp_attach_armature|itp_replaces_helm|itp_covers_head|itp_covers_legs|itp_civilian, 0, 400, weight(10)|abundance(100)|head_armor(0)|body_armor(10)|leg_armor(5)|difficulty(0), imodbits_cloth ], 
+["twilek_slave_b", "Twilek Slave", [("twilek_slave_b",0)], itp_type_body_armor|itp_attach_armature|itp_replaces_helm|itp_covers_head|itp_covers_legs|itp_civilian, 0, 400, weight(10)|abundance(100)|head_armor(0)|body_armor(10)|leg_armor(5)|difficulty(0), imodbits_cloth ], 
+["twilek_slave_c", "Twilek Slave", [("twilek_slave_c",0)], itp_type_body_armor|itp_attach_armature|itp_replaces_helm|itp_covers_head|itp_covers_legs|itp_civilian, 0, 400, weight(10)|abundance(100)|head_armor(0)|body_armor(10)|leg_armor(5)|difficulty(0), imodbits_cloth ], 
+["twilek_slave_d", "Twilek Slave", [("twilek_slave_d",0)], itp_type_body_armor|itp_attach_armature|itp_replaces_helm|itp_covers_head|itp_covers_legs|itp_civilian, 0, 400, weight(10)|abundance(100)|head_armor(0)|body_armor(10)|leg_armor(5)|difficulty(0), imodbits_cloth ], 
+
 ### - Civilians - Outfits (TAS):
 
 # Replaces itm_padded_armor
@@ -870,8 +878,6 @@ items = [
  1263, weight(10)|abundance(30)|head_armor(0)|body_armor(45)|leg_armor(21)|difficulty(9) ,imodbits_armor, [], empire_fac ],
 ["imperial_stormtrooper_armor_novatrooper", "Novatrooper Armor", [("Novatrooper_body",0)], itp_merchandise|itp_type_body_armor|itp_covers_legs|itp_civilian, 0, 
  840 , weight(10)|abundance(40)|head_armor(0)|body_armor(43)|leg_armor(19)|difficulty(6) ,imodbits_armor, [], empire_fac ],
-["imperial_stormtrooper_armor", "Imperial Stormtrooper Armor", [("Stormtrooper_body",0)], itp_merchandise|itp_type_body_armor|itp_covers_legs|itp_civilian, 0, 
- 720 , weight(10)|abundance(100)|head_armor(0)|body_armor(42)|leg_armor(18)|difficulty(0) ,imodbits_armor, [], empire_fac ],
 
 ["rebel_honor_guard_armor", "Rebel Honor Guard Armor", [("outfit_green",0)], itp_merchandise|itp_type_body_armor|itp_covers_legs|itp_civilian, 0, 
  760 , weight(6)|abundance(50)|head_armor(0)|body_armor(44)|leg_armor(20)|difficulty(0) ,imodbits_armor, [], rebel_fac ],  
