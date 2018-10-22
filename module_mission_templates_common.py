@@ -1914,6 +1914,7 @@ common_toggle_weapon_capabilities = (0, 0, 0, [
     (agent_unequip_item, ":player_agent", ":wielded_item"),
     (agent_equip_item, ":player_agent", ":alternate_weapon"),
     (agent_set_wielded_item, ":player_agent", ":alternate_weapon"),
+    (start_presentation, "prsnt_staminabar"),
     (display_message, "@{s10}", color_good_news),
   ])
 

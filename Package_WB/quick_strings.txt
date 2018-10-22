@@ -1,4 +1,4 @@
-1170
+1172
 qstr_2006_2010_THE_STAR_W 2006-2010_THE_STAR_WARS_CONQUEST_DEV_TEAM
 qstr_This_Module_it_s_ded This_Module_it's_dedicated_to_every_person_who_believed_in_us.^^Their_valuable_Work_and_Support_have_inspired_Us_to_Make_this_bigger.^^The_Force_It's_Strong_with_you!_:-)
 qstr_Type_your_Faction_s_ Type_your_Faction's_name:
@@ -219,6 +219,9 @@ qstr_Weapons Weapons
 qstr_Armors Armors
 qstr_Others Others
 qstr_{s1}_has_{reg1}_comp {s1}_has_{reg1}_component_meshes
+qstr_Damage_Type: Damage_Type:
+qstr__Stun _Stun
+qstr__Kill _Kill
 qstr_Stamina: Stamina:
 qstr_Exhausted Exhausted
 qstr_Very_Tired Very_Tired
@@ -262,12 +265,11 @@ qstr_Refills_health_of_ne Refills_health_of_nearby_team_when_equipped
 qstr_Ammo_for_Force_Power Ammo_for_Force_Powers
 qstr_Hurts_player_when_us Hurts_player_when_used
 qstr_Ammo_clip_size:_{reg Ammo_clip_size:_{reg1}
-qstr_Press__{s1}__to_toggl Press_'{s1}'_to_toggle_weapon_firing_position
 qstr_Usable_in_a_Pistol Usable_in_a_Pistol
 qstr_Usable_in_a_Rifle Usable_in_a_Rifle
 qstr_Allows_Shield_Bash Allows_Shield_Bash
 qstr_Requires_Force_Push_ Requires_Force_Push_or_Force_Lightning
-qstr_Has_Autofire Has_Autofire
+qstr_Press_Y_to_toggle_fi Press_Y_to_toggle_firing_mode_(Semi/Auto)
 qstr_Move_here Move_here
 qstr_View_notes View_notes
 qstr__{s61} _{s61}

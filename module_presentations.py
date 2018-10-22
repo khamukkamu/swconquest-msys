@@ -9550,8 +9550,45 @@ if wb_compile_switch==1:
 ("staminabar", prsntf_read_only|prsntf_manual_end_only, 0, [
     (ti_on_presentation_load, [
         (set_fixed_point_multiplier, 1000),
-        
+
         (str_clear, s12),
+        (str_clear, s13),
+        (get_player_agent_no, ":player"),
+        (agent_get_wielded_item, ":weapon", ":player", 0),
+
+        (try_begin),
+          (is_between, ":weapon", "itm_ranged_weapons_begin", "itm_ranged_weapons_end"), #ranged weapons
+          (item_get_thrust_damage_type, ":damage_type", ":weapon"),
+
+          (create_text_overlay, "$g_presentation_credits_obj_1", "@Damage Type:", tf_center_justify),
+          (overlay_set_color, "$g_presentation_credits_obj_1", 0xDDDDDD),
+          (position_set_x, pos1, 885),
+          (position_set_y, pos1, 78),
+          (overlay_set_position, "$g_presentation_credits_obj_1", pos1),
+          (position_set_x, pos1, 800),
+          (position_set_y, pos1, 800),
+          (overlay_set_size, "$g_presentation_credits_obj_1", pos1),
+
+          (try_begin),
+            (eq, ":damage_type", 2),
+            (str_store_string, s13, "@ Stun"),
+            (assign, ":type_color", 0x66CCFF),
+          (else_try),
+            (str_store_string, s13, "@ Kill"),
+            (assign, ":type_color", color_bad_news),
+          (try_end),
+
+          (create_text_overlay, reg1, s13, tf_center_justify),
+          (position_set_x, pos1, 800),
+          (position_set_y, pos1, 800),
+          (overlay_set_size, reg1, pos1),
+          (position_set_x, pos1, 949),
+          (position_set_y, pos1, 78),
+          (overlay_set_position, reg1, pos1),
+          (overlay_set_color, reg1, ":type_color"), #azul
+        (try_end),
+
+
         (try_begin),
           (store_skill_level, ":skill", "skl_power_draw", "trp_player"), #If force sensitive
           (ge, ":skill", 1),
