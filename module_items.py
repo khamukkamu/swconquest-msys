@@ -94,6 +94,13 @@ items = [
 ["arena_tunic_green", "Arena Tunic Green", [("arena_tunicG_padded",0)], itp_type_body_armor |itp_covers_legs ,0, 50 , weight(2)|abundance(100)|head_armor(12)|body_armor(35)|leg_armor(12), imodbits_cloth ],
 ["arena_tunic_yellow", "Arena Tunic Yellow", [("arena_tunicY_padded",0)], itp_type_body_armor |itp_covers_legs ,0, 50 , weight(2)|abundance(100)|head_armor(12)|body_armor(35)|leg_armor(12), imodbits_cloth ],
 
+["arena_wookie", "Arena Wookiee", [("wookie",0)], itp_type_body_armor |itp_covers_legs ,0, 50 , weight(2)|abundance(100)|head_armor(12)|body_armor(35)|leg_armor(12), imodbits_cloth ],
+["arena_trandoshan", "Arena Trandoshan", [("new_trandoshan_body_2",0)], itp_type_body_armor |itp_covers_legs ,0, 50 , weight(2)|abundance(100)|head_armor(12)|body_armor(35)|leg_armor(12), imodbits_cloth ],
+["arena_geonosian", "Arena Geonosian", [("new_geonosian_body",0)], itp_type_body_armor |itp_covers_legs ,0, 50 , weight(2)|abundance(100)|head_armor(12)|body_armor(35)|leg_armor(12), imodbits_cloth ],
+ 
+
+
+
 # A treatise on The Method of Mechanical Theorems Archimedes
  
 #SW - modified books to be holocrons 
@@ -699,6 +706,8 @@ items = [
 ["ind_clothes_tightcoverall_wred", "Tight coverall", [("fem_bodyglove_wred",0)], itp_merchandise|itp_type_body_armor|itp_attach_armature|itp_covers_legs|itp_civilian, 0, 400, weight(10)|abundance(100)|head_armor(0)|body_armor(44)|leg_armor(30)|difficulty(0), imodbits_cloth ], 
 ["ind_clothes_tightcoverall_sato", "Saato armor", [("saato_armor",0)], itp_merchandise|itp_type_body_armor|itp_attach_armature|itp_covers_legs|itp_civilian, 0, 400, weight(10)|abundance(100)|head_armor(0)|body_armor(44)|leg_armor(30)|difficulty(0), imodbits_cloth ], 
 
+["ind_clothes_fem_jacket_open", "Smuggler Outfit (F)", [("fem_combination1",0)], itp_merchandise|itp_type_body_armor|itp_attach_armature|itp_covers_legs|itp_civilian, 0, 
+ 320 , weight(5)|abundance(70)|head_armor(0)|body_armor(25)|leg_armor(12)|difficulty(0) ,imodbits_cloth],
 ### - Civilians - Twilek Slaves / Dancers (TAS)
 
 #### Twileks:

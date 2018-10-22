@@ -9552,53 +9552,56 @@ if wb_compile_switch==1:
         (set_fixed_point_multiplier, 1000),
         
         (str_clear, s12),
-        
-        (create_text_overlay, "$stamina_bar", "@Stamina:", tf_center_justify),
-        (overlay_set_color, "$stamina_bar", 0xDDDDDD),
-        (position_set_x, pos1, 889),
-        (position_set_y, pos1, 40),
-        (overlay_set_position, "$stamina_bar", pos1),
-        (position_set_x, pos1, 800),
-        (position_set_y, pos1, 800),
-        (overlay_set_size, "$stamina_bar", pos1),
-        ##
-        (get_player_agent_no,":player_agent"),
-        (agent_is_active, ":player_agent"),
-        (agent_is_alive,":player_agent"), #  test for alive players.
-        (agent_is_human, ":player_agent"),
-        (agent_get_slot, ":basic_stamina_i", ":player_agent", slot_agent_initial_force_stamina),
-        (store_div, ":stamine_div10", ":basic_stamina_i", 10), #10 #
-        (store_div, ":stamine_div2", ":basic_stamina_i", 2), #50%
-        (store_mul, ":stamine_div3o4", ":basic_stamina_i", 3), #3/4
-        (val_div, ":stamine_div3o4", 4),
-        
-        (agent_get_slot, ":basic_stamina", ":player_agent", slot_agent_force_stamina),
+        (try_begin),
+          (store_skill_level, ":skill", "skl_power_draw", "trp_player"), #If force sensitive
+          (ge, ":skill", 1),
+          (create_text_overlay, "$stamina_bar", "@Stamina:", tf_center_justify),
+          (overlay_set_color, "$stamina_bar", 0xDDDDDD),
+          (position_set_x, pos1, 889),
+          (position_set_y, pos1, 40),
+          (overlay_set_position, "$stamina_bar", pos1),
+          (position_set_x, pos1, 800),
+          (position_set_y, pos1, 800),
+          (overlay_set_size, "$stamina_bar", pos1),
+          ##
+          (get_player_agent_no,":player_agent"),
+          (agent_is_active, ":player_agent"),
+          (agent_is_alive,":player_agent"), #  test for alive players.
+          (agent_is_human, ":player_agent"),
+          (agent_get_slot, ":basic_stamina_i", ":player_agent", slot_agent_initial_force_stamina),
+          (store_div, ":stamine_div10", ":basic_stamina_i", 10), #10 #
+          (store_div, ":stamine_div2", ":basic_stamina_i", 2), #50%
+          (store_mul, ":stamine_div3o4", ":basic_stamina_i", 3), #3/4
+          (val_div, ":stamine_div3o4", 4),
+          
+          (agent_get_slot, ":basic_stamina", ":player_agent", slot_agent_force_stamina),
         # (assign, reg0,":basic_stamina"),
         
-        (try_begin),
-          (lt, ":basic_stamina", 5),
-          (str_store_string,s12,"@Exhausted"),
-        (else_try),
-          (lt, ":basic_stamina", ":stamine_div10"),
-          (str_store_string,s12,"@Very Tired"),
-        (else_try),
-          (lt, ":basic_stamina", ":stamine_div2"),
-          (str_store_string,s12,"@Tired"),
-        (else_try),
-          (lt, ":basic_stamina", ":stamine_div3o4"),
-          (str_store_string,s12,"@Normal"),
-        (else_try),
-          (str_store_string,s12,"@High"),
+          (try_begin),
+            (lt, ":basic_stamina", 5),
+            (str_store_string,s12,"@Exhausted"),
+          (else_try),
+            (lt, ":basic_stamina", ":stamine_div10"),
+            (str_store_string,s12,"@Very Tired"),
+          (else_try),
+            (lt, ":basic_stamina", ":stamine_div2"),
+            (str_store_string,s12,"@Tired"),
+          (else_try),
+            (lt, ":basic_stamina", ":stamine_div3o4"),
+            (str_store_string,s12,"@Normal"),
+          (else_try),
+            (str_store_string,s12,"@High"),
+          (try_end),
+          
+          (create_text_overlay, reg1, s12, tf_center_justify),
+          (position_set_x, pos1, 800),
+          (position_set_y, pos1, 800),
+          (overlay_set_size, reg1, pos1),
+          (position_set_x, pos1, 949),
+          (position_set_y, pos1, 40),
+          (overlay_set_position, reg1, pos1),
+          (overlay_set_color, reg1, 0x0000bb), #azul
         (try_end),
-        
-        (create_text_overlay, reg1, s12, tf_center_justify),
-        (position_set_x, pos1, 800),
-        (position_set_y, pos1, 800),
-        (overlay_set_size, reg1, pos1),
-        (position_set_x, pos1, 949),
-        (position_set_y, pos1, 40),
-        (overlay_set_position, reg1, pos1),
-        (overlay_set_color, reg1, 0x0000bb), #azul
         
         (presentation_set_duration, 999999),
     ]),

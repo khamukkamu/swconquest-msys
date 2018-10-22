@@ -2635,6 +2635,30 @@ mission_templates = [
     [
       (ti_before_mission_start, 0, 0, [], [(call_script, "script_change_banners_and_chest")]),
 
+      (ti_on_agent_spawn, 0,0, [], [
+        (store_trigger_param_1, ":agent"),
+        (agent_is_active, ":agent"),
+        (agent_is_human, ":agent"),
+        (agent_get_troop_id, ":troop", ":agent"),
+        (gt, ":troop", 0),
+
+        (troop_get_type, ":race"),
+        (agent_get_item_slot, ":armour", ":agent", ek_body),
+        (try_begin),
+          (eq, ":race", tf_wookiee),
+          (agent_unequip_item, ":agent",":armour"),
+          (agent_equip_item, ":agent", "itm_arena_wookie"),
+        (else_try),
+          (eq, ":race", tf_geonosian),
+          (agent_unequip_item, ":agent",":armour"),
+          (agent_equip_item, ":agent", "itm_arena_geonosian"),
+        (else_try),
+          (eq, ":race", tf_trandoshan),
+          (agent_unequip_item, ":agent",":armour"),
+          (agent_equip_item, ":agent", "itm_arena_trandoshan"),
+        (try_end),
+      ]),
+
       common_arena_fight_tab_press,
 
       (ti_question_answered, 0, 0, [],

@@ -3361,8 +3361,8 @@ force_stamina = (
     (agent_is_human, ":agent_no"),
     (get_player_agent_no, ":player"),
     (eq, ":agent_no", ":player"), #For the player only
-    (store_skill_level, ":skill", "skl_power_draw", "trp_player"), #If force sensitive
-    (ge, ":skill", 1),
+    #(store_skill_level, ":skill", "skl_power_draw", "trp_player"), #If force sensitive
+    #(ge, ":skill", 1),
 
   ],
   [
@@ -3371,8 +3371,8 @@ force_stamina = (
     (agent_is_human, ":agent_no"),
     (get_player_agent_no, ":player"),
     (eq, ":agent_no", ":player"), #For the player only
-    (store_skill_level, ":skill", "skl_power_draw", "trp_player"), #If force sensitive
-    (ge, ":skill", 1),
+    #(store_skill_level, ":skill", "skl_power_draw", "trp_player"), #If force sensitive
+    #(ge, ":skill", 1),
     
     (store_troop_health,":cur_agent_hp","trp_player",1),
     (assign, ":basic_stamina",":cur_agent_hp"),
@@ -3387,8 +3387,9 @@ force_stamina = (
 
 start_display_force_stamina = (
   ti_after_mission_start, 0, ti_once, 
-  [ (store_skill_level, ":skill", "skl_power_draw", "trp_player"), #If force sensitive
-    (ge, ":skill", 1),], 
+  [ #(store_skill_level, ":skill", "skl_power_draw", "trp_player"), #If force sensitive
+    #(ge, ":skill", 1),
+  ], 
   [
     (start_presentation, "prsnt_staminabar"),
 ])
@@ -3401,8 +3402,8 @@ continue_force_stamina_presentation = (1, 0, 0, [
     (neg|is_presentation_active, "prsnt_staminabar"),
     (neg|is_presentation_active, "prsnt_battle"),
     (neg|main_hero_fallen),
-    (store_skill_level, ":skill", "skl_power_draw", "trp_player"), #If force sensitive
-    (ge, ":skill", 1),
+    #(store_skill_level, ":skill", "skl_power_draw", "trp_player"), #If force sensitive
+    #(ge, ":skill", 1),
     ],[    
     (start_presentation, "prsnt_staminabar"),
 ])
@@ -3412,8 +3413,8 @@ recuperate_force_stamina = (3, 0, 0, [
     (neg|game_key_is_down, gk_move_backward),
     (neg|game_key_is_down, gk_move_left),
     (neg|game_key_is_down, gk_move_right),
-    (store_skill_level, ":skill", "skl_power_draw", "trp_player"), #If force sensitive
-    (ge, ":skill", 1),
+    #(store_skill_level, ":skill", "skl_power_draw", "trp_player"), #If force sensitive
+    #(ge, ":skill", 1),
     ],[    #10 seconds = 20 up
     (get_player_agent_no, ":player"),
     (agent_is_alive,":player"), #  test for alive players.
