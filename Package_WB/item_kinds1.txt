@@ -1670,17 +1670,17 @@ itemsfile version 3
  19
 0
 
- itm_imperial_stormtrooper_armor Imperial_Stormtrooper_Armor Imperial_Stormtrooper_Armor 1  Stormtrooper_body 0  553713677 0 720 704643236 10 100 0 42 18 0 0 0 0 0 0 0 0
+ itm_imperial_stormtrooper_armor Imperial_Stormtrooper_Armor Imperial_Stormtrooper_Armor 1  Stormtrooper_body 0  536936461 0 720 704643236 10 100 0 42 18 0 0 0 0 0 0 0 0
  1
  18
 0
 
- itm_imperial_stormtrooper_armor_incinerator Incinerator_Trooper_Armor Incinerator_Trooper_Armor 1  Incinerator_Trooper_body 0  553713677 0 1264 704643236 10 30 0 45 21 9 0 0 0 0 0 0 0
+ itm_imperial_stormtrooper_armor_incinerator Incinerator_Trooper_Armor Incinerator_Trooper_Armor 1  Incinerator_Trooper_body 0  536936461 0 1264 704643236 10 30 0 45 21 9 0 0 0 0 0 0 0
  1
  18
 0
 
- itm_imperial_stormtrooper_armor_novatrooper Novatrooper_Armor Novatrooper_Armor 1  Novatrooper_body 0  553713677 0 841 704643236 10 40 0 43 19 6 0 0 0 0 0 0 0
+ itm_imperial_stormtrooper_armor_novatrooper Novatrooper_Armor Novatrooper_Armor 1  Novatrooper_body 0  536936461 0 841 704643236 10 40 0 43 19 6 0 0 0 0 0 0 0
  1
  18
 0

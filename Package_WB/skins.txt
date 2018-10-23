@@ -2,18 +2,17 @@ skins_file version 1
 16
 man 0
  new_man_body dummy_mesh m_handL
- male_head_new 29 skinkey_chin_size 20 0 0.7 -0.6 Chin_Size skinkey_chin_shape 260 0 -0.6 1.4 Chin_Shape skinkey_chin_forward 10 0 -0.5 0.9 Chin_Forward skinkey_jaw_width 240 0 0.9 -0.8 Jaw_Width skinkey_jaw_position 210 0 -0.5 1 Jaw_Position skinkey_mouth_nose_distance 250 0 0.8 -1 Mouth-Nose_Distance skinkey_mouth_width 200 0 -0.3 1 Mouth_Width skinkey_cheeks 50 0 -1.5 1 Cheeks skinkey_neck_width 220 0 -0.1 0.9 Neck_Width skinkey_nose_height 60 0 -0.4 1.35 Nose_Height skinkey_nose_width 70 0 -0.6 0.7 Nose_Width skinkey_nose_size 80 0 1 -0.1 Nose_Size skinkey_nose_shape 270 0 -0.5 1 Nose_Shape skinkey_nasal_curvature 290 0 0 1 Nasal_Curvature skinkey_nose_bridge 90 0 -0.2 1.4 Nose_Bridge skinkey_cheek_bones 100 0 -0.3 1.5 Cheek_Bones skinkey_eye_width 150 0 -0.2 3 Eye_Width skinkey_eye_to_eye_dist 110 0 1.5 -0.9 Eye_to_Eye_Dist skinkey_eye_shape 120 0 1.9 -1 Eye_Shape skinkey_eye_depth 130 0 -0.5 1.1 Eye_Depth skinkey_eyelids 140 0 1 -1.2 Eyelids skinkey_eyebrow_position 160 0 1.3 -0.2 Eyebrow_Position skinkey_eyebrow_height 170 0 -0.1 1.9 Eyebrow_Height skinkey_eyebrow_shape 180 0 -1.1 1.6 Eyebrow_Shape skinkey_temple_width 230 0 1.2 -0.7 Temple_Width skinkey_face_depth 30 0 -0.6 0.9 Face_Depth skinkey_face_ratio 40 0 0.9 -0.6 Face_Ratio skinkey_face_width 190 0 0 0.95 Face_Width skinkey_post_edit 280 0 0 1 Post-Edit 
-23
- man_hair_o  man_hair_y10  man_hair_y12  man_hair_u  man_hair_y4  man_hair_s  man_hair_n  man_hair_p  man_hair_r  man_hair_q  man_hair_v  man_hair_t  man_hair_y9  man_hair_y  man_hair_y11  man_hair_y2  man_hair_y3  man_hair_y6  man_hair_y7  man_hair_m  man_hair_y5  man_hair_y8  zabrak_horns 
- 24
-  beard_i
-  beard_l
-  beard_j
-  beard_r
-  beard_h
-  beard_g
+ male_head_new 28 skinkey_chin_size 240 0 -0.4 0.3 Chin_Size skinkey_chin_shape 230 0 -0.4 0.8 Chin_Shape skinkey_chin_forward 250 0 -0.25 0.55 Chin_Forward skinkey_jaw_width 130 0 -0.5 1 Jaw_Width skinkey_lower_lip 120 0 -0.5 0.6 Lower_Lip skinkey_upper_lip 110 0 -0.2 0.6 Upper_Lip skinkey_mouth_nose_distance 100 0 0.2 -0.2 Mouth-Nose_Distance skinkey_mouth_width 90 0 0.55 -0.55 Mouth_Width skinkey_nostril_size 30 0 -0.3 0.3 Nostril_Size skinkey_nose_height 60 0 0.25 -0.25 Nose_Height skinkey_nose_width 40 0 -0.2 0.3 Nose_Width skinkey_nose_size 70 0 -0.3 0.4 Nose_Size skinkey_nose_shape 50 0 0.2 -0.3 Nose_Shape skinkey_nose_bridge 80 0 -0.3 0.65 Nose_Bridge skinkey_eye_width 160 0 -0.2 0.25 Eye_Width skinkey_eye_to_eye_dist 190 0 -0.25 0.15 Eye_to_Eye_Dist skinkey_eye_shape 170 0 -0.85 0.85 Eye_Shape skinkey_eye_depth 200 0 -0.3 0.7 Eye_Depth skinkey_eyelids 180 0 -1.5 1.5 Eyelids skinkey_cheeks 20 0 0.6 -0.25 Cheeks skinkey_cheek_bones 260 0 -0.6 0.5 Cheek_Bones skinkey_eyebrow_height 220 0 0.8 -0.8 Eyebrow_Height skinkey_eyebrow_shape 210 0 -0.75 0.75 Eyebrow_Shape skinkey_temple_width 10 0 -0.6 0.5 Temple_Width skinkey_face_depth 270 0 -0.3 1 Face_Depth skinkey_face_ratio 150 0 -0.25 0.45 Face_Ratio skinkey_face_width 140 0 -0.4 0.5 Face_Width skinkey_post_edit 280 0 1 1 Post-Edit 
+21
+ man_hair_s  man_hair_m  man_hair_n  man_hair_o  man_hair_y10  man_hair_y12  man_hair_p  man_hair_r  man_hair_q  man_hair_v  man_hair_t  man_hair_y6  man_hair_y3  man_hair_y7  man_hair_y9  man_hair_y11  man_hair_u  man_hair_y  man_hair_y2  man_hair_y4  zabrak_horns 
+ 23
+  beard_e
   beard_d
   beard_k
+  beard_l
+  beard_i
+  beard_j
+  beard_z
   beard_m
   beard_n
   beard_y
@@ -25,28 +24,25 @@ man 0
   beard_c
   beard_t
   beard_u
+  beard_r
   beard_s
   beard_a
-  beard_e
-  beard_z
-  beard_q
+  beard_h
+  beard_g
 
  1  hair_blonde 
  1  beard_blonde 
- 23  manface_young_2 4291551456 1 3  hair_blonde  4294967295  4289742615  4283443737  manface_midage 4292866017 1 5  hair_blonde  4294967295  4289742615  4284689944  4283443737  4279832588  manface_young 4291879136 1 4  hair_blonde  4286787610  4283443737  4279832588  4278979865  manface_young_3 4292668909 1 3  hair_blonde  4281276430  4279702291  68451502092  manface_7 4290824392 1 2  hair_blonde  4279702291  68451502092  manface_midage_2 4259629272 1 3  hair_blonde  4283443737  4279832588  4278979865  manface_rugged 4289768117 1 2  hair_blonde  4279702291  68451502092  Jed_Q_1 4292866017 1 5  hair_blonde  4294967295  4289742615  4284689944  4283443737  4279832588  Jed_Q_2 4292866017 1 5  hair_blonde  4294967295  4289742615  4284689944  4283443737  4279832588  Jed_Q_3 4292866017 1 5  hair_blonde  4294967295  4289742615  4284689944  4283443737  4279832588  Jed_Q_4 4292866017 1 5  hair_blonde  4294967295  4289742615  4284689944  4283443737  4279832588  Jed_Q_5 4292866017 1 5  hair_blonde  4294967295  4289742615  4284689944  4283443737  4279832588  Jed_Q_6 4292866017 1 5  hair_blonde  4294967295  4289742615  4284689944  4283443737  4279832588  Jed_Q_7 4292866017 1 5  hair_blonde  4294967295  4289742615  4284689944  4283443737  4279832588  Jed_Q_8 4292866017 1 5  hair_blonde  4294967295  4289742615  4284689944  4283443737  4279832588  Jed_Q_9 4292866017 1 5  hair_blonde  4294967295  4289742615  4284689944  4283443737  4279832588  manface_african 4286610570 1 2  hair_blonde  4279371784  68451502092  sith_darth_maul 7014408 1 5  hair_blonde  4294967295  4289742615  4284689944  4283443737  4279832588  palpatine 4294967295 1 5  hair_blonde  4294967295  4289742615  4284689944  4283443737  4279832588  twilek_face_bib 14800009 1 5  hair_blonde  4294967295  4289742615  4284689944  4283443737  4279832588  chiss_face_a 3496959 1 2  hair_blonde  4279371784  68451502092  weequay_face_a 4286610570 1 2  hair_blonde  4279371784  68451502092  weequay_face_b 4286610570 1 2  hair_blonde  4279371784  68451502092 
+ 36  manface_young_2 4291551456 1 3  hair_blonde  4294967295  4289742615  4283443737  manface_midage 4292866017 1 5  hair_blonde  4294967295  4289742615  4284689944  4283443737  4279832588  manface_young 4291879136 1 4  hair_blonde  4286787610  4283443737  4279832588  4278979865  manface_young_3 4292668909 1 3  hair_blonde  4281276430  4279702291  68451502092  manface_7 4290824392 1 2  hair_blonde  4279702291  68451502092  manface_midage_2 4259629272 1 3  hair_blonde  4283443737  4279832588  4278979865  manface_rugged 4289768117 1 2  hair_blonde  4279702291  68451502092  manface_asian1 4293126369 1 2  hair_blonde  4279702291  68451502092  manface_asian2 4293126369 1 2  hair_blonde  4279702291  68451502092  manface_asian3 4290492078 1 2  hair_blonde  4279702291  68451502092  manface_mideast1 4289638566 1 2  hair_blonde  4279702291  68451502092  manface_mideast2 4291872961 1 2  hair_blonde  4279702291  68451502092  manface_mideast3 4292929768 1 2  hair_blonde  4279702291  68451502092  manface_black1 4287063388 1 2  hair_blonde  4279702291  68451502092  manface_black2 4284101677 1 2  hair_blonde  4279702291  68451502092  manface_black3 4284697918 1 2  hair_blonde  4279702291  68451502092  manface_white1 4292929768 1 5  hair_blonde  4294967295  4289742615  4284689944  4283443737  4279832588  manface_white2 4292929768 1 6  hair_blonde  4294967295  4289742615  4284689944  4283443737  4279832588  4278979865  manface_white3 4292929768 1 4  hair_blonde  4286787610  4283443737  4279832588  4278979865  manface_african 4286610570 1 2  hair_blonde  4279371784  68451502092  Jed_Q_1 4292866017 1 5  hair_blonde  4294967295  4289742615  4284689944  4283443737  4279832588  Jed_Q_2 4292866017 1 5  hair_blonde  4294967295  4289742615  4284689944  4283443737  4279832588  Jed_Q_3 4292866017 1 5  hair_blonde  4294967295  4289742615  4284689944  4283443737  4279832588  Jed_Q_4 4292866017 1 5  hair_blonde  4294967295  4289742615  4284689944  4283443737  4279832588  Jed_Q_5 4292866017 1 5  hair_blonde  4294967295  4289742615  4284689944  4283443737  4279832588  Jed_Q_6 4292866017 1 5  hair_blonde  4294967295  4289742615  4284689944  4283443737  4279832588  Jed_Q_7 4292866017 1 5  hair_blonde  4294967295  4289742615  4284689944  4283443737  4279832588  Jed_Q_8 4292866017 1 5  hair_blonde  4294967295  4289742615  4284689944  4283443737  4279832588  Jed_Q_9 4292866017 1 5  hair_blonde  4294967295  4289742615  4284689944  4283443737  4279832588  manface_african 4286610570 1 2  hair_blonde  4279371784  68451502092  sith_darth_maul 7014408 1 5  hair_blonde  4294967295  4289742615  4284689944  4283443737  4279832588  palpatine 4294967295 1 5  hair_blonde  4294967295  4289742615  4284689944  4283443737  4279832588  twilek_face_bib 14800009 1 5  hair_blonde  4294967295  4289742615  4284689944  4283443737  4279832588  chiss_face_a 3496959 1 2  hair_blonde  4279371784  68451502092  weequay_face_a 4286610570 1 2  hair_blonde  4279371784  68451502092  weequay_face_b 4286610570 1 2  hair_blonde  4279371784  68451502092 
  6  0 snd_man_die  1 snd_man_hit  2 snd_man_grunt  3 snd_man_grunt_long  4 snd_man_yell  6 snd_man_victory 
  skel_human 1 
 0 0
-8
+5
 
-1.7 1 2  1 26 1 23
-0.3 -1 2  1 26 1 23
-1.7 1 2  1 26 1 24
-0.3 -1 2  1 20 1 19
-1.7 1 2  1 20 1 19
--0.7 -1 2  1 10 -1 11
-0.7 1 2  1 10 -1 11
-2.7 1 4  1 0 1 5 1 8 -1 26
+1.6 1 2  1 15 1 23
+0.6 -1 2  1 15 1 23
+1.5 1 2  1 25 1 6
+0.6 1 2  -1 9 1 6
+-1 -1 2  -1 9 1 6
 woman 1
  new_woman_body dummy_mesh w_handL
  female_head_new 28 skinkey_chin_size 230 0 0.8 -1 Chin_Size skinkey_chin_shape 220 0 -1 1 Chin_Shape skinkey_chin_forward 10 0 -1.2 1 Chin_Forward skinkey_jaw_width 20 0 -0.6 1.2 Jaw_Width skinkey_jaw_position 40 0 -0.7 1 Jaw_Position skinkey_mouth_nose_distance 270 0 0.9 -0.9 Mouth-Nose_Distance skinkey_mouth_width 30 0 -0.5 1 Mouth_Width skinkey_cheeks 50 0 -0.5 1 Cheeks skinkey_nose_height 60 0 -0.5 1 Nose_Height skinkey_nose_width 70 0 -0.5 1.1 Nose_Width skinkey_nose_size 80 0 1.5 -0.3 Nose_Size skinkey_nose_shape 240 0 -1 0.8 Nose_Shape skinkey_nose_bridge 90 0 0 1.1 Nose_Bridge skinkey_cheek_bones 100 0 -0.5 1.5 Cheek_Bones skinkey_eye_width 150 0 -0.4 1 Eye_Width skinkey_eye_to_eye_dist 110 0 1 0 Eye_to_Eye_Dist skinkey_eye_shape 120 0 -0.2 1 Eye_Shape skinkey_eye_depth 130 0 -0.1 1.6 Eye_Depth skinkey_eyelids 140 0 -0.2 1 Eyelids skinkey_eyebrow_position 160 0 -0.2 1.2 Eyebrow_Position skinkey_eyebrow_height 170 0 -0.2 0.7 Eyebrow_Height skinkey_eyebrow_depth 250 0 -0.4 0.9 Eyebrow_Depth skinkey_eyebrow_shape 180 0 -1.5 1.2 Eyebrow_Shape skinkey_temple_width 260 0 1 -0.7 Temple_Width skinkey_face_depth 200 0 -0.5 1 Face_Depth skinkey_face_ratio 210 0 -0.5 0.9 Face_Ratio skinkey_face_width 190 0 -0.4 0.8 Face_Width skinkey_post_edit 280 0 0 1 Post-Edit 
@@ -199,7 +195,7 @@ gamorrean 0
 
 twilek 0
  new_twilek_body dummy_mesh twilek_handL
- twilek_head 0 
+ twilek_head 28 skinkey_chin_size 240 0 -0.4 0.3 Chin_Size skinkey_chin_shape 230 0 -0.4 0.8 Chin_Shape skinkey_chin_forward 250 0 -0.25 0.55 Chin_Forward skinkey_jaw_width 130 0 -0.5 1 Jaw_Width skinkey_lower_lip 120 0 -0.5 0.6 Lower_Lip skinkey_upper_lip 110 0 -0.2 0.6 Upper_Lip skinkey_mouth_nose_distance 100 0 0.2 -0.2 Mouth-Nose_Distance skinkey_mouth_width 90 0 0.55 -0.55 Mouth_Width skinkey_nostril_size 30 0 -0.3 0.3 Nostril_Size skinkey_nose_height 60 0 0.25 -0.25 Nose_Height skinkey_nose_width 40 0 -0.2 0.3 Nose_Width skinkey_nose_size 70 0 -0.3 0.4 Nose_Size skinkey_nose_shape 50 0 0.2 -0.3 Nose_Shape skinkey_nose_bridge 80 0 -0.3 0.65 Nose_Bridge skinkey_eye_width 160 0 -0.2 0.25 Eye_Width skinkey_eye_to_eye_dist 190 0 -0.25 0.15 Eye_to_Eye_Dist skinkey_eye_shape 170 0 -0.85 0.85 Eye_Shape skinkey_eye_depth 200 0 -0.3 0.7 Eye_Depth skinkey_eyelids 180 0 -1.5 1.5 Eyelids skinkey_cheeks 20 0 0.6 -0.25 Cheeks skinkey_cheek_bones 260 0 -0.6 0.5 Cheek_Bones skinkey_eyebrow_height 220 0 0.8 -0.8 Eyebrow_Height skinkey_eyebrow_shape 210 0 -0.75 0.75 Eyebrow_Shape skinkey_temple_width 10 0 -0.6 0.5 Temple_Width skinkey_face_depth 270 0 -0.3 1 Face_Depth skinkey_face_ratio 150 0 -0.25 0.45 Face_Ratio skinkey_face_width 140 0 -0.4 0.5 Face_Width skinkey_post_edit 280 0 1 1 Post-Edit 
 0
 
  0
@@ -210,8 +206,13 @@ twilek 0
  6  0 snd_man_die  1 snd_man_hit  2 snd_man_grunt  3 snd_man_grunt_long  4 snd_man_yell  6 snd_man_victory 
  skel_human 1 
 0 0
-0
+5
 
+1.6 1 2  1 15 1 23
+0.6 -1 2  1 15 1 23
+1.5 1 2  1 25 1 6
+0.6 1 2  -1 9 1 6
+-1 -1 2  -1 9 1 6
 twilek_female 1
  new_twilekwomen_body dummy_mesh twilek_female_handL
  twilek_female_head_new 28 skinkey_chin_size 230 0 0.8 -1 Chin_Size skinkey_chin_shape 220 0 -1 1 Chin_Shape skinkey_chin_forward 10 0 -1.2 1 Chin_Forward skinkey_jaw_width 20 0 -0.6 1.2 Jaw_Width skinkey_jaw_position 40 0 -0.7 1 Jaw_Position skinkey_mouth_nose_distance 270 0 0.9 -0.9 Mouth-Nose_Distance skinkey_mouth_width 30 0 -0.5 1 Mouth_Width skinkey_cheeks 50 0 -0.5 1 Cheeks skinkey_nose_height 60 0 -0.5 1 Nose_Height skinkey_nose_width 70 0 -0.5 1.1 Nose_Width skinkey_nose_size 80 0 1.5 -0.3 Nose_Size skinkey_nose_shape 240 0 -1 0.8 Nose_Shape skinkey_nose_bridge 90 0 0 1.1 Nose_Bridge skinkey_cheek_bones 100 0 -0.5 1.5 Cheek_Bones skinkey_eye_width 150 0 -0.4 1 Eye_Width skinkey_eye_to_eye_dist 110 0 1 0 Eye_to_Eye_Dist skinkey_eye_shape 120 0 -0.2 1 Eye_Shape skinkey_eye_depth 130 0 -0.1 1.6 Eye_Depth skinkey_eyelids 140 0 -0.2 1 Eyelids skinkey_eyebrow_position 160 0 -0.2 1.2 Eyebrow_Position skinkey_eyebrow_height 170 0 -0.2 0.7 Eyebrow_Height skinkey_eyebrow_depth 250 0 -0.4 0.9 Eyebrow_Depth skinkey_eyebrow_shape 180 0 -1.5 1.2 Eyebrow_Shape skinkey_temple_width 260 0 1 -0.7 Temple_Width skinkey_face_depth 200 0 -0.5 1 Face_Depth skinkey_face_ratio 210 0 -0.5 0.9 Face_Ratio skinkey_face_width 190 0 -0.4 0.8 Face_Width skinkey_post_edit 280 0 0 1 Post-Edit 
