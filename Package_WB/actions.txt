@@ -20,15 +20,16 @@
   0.6 jump_end_hard 36 54 2 0 0 0 0 0.0 
  stand_unarmed 0 16777216  1
   8 noweapon_cstance 0 100 1342177280 0 0 0 0  0.25 
- stand_single 0 16777216  2
-  9 sword_loop01 0 200 1342177280 0 0 0 0  0.25 
-  6 greatsword_cstance 0 91 1342177280 0 0 0 0  0.25 
- stand_greatsword 0 16777216  2
+ stand_single 0 16777216  1
+  9 stand_1h 0 30 1342177280 0 0 0 0  0.25 
+ stand_greatsword 0 16777216  3
   6 greatsword_cstance 0 91 1342177280 0 0 0 0  0.25 
   2 anim_human 1100 1120 1342177280 0 0 0 0  0.1 
- stand_staff 0 16777216  2
+  6 stand_2h 0 30 1342177280 0 0 0 0  0.25 
+ stand_staff 0 16777216  3
   9 sw_single_saber_static 0 99 1342177280 0 0 0 0  0.25 
   9 sword_loop01 0 200 1342177280 0 0 0 0  0.25 
+  9 stand_pole 0 30 1342177280 0 0 0 0  0.25 
  stand_crossbow 0 16777216  1
   2 rifle_stand_ani 0 29 1342177280 0 0 0 0  0 
  turn_right 256 50331648  1
@@ -62,7 +63,7 @@
  run_forward 256 17825792  1
   0.8 run_man_forward 0 24 805306628 58726 0 0 0  0.4 
  run_forward_onehanded 256 17825792  1
-  0.7 swy_human_doublesaber_walk 0 33 805306624 58726 0 0 0  0.5 
+  0.8 run_onehanded_doublesaber 0 25 805306628 58726 0 0 0 0.0 
  run_forward_staff 256 17825792  1
   0.8 run_rifle 0 25 805306624 58726 0 0 0  0 
  run_forward_greatsword 256 17825792  1

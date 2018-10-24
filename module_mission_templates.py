@@ -47,7 +47,7 @@ swc_kham_battle_triggers = [
       recuperate_force_stamina,
       random_unisex_troop,
       mission_start_fade_in,
-  ] + kham_new_iron_sight_trigger
+  ] + kham_new_iron_sight_trigger + AI_triggers
 
 mission_templates = [
   (
@@ -992,7 +992,7 @@ mission_templates = [
 
       #SWY - trigger to make unique agents behavior - custom scripting
       (0.352, 0, ti_once, [], [(call_script,"script_swy_unique_units_stuff",-1)]),
-    ]+common_helmet_view+AI_triggers,
+    ]+common_helmet_view
   ),
 
 
@@ -1297,7 +1297,7 @@ mission_templates = [
            (try_end),
            (finish_mission),
            ]),
-    ]+common_helmet_view+AI_triggers,
+    ]+common_helmet_view
   ),
 
 
@@ -1720,7 +1720,7 @@ mission_templates = [
       #       (agent_set_animation, ":cur_agent", "anim_speeder_stationary"),  #so the horse doesn't move, must include module_animations at the top
       #    (try_end),
       #      ], []),
-    ]+common_helmet_view+AI_triggers,
+    ]+common_helmet_view
   ),
 
 #########################################################################################################################
@@ -1812,7 +1812,7 @@ mission_templates = [
         ############################################################################################################
         ##### Custom Commander(CC)
         ############################################################################################################
-    ]+common_helmet_view+AI_triggers,
+    ]+common_helmet_view
   ),
 
 
@@ -1947,7 +1947,7 @@ mission_templates = [
       ##          (store_mission_timer_a,reg(1)),(ge,reg(1),4),
       ##          (call_script, "script_battle_tactic_apply"),
       ##          ], []),
-    ]+common_helmet_view+AI_triggers,
+    ]+common_helmet_view
   ),
 
   (
@@ -2062,7 +2062,7 @@ mission_templates = [
       ############################################################################################################
       ##### Custom Commander(CC)
       ############################################################################################################
-    ]+common_helmet_view+AI_triggers,
+    ]+common_helmet_view
   ),
 
   (
@@ -2176,7 +2176,7 @@ mission_templates = [
       ##### Custom Commander(CC)
       ############################################################################################################
 
-    ]+common_helmet_view+AI_triggers,
+    ]+common_helmet_view
   ),
 
   (
@@ -2289,7 +2289,7 @@ mission_templates = [
       ##### Custom Commander(CC)
       ############################################################################################################
       common_gate_system,
-    ]+common_helmet_view+AI_triggers,
+    ]+common_helmet_view
   ),
 
 
@@ -2946,7 +2946,7 @@ mission_templates = [
        [(assign,"$auto_menu",-1),(jump_to_menu,"mnu_sneak_into_town_caught_ran_away"),(finish_mission,0)]),
 
       (ti_inventory_key_pressed, 0, 0, [(display_message,"str_cant_use_inventory_arena")], []),
-    ]+common_helmet_view+AI_triggers,
+    ]+common_helmet_view
 
   ),
 
@@ -4559,7 +4559,7 @@ mission_templates = [
 
       #SWY - trigger to make unique agents behavior - custom scripting
       (0.352, 0, ti_once, [], [(call_script,"script_swy_unique_units_stuff",-1)]),
-    ]+common_helmet_view+AI_triggers,
+    ]+common_helmet_view
 
   ),
 
@@ -5010,7 +5010,7 @@ mission_templates = [
 
       #SWY - trigger to make unique agents behavior - custom scripting
       (0.352, 0, ti_once, [], [(call_script,"script_swy_unique_units_stuff",-1)]),
-    ]+common_helmet_view+AI_triggers,
+    ]+common_helmet_view
 
   ),
   (
@@ -5179,7 +5179,7 @@ mission_templates = [
 
       #SWY - trigger to make unique agents behavior - custom scripting
       (0.352, 0, ti_once, [], [(call_script,"script_swy_unique_units_stuff",-1)]),
-    ]+common_helmet_view+AI_triggers,
+    ]+common_helmet_view
 
   ),
 

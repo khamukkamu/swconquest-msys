@@ -2764,11 +2764,13 @@ dialogs = [
   
   [anyone|plyr,"party_encounter_lord_hostile_attacker_2", [
                     ],
-   "Don't attack! We surrender.", "close_window", [(assign,"$g_player_surrenders",1)]],
-
+   "We will fight you to the end!", "close_window", []],
+   
   [anyone|plyr,"party_encounter_lord_hostile_attacker_2", [
                     ],
-   "We will fight you to the end!", "close_window", []],
+   "Don't attack! We surrender.", "close_window", [(assign,"$g_player_surrenders",1)]],
+
+
 
   [anyone, "party_encounter_offer_dont_fight", [(gt, "$g_talk_troop_relation", 30),
 #TODO: Add adition conditions, lord personalities, battle advantage, etc...                                                

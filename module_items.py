@@ -2051,11 +2051,12 @@ items = [
 	)]], 
 ["dlt20a", "DLT-20A", [("DLT20A",0),("DLT20A_inventory",ixmesh_inventory)], itp_type_crossbow|itp_two_handed |itp_merchandise|itp_primary|itp_has_bayonet|itp_bonus_against_shield,itcf_shoot_crossbow|itcf_carry_spear|itcf_reload_musket, 
   1300 , weight(6.7)|abundance(100)|difficulty(0)|spd_rtng(100) | shoot_speed(190) | thrust_damage(55 ,cut)|max_ammo(30)|accuracy(97),imodbits_gun,
-  [(ti_on_init_item, [(item_set_slot, "itm_dlt20a", slot_item_sound,"snd_bigblaster01"),]
+  [(ti_on_init_item, [(item_set_slot, "itm_dlt20a", slot_item_sound,"snd_bigblaster01")]
   +#<muzzleflare system>#
   muzzleflare_system,
   #</muzzleflare system>#
-  )]], 
+  ), (ti_on_weapon_attack, [(item_slot_eq, "itm_dlt20a", slot_item_has_autofire, 2), (play_sound,"snd_bigblaster01"),(position_move_x, pos1,4),(position_move_y, pos1,5)]),
+  ]], 
 ["e17d", "E-17d", [("uio0000_E-17d",0),("uio0000_E-17d_inv",ixmesh_inventory)], itp_type_crossbow|itp_two_handed |itp_merchandise|itp_primary|itp_bonus_against_shield,itcf_shoot_musket|itcf_carry_spear|itcf_reload_musket, 
 	735 , weight(3.72)|abundance(90)|difficulty(0)|spd_rtng(70) | shoot_speed(170) | thrust_damage(88 ,pierce)|max_ammo(5)|accuracy(110),imodbits_gun,
 	[(ti_on_weapon_attack, [(play_sound,"snd_bigblaster01"),(position_move_x, pos1,4),(position_move_y, pos1,5)]
@@ -2082,7 +2083,8 @@ items = [
   +#<muzzleflare system>#
   muzzleflare_system,
   #</muzzleflare system>#
-  )]],
+  ),(ti_on_weapon_attack, [(item_slot_eq, "itm_dc15a", slot_item_has_autofire, 2), (play_sound,"snd_bigblaster01"),(position_move_x, pos1,4),(position_move_y, pos1,5)]),
+  ]],
 
 
 ["dc15a_hip", "DC-15A", [("DC15A",0),("DC15A_inv",ixmesh_inventory)], itp_type_crossbow|itp_two_handed|itp_primary|itp_bonus_against_shield|itp_has_bayonet,itcf_throw_javelin|itcf_carry_spear|itcf_reload_musket, 
@@ -2091,7 +2093,8 @@ items = [
   +#<muzzleflare system>#
   muzzleflare_system,
   #</muzzleflare system>#
-  )]],
+  ), (ti_on_weapon_attack, [(item_slot_eq, "itm_dc15a_hip", slot_item_has_autofire, 2), (play_sound,"snd_bigblaster01"),(position_move_x, pos1,4),(position_move_y, pos1,5)]),
+  ]],
     
 ["dc15a_hip2", "DC-15A", [("DC15A_javelin",0),("DC15A_inv",ixmesh_inventory)], itp_type_crossbow|itp_two_handed |itp_merchandise|itp_primary|itp_has_bayonet|itp_bonus_against_shield,itcf_throw_javelin|itcf_carry_quiver_back|itcf_reload_musket, 
   1385 , weight(6.8)|abundance(100)|difficulty(0)|spd_rtng(90) | shoot_speed(190) | thrust_damage(60 ,cut)|max_ammo(500)|accuracy(96),imodbits_gun,
@@ -2099,7 +2102,8 @@ items = [
   +#<muzzleflare system>#
   muzzleflare_system,
   #</muzzleflare system>#
-  )]],
+  ), (ti_on_weapon_attack, [(item_slot_eq, "itm_dc15a_hip2", slot_item_has_autofire, 2), (play_sound,"snd_bigblaster01"),(position_move_x, pos1,4),(position_move_y, pos1,5)]),
+  ]],
 
 ["dc15a_stun", "DC-15A", [("DC15A",0),("DC15A_inv",ixmesh_inventory)], itp_type_crossbow|itp_two_handed|itp_primary|itp_bonus_against_shield,itcf_shoot_crossbow|itcf_carry_spear|itcf_reload_musket, 
   1385 , weight(6.8)|abundance(100)|difficulty(0)|spd_rtng(90) | shoot_speed(190) | thrust_damage(60 ,pierce)|max_ammo(500)|accuracy(96),imodbits_gun,
@@ -2117,7 +2121,8 @@ items = [
   +#<muzzleflare system>#
   muzzleflare_system,
   #</muzzleflare system>#
-  )]], 
+  ), (ti_on_weapon_attack, [(item_slot_eq, "itm_dc15s", slot_item_has_autofire, 2), (play_sound,"snd_laser_fire"),(position_move_x, pos1,4),(position_move_y, pos1,5)]),
+  ]], 
 ["trandoshan_acp_array_gun", "Trandoshan ACP Array Gun", [("trandoshan_acp_array_gun_javelin",0),("trandoshan_acp_array_gun_inventory",ixmesh_inventory)], itp_type_crossbow|itp_two_handed |itp_merchandise|itp_primary|itp_bonus_against_shield,itcf_throw_javelin|itcf_carry_quiver_back|itcf_reload_pistol, 
 	883 , weight(4.52)|abundance(70)|difficulty(0)|spd_rtng(100) | shoot_speed(170) | thrust_damage(65 ,pierce)|max_ammo(8)|accuracy(79),imodbits_gun,
 	[(ti_on_weapon_attack, [(play_sound,"snd_laser_fire"),(position_move_x, pos1,14),(position_move_y, pos1,18)]
@@ -2138,7 +2143,8 @@ items = [
   +#<muzzleflare system>#
   muzzleflare_system,
   #</muzzleflare system>#
-  )]],
+  ), (ti_on_weapon_attack, [(item_slot_eq, "itm_quicksnap_36t", slot_item_has_autofire, 2), (play_sound,"snd_laser_fire"),(position_move_x, pos1,4),(position_move_y, pos1,5)]),
+  ]],
 ["bothan_bola_carabine", "Bothan Bola Carabine", [("bothan_bola_carabine",0),("bothan_bola_carabine_inventory",ixmesh_inventory)], itp_type_crossbow|itp_two_handed |itp_merchandise|itp_primary|itp_bonus_against_shield,itcf_shoot_musket|itcf_carry_spear|itcf_reload_musket, 
 	305 , weight(2.5)|abundance(70)|difficulty(0)|spd_rtng(80) | shoot_speed(170) | thrust_damage(42 ,pierce)|max_ammo(16)|accuracy(95),imodbits_gun,
 	[(ti_on_weapon_attack, [(play_sound,"snd_bigblaster01"),(position_move_x, pos1,14),(position_move_y, pos1,18)]
@@ -2152,7 +2158,8 @@ items = [
   +#<muzzleflare system>#
   muzzleflare_system,
   #</muzzleflare system>#
-  )]], 
+  ), (ti_on_weapon_attack, [(item_slot_eq, "itm_ee3", slot_item_has_autofire, 2), (play_sound,"snd_bigblaster22"),(position_move_x, pos1,4),(position_move_y, pos1,5)]),
+  ]], 
 ["ee3_stun", "Stun EE-3", [("EE3",0),("EE3_inventory",ixmesh_inventory)], itp_type_crossbow|itp_two_handed |itp_primary|itp_bonus_against_shield,itcf_shoot_crossbow|itcf_carry_spear|itcf_reload_pistol, 
 	875 , weight(6.57)|abundance(80)|difficulty(0)|spd_rtng(100) | shoot_speed(170) | thrust_damage(36 ,blunt)|max_ammo(30)|accuracy(96),imodbits_gun,
 	[(ti_on_weapon_attack, [(play_sound,"snd_stunblaster"),(position_move_x, pos1,14),(position_move_y, pos1,18)]
@@ -2166,7 +2173,8 @@ items = [
   +#<muzzleflare system>#
   muzzleflare_system,
   #</muzzleflare system>#
-  )]],  
+  ), (ti_on_weapon_attack, [(item_slot_eq, "itm_mg15", slot_item_has_autofire, 2), (play_sound,"snd_laser_fire"),(position_move_x, pos1,4),(position_move_y, pos1,5)]),
+  ]],  
 #used itcf_throw_javelin for e5 so it is fired from the hip
 ["e5", "E-5", [("e5_new_javelin",0),("e5_new_inventory",ixmesh_inventory)], itp_type_crossbow|itp_two_handed |itp_merchandise|itp_primary|itp_has_bayonet|itp_bonus_against_shield,itcf_throw_javelin|itcf_carry_quiver_back|itcf_reload_pistol, 
   900 , weight(2.2)|abundance(70)|difficulty(0)|spd_rtng(100) | shoot_speed(150) | thrust_damage(32 ,cut)|max_ammo(500)|accuracy(94),imodbits_gun,
@@ -2174,7 +2182,8 @@ items = [
   +#<muzzleflare system>#
   muzzleflare_system,
   #</muzzleflare system>#
-  )]],  
+  ), (ti_on_weapon_attack, [(item_slot_eq, "itm_e5", slot_item_has_autofire, 2), (play_sound,"snd_e5"),(position_move_x, pos1,4),(position_move_y, pos1,5)]),
+  ]],  
 #SW - now using itcf_throw_javelin for e11(itcf_shoot_javelin doesn't work, had to rotate the mesh as well) 
 #["e11", "E-11", [("e11_new_javelin",0),("e11_new_inventory",ixmesh_inventory)], itp_type_crossbow|itp_two_handed |itp_merchandise|itp_primary|itp_bonus_against_shield,itcf_throw_javelin|itcf_carry_spear|itcf_reload_pistol, 
 #removed merch flag since there are two e11's
@@ -2184,7 +2193,8 @@ items = [
   +#<muzzleflare system>#
   muzzleflare_system,
   #</muzzleflare system>#
-  )]], 
+  ), (ti_on_weapon_attack, [(item_slot_eq, "itm_e11", slot_item_has_autofire, 2), (play_sound,"snd_bigblaster15_variant"),(position_move_x, pos1,4),(position_move_y, pos1,5)]),
+  ]], 
 
 ["e11_hip", "E-11", [("e11_new_javelin",0),("e11_new_inventory",ixmesh_inventory)], itp_type_crossbow|itp_two_handed |itp_merchandise|itp_primary|itp_has_bayonet|itp_bonus_against_shield,itcf_throw_javelin|itcf_carry_quiver_back|itcf_reload_pistol, 
   1000 , weight(4.5)|abundance(100)|difficulty(0)|spd_rtng(110) | shoot_speed(160) | thrust_damage(36 ,cut)|max_ammo(100)|accuracy(92),imodbits_gun,
@@ -2192,7 +2202,8 @@ items = [
   +#<muzzleflare system>#
   muzzleflare_system,
   #</muzzleflare system>#
-  )]], 
+  ),  (ti_on_weapon_attack, [(item_slot_eq, "itm_e11_hip", slot_item_has_autofire, 2), (play_sound,"snd_bigblaster15_variant"),(position_move_x, pos1,4),(position_move_y, pos1,5)]),
+  ]], 
 #["lightsaber_blue", "Lightsaber", [("lightsaber_blue",0),("lightsaber_blueoff",ixmesh_carry)], itp_type_two_handed_wpn|itp_merchandise| itp_primary|itp_bonus_against_shield|itp_wooden_parry|itp_wooden_attack, itc_lightsaber|itcf_carry_dagger_front_left,
 # 900 , weight(0.5)|abundance(80)|difficulty(14)|spd_rtng(120) | weapon_length(115)|swing_damage(75 , pierce) | thrust_damage(75 ,  pierce),imodbits_lightsaber ],
 #["e11", "E-11", [("e11_new",0),("lightsaber_blue", ixmesh_carry)], itp_type_crossbow|itp_two_handed |itp_merchandise|itp_primary|itp_bonus_against_shield,itcf_shoot_crossbow|itcf_carry_revolver_right|itcf_reload_musket, 
@@ -2206,7 +2217,8 @@ items = [
   +#<muzzleflare system>#
   muzzleflare_system,
   #</muzzleflare system>#
-  )]], 
+  ),  (ti_on_weapon_attack, [(item_slot_eq, "itm_e11_stun", slot_item_has_autofire, 2), (play_sound,"snd_stunblaster"),(position_move_x, pos1,4),(position_move_y, pos1,5)]),
+  ]], 
 ["wookiee_bowcaster", "Bowcaster", [("wookiee_bowcaster",0)], itp_type_crossbow|itp_two_handed |itp_merchandise|itp_primary|itp_bonus_against_shield,itcf_shoot_crossbow|itcf_carry_crossbow_back|itcf_reload_musket, 
 	900 , weight(6.3)|abundance(100)|difficulty(0)|spd_rtng(120) | shoot_speed(160) | thrust_damage(50 ,pierce)|max_ammo(35)|accuracy(94),imodbits_gun,
 	[(ti_on_weapon_attack, [(play_sound,"snd_bigblaster22"),(position_move_x, pos1,6),(position_move_y, pos1,8)]
@@ -2273,14 +2285,16 @@ items = [
   +#<muzzleflare system>#
   muzzleflare_system,
   #</muzzleflare system>#
-  )]],
+  ),  (ti_on_weapon_attack, [(item_slot_eq, "itm_heavy_repeater", slot_item_has_autofire, 2), (play_sound,"snd_heavyrepeater"),(position_move_x, pos1,4),(position_move_y, pos1,5)]),
+  ]],
 ["storm_rifle", "StormTrooper Rifle", [("uio0000_stormtrooperrifle",0),("uio0000_stormtrooperrifle_inv",ixmesh_inventory)], itp_type_crossbow|itp_has_bayonet|itp_two_handed|itp_merchandise|itp_primary|itp_bonus_against_shield,itcf_shoot_crossbow|itcf_carry_spear|itcf_reload_musket, 
   871 , weight(3.4)|abundance(70)|difficulty(0)|spd_rtng(85) | shoot_speed(170) | thrust_damage(47 ,cut)|max_ammo(30)|accuracy(94),imodbits_gun,
   [(ti_on_init_item, [(item_set_slot, "itm_storm_rifle", slot_item_sound,"snd_stormrifle"),]
   +#<muzzleflare system>#
   muzzleflare_system,
   #</muzzleflare system>#
-  )]],  
+  ), (ti_on_weapon_attack, [(item_slot_eq, "itm_storm_rifle", slot_item_has_autofire, 2), (play_sound,"snd_stormrifle"),(position_move_x, pos1,4),(position_move_y, pos1,5)]), 
+  ]],  
 
  # ONE HANDED BLASTERS (ie. pistol)
 ["dh17", "DH-17", [("DH17",0)], itp_type_pistol |itp_merchandise|itp_primary|itp_bonus_against_shield,itcf_shoot_pistol|itcf_carry_revolver_right|itcf_reload_pistol, 

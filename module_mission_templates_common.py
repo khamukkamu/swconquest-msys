@@ -196,9 +196,12 @@ AI_triggers = [
     (assign, "$cur_casualties", 0),
     (assign, "$prev_casualties", 0),
     (assign, "$ranged_clock", 1),
+    (assign, "$telling_counter", 0),
   ]),
 
   (0, .3, ti_once, [], [(call_script, "script_SW_field_tactics", 1)]),  #delay to allow spawning to finish
+
+  (2.5, 0, 0, [(lt, "$telling_counter", 4),], [ (set_show_messages, 0),(try_for_range, ":team", 0, 6), (team_give_order, ":team", grc_everyone, mordr_spread_out), (try_end), (val_add, "$telling_counter", 1), (set_show_messages, 1),]),
 
   (1, .9, 0, [], [
     (try_begin),
