@@ -47,7 +47,7 @@ swc_kham_battle_triggers = [
       recuperate_force_stamina,
       random_unisex_troop,
       mission_start_fade_in,
-  ] + kham_new_iron_sight_trigger + AI_triggers
+  ] + kham_new_iron_sight_trigger
 
 mission_templates = [
   (
@@ -1309,7 +1309,7 @@ mission_templates = [
      (0,mtef_defenders|mtef_team_0,0,aif_start_alarmed,0,[]),
      (4,mtef_attackers|mtef_team_1,0,aif_start_alarmed,12,[]),
      (4,mtef_attackers|mtef_team_1,0,aif_start_alarmed,0,[]),
-    ], swc_kham_battle_triggers +
+    ], swc_kham_battle_triggers + AI_triggers + 
     [
 
       sw_victory_defeat_conditions,
@@ -1499,7 +1499,7 @@ mission_templates = [
      (4,mtef_attackers|mtef_team_1,af_override_horse,aif_start_alarmed,12,[]),
      (4,mtef_attackers|mtef_team_1,af_override_horse,aif_start_alarmed,0,[]),
 
-    ], swc_kham_battle_triggers +
+    ], swc_kham_battle_triggers + AI_triggers +
     [
       ##@> Swyter's Hangar Speech
       (1.5,0,ti_once,[],
@@ -1732,7 +1732,7 @@ mission_templates = [
      (3,mtef_visitor_source|mtef_team_1,0,aif_start_alarmed,1,[]),
      (1,mtef_team_0|mtef_use_exact_number,0,aif_start_alarmed, 7,[]),
      (1,mtef_visitor_source|mtef_team_0,0,aif_start_alarmed,1,[]),
-    ], swc_kham_battle_triggers +
+    ], swc_kham_battle_triggers + AI_triggers +
     [
       lightsaber_noise_player,
       lightsaber_noise_agent,
@@ -1825,7 +1825,7 @@ mission_templates = [
      (3,mtef_defenders|mtef_team_0,0,aif_start_alarmed,0,[]),
      (1,mtef_attackers|mtef_team_1,0,aif_start_alarmed,12,[]),
      (1,mtef_attackers|mtef_team_1,0,aif_start_alarmed,0,[]),
-    ], swc_kham_battle_triggers +
+    ], swc_kham_battle_triggers + AI_triggers +
     [
       lightsaber_noise_player,
       lightsaber_noise_agent,
@@ -1962,7 +1962,7 @@ mission_templates = [
      (18, mtef_defenders|mtef_use_exact_number|mtef_team_0,af_override_horse,aif_start_alarmed,1,[]),
      (19, mtef_defenders|mtef_use_exact_number|mtef_team_0,af_override_horse,aif_start_alarmed,1,[]),
      (20, mtef_defenders|mtef_use_exact_number|mtef_team_0,af_override_horse,aif_start_alarmed,1,[]),
-    ], swc_kham_battle_triggers +
+    ], swc_kham_battle_triggers + AI_triggers +
     [
       lightsaber_noise_player,
       lightsaber_noise_agent,
@@ -2077,7 +2077,7 @@ mission_templates = [
      (26, mtef_defenders|mtef_use_exact_number|mtef_team_0,af_override_horse,aif_start_alarmed,1,[]),
      (27, mtef_defenders|mtef_use_exact_number|mtef_team_0,af_override_horse,aif_start_alarmed,1,[]),
      (28, mtef_defenders|mtef_use_exact_number|mtef_team_0,af_override_horse,aif_start_alarmed,1,[]),
-     ], swc_kham_battle_triggers +
+     ], swc_kham_battle_triggers + AI_triggers +
     [
       (ti_before_mission_start, 0, 0, [], [(call_script, "script_change_banners_and_chest")]),
 
@@ -2187,7 +2187,7 @@ mission_templates = [
      (0,mtef_attackers|mtef_team_1,af_override_horse,aif_start_alarmed,0,[]),
      (3,mtef_defenders|mtef_team_0,af_override_horse,aif_start_alarmed,12,[]),
      (3,mtef_defenders|mtef_team_0,af_override_horse,aif_start_alarmed,0,[]),
-    ], swc_kham_battle_triggers +
+    ], swc_kham_battle_triggers + AI_triggers +
     [
       lightsaber_noise_player,
       lightsaber_noise_agent,
@@ -2311,7 +2311,7 @@ mission_templates = [
      (45,mtef_defenders|mtef_team_0|mtef_archers_first,af_override_horse,aif_start_alarmed,1,[]),
      (46,mtef_defenders|mtef_team_0|mtef_archers_first,af_override_horse,aif_start_alarmed,1,[]),
      (47,mtef_defenders|mtef_team_0|mtef_archers_first,af_override_horse,aif_start_alarmed,1,[]),
-    ], swc_kham_battle_triggers +
+    ], swc_kham_battle_triggers + AI_triggers +
     [
       lightsaber_noise_player,
       lightsaber_noise_agent,
@@ -2420,7 +2420,7 @@ mission_templates = [
      (44,mtef_defenders|mtef_team_0|mtef_archers_first,af_override_horse,aif_start_alarmed,4,[]),
      (45,mtef_defenders|mtef_team_0|mtef_archers_first,af_override_horse,aif_start_alarmed,4,[]),
      (46,mtef_defenders|mtef_team_0|mtef_archers_first,af_override_horse,aif_start_alarmed,4,[]),
-     ], swc_kham_battle_triggers +
+     ], swc_kham_battle_triggers + AI_triggers +
     [
       (0, 0, ti_once, [],[
               #SW Deathcam
@@ -2910,7 +2910,7 @@ mission_templates = [
       (31,mtef_visitor_source|mtef_team_1,af_override_horse,aif_start_alarmed,1,[]),
       (32,mtef_visitor_source|mtef_team_1,af_override_horse,aif_start_alarmed,1,[]),
      #(9,mtef_visitor_source|mtef_team_0,0,aif_start_alarmed,1,[]),
-    ], swc_kham_battle_triggers +
+    ], swc_kham_battle_triggers + AI_triggers +
     [
       lightsaber_noise_player,
       lightsaber_noise_agent,
@@ -3073,7 +3073,7 @@ mission_templates = [
       (56, mtef_visitor_source|mtef_team_0, af_override_all, aif_start_alarmed, 1, [itm_vibro_sword2b, itm_padded_cloth,itm_leather_cap]),
       (57, mtef_visitor_source|mtef_team_0, af_override_all, aif_start_alarmed, 1, [itm_vibro_sword2b, itm_padded_cloth,itm_leather_cap]),
     ],
-    tournament_triggers + swc_kham_battle_triggers
+    tournament_triggers + swc_kham_battle_triggers + AI_triggers
   ),
 
 ################################## START OF SPARING KIT http://forums.taleworlds.net/index.php/topic,57741.0.html ############################
@@ -3124,7 +3124,7 @@ mission_templates = [
       (53, mtef_scene_source,af_override_horse,0,1,[]),
       (54, mtef_scene_source,af_override_horse,0,1,[]),
       (55, mtef_scene_source,af_override_horse,0,1,[]),
-    ],swc_kham_battle_triggers +
+    ],swc_kham_battle_triggers + AI_triggers +
     [
       (ti_before_mission_start, 0, 0, [], [(call_script, "script_change_banners_and_chest")]),
       (ti_inventory_key_pressed, 0, 0, [(display_message,"str_cant_use_inventory_arena")], []),
@@ -3207,7 +3207,7 @@ mission_templates = [
     [
       (56, mtef_visitor_source|mtef_team_0, 0, aif_start_alarmed, 1, []),
       (58, mtef_visitor_source|mtef_team_2, 0, aif_start_alarmed, 1, []),
-    ], swc_kham_battle_triggers +
+    ], swc_kham_battle_triggers + AI_triggers +
     [
       common_inventory_not_available,
       (ti_tab_pressed, 0, 0, [(display_message, "@Cannot leave now.")], []),
@@ -4523,7 +4523,7 @@ mission_templates = [
       (29,mtef_visitor_source|mtef_team_1,0,aif_start_alarmed,1,[]),
       (30,mtef_visitor_source|mtef_team_1,0,aif_start_alarmed,1,[]),
       (31,mtef_visitor_source|mtef_team_1,0,aif_start_alarmed,1,[]),
-    ], swc_kham_battle_triggers +
+    ], swc_kham_battle_triggers + AI_triggers +
     [
       #may cause problems with the victory condition, or Tab function... nevermind, pasted at the end of batch
       common_custom_battle_tab_press,
@@ -4602,7 +4602,7 @@ mission_templates = [
       (29,mtef_visitor_source|mtef_team_1,0,aif_start_alarmed,1,[]),
       (30,mtef_visitor_source|mtef_team_1,0,aif_start_alarmed,1,[]),
       (31,mtef_visitor_source|mtef_team_1,0,aif_start_alarmed,1,[]),
-    ], swc_kham_battle_triggers +
+    ], swc_kham_battle_triggers + AI_triggers +
     [
         common_battle_mission_start,
 
@@ -4676,7 +4676,7 @@ mission_templates = [
       (19,mtef_visitor_source|mtef_team_1,0,aif_start_alarmed,1,[]),
       (20,mtef_visitor_source|mtef_team_1,0,aif_start_alarmed,1,[]),
       (21,mtef_visitor_source|mtef_team_1,0,aif_start_alarmed,1,[]),
-    ], swc_kham_battle_triggers +
+    ], swc_kham_battle_triggers + AI_triggers +
     [
       common_battle_mission_start,
 
@@ -4771,7 +4771,7 @@ mission_templates = [
       (46,mtef_visitor_source|mtef_team_1,af_override_horse,aif_start_alarmed,1,[]),
       (47,mtef_visitor_source|mtef_team_1,af_override_horse,aif_start_alarmed,1,[]),
 
-     ], swc_kham_battle_triggers +
+     ], swc_kham_battle_triggers + AI_triggers +
     [
       common_custom_battle_tab_press,
       common_custom_battle_question_answered,
@@ -4893,7 +4893,7 @@ mission_templates = [
       (58,mtef_visitor_source|mtef_team_5,0,aif_start_alarmed,1,[]),
       (59,mtef_visitor_source|mtef_team_5,0,aif_start_alarmed,1,[]),
       (60,mtef_visitor_source|mtef_team_5,0,aif_start_alarmed,1,[]),
-    ], swc_kham_battle_triggers +
+    ], swc_kham_battle_triggers + AI_triggers +
     [
 
       (ti_tab_pressed, 0, 0, [],
@@ -5061,7 +5061,7 @@ mission_templates = [
       (48,mtef_visitor_source|mtef_team_1,0,aif_start_alarmed,1,[]),
       (49,mtef_visitor_source|mtef_team_1,0,aif_start_alarmed,1,[]),
       (50,mtef_visitor_source|mtef_team_1,0,aif_start_alarmed,1,[]),
-    ], swc_kham_battle_triggers +
+    ], swc_kham_battle_triggers + AI_triggers +
     [
 
       (ti_tab_pressed, 0, 0, [],
@@ -5996,7 +5996,7 @@ mission_templates = [
     #visitors 14 and 15 are ranged no horse - note that armor is also changed
     (0, mtef_visitor_source|mtef_team_0, af_override_everything, aif_start_alarmed, 1, [itm_vibro_blade1, itm_westar, itm_westar_shield, itm_laser_bolts_yellow_pistol, itm_mandalorian_commando_armor, itm_mandalorian_commando_helmet, itm_mandalorian_commando_boots, itm_grey_gloves]),
     (8, mtef_visitor_source|mtef_team_2, af_override_everything, aif_start_alarmed, 1, [itm_vibro_blade1, itm_westar, itm_westar_shield, itm_laser_bolts_yellow_pistol, itm_mandalorian_commando_armor, itm_mandalorian_commando_helmet, itm_mandalorian_commando_boots, itm_grey_gloves]),
-  ], swc_kham_battle_triggers +
+  ], swc_kham_battle_triggers + AI_triggers +
   [
 
     #SW - added shield bash integration
@@ -6116,7 +6116,7 @@ mission_templates = [
      (1,mtef_visitor_source|mtef_team_1,0,aif_start_alarmed,12,[]),
      (2,mtef_visitor_source|mtef_team_1,0,aif_start_alarmed,12,[]),
      (3,mtef_visitor_source|mtef_team_1,0,aif_start_alarmed,12,[]),
-    ], swc_kham_battle_triggers + 
+    ], swc_kham_battle_triggers +  AI_triggers +
     [
 
       sw_victory_defeat_conditions,

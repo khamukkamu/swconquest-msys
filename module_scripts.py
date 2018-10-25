@@ -32852,7 +32852,6 @@ if is_a_wb_script==1:
       (position_rotate_x_floating, pos1, ":x_inaccuracy"),
 
   (item_get_slot, ":velocity", ":shooter_weapon", slot_item_shoot_speed),
-      (val_sub, ":velocity", 50), #Balancing
       (set_fixed_point_multiplier, 1),
   (add_missile, ":shooter_agent", pos1, ":velocity", ":shooter_weapon", 0, ":shooter_ammo", 0),
    ]),

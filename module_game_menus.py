@@ -1876,11 +1876,10 @@ game_menus = [
       #add items
     (try_begin),
       (call_script, "script_cf_is_not_restrictive_alien", "trp_player"),
-			(troop_add_item, "trp_player","itm_skiff_guard_armor_white",0),
+			(troop_add_item, "trp_player","itm_ind_clothes_outfsmuggleralter1_red",0),
 			(troop_add_item, "trp_player","itm_leather_boots",0),
-			(troop_add_item, "trp_player","itm_skiff_guard_helmet",0),
+			(troop_add_item, "trp_player","itm_cap_military",0),
     (try_end),
-    
       (troop_add_item, "trp_player","itm_laser_bolts_orange_pistol",0),
 			(troop_add_item, "trp_player","itm_dl18",0),
 			(troop_add_item, "trp_player","itm_vibro_axe_long_1h",0),
