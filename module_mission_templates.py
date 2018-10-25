@@ -3073,7 +3073,7 @@ mission_templates = [
       (56, mtef_visitor_source|mtef_team_0, af_override_all, aif_start_alarmed, 1, [itm_vibro_sword2b, itm_padded_cloth,itm_leather_cap]),
       (57, mtef_visitor_source|mtef_team_0, af_override_all, aif_start_alarmed, 1, [itm_vibro_sword2b, itm_padded_cloth,itm_leather_cap]),
     ],
-    tournament_triggers + swc_kham_battle_triggers + AI_triggers
+    tournament_triggers + swc_kham_battle_triggers
   ),
 
 ################################## START OF SPARING KIT http://forums.taleworlds.net/index.php/topic,57741.0.html ############################
