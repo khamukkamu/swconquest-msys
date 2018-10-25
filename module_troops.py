@@ -4433,8 +4433,6 @@ def_attrib_2|level(16),wp(80),starwars_skills_2,sw_rebel_face_1, sw_rebel_face_2
 		itm_nikto_head_helmet_c,
 		itm_leather_gloves,
 		itm_black_gloves,	
-		itm_transparent_helmet,
-		itm_klatooinian_armor,
 		itm_ind_clothes_outfsmuggler_red,
 		itm_ind_clothes_outfsmuggler_green,
     itm_ind_clothes_outfsmuggleralter1_red,
