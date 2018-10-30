@@ -720,8 +720,8 @@ simple_triggers = [
   # Process siege ai
    (3,
    [
-      (store_current_hours, ":cur_hours"),
-      (try_for_range, ":center_no", walled_centers_begin, walled_centers_end),
+        (store_current_hours, ":cur_hours"),
+        (store_random_in_range, ":center_no", walled_centers_begin, walled_centers_end),
         (party_get_slot, ":besieger_party", ":center_no", slot_center_is_besieged_by),
         (gt, ":besieger_party", 0),
         (party_is_active, ":besieger_party"),
@@ -739,6 +739,8 @@ simple_triggers = [
           (neg|troop_slot_ge, ":troop_no", slot_troop_prisoner_of_party, 0),
           (troop_get_slot, ":party_no", ":troop_no", slot_troop_leaded_party),
           (gt, ":party_no", 0),
+          (party_is_active, ":party_no"),
+          
           (store_troop_faction, ":troop_faction_no", ":troop_no"),
           (eq, ":troop_faction_no", ":besieger_faction"),
           (assign, ":continue", 0),
@@ -747,7 +749,8 @@ simple_triggers = [
             (party_slot_eq, ":party_no", slot_party_ai_object, ":center_no"),
             (assign, ":continue", 1),
           (else_try),
-            (party_get_slot, ":commander_party", ":party_no", slot_party_commander_party),
+            (party_slot_eq, ":party_no", slot_party_ai_state, spai_accompanying_army),
+            (party_get_slot, ":commander_party", ":party_no", slot_party_ai_object),
             (gt, ":commander_party", 0),
             (party_is_active, ":commander_party"),
             (party_slot_eq, ":commander_party", slot_party_ai_state, spai_besieging_center),
@@ -790,15 +793,16 @@ simple_triggers = [
           (try_end),
           (store_mul, ":strength_ratio", ":attacker_strength", 100),
           (val_div, ":strength_ratio", ":defender_strength"),
-          (store_sub, ":random_up_limit", ":strength_ratio", 300),
+          (store_sub, ":random_up_limit", ":strength_ratio", 250), #was 300 (1.126)
+          
           (try_begin),
-            (gt, ":random_up_limit", -100), #never attack if the strength ratio is less than 200%
-            (store_div, ":siege_begin_hours_effect", ":siege_begin_hours", 3),
+            (gt, ":random_up_limit", -100), #never attack if the strength ratio is less than 150%
+            (store_div, ":siege_begin_hours_effect", ":siege_begin_hours", 2), #was 3 (1.126)
             (val_add, ":random_up_limit", ":siege_begin_hours_effect"),
           (try_end),
           (val_div, ":random_up_limit", 5),
           (val_max, ":random_up_limit", 0),
-          (store_sub, ":random_down_limit", 200, ":strength_ratio"),
+          (store_sub, ":random_down_limit", 175, ":strength_ratio"), #was 200 (1.126)
           (val_max, ":random_down_limit", 0),
           (try_begin),
             (store_random_in_range, ":rand", 0, 100),
@@ -813,37 +817,11 @@ simple_triggers = [
         (else_try),
           (assign, ":call_attack_back", 1),
         (try_end),
+        
+        #Assault the fortress
         (try_begin),
           (eq, ":launch_attack", 1),
-          (try_for_range, ":troop_no", faction_heroes_begin, faction_heroes_end),
-            (troop_slot_eq, ":troop_no", slot_troop_occupation, slto_faction_hero),
-            #(troop_slot_eq, ":troop_no", slot_troop_is_prisoner, 0),
-            (neg|troop_slot_ge, ":troop_no", slot_troop_prisoner_of_party, 0),
-            (troop_get_slot, ":party_no", ":troop_no", slot_troop_leaded_party),
-            (gt, ":party_no", 0),
-
-            (assign, ":continue", 0),
-            (try_begin),
-              (party_slot_eq, ":party_no", slot_party_ai_state, spai_besieging_center),
-              (party_slot_eq, ":party_no", slot_party_ai_object, ":center_no"),
-              (party_slot_eq, ":party_no", slot_party_ai_substate, 0),
-              (assign, ":continue", 1),
-            (else_try),
-              (party_get_slot, ":commander_party", ":party_no", slot_party_commander_party),
-              (gt, ":commander_party", 0),
-              (party_is_active, ":commander_party"),
-              (party_slot_eq, ":commander_party", slot_party_ai_state, spai_besieging_center),
-              (party_slot_eq, ":commander_party", slot_party_ai_object, ":center_no"),
-              (call_script, "script_party_set_ai_state", ":party_no", spai_besieging_center, ":center_no"),
-              (assign, ":continue", 1),
-            (try_end),
-            (eq, ":continue", 1),
-
-            (party_set_ai_behavior, ":party_no", ai_bhvr_attack_party),
-            (party_set_ai_object, ":party_no", ":center_no"),
-            (party_set_flags, ":party_no", pf_default_behavior, 1),
-            (party_set_slot, ":party_no", slot_party_ai_substate, 1),
-          (try_end),
+          (call_script, "script_begin_assault_on_center", ":center_no"),
         (else_try),
           (eq, ":call_attack_back", 1),
           (try_for_range, ":troop_no", faction_heroes_begin, faction_heroes_end),
@@ -852,6 +830,8 @@ simple_triggers = [
             (neg|troop_slot_ge, ":troop_no", slot_troop_prisoner_of_party, 0),
             (troop_get_slot, ":party_no", ":troop_no", slot_troop_leaded_party),
             (gt, ":party_no", 0),
+            (party_is_active, ":party_no"),
+            
             (party_slot_eq, ":party_no", slot_party_ai_state, spai_besieging_center),
             (party_slot_eq, ":party_no", slot_party_ai_object, ":center_no"),
             (party_slot_eq, ":party_no", slot_party_ai_substate, 1),
@@ -861,7 +841,7 @@ simple_triggers = [
             (party_set_slot, ":center_no", slot_center_siege_begin_hours, ":cur_hours"),
           (try_end),
         (try_end),
-      (try_end),
+        # (try_end),
     ]),
 
   # Decide faction ai

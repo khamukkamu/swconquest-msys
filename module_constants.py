@@ -1176,8 +1176,8 @@ average_price_factor = 1000
 minimum_price_factor = 100
 maximum_price_factor = 10000
 
-minorplanet_prod_min = -5
-minorplanet_prod_max = 18
+minorplanet_prod_min = 0
+minorplanet_prod_max = 20
 
 trade_goods_begin            = "itm_smoked_fish"
 trade_goods_end              = "itm_siege_supply"

@@ -696,3 +696,4 @@ combo_options_overlay_1
 combo_options_overlay_2
 remove_item
 telling_counter
+spawn_party_max_size

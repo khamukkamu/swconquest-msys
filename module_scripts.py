@@ -2045,11 +2045,14 @@ scripts = [
             #For sieges increase attacker casualties and reduce defender casualties.
             (this_or_next|party_slot_eq, ":root_defender_party", slot_party_type, spt_castle),
             (party_slot_eq, ":root_defender_party", slot_party_type, spt_mainplanet),
-            (val_mul, ":defender_strength", 3),
-            (val_div, ":defender_strength", 2),
-            (val_div, ":attacker_strength", 2),
+            (val_mul, ":defender_strength", 123),
+            (val_div, ":defender_strength", 100),
+            (val_mul, ":attacker_strength", 100), #it was 0.5 in old version, now it is only 1 / 1.23
+            (val_div, ":attacker_strength", 123),
           (try_end),
           
+          (call_script, "script_party_count_fit_for_battle", "p_collective_ally", 0),
+          (assign, ":old_defender_strength", reg0),
           
           (try_begin),
             (neg|is_currently_night), #Don't fight at night
@@ -2072,6 +2075,16 @@ scripts = [
             (this_or_next|eq, ":new_attacker_strength", 0),
             (eq, ":new_defender_strength", 0),
             # Battle concluded! determine winner
+
+            (assign, ":do_not_end_battle", 0),
+            (try_begin),
+              (neg|troop_is_wounded, "trp_player"),
+              (eq, ":new_defender_strength", 0),              
+              (eq, "$auto_enter_town", "$g_encountered_party"),
+              (eq, ":old_defender_strength", ":new_defender_strength"),
+              (assign, ":do_not_end_battle", 1),
+            (try_end),            
+            (eq, ":do_not_end_battle", 0),
             
             (try_begin),
               (eq, ":new_attacker_strength", 0),
@@ -2247,17 +2260,67 @@ scripts = [
             (call_script, "script_upgrade_hero_party", ":root_defender_party", 1000),
           (try_end),
           
-          (store_random_in_range, ":random_num", 0, 100),
-          (try_begin),
-            (lt, ":random_num", 10),
-            ##           (this_or_next|lt, ":random_num", 10),
-            ##           (eq, ":cancel_attack", 1),
-            (assign, ":trigger_result", 1), #End battle!
-          (try_end),
-        (try_end),
-        (set_trigger_result, ":trigger_result"),
-      (try_end),
-      
+          (try_begin),         
+             #ozan - do not randomly end battles aganist towns or castles.
+             (neg|party_slot_eq, ":root_defender_party", slot_party_type, spt_castle), #added by ozan
+             (neg|party_slot_eq, ":root_defender_party", slot_party_type, spt_mainplanet),   #added by ozan        
+             #end ozan
+                          
+             (party_get_slot, ":attacker_root_strength", ":root_attacker_party", slot_party_cached_strength),
+             (party_get_slot, ":attacker_nearby_friend_strength", ":root_attacker_party", slot_party_nearby_friend_strength),
+             (party_get_slot, ":strength_of_attacker_followers", ":root_attacker_party", slot_party_follower_strength),
+             (store_add, ":total_attacker_strength", ":attacker_root_strength", ":attacker_nearby_friend_strength"),
+             (val_add, ":total_attacker_strength", ":strength_of_attacker_followers"),
+
+             (party_get_slot, ":defender_root_strength", ":root_defender_party", slot_party_cached_strength),
+             (party_get_slot, ":defender_nearby_friend_strength", ":root_defender_party", slot_party_nearby_friend_strength),
+             (party_get_slot, ":strength_of_defender_followers", ":root_defender_party", slot_party_follower_strength),
+             (store_add, ":total_defender_strength", ":defender_root_strength", ":defender_nearby_friend_strength"),
+             (val_add, ":total_attacker_strength", ":strength_of_defender_followers"),
+
+             #Players can make save loads and change history because these random values are not determined from random_slots of troops
+             (store_random_in_range, ":random_num", 0, 100),
+                          
+             (try_begin),
+               (lt, ":random_num", 10),
+               (assign, ":trigger_result", 1), #End battle!
+             (try_end),
+           (else_try),
+             (party_get_slot, ":attacker_root_strength", ":root_attacker_party", slot_party_cached_strength),
+             (party_get_slot, ":attacker_nearby_friend_strength", ":root_attacker_party", slot_party_nearby_friend_strength),
+             (party_get_slot, ":strength_of_followers", ":root_attacker_party", slot_party_follower_strength),
+             (store_add, ":total_attacker_strength", ":attacker_root_strength", ":attacker_nearby_friend_strength"),
+             (val_add, ":total_attacker_strength", ":strength_of_followers"),
+
+             (party_get_slot, ":defender_root_strength", ":root_defender_party", slot_party_cached_strength),
+             (party_get_slot, ":defender_nearby_friend_strength", ":root_defender_party", slot_party_nearby_friend_strength),
+             (store_add, ":total_defender_strength", ":defender_root_strength", ":defender_nearby_friend_strength"),
+
+             (val_mul, ":total_defender_strength", 13), #multiply defender strength with 1.3
+             (val_div, ":total_defender_strength", 10),
+
+             (gt, ":total_defender_strength", ":total_attacker_strength"),
+             (gt, ":total_defender_strength", 3),
+
+             #Players can make save loads and change history because these random values are not determined from random_slots of troops
+             (store_random_in_range, ":random_num", 0, 100),
+
+             (try_begin),
+               (lt, ":random_num", 15), #15% is a bit higher than 10% (which is open area escape probability)
+               (assign, ":trigger_result", 1), #End battle!
+                                             
+               (assign, "$g_recalculate_ais", 1), #added new
+                              
+               (try_begin),
+                 (eq, "$cheat_mode", 1),
+                 (display_message, "@{!}DEBUG : Siege attackers are running away"),
+               (try_end),
+             (try_end),      
+           (try_end),
+         (try_end),  
+       (try_end),
+
+       (set_trigger_result, ":trigger_result"),      
       # #--------------------------------------------------------------------------------------------------------------------------------
       # DON'T DO THE SCRIPT WORKAROUND
       # #SW - added try_end for script workaround
@@ -2485,7 +2548,7 @@ scripts = [
   # param1: troop_id,
   # Output: reg0
   
-  ("get_trade_penalty",
+    ("get_trade_penalty",
     [
       (store_script_param_1, ":item_kind_id"),
       (assign, ":penalty",0),
@@ -2493,26 +2556,27 @@ scripts = [
       (party_get_skill_level, ":trade_skill", "p_main_party", skl_trade),
       (try_begin),
         (is_between, ":item_kind_id", trade_goods_begin, trade_goods_end),
-        (assign, ":penalty",20),
+        (assign, ":penalty", 12), #reduced slightly 20-15-12
         (store_mul, ":skill_bonus", ":trade_skill", 1),
         (val_sub, ":penalty", ":skill_bonus"),
+      (val_max, ":penalty", 3),     
       (else_try),
         (assign, ":penalty",100),
         (store_mul, ":skill_bonus", ":trade_skill", 5),
         (val_sub, ":penalty", ":skill_bonus"),
       (try_end),
-      
+
       (assign, ":penalty_multiplier", 1000),
-      ##       # Apply penalty if player is hostile to merchants faction
-      ##      (store_relation, ":merchants_reln", "fac_merchants", "fac_player_supporters_faction"),
-      ##      (try_begin),
-      ##        (lt, ":merchants_reln", 0),
-      ##        (store_sub, ":merchants_reln_dif", 10, ":merchants_reln"),
-      ##        (store_mul, ":merchants_relation_penalty", ":merchants_reln_dif", 20),
-      ##        (val_add, ":penalty_multiplier", ":merchants_relation_penalty"),
-      ##      (try_end),
-      
-      # Apply penalty if player is on bad terms with the town
+##       # Apply penalty if player is hostile to merchants faction
+##      (store_relation, ":merchants_reln", "fac_merchants", "fac_player_supporters_faction"),
+##      (try_begin),
+##        (lt, ":merchants_reln", 0),
+##        (store_sub, ":merchants_reln_dif", 10, ":merchants_reln"),
+##        (store_mul, ":merchants_relation_penalty", ":merchants_reln_dif", 20),
+##        (val_add, ":penalty_multiplier", ":merchants_relation_penalty"),
+##      (try_end),
+
+       # Apply penalty if player is on bad terms with the town
       (try_begin),
         (is_between, "$g_encountered_party", centers_begin, centers_end),
         (party_get_slot, ":center_relation", "$g_encountered_party", slot_center_player_relation),
@@ -2525,8 +2589,8 @@ scripts = [
           (val_div, ":penalty_multiplier", 100),
         (try_end),
       (try_end),
-      
-      # Apply penalty if player is on bad terms with the merchant (not currently used)
+
+       # Apply penalty if player is on bad terms with the merchant (not currently used)
       (call_script, "script_troop_get_player_relation", "$g_talk_troop"),
       (assign, ":troop_reln", reg0),
       #(troop_get_slot, ":troop_reln", "$g_talk_troop", slot_troop_player_relation),
@@ -2537,13 +2601,31 @@ scripts = [
         (val_add, ":penalty_multiplier", ":troop_relation_penalty"),
       (try_end),
       
+     
+     (try_begin),
+      (is_between, "$g_encountered_party", villages_begin, villages_end),
+       (val_mul, ":penalty", 5), #1.25x trade penalty in villages.
+      (val_div, ":penalty", 4),
+     (try_end),
+     
+     #(try_begin),
+            #(is_between, "$g_encountered_party", centers_begin, centers_end),
+       ##Double trade penalty if no local production or consumption
+       #(is_between, ":item_kind_id", trade_goods_begin, trade_goods_end),
+       #(call_script, "script_center_get_production", "$g_encountered_party", ":item_kind_id"),
+       #(eq, reg0, 0),
+       #(call_script, "script_center_get_consumption", "$g_encountered_party", ":item_kind_id"),
+       #(eq, reg0, 0),
+       #(val_mul, ":penalty", 2),
+     #(try_end),
+     
       (val_mul, ":penalty",  ":penalty_multiplier"),
       (val_div, ":penalty", 1000),
       (val_max, ":penalty", 1),
       (assign, reg0, ":penalty"),
   ]),
   
-  #script_game_event_buy_item:
+    #script_game_event_buy_item:
   # This script is called from the game engine when player buys an item.
   # INPUT:
   # param1: item_kind_id
@@ -2558,15 +2640,24 @@ scripts = [
         (party_get_slot, ":multiplier", "$g_encountered_party", ":item_slot_no"),
         (try_begin),
           (eq, ":reclaim_mode", 0),
-          (val_add, ":multiplier", 10),
+          (val_add, ":multiplier", 20),
         (else_try),
-          (val_add, ":multiplier", 15),
+          (val_add, ":multiplier", 30),
         (try_end),
+
+      (store_item_value, ":item_value", ":item_kind_id"),
+      (try_begin),
+        (ge, ":item_value", 100),
+        (store_sub, ":item_value_sub_100", ":item_value", 100),
+        (store_div, ":item_value_sub_100_div_8", ":item_value_sub_100", 8),
+        (val_add, ":multiplier", ":item_value_sub_100_div_8"),
+      (try_end),
+
         (val_min, ":multiplier", maximum_price_factor),
-        (party_set_slot, "$g_encountered_party", ":item_slot_no", ":multiplier"),
+        
+      (party_set_slot, "$g_encountered_party", ":item_slot_no", ":multiplier"),
       (try_end),
   ]),
-  
   #script_game_event_sell_item:
   # This script is called from the game engine when player sells an item.
   # INPUT:
@@ -2582,15 +2673,24 @@ scripts = [
         (party_get_slot, ":multiplier", "$g_encountered_party", ":item_slot_no"),
         (try_begin),
           (eq, ":return_mode", 0),
-          (val_sub, ":multiplier", 15),
+          (val_sub, ":multiplier", 30),
         (else_try),
-          (val_sub, ":multiplier", 10),
+          (val_sub, ":multiplier", 20),
         (try_end),
-        (val_max, ":multiplier", minimum_price_factor),
-        (party_set_slot, "$g_encountered_party", ":item_slot_no", ":multiplier"),
+
+      (store_item_value, ":item_value", ":item_kind_id"),
+      (try_begin),
+        (ge, ":item_value", 100),
+        (store_sub, ":item_value_sub_100", ":item_value", 100),
+        (store_div, ":item_value_sub_100_div_8", ":item_value_sub_100", 8),
+        (val_sub, ":multiplier", ":item_value_sub_100_div_8"),
       (try_end),
-  ]),
-  
+
+        (val_max, ":multiplier", minimum_price_factor),
+        
+      (party_set_slot, "$g_encountered_party", ":item_slot_no", ":multiplier"),
+      (try_end),
+  ]),  
   
   # script_game_get_troop_wage
   # This script is called from the game engine for calculating troop wages.
@@ -3001,32 +3101,58 @@ scripts = [
   ("party_get_ideal_size",
     [
       (store_script_param_1, ":party_no"),
+
+      #default limit is 30 for any party
       (assign, ":limit", 30),
+      
       (try_begin),
         (party_slot_eq, ":party_no", slot_party_type, spt_faction_hero_party),
         (party_stack_get_troop_id, ":party_leader", ":party_no", 0),
         (store_faction_of_party, ":faction_id", ":party_no"),
+      
+        #default limit is 10 for kingdom lords
         (assign, ":limit", 10),
-        
+
+        #each (leadership level) gives 5 to limit
         (store_skill_level, ":skill", "skl_leadership", ":party_leader"),
         (store_attribute_level, ":charisma", ":party_leader", ca_charisma),
         (val_mul, ":skill", 5),
         (val_add, ":limit", ":skill"),
+
+        #each (charisma level) gives 1 to limit      
         (val_add, ":limit", ":charisma"),
-        
+
+        #each (25 renown) gives 1 to limit
         (troop_get_slot, ":troop_renown", ":party_leader", slot_troop_renown),
         (store_div, ":renown_bonus", ":troop_renown", 25),
         (val_add, ":limit", ":renown_bonus"),
-        
+
+        #if this party is faction leader it takes additional 100 limit        
         (try_begin),
           (faction_slot_eq, ":faction_id", slot_faction_leader, ":party_leader"),
           (val_add, ":limit", 100),
         (try_end),
+
+        #if this party is faction marshall it takes additional 20 limit        
+        (try_begin),
+          (faction_slot_eq, ":faction_id", slot_faction_marshall, ":party_leader"),
+          (val_add, ":limit", 20),
+        (try_end),        
+
+        #party takes additional 20 limit per each castle it's party leader owns
+        (try_for_range, ":cur_center", castles_begin, castles_end),
+          (party_slot_eq, ":cur_center", slot_mainplanet_lord, ":party_leader"),
+          (val_add, ":limit", 20),
+        (try_end),        
       (try_end),
-      (store_character_level, ":level", "trp_player"), #increase limits a little bit as the game progresses.
-      (store_add, ":level_factor", 90, ":level"),
+
+      #if player has level of 0 then ideal limit will be exactly same, if player has level of 80 then ideal limit will be multiplied by 2 ((80 + 80) / 80)
+      #below code will increase limits a little as the game progresses and player gains level
+      (store_character_level, ":level", "trp_player"),
+      (val_min, ":level", 80),
+      (store_add, ":level_factor", 80, ":level"),
       (val_mul, ":limit", ":level_factor"),
-      (val_div, ":limit", 90),
+      (val_div, ":limit", 80), 
       (assign, reg0, ":limit"),
   ]),
   
@@ -3898,14 +4024,39 @@ scripts = [
   
   #script_update_party_creation_random_limits
   # INPUT: none
+  # OUTPUT: $spawn_party_max_size
   ("update_party_creation_random_limits",
     [
-      (store_character_level, ":player_level", "trp_player"),
-      (store_mul, ":upper_limit", ":player_level", 3),
-      (val_add, ":upper_limit", 25),
-      (val_min, ":upper_limit", 100),
-      (set_party_creation_random_limits, 0, ":upper_limit"),
-      (assign, reg0, ":upper_limit"),
+      # (store_character_level, ":player_level", "trp_player"),
+      # (store_mul, ":upper_limit", ":player_level", 3),
+      # (val_add, ":upper_limit", 25),
+      # (val_min, ":upper_limit", 100),
+      
+      (try_begin),
+        (eq, "$cheat_mode", 1),
+        (display_message, "@{!}DEBUG : Doing script_update_party_creation_random_limits"),
+      (try_end),
+      
+      (assign, "$spawn_party_max_size", 0),
+      
+      #adjust to strength of player party
+      (party_get_num_companion_stacks, ":num_stacks","p_main_party"),
+      (try_for_range, ":i_stack", 0, ":num_stacks"),
+        (party_stack_get_troop_id, ":stack_troop", "p_main_party", ":i_stack"),
+        (store_character_level, ":stack_strength", ":stack_troop"),
+        (party_stack_get_size, ":stack_size","p_main_party",":i_stack"),
+        (val_mul, ":stack_strength", ":stack_size"),
+        (val_add, "$spawn_party_max_size", ":stack_strength"),
+      (try_end),
+      (val_div, "$spawn_party_max_size", 10),  #div by mode level of typical troop to normalize for troop quality
+      
+      (val_mul, "$spawn_party_max_size", 17),  #player party size on average
+   
+      (val_div, "$spawn_party_max_size", 15),   #for some reason, parties can spawn about 50% larger than limit
+      (val_max, "$spawn_party_max_size", 1),
+      
+      (store_div, ":min", "$spawn_party_max_size", 5),
+      (set_party_creation_random_limits, ":min", "$spawn_party_max_size"), #minimum is applied to every COMPONENT
   ]),
   
   #script_set_trade_route_between_centers
@@ -4390,9 +4541,6 @@ scripts = [
       (call_script, "script_calculate_main_party_shares"),
       (assign, ":num_player_party_shares", reg0),
       
-      #      (assign, ":num_ally_shares", reg1),
-      #     (store_add, ":num_total_shares",  ":num_player_party_shares", ":num_ally_shares"),
-      
       (assign, ":total_gain", 0),
       (party_get_num_companion_stacks, ":num_stacks",":enemy_party"),
       (try_for_range, ":i_stack", 0, ":num_stacks"),
@@ -4412,10 +4560,6 @@ scripts = [
       
       (val_min, ":total_gain", 40000), #eliminate negative results
       
-      
-      #      (store_mul, ":player_party_xp_gain", ":total_gain", ":num_player_party_shares"),
-      #      (val_div, ":player_party_xp_gain", ":num_total_shares"),
-      
       (assign, ":player_party_xp_gain", ":total_gain"),
       
       (store_random_in_range, ":r", 50, 100),
@@ -4434,17 +4578,12 @@ scripts = [
       #add gold now
       (party_get_num_companion_stacks, ":num_stacks","p_main_party"),
       (try_for_range, ":i_stack", 0, ":num_stacks"),
-        (party_stack_get_troop_id,     ":stack_troop","p_main_party",":i_stack"),
+        (party_stack_get_troop_id, ":stack_troop","p_main_party",":i_stack"),
         (try_begin),
           (troop_is_hero, ":stack_troop"),
           (call_script, "script_troop_add_gold", ":stack_troop", ":player_gold_gain"),
         (try_end),
       (try_end),
-      
-      #Add morale
-      (assign, ":morale_gain", ":total_gain"),
-      (val_div, ":morale_gain", ":num_player_party_shares"),
-      (call_script, "script_change_player_party_morale", ":morale_gain"),
   ]),
   
   
@@ -8328,7 +8467,9 @@ scripts = [
         (try_end),
         ## ADD some XP initially
         (try_for_range, ":unused", 0, 7),
-          (store_random_in_range, ":xp", 1500, 2000),
+          (store_mul, ":xp_range_min", 150, ":garrison_strength"),
+          (store_mul, ":xp_range_max", 200, ":garrison_strength"),
+          (store_random_in_range, ":xp", ":xp_range_min", ":xp_range_max"),
           (party_upgrade_with_xp, ":center_no", ":xp", 0),
         (try_end),
       (try_end),
@@ -8634,6 +8775,7 @@ scripts = [
   ("calculate_player_faction_wage",
     [(assign, ":nongarrison_wages", 0),
       (assign, ":garrison_wages", 0),
+      (assign, reg1, 0), #fix debt morale penalty
       (try_for_parties, ":party_no"),
         (assign, ":garrison_troop", 0),
         (try_begin),
@@ -8648,6 +8790,7 @@ scripts = [
         (try_for_range, ":i_stack", 0, ":num_stacks"),
           (party_stack_get_troop_id, ":stack_troop",":party_no",":i_stack"),
           (party_stack_get_size, ":stack_size",":party_no",":i_stack"),
+          (val_add, reg1, ":stack_size"), #fix debt morale penalty
           (call_script, "script_game_get_troop_wage", ":stack_troop", ":party_no"),
           (assign, ":cur_wage", reg0),
           (val_mul, ":cur_wage", ":stack_size"),
@@ -8659,7 +8802,7 @@ scripts = [
           (try_end),
         (try_end),
       (try_end),
-      (val_div, ":garrison_wages", 2),#Half payment for garrisons
+      (val_div, ":garrison_wages", 4),#Half payment for garrisons
       (store_sub, ":total_payment", 14, "$g_cur_week_half_daily_wage_payments"), #between 0 and 7
       (val_mul, ":nongarrison_wages", ":total_payment"),
       (val_div, ":nongarrison_wages", 14),
@@ -8676,18 +8819,24 @@ scripts = [
       (troop_get_slot, ":party_no", ":troop_no", slot_troop_leaded_party),
       (troop_get_slot, ":cur_wealth", ":troop_no", slot_troop_wealth),
       
-      (assign, ":weekly_income", 750), #let every hero receive 750 denars by default
+      (assign, ":weekly_income", 300), #let every hero receive 750 denars by default
       
       (store_character_level, ":troop_level", ":troop_no"),
-      (store_mul, ":level_income", ":troop_level", 10),
+      (store_mul, ":level_income", ":troop_level", 30),
       (val_add, ":weekly_income", ":level_income"),
       
       (store_troop_faction,":faction_no", ":troop_no"),
       (try_begin), #check if troop is faction leader
         (faction_slot_eq, ":faction_no", slot_faction_leader, ":troop_no"),
-        (val_add, ":weekly_income", 1500),
+        (val_add, ":weekly_income", 1000),
       (try_end),
       
+
+      (try_begin), #check if troop is marshall
+        (faction_slot_eq, ":faction_no", slot_faction_marshall, ":troop_no"),
+        (val_add, ":weekly_income", 1000),
+      (try_end),
+
       (assign, ":cur_weekly_wage", 0),
       (try_begin),
         (gt, ":party_no",0),
@@ -8790,8 +8939,15 @@ scripts = [
       
       (assign, ":num_rounds", 1),
       
-      (call_script, "script_party_get_ideal_size", ":party_no"),
-      (assign, ":ideal_size", reg0),
+      (try_begin),
+        (eq, ":party_no", "p_main_party"),
+        (call_script, "script_game_get_party_companion_limit"),
+        (store_div, ":ideal_size", reg0, 2),
+      (else_try),
+        (call_script, "script_party_get_ideal_size", ":party_no"),
+        (assign, ":ideal_size", reg0),
+      (try_end),
+
       (store_mul, ":ideal_top_size", ":ideal_size", 3),
       (val_div, ":ideal_top_size", 2),
       
@@ -9163,6 +9319,7 @@ scripts = [
       (assign, ":party_count", reg0),
       
       (assign, ":party_count_limit", 0),
+       (faction_get_slot, ":num_towns", ":faction_no", slot_faction_num_towns),
       (try_begin),
         ##        (eq, ":party_type", spt_forager),
         ##        (assign, ":party_count_limit", 1),
@@ -9181,7 +9338,18 @@ scripts = [
         ##      (else_try),
         (eq, ":party_type", spt_faction_caravan),
         #SW - increase faction_caravan limit from 5 to 12
-        (assign, ":party_count_limit", 12),
+        (try_begin),
+          (eq, ":num_towns", 0),
+          (assign, ":party_count_limit", 2),
+        (else_try),
+          (eq, ":num_towns", 1),
+          (assign, ":party_count_limit", 6),
+        (else_try),
+          (eq, ":num_towns", 2),
+          (assign, ":party_count_limit", 9),
+        (else_try),
+          (assign, ":party_count_limit", 12),
+        (try_end),
         ##      (else_try),
         ##        (eq, ":party_type", spt_prisoner_train),
         ##        (assign, ":party_count_limit", 1),
@@ -9435,7 +9603,13 @@ scripts = [
     [
       (store_script_param_1, ":minorplanet_no"),
       
-      (assign, ":ideal_size", 50),
+      (party_get_slot, ":prosperity", ":minorplanet_no", slot_mainplanet_prosperity),
+      (try_begin),
+        (gt, ":prosperity", 40),
+        (assign, ":ideal_size", ":prosperity"),
+      (else_try),
+        (store_add, ":ideal_size", ":prosperity", 20),
+      (try_end),
       (try_begin),
         (party_get_num_companions, ":party_size", ":minorplanet_no"),
         (lt, ":party_size", ":ideal_size"),
@@ -9750,6 +9924,22 @@ scripts = [
       (store_script_param, ":new_ai_state", 2),
       (store_script_param, ":new_ai_object", 3),
       
+      #dunno where these invalid parties are coming from, but this will prevent error
+      (try_begin),
+        (ge, ":new_ai_object", 0),
+        (neg|party_is_active, ":new_ai_object"),
+        (neg|is_between, ":new_ai_object", spawn_points_begin, spawn_points_end), #cases where parties DO interact with inactive parties
+        (assign, ":new_ai_object", -1),
+        (assign, ":new_ai_state", spai_undefined),
+      (try_end),
+
+      (assign, ":commander", -1),          
+      (try_begin),
+        (party_is_active, ":party_no"),
+       (party_stack_get_troop_id, ":commander", ":party_no", 0),  
+       (store_faction_of_party, ":faction_no", ":party_no"),
+     (try_end),  
+     
       (party_get_slot, ":old_ai_state", ":party_no", slot_party_ai_state),
       (party_get_slot, ":old_ai_object", ":party_no", slot_party_ai_object),
       (party_get_attached_to, ":attached_to_party", ":party_no"),
@@ -9761,133 +9951,168 @@ scripts = [
       
       (party_set_slot, ":party_no", slot_party_follow_me, 0),
       
-      (try_begin),
-        (eq, ":old_ai_state", ":new_ai_state"),
-        (eq, ":old_ai_object", ":new_ai_object"),
-        #do nothing. Nothing is changed.
+     (try_begin),
+       (lt, ":commander", 0),
       (else_try),
-        (try_begin),
-          (eq, ":new_ai_state", spai_accompanying_army),
-          (party_set_ai_behavior, ":party_no", ai_bhvr_escort_party),
-          (party_set_ai_object, ":party_no", ":new_ai_object"),
-          (party_set_flags, ":party_no", pf_default_behavior, 0),
-          (try_begin),
-            (gt, ":party_is_in_town", 0),
-            (party_detach, ":party_no"),
-          (try_end),
-        (else_try),
-          (eq, ":new_ai_state", spai_besieging_center),
-          (party_get_position, pos1, ":new_ai_object"),
-          (map_get_random_position_around_position, pos2, pos1, 2),
-          (party_set_ai_behavior, ":party_no", ai_bhvr_travel_to_point),
-          (party_set_ai_target_position, ":party_no", pos2),
-          (party_set_ai_object, ":party_no", ":new_ai_object"),
-          (party_set_flags, ":party_no", pf_default_behavior, 0),
-          (party_set_slot, ":party_no", slot_party_follow_me, 1),
-          (party_set_slot, ":party_no", slot_party_ai_substate, 0),
-          (try_begin),
-            (gt, ":party_is_in_town", 0),
-            (neq, ":party_is_in_town", ":new_ai_object"),
-            (party_detach, ":party_no"),
-          (try_end),
-        (else_try),
-          (eq, ":new_ai_state", spai_holding_center),
-          (party_set_ai_behavior, ":party_no", ai_bhvr_travel_to_party),
-          (party_set_ai_object, ":party_no", ":new_ai_object"),
-          (party_set_flags, ":party_no", pf_default_behavior, 0),
-          (try_begin),
-            (gt, ":party_is_in_town", 0),
-            (neq, ":party_is_in_town", ":new_ai_object"),
-            (party_detach, ":party_no"),
-          (try_end),
-        (else_try),
-          (eq, ":new_ai_state", spai_patrolling_around_center),
-          (party_get_position, pos1, ":new_ai_object"),
-          (map_get_random_position_around_position, pos2, pos1, 1),
-          (party_set_ai_behavior, ":party_no", ai_bhvr_travel_to_point),
-          (party_set_ai_target_position, ":party_no", pos2),
-          (party_set_ai_object, ":party_no", ":new_ai_object"),
-          (party_set_ai_patrol_radius, ":party_no", 5),
-          (party_set_flags, ":party_no", pf_default_behavior, 0),
-          (party_set_slot, ":party_no", slot_party_follow_me, 1),
-          (party_set_slot, ":party_no", slot_party_ai_substate, 0),
-          (try_begin),
-            (gt, ":party_is_in_town", 0),
-            (party_detach, ":party_no"),
-          (try_end),
-        (else_try),
-          (eq, ":new_ai_state", spai_recruiting_troops),
-          (party_get_position, pos1, ":new_ai_object"),
-          (map_get_random_position_around_position, pos2, pos1, 2),
-          (party_set_ai_behavior, ":party_no", ai_bhvr_travel_to_point),
-          (party_set_ai_target_position, ":party_no", pos2),
-          (party_set_ai_object, ":party_no", ":new_ai_object"),
-          (party_set_flags, ":party_no", pf_default_behavior, 0),
-          (party_set_slot, ":party_no", slot_party_ai_substate, 0),
-          (try_begin),
-            (gt, ":party_is_in_town", 0),
-            (neq, ":party_is_in_town", ":new_ai_object"),
-            (party_detach, ":party_no"),
-          (try_end),
-        (else_try),
-          (eq, ":new_ai_state", spai_raiding_around_center),
-          (party_get_position, pos1, ":new_ai_object"),
-          (map_get_random_position_around_position, pos2, pos1, 1),
-          (party_set_ai_behavior, ":party_no", ai_bhvr_patrol_location),
-          (party_set_ai_patrol_radius, ":party_no", 10),
-          (party_set_ai_target_position, ":party_no", pos2),
-          (party_set_ai_object, ":party_no", ":new_ai_object"),
-          (party_set_flags, ":party_no", pf_default_behavior, 0),
-          (party_set_slot, ":party_no", slot_party_follow_me, 1),
-          (party_set_slot, ":party_no", slot_party_ai_substate, 0),
-          (try_begin),
-            (gt, ":party_is_in_town", 0),
-            (neq, ":party_is_in_town", ":new_ai_object"),
-            (party_detach, ":party_no"),
-          (try_end),
-        (else_try),
-          ##          (eq, ":new_ai_state", spai_raiding_village),
-          ##          (party_get_position, pos1, ":new_ai_object"),
-          ##          (map_get_random_position_around_position, pos2, pos1, 1),
-          ##          (party_set_ai_behavior, ":party_no", ai_bhvr_travel_to_point),
-          ##          (party_set_ai_target_position, ":party_no", pos2),
-          ##          (party_set_ai_object, ":party_no", ":new_ai_object"),
-          ##          (party_set_flags, ":party_no", pf_default_behavior, 0),
-          ##          (party_set_slot, ":party_no", slot_party_follow_me, 1),
-          ##          (try_begin),
-          ##            (gt, ":party_is_in_town", 0),
-          ##            (neq, ":party_is_in_town", ":new_ai_object"),
-          ##            (party_detach, ":party_no"),
-          ##          (try_end),
-          ##        (else_try),
-          (eq, ":new_ai_state", spai_engaging_army),
-          (party_set_ai_behavior, ":party_no", ai_bhvr_attack_party),
-          (party_set_ai_object, ":party_no", ":new_ai_object"),
-          (party_set_flags, ":party_no", pf_default_behavior, 0),
-          (try_begin),
-            (gt, ":party_is_in_town", 0),
-            (party_detach, ":party_no"),
-          (try_end),
-        (else_try),
-          (eq, ":new_ai_state", spai_retreating_to_center),
-          (party_set_ai_behavior, ":party_no", ai_bhvr_travel_to_party),
-          (party_set_ai_object, ":party_no", ":new_ai_object"),
-          (party_set_flags, ":party_no", pf_default_behavior, 1),
-          (party_set_slot, ":party_no", slot_party_commander_party, -1),
-          (try_begin),
-            (gt, ":party_is_in_town", 0),
-            (neq, ":party_is_in_town", ":new_ai_object"),
-            (party_detach, ":party_no"),
-          (try_end),
-        (else_try),
-          (eq, ":new_ai_state", spai_undefined),
-          (party_set_ai_behavior, ":party_no", ai_bhvr_hold),
-          (party_set_flags, ":party_no", pf_default_behavior, 0),
-        (try_end),
+         (try_begin),
+           (eq, ":old_ai_state", ":new_ai_state"),
+           (eq, ":old_ai_object", ":new_ai_object"),
+           (party_slot_eq, ":party_no", slot_party_ai_substate, 0),  #capture substate reset
+           #do nothing. Nothing is changed.
+         (else_try),
+           (try_begin),
+             (eq, ":new_ai_state", spai_accompanying_army),
+             (party_is_active, ":new_ai_object"),
+             (party_set_ai_behavior, ":party_no", ai_bhvr_escort_party),
+             (party_set_ai_object, ":party_no", ":new_ai_object"),
+             (party_set_flags, ":party_no", pf_default_behavior, 0),
+             (party_set_slot, ":party_no", slot_party_ai_substate, 0),
+             (try_begin),
+               (gt, ":party_is_in_town", 0),
+               (party_detach, ":party_no"),
+             (try_end),
+           (else_try),
+             (eq, ":new_ai_state", spai_besieging_center),
+             (party_get_position, pos1, ":new_ai_object"),
+             (map_get_random_position_around_position, pos2, pos1, 2),
+             (party_set_ai_behavior, ":party_no", ai_bhvr_travel_to_point),
+             (party_set_ai_target_position, ":party_no", pos2),
+             (party_set_ai_object, ":party_no", ":new_ai_object"),
+             (party_set_flags, ":party_no", pf_default_behavior, 0),
+             (party_set_slot, ":party_no", slot_party_follow_me, 1),
+             (party_set_slot, ":party_no", slot_party_ai_substate, 0),
+             (try_begin),
+               (gt, ":party_is_in_town", 0),
+               (neq, ":party_is_in_town", ":new_ai_object"),
+               (party_detach, ":party_no"),
+             (try_end),
+           (else_try),
+             (eq, ":new_ai_state", spai_holding_center),
+             (party_set_ai_behavior, ":party_no", ai_bhvr_travel_to_party),
+             (party_set_ai_object, ":party_no", ":new_ai_object"),
+             (party_set_flags, ":party_no", pf_default_behavior, 0),
+             (try_begin),
+               (gt, ":party_is_in_town", 0),
+               (neq, ":party_is_in_town", ":new_ai_object"),
+               (party_detach, ":party_no"),
+             (try_end),
+           (else_try),
+             (eq, ":new_ai_state", spai_patrolling_around_center),
+
+             #VC addition
+             (try_begin),
+               (neg|is_between, ":new_ai_object", villages_begin, villages_end),
+               (party_get_battle_opponent, ":besieger_party", ":new_ai_object"),
+             (else_try),
+               (party_slot_eq, ":new_ai_object", slot_minorplanet_state, svs_being_raided),
+               (party_get_slot, ":besieger_party", ":new_ai_object", slot_minorplanet_raided_by),
+             (else_try),
+               (assign, ":besieger_party", -1),
+             (try_end),
+            
+             (try_begin),
+               (gt, ":besieger_party", 0),
+               (party_is_active, ":besieger_party"),
+               
+               (assign, ":new_ai_state", spai_engaging_army),
+               (assign, ":new_ai_object", ":besieger_party"),
+             (try_end),
+             (eq, ":new_ai_state", spai_patrolling_around_center), 
+
+             #VC addition End
+
+             (party_get_position, pos1, ":new_ai_object"),
+             (map_get_random_position_around_position, pos2, pos1, 1),
+             (party_set_ai_behavior, ":party_no", ai_bhvr_travel_to_point),
+             (party_set_ai_target_position, ":party_no", pos2),
+             (party_set_ai_object, ":party_no", ":new_ai_object"),
+             (try_begin),
+               (faction_slot_eq, ":faction_no", slot_faction_ai_state, sfai_attacking_enemies_around_center),
+               (party_set_ai_patrol_radius, ":party_no", 1), #line 100
+             (else_try),
+                (party_set_ai_patrol_radius, ":party_no", 5), #line 100
+             (try_end),
+             (party_set_flags, ":party_no", pf_default_behavior, 0),
+             (party_set_slot, ":party_no", slot_party_follow_me, 1),
+             (party_set_slot, ":party_no", slot_party_ai_substate, 0),
+             (try_begin),
+               (gt, ":party_is_in_town", 0),
+               (party_detach, ":party_no"),
+             (try_end),
+           (else_try),
+             (eq, ":new_ai_state", spai_recruiting_troops),
+             (party_get_position, pos1, ":new_ai_object"),
+             (map_get_random_position_around_position, pos2, pos1, 2),
+             (party_set_ai_behavior, ":party_no", ai_bhvr_travel_to_point),
+             (party_set_ai_target_position, ":party_no", pos2),
+             (party_set_ai_object, ":party_no", ":new_ai_object"),
+             (party_set_flags, ":party_no", pf_default_behavior, 0),
+             (party_set_slot, ":party_no", slot_party_ai_substate, 0),
+             (try_begin),
+               (gt, ":party_is_in_town", 0),
+               (neq, ":party_is_in_town", ":new_ai_object"),
+               (party_detach, ":party_no"),
+             (try_end),
+           (else_try),
+             (eq, ":new_ai_state", spai_raiding_around_center),
+             (party_get_position, pos1, ":new_ai_object"),
+             (map_get_random_position_around_position, pos2, pos1, 1),
+             (party_set_ai_behavior, ":party_no", ai_bhvr_patrol_location),
+             (party_set_ai_patrol_radius, ":party_no", 2),
+             (party_set_ai_target_position, ":party_no", pos2),
+             (party_set_ai_object, ":party_no", ":new_ai_object"),
+             (party_set_flags, ":party_no", pf_default_behavior, 0),
+             (party_set_slot, ":party_no", slot_party_follow_me, 1),
+             (party_set_slot, ":party_no", slot_party_ai_substate, 0),
+             (try_begin),
+               (gt, ":party_is_in_town", 0),
+               (neq, ":party_is_in_town", ":new_ai_object"),
+               (party_detach, ":party_no"),
+             (try_end),
+           (else_try),
+             ##          (eq, ":new_ai_state", spai_raiding_village),
+             ##          (party_get_position, pos1, ":new_ai_object"),
+             ##          (map_get_random_position_around_position, pos2, pos1, 1),
+             ##          (party_set_ai_behavior, ":party_no", ai_bhvr_travel_to_point),
+             ##          (party_set_ai_target_position, ":party_no", pos2),
+             ##          (party_set_ai_object, ":party_no", ":new_ai_object"),
+             ##          (party_set_flags, ":party_no", pf_default_behavior, 0),
+             ##          (party_set_slot, ":party_no", slot_party_follow_me, 1),
+             ##          (try_begin),
+             ##            (gt, ":party_is_in_town", 0),
+             ##            (neq, ":party_is_in_town", ":new_ai_object"),
+             ##            (party_detach, ":party_no"),
+             ##          (try_end),
+             ##        (else_try),
+             (eq, ":new_ai_state", spai_engaging_army),
+             (party_set_ai_behavior, ":party_no", ai_bhvr_attack_party),
+             (party_set_ai_object, ":party_no", ":new_ai_object"),
+             (party_set_flags, ":party_no", pf_default_behavior, 0),
+             (try_begin),
+               (gt, ":party_is_in_town", 0),
+               (party_detach, ":party_no"),
+             (try_end),
+           (else_try),
+             (eq, ":new_ai_state", spai_retreating_to_center),
+             (party_set_ai_behavior, ":party_no", ai_bhvr_travel_to_party),
+             (party_set_ai_object, ":party_no", ":new_ai_object"),
+             (party_set_flags, ":party_no", pf_default_behavior, 1),
+             (party_set_slot, ":party_no", slot_party_commander_party, -1),
+             (try_begin),
+               (gt, ":party_is_in_town", 0),
+               (neq, ":party_is_in_town", ":new_ai_object"),
+               (party_detach, ":party_no"),
+             (try_end),
+           (else_try),
+             (eq, ":new_ai_state", spai_undefined),
+             (party_set_ai_behavior, ":party_no", ai_bhvr_hold),
+             (party_set_flags, ":party_no", pf_default_behavior, 0),
+           (try_end),
+           (party_set_slot, ":party_no", slot_party_ai_state, ":new_ai_state"),
+           (party_set_slot, ":party_no", slot_party_ai_object, ":new_ai_object"),
+         (try_end),
       (try_end),
-      
-      (party_set_slot, ":party_no", slot_party_ai_state, ":new_ai_state"),
-      (party_set_slot, ":party_no", slot_party_ai_object, ":new_ai_object"),
+
       
   ]),
   
@@ -10975,11 +11200,13 @@ scripts = [
         (try_end),
       (else_try),
         (eq, ":ai_state", spai_raiding_around_center),#substate is 1
+        (gt, ":ai_object", -1),
         (try_begin),
           (store_distance_to_party_from_party, ":distance", ":party_no", ":ai_object"),
           (lt, ":distance", 2),
           (try_begin),
             (party_slot_eq, ":ai_object", slot_minorplanet_state, 0),
+            (party_slot_eq, ":ai_object", slot_party_type, spt_minorplanet),
             (call_script, "script_minorplanet_set_state", ":ai_object", svs_being_raided),
             (party_set_slot, ":ai_object", slot_minorplanet_raided_by, ":party_no"),
             (try_begin),
@@ -11057,6 +11284,46 @@ scripts = [
   ]),
   
   
+  # script_begin_assault_on_center
+  # Input: arg1: faction_no
+  # Output: none
+  #called from triggers
+  ("begin_assault_on_center",
+    [
+      (store_script_param, ":center_no", 1),
+      
+      (try_for_range, ":troop_no", faction_heroes_begin, faction_heroes_end),
+        (troop_slot_eq, ":troop_no", slot_troop_occupation, slto_faction_hero),
+        (neg|troop_slot_ge, ":troop_no", slot_troop_prisoner_of_party, 0),
+        (troop_get_slot, ":party_no", ":troop_no", slot_troop_leaded_party),
+        (gt, ":party_no", 0),
+        (party_is_active, ":party_no"),
+        
+        (assign, ":continue", 0),
+        (try_begin),
+          (party_slot_eq, ":party_no", slot_party_ai_state, spai_besieging_center),
+          (party_slot_eq, ":party_no", slot_party_ai_object, ":center_no"),
+          (party_slot_eq, ":party_no", slot_party_ai_substate, 0),
+          (assign, ":continue", 1),
+        (else_try),
+          (party_slot_eq, ":party_no", slot_party_ai_state, spai_accompanying_army),
+          (party_get_slot, ":commander_party", ":party_no", slot_party_ai_object),
+          (gt, ":commander_party", 0),
+          (party_is_active, ":commander_party"),
+          (party_slot_eq, ":commander_party", slot_party_ai_state, spai_besieging_center),
+          (party_slot_eq, ":commander_party", slot_party_ai_object, ":center_no"),
+          (call_script, "script_party_set_ai_state", ":party_no", spai_besieging_center, ":center_no"),
+          (assign, ":continue", 1),
+        (try_end),
+        
+        (eq, ":continue", 1),
+        
+        (party_set_ai_behavior, ":party_no", ai_bhvr_attack_party),
+        (party_set_ai_object, ":party_no", ":center_no"),
+        (party_set_flags, ":party_no", pf_default_behavior, 1),
+        (party_set_slot, ":party_no", slot_party_ai_substate, 1),
+      (try_end),
+  ]),
   
   # script_select_faction_marshall
   # Input: arg1: faction_no
@@ -12041,6 +12308,10 @@ scripts = [
         (lt, ":honor_dif", 0),
         (display_message, "@You lose honour.", color_bad_news),
       (try_end),
+      (try_begin),
+        (assign, reg1, "$player_honor"),
+        (display_message, "@Now your reputation is {reg1}"),
+      (try_end),
       
       ##      (val_mul, ":honor_dif", 1000),
       ##      (assign, ":temp_honor", 0),
@@ -12123,7 +12394,7 @@ scripts = [
         (try_begin),
           (troop_is_hero, ":stack_troop"),
           # HC - Changed Heroes from acting as 3 men (-3 morale) to zero.
-          (val_add, ":num_men", 0),
+          (val_add, ":num_men", 1),
         (else_try),
           (party_stack_get_size, ":stack_size","p_main_party",":i_stack"),
           (val_add, ":num_men", ":stack_size"),
@@ -12290,6 +12561,9 @@ scripts = [
         (neq, ":party_no", ":cur_troop_party"),
         (party_get_slot, ":str", ":cur_troop_party", slot_party_cached_strength),
         (try_begin),
+          (neg|is_between, ":party_no", centers_begin, centers_end),
+          (party_slot_eq, ":cur_troop_party", slot_party_ai_state, spai_accompanying_army),
+          (party_get_slot, ":commander_party", ":cur_troop_party", slot_party_ai_object),
           (party_get_slot, ":commander_party", ":cur_troop_party", slot_party_commander_party),
           (eq, ":commander_party", ":party_no"),
           (val_add, ":follower_strength", ":str"),
@@ -13347,6 +13621,11 @@ scripts = [
       (position_get_x, ":scene_max_x", pos11),
       (position_get_y, ":scene_min_y", pos10),
       (position_get_y, ":scene_max_y", pos11),
+      #do not find positions close to borders (20 m)
+      (val_add, ":scene_min_x", 2000),
+      (val_sub, ":scene_max_x", 2000),
+      (val_add, ":scene_min_y", 2000),
+      (val_sub, ":scene_max_y", 2000),
       (val_max, ":min_x", ":scene_min_x"),
       (val_max, ":min_y", ":scene_min_y"),
       (val_min, ":max_x", ":scene_max_x"),
@@ -13405,11 +13684,16 @@ scripts = [
         (try_end),
         (store_add, "$ai_team_2", ":player_team", 2),
       (try_end),
-      (call_script, "script_select_battle_tactic_aux", "$ai_team_1"),
+      (call_script, "script_select_battle_tactic_aux", "$ai_team_1", 0),
       (assign, "$ai_team_1_battle_tactic", reg0),
       (try_begin),
         (ge, "$ai_team_2", 0),
-        (call_script, "script_select_battle_tactic_aux", "$ai_team_2"),
+        (assign, ":defense_not_an_option", 0),
+        (try_begin),
+          (eq, "$ai_team_1_battle_tactic", btactic_hold),
+          (assign, ":defense_not_an_option", 1), #don't let two AI defend at the same time
+        (try_end),
+        (call_script, "script_select_battle_tactic_aux", "$ai_team_2", ":defense_not_an_option"),
         (assign, "$ai_team_2_battle_tactic", reg0),
       (try_end),
   ]),
@@ -13420,8 +13704,8 @@ scripts = [
   ("select_battle_tactic_aux",
     [
       (store_script_param, ":team_no", 1),
+      (store_script_param, ":defense_not_an_option", 2),
       (assign, ":battle_tactic", 0),
-      (assign, ":defense_not_an_option", 0),
       (get_player_agent_no, ":player_agent"),
       (agent_get_team, ":player_team", ":player_agent"),
       (try_begin),
@@ -13440,7 +13724,6 @@ scripts = [
       
       (store_random_in_range, ":rand", 0, 100),
       (try_begin),
-        (this_or_next|lt, ":rand", 20),
         (assign, ":continue", 0),
         (try_begin),
           (teams_are_enemies, ":team_no", ":player_team"),
@@ -13545,37 +13828,40 @@ scripts = [
       (else_try),
         (eq, ":battle_tactic", btactic_follow_leader),
         (team_get_leader, ":ai_leader", ":team_no"),
-        (agent_set_speed_limit, ":ai_leader", 9),
-        (call_script, "script_team_get_average_position_of_enemies", ":team_no"),
-        (copy_position, pos60, pos0),
-        (agent_get_position, pos61, ":ai_leader"),
-        (position_transform_position_to_local, pos62, pos61, pos60), #pos62 = vector to enemy w.r.t leader
-        (position_normalize_origin, ":distance_to_enemy", pos62),
-        (convert_from_fixed_point, ":distance_to_enemy"),
-        (assign, reg17, ":distance_to_enemy"),
-        (position_get_x, ":dir_x", pos62),
-        (position_get_y, ":dir_y", pos62),
-        (val_mul, ":dir_x", 23),
-        (val_mul, ":dir_y", 23), #move 23 meters
-        (position_set_x, pos62, ":dir_x"),
-        (position_set_y, pos62, ":dir_y"),
-        
-        (position_transform_position_to_parent, pos63, pos61, pos62), #pos63 is 23m away from leader in the direction of the enemy.
-        (position_set_z_to_ground_level, pos63),
-        
-        (team_give_order, ":team_no", grc_everyone, mordr_hold),
-        (team_set_order_position, ":team_no", grc_everyone, pos63),
-        #        (team_give_order, ":team_no", grc_everyone, mordr_follow),
-        (agent_get_position, pos1, ":ai_leader"),
-        #        (call_script, "script_get_closest3_distance_of_enemies_at_pos1", ":team_no"),
-        #        (assign, ":avg_dist", reg0),
-        #        (assign, ":min_dist", reg1),
         (try_begin),
-          (lt, ":distance_to_enemy", 50),
-          (ge, ":mission_time", 30),
+          (ge, ":ai_leader", 0),
+          (agent_is_alive, ":ai_leader"),
+          (agent_set_speed_limit, ":ai_leader", 9),
+          (call_script, "script_team_get_average_position_of_enemies", ":team_no"),
+          (copy_position, pos60, pos0),
+          (agent_get_position, pos61, ":ai_leader"),
+          (position_transform_position_to_local, pos62, pos61, pos60), #pos62 = vector to enemy w.r.t leader
+          (position_normalize_origin, ":distance_to_enemy", pos62),
+          (convert_from_fixed_point, ":distance_to_enemy"),
+          (assign, reg17, ":distance_to_enemy"),
+          (position_get_x, ":dir_x", pos62),
+          (position_get_y, ":dir_y", pos62),
+          (val_mul, ":dir_x", 23),
+          (val_mul, ":dir_y", 23), #move 23 meters
+          (position_set_x, pos62, ":dir_x"),
+          (position_set_y, pos62, ":dir_y"),
+          
+          (position_transform_position_to_parent, pos63, pos61, pos62), #pos63 is 23m away from leader in the direction of the enemy.
+          (position_set_z_to_ground_level, pos63),
+          
+          (team_give_order, ":team_no", grc_everyone, mordr_hold),
+          (team_set_order_position, ":team_no", grc_everyone, pos63),
+          (agent_get_position, pos1, ":ai_leader"),
+          (try_begin),
+            (lt, ":distance_to_enemy", 50),
+            (ge, ":mission_time", 30),
+            (assign, ":battle_tactic", 0),
+            (team_give_order, ":team_no", grc_everyone, mordr_charge),
+            (agent_set_speed_limit, ":ai_leader", 60),
+          (try_end),
+        (else_try),
           (assign, ":battle_tactic", 0),
           (team_give_order, ":team_no", grc_everyone, mordr_charge),
-          (agent_set_speed_limit, ":ai_leader", 60),
         (try_end),
       (try_end),
       
@@ -13773,6 +14059,12 @@ scripts = [
         (val_add, ":accum_z", ":z"),
         (val_add, ":num_enemies", 1),
       (try_end),
+      
+      (try_begin), #to avoid division by zeros at below division part.
+        (le, ":num_enemies", 0),
+        (assign, ":num_enemies", 1),
+      (try_end),
+      
       (store_div, ":average_x", ":accum_x", ":num_enemies"),
       (store_div, ":average_y", ":accum_y", ":num_enemies"),
       (store_div, ":average_z", ":accum_z", ":num_enemies"),

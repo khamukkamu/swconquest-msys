@@ -2765,7 +2765,7 @@ dialogs = [
   [anyone|plyr,"party_encounter_lord_hostile_attacker_2", [
                     ],
    "We will fight you to the end!", "close_window", []],
-   
+
   [anyone|plyr,"party_encounter_lord_hostile_attacker_2", [
                     ],
    "Don't attack! We surrender.", "close_window", [(assign,"$g_player_surrenders",1)]],
@@ -4932,7 +4932,64 @@ dialogs = [
      (assign, "$temp", spai_patrolling_around_center),
      ]],
 
+#only as suggestion
+[anyone|plyr,"lord_give_order", [
+    (party_slot_eq, "$g_talk_troop_party", slot_party_ai_state, spai_besieging_center),
+      (party_get_slot, ":ai_object", "$g_talk_troop_party", slot_party_ai_object),
+  (party_slot_eq, ":ai_object", slot_center_is_besieged_by, "$g_talk_troop_party"),
+  (party_slot_eq, ":ai_object", slot_minorplanet_state, svs_under_siege),
+  (str_store_party_name, s11, ":ai_object"),
+  ],
+ "Together, you and I can take {s11}. You should assault immediately...", "lord_give_order_assault",
+ [
+  #for this one and another one, if the $g_talk_troop is a _t
+#     (assign, "$temp", spai_patrolling_around_center),
+]],   
   
+[anyone,"lord_give_order_assault", [
+  (party_get_slot, ":ai_object", "$g_talk_troop_party", slot_party_ai_object),
+  (party_get_slot, ":besieging_party", ":ai_object", slot_center_is_besieged_by),
+      (neq, ":besieging_party", "$g_talk_troop_party"),
+  (party_stack_get_troop_id, ":siege_commander", ":besieging_party", 0),
+  (str_store_troop_name, s4, ":siege_commander"),
+  ],
+ "{s4} is directing this siege. I suggest you speak to them.", "lord_pretalk",
+[]],
+
+[anyone,"lord_give_order_assault", [
+    (party_get_slot, ":ai_object", "$g_talk_troop_party", slot_party_ai_object),
+    (party_get_slot, ":siege_begun", ":ai_object", slot_center_siege_begin_hours),
+  (store_current_hours, ":cur_hour"),
+  (store_sub, ":hours_of_siege", ":cur_hour", ":siege_begun"),
+  
+  (try_begin),
+    (assign, ":hours_required", 9),
+  (try_end),
+  (val_sub, ":hours_required", ":hours_of_siege"),
+  (gt, ":hours_required", 0),
+  (try_begin),
+    (gt, ":hours_required", 1),
+    (assign, reg3, ":hours_required"),
+    (str_store_string, s11, "@{reg3} hours."),
+  (else_try),
+    (str_store_string, s11, "@hour."),
+  (try_end),
+  ],
+   "Our preparations are not yet ready. We need another {s11}", "lord_pretalk",
+   [
+]],
+
+[anyone,"lord_give_order_assault", [
+  ],
+   "Very well -- battle stations!", "close_window",
+   [
+    (party_get_slot, ":ai_object", "$g_talk_troop_party", slot_party_ai_object),
+  (call_script, "script_begin_assault_on_center", ":ai_object"),
+
+    (assign, "$g_leave_encounter", 1),
+    
+]],
+   
 
   [anyone|plyr,"lord_give_order",
    [

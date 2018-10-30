@@ -1,4 +1,4 @@
-1172
+1177
 qstr_2006_2010_THE_STAR_W 2006-2010_THE_STAR_WARS_CONQUEST_DEV_TEAM
 qstr_This_Module_it_s_ded This_Module_it's_dedicated_to_every_person_who_believed_in_us.^^Their_valuable_Work_and_Support_have_inspired_Us_to_Make_this_bigger.^^The_Force_It's_Strong_with_you!_:-)
 qstr_Type_your_Faction_s_ Type_your_Faction's_name:
@@ -233,6 +233,7 @@ qstr_Great! Great!
 qstr_EXCELLENT!! EXCELLENT!!
 qstr_{reg40}x_Combo {reg40}x_Combo
 qstr_{s1}_of_{s3}_was_def {s1}_of_{s3}_was_defeated_in_battle_but_managed_to_escape.
+qstr_{!}DEBUG_:_Siege_att {!}DEBUG_:_Siege_attackers_are_running_away
 qstr_DEBUG:_{s1}_no_longe DEBUG:_{s1}_no_longer_leads_a_party.
 qstr_DEBUG:_{s1}_is_no_lo DEBUG:_{s1}_is_no_longer_a_prisoner.
 qstr_DEBUG:_{s1}_is_now_a DEBUG:_{s1}_is_now_a_prisoner_of_player.
@@ -273,6 +274,7 @@ qstr_Press_Y_to_toggle_fi Press_Y_to_toggle_firing_mode_(Semi/Auto)
 qstr_Move_here Move_here
 qstr_View_notes View_notes
 qstr__{s61} _{s61}
+qstr_{!}DEBUG_:_Doing_scr {!}DEBUG_:_Doing_script_update_party_creation_random_limits
 qstr_ERROR:_More_than_15_ ERROR:_More_than_15_trade_routes_are_given_for_{s1}.
 qstr_{reg4}_killed_{reg5} {reg4}_killed,_{reg5}_wounded
 qstr_killed killed
@@ -316,6 +318,7 @@ qstr_Your_relation_with_{ Your_relation_with_{s1}_has_improved.
 qstr_Your_relation_with_{s Your_relation_with_{s1}_has_deteriorated.
 qstr_You_gain_honour. You_gain_honour.
 qstr_You_lose_honour. You_lose_honour.
+qstr_Now_your_reputation_ Now_your_reputation_is_{reg1}
 qstr_{s1}_has_declared_wa {s1}_has_declared_war_against_{s2}.
 qstr_{s1}_and_{s2}_are_en {s1}_and_{s2}_are_engaged_in_war_for_the_galactic_supremacy.
 qstr_{s1}_and_{s2}_have_m {s1}_and_{s2}_have_made_peace_with_each_other.
@@ -1092,6 +1095,8 @@ qstr_{s16}_{s17} {s16},_{s17}
 qstr_Very_well_I_will_acc Very_well,_I_will_accept_you_back_into_my_ranks,_if_you're_ready_to_swear_your_allegiance_once_more.
 qstr_A_pardon_will_only_b A_pardon_will_only_be_possible_if_you_are_willing_to_surrender_{s17}_to_me._Do_you_agree_my_terms?
 qstr_No._There_is_no_chan No._There_is_no_chance_of_peace_between_us,_I_am_not_interested.
+qstr_{reg3}_hours. {reg3}_hours.
+qstr_hour. hour.
 qstr_We_are_not_at_war_wi We_are_not_at_war_with_anyone.
 qstr_We_are_at_war_with_{ We_are_at_war_with_{s12}.
 qstr_Prior_argument_effec Prior_argument_effect:_{reg6},_rebellion_chance:_{reg7}
