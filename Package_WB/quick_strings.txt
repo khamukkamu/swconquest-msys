@@ -1,4 +1,4 @@
-1177
+1181
 qstr_2006_2010_THE_STAR_W 2006-2010_THE_STAR_WARS_CONQUEST_DEV_TEAM
 qstr_This_Module_it_s_ded This_Module_it's_dedicated_to_every_person_who_believed_in_us.^^Their_valuable_Work_and_Support_have_inspired_Us_to_Make_this_bigger.^^The_Force_It's_Strong_with_you!_:-)
 qstr_Type_your_Faction_s_ Type_your_Faction's_name:
@@ -685,10 +685,15 @@ qstr_You_were_healed_for_ You_were_healed_for_20_hp_and_have_{reg1}_bacta_capsul
 qstr_You_are_not_hurt. You_are_not_hurt.
 qstr_Can_t_use_while_moun Can't_use_while_mounted!
 qstr_You_don_t_have_a_Jet You_don't_have_a_Jetpack_or_Force_Jump_in_inventory!
+qstr_Stance:_Hip_Fire Stance:_Hip_Fire
+qstr_Stance:_Crouch Stance:_Crouch
+qstr_Stance:_Standing Stance:_Standing
 qstr___Stun_ _(Stun)
 qstr_Damage:_{reg3}{s11}_ Damage:_{reg3}{s11}_-_Accuracy:_{reg5},_-_Velocity:_{reg7}_-_Fire_Rate:_{reg4}
 qstr_Damage:_{reg3}{s11} Damage:_{reg3}{s11}
-qstr_Switched_to_{s2}_Mod Switched_to_{s2}_Mode:_{s12}
+qstr_Switched_to_{s2}_Mod Switched_to_{s2}_Mode:
+qstr_{s12} {s12}
+qstr_{s13} {s13}
 qstr_You_have_attacked_a_ You_have_attacked_a_citizen_and_are_now_wanted_by_the_local_authorities!
 qstr_Alert Alert
 qstr_All_enemies_at_this_ All_enemies_at_this_location_have_been_defeated!
@@ -1048,7 +1053,6 @@ qstr_armour_fit_for_a_Lord armour_fit_for_a_Lord,_or_a_{s7}
 qstr_Simply_pass_near_{s1 Simply_pass_near_{s13}
 qstr_Simply_pass_near_{s13 Simply_pass_near_{s13}_and_{s14}
 qstr_Simply_pass_near_{s13} Simply_pass_near_{s13},_{s14},_and_{s15}
-qstr_{s13} {s13}
 qstr_{s13}_and_{s14 {s13}_and_{s14
 qstr_{s13}_{s14}_and_{s15 {s13},_{s14}_and_{s15}
 qstr_{s9}_asked_you_to_sc {s9}_asked_you_to_scout_{s7},_then_report_back.

@@ -1891,6 +1891,15 @@ common_toggle_weapon_capabilities = (0, 0, 0, [
         (item_get_missile_speed, reg7, ":alternate_weapon"),
         (item_get_thrust_damage_type, reg6, ":alternate_weapon"), #0 =cut; 1= Pierce, 2 = Blunt    
         (try_begin),
+          (item_has_capability, ":alternate_weapon", itcf_throw_javelin),
+          (str_store_string, s13, "@Stance: Hip Fire"),
+        (else_try),
+          (item_has_capability, ":alternate_weapon", itcf_shoot_musket),
+          (str_store_string, s13, "@Stance: Crouch"),
+        (else_try),
+          (str_store_string, s13, "@Stance: Standing"),
+        (try_end),
+        (try_begin),
           (eq, reg6, 2),
           (str_store_string, s11, "@ (Stun)"),
         (else_try),
@@ -1902,7 +1911,7 @@ common_toggle_weapon_capabilities = (0, 0, 0, [
         (else_try),
           (str_store_string, s12, "@Damage: {reg3}{s11}"),
         (try_end),
-        (str_store_string, s10, "@Switched to {s2} Mode: {s12}", message_neutral),
+        (str_store_string, s10, "@Switched to {s2} Mode:", message_neutral),
       (try_end),
     (try_end),
     (item_get_type, ":item_type", ":wielded_item"),
@@ -1920,6 +1929,8 @@ common_toggle_weapon_capabilities = (0, 0, 0, [
     (agent_set_wielded_item, ":player_agent", ":alternate_weapon"),
     (start_presentation, "prsnt_staminabar"),
     (display_message, "@{s10}", color_good_news),
+    (display_message, "@{s12}", color_quest_and_faction_news),
+    (display_message, "@{s13}", color_hero_news),
   ])
 
 common_toggle_weapon_fire_mode = (0, 0, 0, [
