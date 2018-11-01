@@ -2694,7 +2694,7 @@ common_use_healthpack = (0, 0, 0, [
 #--------------------------------------------------------------------------------------------------------------------------
 
 common_change_fog = (
-  0, 0, ti_once,
+  ti_before_mission_start, 0, ti_once,
   [
   #SW - set_fog_distance to a very high number to disable fog in scenes
   (try_begin),
@@ -2724,7 +2724,7 @@ common_change_fog = (
     (eq, "$current_town","p_spacestation_28"), #Dathomir
     (set_fog_distance, 195, 0x00324D3F),
   (else_try),
-    (set_fog_distance, 100000000), #otherwise fog isn't well received here
+    (set_fog_distance, 999999999, 0x999999), #otherwise fog isn't well received here
   (try_end),
     ], [])
 
@@ -3615,6 +3615,7 @@ random_unisex_troop = (ti_on_agent_spawn, 0, 0, [
   (neg|is_between, ":type", tf_bothan, tf_rancor+1),
 
   (neg|is_between, ":troop_no", "trp_peasant_woman", "trp_local_merchant"),
+  (neq, ":troop_no", "trp_cattle"),
   
   ],[
   
@@ -3627,6 +3628,7 @@ random_unisex_troop = (ti_on_agent_spawn, 0, 0, [
   (neg|is_between, ":type", tf_bothan, tf_rancor+1),
 
   (neg|is_between, ":troop_no", "trp_peasant_woman", "trp_local_merchant"),
+  (neq, ":troop_no", "trp_cattle"),
 
   #get individual faction chances
   (store_faction_of_troop, ":faction_no", ":troop_no"),
@@ -3671,3 +3673,43 @@ random_unisex_troop = (ti_on_agent_spawn, 0, 0, [
   ])
 
 
+bodyguards_edited =  [
+
+(ti_on_agent_spawn, 0, 0, [], 
+   [
+    (store_trigger_param_1, ":agent"),
+    (agent_get_troop_id, ":troop", ":agent"),
+    (neq, ":troop", "trp_player"),
+    (troop_is_hero, ":troop"),
+    (main_party_has_troop, ":troop"),
+    
+    (get_player_agent_no, ":player"),
+    (agent_get_position,pos1,":player"),        
+    
+    (agent_add_relation_with_agent, ":agent", ":player", 1),
+    (agent_set_is_alarmed, ":agent", 1),
+    (store_random_in_range, ":shift", 1, 3),
+    (val_mul, ":shift", 100),
+    (position_move_y, pos1, ":shift"),
+    (store_random_in_range, ":shift", 1, 3),
+    (store_random_in_range, ":shift_2", 0, 2),
+    (val_mul, ":shift_2", -1),
+    (try_begin),
+        (neq, ":shift_2", 0),
+        (val_mul, ":shift", ":shift_2"),
+    (try_end),
+    (position_move_x, pos1, ":shift"),
+    (agent_set_position, ":agent", pos1),
+   ]),
+  
+ (ti_on_agent_killed_or_wounded, 0, 0, [],
+    [
+     (store_trigger_param_1, ":dead_agent"),
+        
+     (agent_get_troop_id, ":troop", ":dead_agent"),
+     (neq, ":troop", "trp_player"),
+     (troop_is_hero, ":troop"),
+     (main_party_has_troop, ":troop"),
+     (party_wound_members, "p_main_party", ":troop", 1),
+    ]),
+ ]

@@ -10801,6 +10801,7 @@ game_menus += [
 				 (try_for_range,":stack",1,":num_stacks"),	#don't start at stack 1 since that is the player
 					(eq,":break",0),
 					(party_stack_get_troop_id,":troop_id","p_main_party",":stack"),
+          (troop_is_hero, ":troop_id"),
 					(store_troop_health, ":troop_health", ":troop_id", 0),	#used 0 to get 0-100% range
 					(ge, ":troop_health", 10),	#if they have more than 10% health you can continue
 					(assign, ":companion_1", ":troop_id"),

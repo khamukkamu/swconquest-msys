@@ -105,7 +105,7 @@ mission_templates = [
 
       #SWY - trigger to make unique agents behavior - custom scripting
       (0.352, 0, ti_once, [], [(call_script,"script_swy_unique_units_stuff",-1)]),
-    ]+common_helmet_view,
+    ]+common_helmet_view + bodyguards_edited,
   ),
 
 # This template is used in party encounters and such.
@@ -559,7 +559,7 @@ mission_templates = [
       common_crouch_button,
       #common_turret, -> unstable
       common_gate_system,
-     ]+common_helmet_view,
+     ]+common_helmet_view + bodyguards_edited,
     ),
 
   (
@@ -905,7 +905,7 @@ mission_templates = [
 
       #SWY - trigger to make unique agents behavior - custom scripting
       (0.352, 0, ti_once, [], [(call_script,"script_swy_unique_units_stuff",-1)]),
-    ]+common_helmet_view,
+    ]+common_helmet_view + bodyguards_edited,
   ),
 
   (
@@ -992,7 +992,7 @@ mission_templates = [
 
       #SWY - trigger to make unique agents behavior - custom scripting
       (0.352, 0, ti_once, [], [(call_script,"script_swy_unique_units_stuff",-1)]),
-    ]+common_helmet_view
+    ]+common_helmet_view + bodyguards_edited
   ),
 
 
