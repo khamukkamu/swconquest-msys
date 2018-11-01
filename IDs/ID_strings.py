@@ -1602,5 +1602,13 @@ str_lightsaber_pike_base = 1600
 str_lightsaber_double_base = 1601
 str_lightsaber_double_base_2 = 1602
 str_lightsaber_double_base_3 = 1603
+str_space = 1604
+str_us_ = 1605
+str_allies_ = 1606
+str_enemies_ = 1607
+str_routed = 1608
+str_tactical_controls = 1609
+str_division_placement = 1610
+str_formations = 1611
 
 

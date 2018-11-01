@@ -38,3 +38,6 @@ prsnt_all_items = 36
 prsnt_customize_weapon = 37
 prsnt_staminabar = 38
 prsnt_show_combo_multiplier = 39
+prsnt_order_display = 40
+prsnt_formation_mod_option = 41
+prsnt_battle = 42

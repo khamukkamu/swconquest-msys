@@ -4438,6 +4438,8 @@ game_menus += [
         (disable_menu_option),
       ],
     "No slot for upgrading.", []),
+
+    ("formation_mod_option",[],"Formations mod options.", [(start_presentation, "prsnt_formation_mod_option")]),
 ########################################################
 ## Easy regulars upgrading kit end
 ########################################################

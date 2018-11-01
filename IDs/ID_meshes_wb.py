@@ -434,5 +434,12 @@ mesh_pic_units_details = 432
 mesh_mp_inventory_choose = 433
 mesh_inv_slot = 434
 mesh_mp_score_a = 435
+mesh_order_frame = 436
+mesh_flag_spears = 437
+mesh_flag_skirmishers = 438
+mesh_flag_horsemen = 439
+mesh_flag_d7 = 440
+mesh_flag_d8 = 441
+mesh_flag_d9 = 442
 
 
