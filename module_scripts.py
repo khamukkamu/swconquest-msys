@@ -36143,8 +36143,7 @@ if is_a_wb_script==1:
         (eq, ":sd_type", sdt_archer),
         (assign, ":size_minimum", formation_min_foot_troops),
         (try_begin),
-          # (this_or_next|eq, ":fformation", formation_ranks), uncheck for proper
-          # ranks
+          (this_or_next|eq, ":fformation", formation_ranks),
           (eq, ":fformation", formation_default),
           (assign, ":valid_type", 1),
         (try_end),
