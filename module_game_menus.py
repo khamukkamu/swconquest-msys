@@ -2479,7 +2479,7 @@ game_menus = [
         ]
        ),
 ################################################################	 
-      ("khamtest",[],"Kham Test Menu.",
+      ("khamtest",[(eq, "$cheat_mode", 1)],"Kham Test Menu.",
        [
            (jump_to_menu, "mnu_camp_khamtest"),
         ]
@@ -3515,7 +3515,9 @@ game_menus += [
      ],
     [
 		#SW - toggle menu option concept by ConstantA - http://forums.taleworlds.net/index.php/topic,63142.msg1647442.html#msg1647442
-		("config_shield_bash",
+		("formation_mod_option",[],"Formations mod options.", [(start_presentation, "prsnt_formation_mod_option")]),
+
+    ("config_shield_bash",
 		[
 		(str_clear, s1),
 		(try_begin),
@@ -4439,7 +4441,6 @@ game_menus += [
       ],
     "No slot for upgrading.", []),
 
-    ("formation_mod_option",[],"Formations mod options.", [(start_presentation, "prsnt_formation_mod_option")]),
 ########################################################
 ## Easy regulars upgrading kit end
 ########################################################
