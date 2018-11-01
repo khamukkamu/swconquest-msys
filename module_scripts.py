@@ -33389,6 +33389,45 @@ if is_a_wb_script==1:
   ]
 ),
 
+
+("store_hairstyles",
+  [
+    (try_for_range, ":troop", "trp_player", "trp_custom_battle_fac_store"),
+      (neg|troop_is_hero, ":troop"),
+      (str_store_troop_face_keys, s0, ":troop", 0),
+      (str_store_troop_face_keys, s1, ":troop", 1), 
+      (face_keys_get_hair, ":hair1", s0),
+      (face_keys_get_hair, ":hair2", s1),
+      (troop_get_type, ":gender", ":troop"),
+      (try_begin),
+         (eq, ":gender", 0),
+         (troop_set_slot, ":troop", slot_troop_male_hair_1, ":hair1"),
+         (troop_set_slot, ":troop", slot_troop_male_hair_2, ":hair2"),
+         (try_begin),
+            (is_between, ":hair1", 1, 10),
+            (troop_set_slot, ":troop", slot_troop_female_hair_1, ":hair1"),
+         (else_try),
+            (store_random_in_range, ":fem_hair_1", 1, 10),
+            (troop_set_slot, ":troop", slot_troop_female_hair_1, ":fem_hair_1"),
+         (try_end),
+
+         (try_begin),
+            (is_between, ":hair2", 1, 10),
+            (troop_set_slot, ":troop", slot_troop_female_hair_2, ":hair2"),
+         (else_try),
+            (store_random_in_range, ":fem_hair_2", 1, 8),
+            (troop_set_slot, ":troop", slot_troop_female_hair_2, ":fem_hair_2"),
+         (try_end),
+      (else_try),
+         (eq, ":gender", 1),
+         (troop_set_slot, ":troop", slot_troop_male_hair_1, ":hair1"),
+         (troop_set_slot, ":troop", slot_troop_male_hair_2, ":hair2"),
+         (troop_set_slot, ":troop", slot_troop_female_hair_1, ":hair1"),
+         (troop_set_slot, ":troop", slot_troop_female_hair_2, ":hair2"),
+      (try_end),
+    (try_end),
+]),
+
  ]
 
 scripts = scripts + ai_scripts

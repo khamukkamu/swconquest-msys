@@ -910,6 +910,7 @@ game_menus = [
     (str_clear,s13),
     (str_clear,s14),
     (str_clear,s15),
+    (call_script, "script_store_hairstyles"),
     ],
     [
     ("start_quick_ambassador",[],"A ambassador.",[

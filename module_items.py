@@ -707,7 +707,7 @@ items = [
 ["ind_clothes_tightcoverall_sato", "Saato armor", [("saato_armor",0)], itp_merchandise|itp_type_body_armor|itp_attach_armature|itp_covers_legs|itp_civilian, 0, 400, weight(10)|abundance(100)|head_armor(0)|body_armor(44)|leg_armor(30)|difficulty(0), imodbits_cloth ], 
 
 ["ind_clothes_fem_jacket_open", "Smuggler Outfit (F)", [("fem_combination1",0)], itp_merchandise|itp_type_body_armor|itp_attach_armature|itp_covers_legs|itp_civilian, 0, 
- 320 , weight(5)|abundance(70)|head_armor(0)|body_armor(25)|leg_armor(12)|difficulty(0) ,imodbits_cloth],
+ 320 , weight(5)|abundance(70)|head_armor(0)|body_armor(28)|leg_armor(12)|difficulty(0) ,imodbits_cloth],
 ### - Civilians - Twilek Slaves / Dancers (TAS)
 
 #### Twileks:
@@ -720,13 +720,13 @@ items = [
 
 # Replaces itm_padded_armor
 ["ind_clothes_outfsmuggler_red", "Smuggler Outfit", [("smuggler_outfit_1",0)], itp_merchandise|itp_type_body_armor|itp_attach_armature|itp_covers_legs|itp_civilian, 0, 
- 320 , weight(5)|abundance(70)|head_armor(0)|body_armor(25)|leg_armor(12)|difficulty(0) ,imodbits_cloth],
+ 320 , weight(5)|abundance(70)|head_armor(0)|body_armor(28)|leg_armor(12)|difficulty(0) ,imodbits_cloth],
 ["ind_clothes_outfsmuggler_green", "Smuggler Outfit", [("smuggler_outfit_2",0)], itp_merchandise|itp_type_body_armor|itp_attach_armature|itp_covers_legs|itp_civilian, 0, 
- 320 , weight(5)|abundance(70)|head_armor(0)|body_armor(25)|leg_armor(12)|difficulty(0) ,imodbits_cloth],
+ 320 , weight(5)|abundance(70)|head_armor(0)|body_armor(28)|leg_armor(12)|difficulty(0) ,imodbits_cloth],
 ["ind_clothes_outfsmuggleralter1_red", "Smuggler's Jacket", [("smuggler_outfit_3",0)], itp_merchandise|itp_type_body_armor|itp_attach_armature|itp_covers_legs|itp_civilian, 0, 
- 320 , weight(5)|abundance(70)|head_armor(0)|body_armor(25)|leg_armor(12)|difficulty(0) ,imodbits_cloth],
+ 320 , weight(5)|abundance(70)|head_armor(0)|body_armor(28)|leg_armor(12)|difficulty(0) ,imodbits_cloth],
 ["ind_clothes_outfsmuggleralter1_green", "Smuggler's Jacket", [("smuggler_outfit_4",0)], itp_merchandise|itp_type_body_armor|itp_attach_armature|itp_covers_legs|itp_civilian, 0, 
- 320 , weight(5)|abundance(70)|head_armor(0)|body_armor(25)|leg_armor(12)|difficulty(0) ,imodbits_cloth],
+ 320 , weight(5)|abundance(70)|head_armor(0)|body_armor(28)|leg_armor(12)|difficulty(0) ,imodbits_cloth],
 
 # Replaces itm_armor
 ### - Civilians - Hutts (TAS):

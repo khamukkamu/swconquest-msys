@@ -1670,3 +1670,8 @@ slot_faction_gender_ratio = 165
 slot_agent_is_running_away = 48
 skirmish_min_distance = 1500 #Min distance you wish maintained, in cm. Where agent will retreat
 skirmish_max_distance = 2000 #Max distance to maintain, in cm. Where agent will stop retreating
+
+slot_troop_male_hair_1 = 168
+slot_troop_male_hair_2 = 169
+slot_troop_female_hair_1 = 170
+slot_troop_female_hair_2 = 171

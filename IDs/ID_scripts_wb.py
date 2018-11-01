@@ -511,5 +511,6 @@ script_refresh_center_weaponsmiths = 509
 script_refresh_center_stables = 510
 script_cf_is_not_restrictive_alien = 511
 script_init_faction_gender_ratio = 512
+script_store_hairstyles = 513
 
 

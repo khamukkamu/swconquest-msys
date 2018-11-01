@@ -1347,7 +1347,7 @@ itemsfile version 3
  0
 0
 
- itm_ind_clothes_fem_jacket_open Smuggler_Outfit_(F) Smuggler_Outfit_(F) 1  fem_combination1 0  553717517 0 320 123731968 5 70 0 25 12 0 0 0 0 0 0 0 0
+ itm_ind_clothes_fem_jacket_open Smuggler_Outfit_(F) Smuggler_Outfit_(F) 1  fem_combination1 0  553717517 0 320 123731968 5 70 0 28 12 0 0 0 0 0 0 0 0
  0
 0
 
@@ -1367,19 +1367,19 @@ itemsfile version 3
  0
 0
 
- itm_ind_clothes_outfsmuggler_red Smuggler_Outfit Smuggler_Outfit 1  smuggler_outfit_1 0  553717517 0 320 123731968 5 70 0 25 12 0 0 0 0 0 0 0 0
+ itm_ind_clothes_outfsmuggler_red Smuggler_Outfit Smuggler_Outfit 1  smuggler_outfit_1 0  553717517 0 320 123731968 5 70 0 28 12 0 0 0 0 0 0 0 0
  0
 0
 
- itm_ind_clothes_outfsmuggler_green Smuggler_Outfit Smuggler_Outfit 1  smuggler_outfit_2 0  553717517 0 320 123731968 5 70 0 25 12 0 0 0 0 0 0 0 0
+ itm_ind_clothes_outfsmuggler_green Smuggler_Outfit Smuggler_Outfit 1  smuggler_outfit_2 0  553717517 0 320 123731968 5 70 0 28 12 0 0 0 0 0 0 0 0
  0
 0
 
- itm_ind_clothes_outfsmuggleralter1_red Smuggler's_Jacket Smuggler's_Jacket 1  smuggler_outfit_3 0  553717517 0 320 123731968 5 70 0 25 12 0 0 0 0 0 0 0 0
+ itm_ind_clothes_outfsmuggleralter1_red Smuggler's_Jacket Smuggler's_Jacket 1  smuggler_outfit_3 0  553717517 0 320 123731968 5 70 0 28 12 0 0 0 0 0 0 0 0
  0
 0
 
- itm_ind_clothes_outfsmuggleralter1_green Smuggler's_Jacket Smuggler's_Jacket 1  smuggler_outfit_4 0  553717517 0 320 123731968 5 70 0 25 12 0 0 0 0 0 0 0 0
+ itm_ind_clothes_outfsmuggleralter1_green Smuggler's_Jacket Smuggler's_Jacket 1  smuggler_outfit_4 0  553717517 0 320 123731968 5 70 0 28 12 0 0 0 0 0 0 0 0
  0
 0
 
