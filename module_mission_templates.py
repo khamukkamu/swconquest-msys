@@ -46,7 +46,11 @@ swc_kham_battle_triggers = [
       continue_force_stamina_presentation,
       recuperate_force_stamina,
       random_unisex_troop,
+      force_shield_init,
+      force_shield_trigger,
       mission_start_fade_in,
+      force_powers_use,
+      force_lightning_use,
   ] + kham_new_iron_sight_trigger
 
 mission_templates = [
@@ -5295,14 +5299,10 @@ mission_templates = [
       (ti_tab_pressed, 0, 0, [
           (set_trigger_result,1)], []),
 
-      (0,0,0, [(key_clicked, key_b)], [
+      (0,0,0, [(key_clicked, key_n)], [
           (get_player_agent_no, ":player"), 
-          (agent_get_look_position, pos19, ":player"), 
-          (set_fixed_point_multiplier, 100),
-          (position_get_x, reg50, pos19),
-          (position_get_y, reg51, pos19),
-          (position_get_z, reg52, pos19),
-          (display_message, "@X: {reg50}, Y: {reg51}, Z: {reg52", color_good_news)]),
+          (agent_set_animation, ":player", "anim_force_choke"),
+         ]),
 
       (4, 0, 0, [], [    #run every X seconds
       (get_player_agent_no, ":player_agent"),
@@ -6116,7 +6116,7 @@ mission_templates = [
      (1,mtef_visitor_source|mtef_team_1,0,aif_start_alarmed,12,[]),
      (2,mtef_visitor_source|mtef_team_1,0,aif_start_alarmed,12,[]),
      (3,mtef_visitor_source|mtef_team_1,0,aif_start_alarmed,12,[]),
-    ], swc_kham_battle_triggers +  AI_triggers +
+    ], swc_kham_battle_triggers + utility_triggers + extended_battle_menu + common_division_data + division_order_processing + real_deployment + formations_triggers + AI_triggers +
     [
 
       sw_victory_defeat_conditions,

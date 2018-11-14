@@ -162,6 +162,7 @@ common_ranged_avoid_melee =  (.3, 0, 0, [], [
  (try_begin),
    (neg|is_between,":scene","scn_ship_hangar_imp","scn_space_battle"), #Land Battle
    (neq, ":scene", "scn_mainplanet_kamino_land_battle"), #Not Kamino
+   (neq, ":scene", "scn_mainplanet_bespin_land_battle"), #Not Bespin
    (call_script, "script_new_ranged_avoid_melee"),
  (else_try),
    (call_script, "script_ranged_avoid_melee"),
@@ -202,7 +203,7 @@ AI_triggers_old = [
 
   (0, .3, ti_once, [], [(call_script, "script_SW_field_tactics", 1)]),  #delay to allow spawning to finish
 
-  (2.5, 0, 0, [(lt, "$telling_counter", 4),], [ (set_show_messages, 0),(try_for_range, ":team", 0, 6), (team_give_order, ":team", grc_everyone, mordr_spread_out), (try_end), (val_add, "$telling_counter", 1), (set_show_messages, 1),]),
+  (2.5, 0, 0, [(lt, "$telling_counter", 2),], [ (set_show_messages, 0),(try_for_range, ":team", 0, 6), (team_give_order, ":team", grc_everyone, mordr_spread_out), (try_end), (val_add, "$telling_counter", 1), (set_show_messages, 1),]),
 
   (1, .9, 0, [], [
     (try_begin),
@@ -3102,6 +3103,10 @@ force_shield_init = (ti_on_agent_spawn, 0, 0, [
   (store_trigger_param_1, ":agent"),
   (agent_is_human, ":agent"),
   (agent_get_troop_id, ":troop_id", ":agent"),
+  (agent_get_wielded_item, ":weapon", ":agent", 0), #Get weapon
+  (agent_get_wielded_item, ":2h_or_shield", ":agent", 1), #Get 2h or shield
+  (is_between, ":weapon", lightsaber_noise_begin, lightsaber_noise_end),
+  (eq, ":2h_or_shield", -1), #2h or no shield
   (troop_get_slot, ":has_shield", ":troop_id", slot_troop_force_shield),
   (gt, ":has_shield", 0)],
   
@@ -3124,6 +3129,10 @@ force_shield_trigger = (ti_on_agent_hit, 0, 0, [
   (store_trigger_param_1, ":agent"),
 
   (agent_slot_eq, ":agent", slot_agent_force_shield_active, 1),
+  (agent_get_wielded_item, ":weapon", ":agent", 0), #Get weapon
+  (agent_get_wielded_item, ":2h_or_shield", ":agent", 1), #Get 2h or shield
+  (is_between, ":weapon", lightsaber_noise_begin, lightsaber_noise_end),
+  (eq, ":2h_or_shield", -1), #2h or no shield
 
   (assign, ":continue", 0),
   (try_begin),
@@ -3153,7 +3162,6 @@ force_shield_trigger = (ti_on_agent_hit, 0, 0, [
       #(display_message, "@Hp shield: {reg3} left."), 
 
     (get_player_agent_no, ":player"),
-    (agent_get_troop_id, ":troop_id", ":agent"),
     
     (try_begin),
       (eq, ":dealer", ":player"),
@@ -3730,6 +3738,7 @@ AI_triggers = [
   (ti_before_mission_start, 0, 0, [], [
       (assign, "$ranged_clock", 0),
       (assign, "$clock_reset", 0),
+      (assign, "$telling_counter", 0),
       (init_position, Team0_Cavalry_Destination),
       (init_position, Team1_Cavalry_Destination),
       (init_position, Team2_Cavalry_Destination),
@@ -3771,6 +3780,9 @@ AI_triggers = [
         (try_end),
       (try_end),
   ]),
+  
+  (1, 1, 0, [(lt, "$telling_counter", 5)], 
+    [ (set_show_messages, 0), (try_for_range, ":team", 0, 6), (team_give_order, ":team", grc_everyone, mordr_spread_out), (try_end), (val_add, "$telling_counter", 1), (set_show_messages, 1),]),
   
   # Trigger file: AI_setup
   (0, 0, ti_once, [
@@ -4918,3 +4930,12 @@ formations_triggers = [ #4 triggers
   #]),
 
 ]#end formations triggers
+
+
+## Kham Force Powers
+
+force_powers_use = (0,0,0, [(key_clicked, key_b)], [(get_player_agent_no, ":player"), (call_script, "script_force_push", ":player"),])
+force_lightning_use =       (0,0,0, [(key_clicked, key_n)], [
+          (get_player_agent_no, ":player"), 
+          (call_script, "script_force_choke", ":player"),
+         ])

@@ -570,5 +570,11 @@ script_formation_battle_tactic_init_aux = 568
 script_formation_battle_tactic_apply_aux = 569
 script_battle_tactic_init_aux = 570
 script_battle_tactic_apply_aux = 571
+script_get_force_push_anim = 572
+script_force_push = 573
+script_force_lightning = 574
+script_force_choke = 575
+script_spawn_scene_prop_with_particles = 576
+script_remove_scene_prop = 577
 
 

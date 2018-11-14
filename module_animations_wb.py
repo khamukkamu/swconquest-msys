@@ -2056,20 +2056,62 @@ animations = [
  [0.6, "defend_left_onehanded", 15, 28, arf_blend_in_8]
 ],
 
+
+["force_push_use", 0, amf_priority_striked|amf_play|amf_restart|amf_client_prediction,
+  [1, "sw_force_power", 0, 99, arf_blend_in_0]], # Force Power Use
+
+["force_lightning", acf_enforce_rightside, amf_priority_striked|amf_play|amf_continue_to_next,
+ [0.5, "opening_stance_b", 0, 3,  arf_blend_in_1],
+],
+["force_lightning_end", acf_enforce_rightside, amf_priority_striked|amf_play,
+ [0.5, "opening_stance_b", 3, 3,  arf_blend_in_1],
+],
+["force_lightning_victim", acf_enforce_all, amf_priority_striked|amf_play,
+ [1.6, "throw_stone", 33, 56, arf_blend_in_3],
+],
+
+
+# flyback animations (for force push victims) then rise  
+["strike_fly_back_near_rise", acf_enforce_all|acf_align_with_ground|acf_displace_position,  amf_priority_die|amf_play|amf_accurate_body|amf_restart|amf_client_prediction,
+ [1.7, "ani_fall_flyback1_near_rise", 0, 43, arf_blend_in_2|arf_make_custom_sound, pack2f(0.4, 0.0), (0.19,-1.6,0), 0.5],
+],
+
+["strike_fly_back_med_rise", acf_enforce_all|acf_align_with_ground|acf_displace_position,  amf_priority_die|amf_play|amf_accurate_body|amf_restart|amf_client_prediction,
+ [2.09, "ani_fall_flyback1_med_rise", 0, 53, arf_blend_in_2|arf_make_custom_sound, pack2f(0.4, 0.0), ( 0.19,  -2.7  ,0), 0.5],
+ [2.1,  "ani_fall_flyback2_med_rise", 0, 49, arf_blend_in_2|arf_make_custom_sound, pack2f(0.4, 0.0), ( 0.933, -2.454,0), 0.5],
+ [2.2,  "ani_fall_flyback3_med_rise", 0, 64, arf_blend_in_2|arf_make_custom_sound, pack2f(0.4, 0.0), (-0.0345,-2.91 ,0), 0.5],
+ [2.09, "ani_fall_flyback1_med_rise_from_left", 0, 53, arf_blend_in_2|arf_make_custom_sound, pack2f(0.4, 0.0), (-0.19, -2.7,0), 0.5],
+ [2.1,  "ani_fall_flyback2_med_rise_from_left", 0, 49, arf_blend_in_2|arf_make_custom_sound, pack2f(0.4, 0.0), (-0.933, -2.454,0), 0.5],
+],
+
+["strike_fly_back_far_rise", acf_enforce_all|acf_align_with_ground|acf_displace_position,  amf_priority_die|amf_play|amf_accurate_body|amf_restart|amf_client_prediction,
+ [2.214,"ani_fall_flyback1_far_rise", 0, 56, arf_blend_in_2|arf_make_custom_sound, pack2f(0.4, 0.0), ( 0.19,  -4.4  ,0), 0.5],
+ [2.1,  "ani_fall_flyback2_far_rise", 0, 49, arf_blend_in_2|arf_make_custom_sound, pack2f(0.4, 0.0), ( 0.933, -3.80 ,0), 0.5],
+ [2.2,  "ani_fall_flyback3_far_rise", 0, 64, arf_blend_in_2|arf_make_custom_sound, pack2f(0.4, 0.0), (-0.0345,-4.81 ,0), 0.5],
+ [2.214,"ani_fall_flyback1_far_rise_from_left", 0, 56, arf_blend_in_2|arf_make_custom_sound, pack2f(0.4, 0.0), (-0.19, -4.4,0), 0.5],
+ [2.1,  "ani_fall_flyback2_far_rise_from_left", 0, 49, arf_blend_in_2|arf_make_custom_sound, pack2f(0.4, 0.0), (-0.933, -3.80,0), 0.5],
+],
+
+["strike_fly_front_rise", acf_enforce_all|acf_align_with_ground|acf_displace_position,  amf_priority_striked|amf_play|amf_accurate_body|amf_restart|amf_client_prediction,
+   [1.12, "ani_fall_flyfront_rise", 0, 77, arf_blend_in_2|arf_make_custom_sound, pack2f(0.4, 0.0), (-0.36,2.93,0), 1.0],
+ ],
+ 
+
+
  ### Unused human animations start from here.
 #["unused_human_anim_01", 0, 0, [1.0, "anim_human", 0, 1, 0]],
  #["unused_human_anim_02", 0, 0, [1.0, "anim_human", 0, 1, 0]],
  #["unused_human_anim_03", 0, 0, [1.0, "anim_human", 0, 1, 0]],
  #["unused_human_anim_04", 0, 0, [1.0, "anim_human", 0, 1, 0]],
- ["unused_human_anim_05", 0, 0, [1.0, "anim_human", 0, 1, 0]],
- ["unused_human_anim_06", 0, 0, [1.0, "anim_human", 0, 1, 0]],
- ["unused_human_anim_07", 0, 0, [1.0, "anim_human", 0, 1, 0]],
- ["unused_human_anim_08", 0, 0, [1.0, "anim_human", 0, 1, 0]],
- ["unused_human_anim_09", 0, 0, [1.0, "anim_human", 0, 1, 0]],
- ["unused_human_anim_10", 0, 0, [1.0, "anim_human", 0, 1, 0]],
- ["unused_human_anim_11", 0, 0, [1.0, "anim_human", 0, 1, 0]],
- ["unused_human_anim_12", 0, 0, [1.0, "anim_human", 0, 1, 0]],
- ["unused_human_anim_13", 0, 0, [1.0, "anim_human", 0, 1, 0]],
+ #["unused_human_anim_05", 0, 0, [1.0, "anim_human", 0, 1, 0]],
+ #["unused_human_anim_06", 0, 0, [1.0, "anim_human", 0, 1, 0]],
+ #["unused_human_anim_07", 0, 0, [1.0, "anim_human", 0, 1, 0]],
+ #["unused_human_anim_08", 0, 0, [1.0, "anim_human", 0, 1, 0]],
+ #["unused_human_anim_09", 0, 0, [1.0, "anim_human", 0, 1, 0]],
+ #["unused_human_anim_10", 0, 0, [1.0, "anim_human", 0, 1, 0]],
+ #["unused_human_anim_11", 0, 0, [1.0, "anim_human", 0, 1, 0]],
+ #["unused_human_anim_12", 0, 0, [1.0, "anim_human", 0, 1, 0]],
+ #["unused_human_anim_13", 0, 0, [1.0, "anim_human", 0, 1, 0]],
  ["unused_human_anim_14", 0, 0, [1.0, "anim_human", 0, 1, 0]],
  ["unused_human_anim_15", 0, 0, [1.0, "anim_human", 0, 1, 0]],
  ["unused_human_anim_16", 0, 0, [1.0, "anim_human", 0, 1, 0]],
@@ -2217,7 +2259,7 @@ animations = [
  #Swyter animations
 #SW - had to comment out these for Swyter animations
 #["unused_human_anim_88", 0, [1.0, "anim_human", 0, 1, 0]],
- ["force_choke", acf_enforce_all, amf_client_prediction|amf_priority_die|amf_play,
+ ["force_choke", acf_enforce_all, amf_client_prediction|amf_priority_die+1|amf_play,
    [3.5, "sw_force_kill_1", 0, 50, arf_blend_in_3],
  ],
 

@@ -1,4 +1,4 @@
-1260
+1259
 qstr_2006_2010_THE_STAR_W 2006-2010_THE_STAR_WARS_CONQUEST_DEV_TEAM
 qstr_This_Module_it_s_ded This_Module_it's_dedicated_to_every_person_who_believed_in_us.^^Their_valuable_Work_and_Support_have_inspired_Us_to_Make_this_bigger.^^The_Force_It's_Strong_with_you!_:-)
 qstr_Type_your_Faction_s_ Type_your_Faction's_name:
@@ -795,7 +795,6 @@ qstr_You_have_fallen_in_ba You_have_fallen_in_battle._Watch_the_rest_of_the_figh
 qstr_Tutorial Tutorial
 qstr_You_must_stay_behind You_must_stay_behind_the_line_on_the_ground!_Point_is_not_counted.
 qstr_End_the_sparring_mat End_the_sparring_match?
-qstr_X:_{reg50}_Y:_{reg51 X:_{reg50},_Y:_{reg51},_Z:_{reg52
 qstr_You_are_not_injured_ You_are_not_injured_and_do_not_need_the_Bacta_Tank_at_this_time.
 qstr_You_are_being_healed You_are_being_healed_by_the_Bacta_Tank...
 qstr_Walk_into_the_Bacta_ Walk_into_the_Bacta_Tank_to_heal_yourself.

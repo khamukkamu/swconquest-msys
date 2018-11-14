@@ -39414,6 +39414,301 @@ if is_a_wb_script==1:
      (try_end),
   ]),
 
+
+
+
+# Force Powers Begin
+
+# Force Push
+
+# script_get_force_push_anim stores the animation the vicitm will play to reg0
+
+("get_force_push_anim", [
+
+   (store_script_param_1, ":force_push_level"),
+
+   (assign, ":hit_anim", "anim_bash_knocked"),
+
+   (try_begin),
+      (eq, ":force_push_level", 1),
+      (assign, ":hit_anim", "anim_bash_knocked"),
+   (else_try),
+      (eq, ":force_push_level", 2),
+      (assign, ":hit_anim", "anim_strike_fly_back_near_rise"),
+   (else_try),
+      (this_or_next|eq, ":force_push_level", 3),
+      (eq, ":force_push_level", 4),
+      (assign, ":hit_anim", "anim_strike_fly_back_med_rise"),
+   (else_try),
+      (eq, ":force_push_level", 5),
+      (assign, ":hit_anim", "anim_strike_fly_back_far_rise"),
+   (try_end),
+
+   (assign, reg0, ":hit_anim"),
+
+]),
+
+("force_push", [
+
+   (store_script_param_1, ":agent"),
+
+   (agent_get_troop_id, ":troop_id", ":agent"),
+   (set_fixed_point_multiplier, 100),
+   (get_player_agent_no, ":player"),
+
+   (try_begin),
+      (ge, ":troop_id", 0),
+      (store_skill_level, ":force_power_level", skl_power_draw, ":troop_id"), #Force Knowledge
+
+      (ge, ":force_power_level", 1),
+
+      (assign, ":agents_to_push", 1),
+      (assign, ":distance", 800),
+      (agent_get_position, pos9, ":agent"),
+
+      (call_script, "script_get_force_push_anim", ":force_power_level"),
+      (assign, ":hit_anim", reg0),
+
+      (try_begin),
+         (eq, ":force_power_level", 1),
+         (assign, ":distance", 800),
+         (assign, ":agents_to_push", 1),
+      (else_try),
+         (eq, ":force_power_level", 2),
+         (assign, ":distance", 1200),
+         (assign, ":agents_to_push", 2),
+      (else_try),
+         (eq, ":force_power_level", 3),
+         (assign, ":distance", 1500),
+         (assign, ":agents_to_push", 4),
+      (else_try),
+         (eq, ":force_power_level", 4),
+         (assign, ":distance", 1500),
+         (assign, ":agents_to_push", 6),
+      (else_try),
+         (eq, ":force_power_level", 5),
+         (assign, ":distance", 1500),
+         (assign, ":agents_to_push", 10),
+      (try_end), # End Level Check
+
+      (agent_set_animation, ":player", "anim_force_push_use", 1),
+      (agent_play_sound, ":player", "snd_force_push"),
+      (assign, ":pushed_agents", 0),
+
+      (try_for_agents, ":target", pos9, ":distance"),
+         (agent_is_active, ":target"),
+         (agent_is_alive, ":target"),
+         (neg|agent_is_ally, ":target"), #no friendly fire
+         (agent_is_human, ":target"),
+         (neq, ":target", ":player"), #don't hit yourself
+         (agent_get_animation, ":current_anim", ":target"),
+         (neq, ":current_anim", ":hit_anim"),
+         (agent_get_horse, ":victim_horse", ":target"),
+         (agent_get_position, pos19, ":target"),
+         (neg|position_is_behind_position, pos19, pos9),
+         (lt, ":pushed_agents", ":agents_to_push"), # Allows us to limit the number of agents pushed
+         (val_add, ":pushed_agents", 1),
+         (try_begin),
+            (position_is_behind_position,pos9,pos19), # Player is behind Target
+            (assign, ":hit_anim", "anim_strike_fly_front_rise"), # send them flying front
+         (try_end),
+         (agent_get_bone_position, pos1, ":target", human_thorax, 1), #chest
+         (call_script, "script_spawn_scene_prop_with_particles", "spr_force_push", "psys_dummy_smoke"),
+         #(particle_system_burst, "psys_dummy_smoke", pos3, 5),
+         (agent_set_animation, ":target", ":hit_anim"),
+         (try_begin),
+            (gt, ":victim_horse", 1),
+            (agent_start_running_away, ":victim_horse"),
+            (agent_stop_running_away, ":victim_horse"),
+         (try_end),
+         (set_fixed_point_multiplier, 1),
+         (store_random_in_range,":random_timings",1,5),
+         (agent_set_animation_progress, ":target", ":random_timings"), # differentiate timings a bit
+      (try_end),
+
+   (try_end), # End Force Push
+
+ ]),
+
+
+("force_lightning",
+[
+   (store_script_param, ":agent", 1),
+   (agent_get_troop_id, ":troop_id", ":agent"),
+   
+   (try_begin),
+      (ge, ":troop_id", 0),
+      (store_skill_level, ":force_power_level", skl_power_draw, ":troop_id"), #Force Knowledge
+      (ge, ":force_power_level", 1),
+
+      (assign, ":shocked_agents", 0),
+      (assign, ":agents_to_shock", 1),
+      (assign, ":user_anim", "anim_force_push_use"),
+
+      (try_begin),
+         (eq, ":force_power_level", 1),
+         (assign, ":damage", 30),
+         (assign, ":agents_to_shock", 1),
+         (assign, ":burst", 10),
+         (assign, ":user_anim", "anim_force_push_use"),
+      (else_try),
+         (eq, ":force_power_level", 2),
+         (assign, ":damage", 40),
+         (assign, ":agents_to_shock", 2),
+         (assign, ":burst", 20),
+         (assign, ":user_anim", "anim_force_push_use"),
+      (else_try),
+         (eq, ":force_power_level", 3),
+         (assign, ":damage", 45),
+         (assign, ":agents_to_shock", 4),
+         (assign, ":burst", 30),
+         (assign, ":user_anim", "anim_force_lightning"),
+      (else_try),
+         (eq, ":force_power_level", 4),
+         (assign, ":damage", 50),
+         (assign, ":agents_to_shock", 6),
+         (assign, ":burst", 50),
+         (assign, ":user_anim", "anim_force_lightning"),
+      (else_try),
+         (eq, ":force_power_level", 5),
+         (assign, ":damage", 60),
+         (assign, ":agents_to_shock", 10),
+         (assign, ":burst", 80),
+         (assign, ":user_anim", "anim_force_lightning"),
+      (try_end), # End Level Check
+
+      (agent_get_look_position, pos1, ":agent"),
+      (position_move_z,pos1, 140, 1),
+      (position_move_y,pos1, 100),
+      (agent_set_animation, ":agent", ":user_anim"),
+      (particle_system_burst, "psys_sw_lightning", pos1, ":burst"),
+      (particle_system_burst, "psys_sw_lightning_b", pos1, 8),
+      (agent_play_sound, ":agent", "snd_force_lightning"),
+
+
+      (try_for_agents, ":target", pos1, 500),
+         (agent_is_active, ":target"),
+         (agent_is_alive, ":target"),
+         (neg|agent_is_ally, ":target"), #no friendly fire
+         (neq, ":target", ":agent"),
+         (agent_get_position, pos2, ":target"),
+         (get_distance_between_positions, ":dist", pos1, pos2),
+         (le, ":dist", 500),
+         (position_transform_position_to_local, pos3, pos1, pos2),
+         (position_get_y, ":y", pos3),
+         (gt, ":y", 0),
+         (lt, ":shocked_agents", ":agents_to_shock"), # Allows us to limit the number of agents shocked
+         (val_add, ":shocked_agents", 1),
+         (position_move_z, pos2, 100),
+         (particle_system_burst, "psys_sw_lightning_victim", pos2, 100),
+         (particle_system_burst, "psys_sw_lightning_b", pos2, 15),
+         (agent_deliver_damage_to_agent, ":agent", ":target", ":damage"),
+         (agent_is_human, ":target"),
+         (agent_get_horse, ":horse", ":target"),
+         (try_begin),
+            (ge, ":horse", 0),
+            (agent_set_animation, ":target", "anim_force_lightning_victim", 1),
+         (else_try),
+            (agent_set_animation, ":target", "anim_force_lightning_victim", 0),
+         (try_end),
+      (try_end),
+   (try_end),
+]),
+
+
+("force_choke",
+[
+   (store_script_param, ":agent", 1),
+   (agent_get_troop_id, ":troop_id", ":agent"),
+   
+   (try_begin),
+      (ge, ":troop_id", 0),
+      (store_skill_level, ":force_power_level", skl_power_draw, ":troop_id"), #Force Knowledge
+      (ge, ":force_power_level", 4),
+
+      (assign, ":choked_agents", 0),
+      (assign, ":agents_to_choke", 1),
+
+      (try_begin),
+         (eq, ":force_power_level", 4),
+         (assign, ":damage_min", 50),
+         (assign, ":damage_max", 80),
+      (else_try),
+         (eq, ":force_power_level", 5),
+         (assign, ":damage_min", 90),
+         (assign, ":damage_max", 150),
+      (try_end), # End Level Check
+
+      (agent_get_look_position, pos1, ":agent"),
+      (position_move_z,pos1, 140, 1),
+      (position_move_y,pos1, 100),
+      (agent_set_animation, ":agent", "anim_force_lightning"),
+      (particle_system_burst, "psys_sw_lightning_b", pos1, 8),
+      (agent_play_sound, ":agent", "snd_force_push"),
+
+
+      (try_for_agents, ":target", pos1, 500),
+         (agent_is_active, ":target"),
+         (agent_is_alive, ":target"),
+         (neg|agent_is_ally, ":target"), #no friendly fire
+         (neq, ":target", ":agent"),
+         (agent_get_position, pos2, ":target"),
+         (get_distance_between_positions, ":dist", pos1, pos2),
+         (le, ":dist", 500),
+         (position_transform_position_to_local, pos3, pos1, pos2),
+         (position_get_y, ":y", pos3),
+         (gt, ":y", 0),
+         (lt, ":choked_agents", ":agents_to_choke"), # Allows us to limit the number of agents shocked
+         (val_add, ":choked_agents", 1),
+         (agent_get_bone_position, pos4, ":target", human_head, 1), #head
+         (particle_system_burst, "psys_game_blood", pos4,95),
+         (particle_system_burst, "psys_game_blood_2", pos4,95),
+         (store_random_in_range, ":damage", ":damage_min", ":damage_max"),
+         (agent_deliver_damage_to_agent, ":agent", ":target", ":damage"),
+         (agent_set_animation, ":target", "anim_force_choke"),
+         (agent_is_human, ":target"),
+         (agent_get_horse, ":horse", ":target"),
+         (try_begin),
+            (gt, ":horse", 1),
+            (agent_start_running_away, ":horse"),
+            (agent_stop_running_away, ":horse"),
+         (try_end),
+      (try_end),
+   (try_end),
+]),
+
+
+
+("spawn_scene_prop_with_particles",
+[
+   (store_script_param, ":scene_prop", 1),
+   (store_script_param, ":particle_system", 2),
+   (scene_prop_get_num_instances, ":num_instances", ":scene_prop"),
+   (try_for_range, ":instance_no", 0, ":num_instances"),
+      (scene_prop_get_instance, reg0, ":scene_prop", ":instance_no"),
+      (prop_instance_stop_all_particle_systems, reg0),
+      (prop_instance_set_position, reg0, pos1),
+      (prop_instance_add_particle_system, reg0, ":particle_system", pos1),
+      (assign, ":num_instances", -1),
+   (try_end),
+   (try_begin),
+      (gt, ":num_instances", -1),
+      (set_spawn_position, pos1),
+      (spawn_scene_prop, ":scene_prop"),
+   (try_end),
+]),
+
+("remove_scene_prop",
+[
+    (store_script_param, ":scene_prop", 1),
+    (set_fixed_point_multiplier, 100),
+    (position_set_z, pos1, -10000),
+    (prop_instance_set_position, ":scene_prop", pos1),
+]),
+
+
+
+
  ]
 
 scripts = scripts + ai_scripts

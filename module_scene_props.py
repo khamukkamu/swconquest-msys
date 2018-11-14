@@ -2832,6 +2832,16 @@ scene_props = [
 ("tatooine_house_3",0,"tatooine_house_3","bo_tatooine_house_3", []),
 ("tatooine_circle",0,"tatooine_circle","bo_tatooine_circle", []),
   
+
+("force_push",0,0,"0",
+ [
+ (ti_on_init_scene_prop,
+  [
+    (particle_system_burst, "psys_dummy_smoke", pos1, 1),
+    (particle_system_emit, "psys_fire_glow_1", 500, 60),
+  ]),
+ ]),
+
 #----------------------------------------------------------------------
 #add everything crashable here:(asteroids and etc.)
 #Highlander begin--------------------------------------

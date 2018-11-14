@@ -21,6 +21,7 @@ try_for_range_backwards = 7	# Same as above but starts from (upper-bound - 1) do
 				# (try_for_range_backwards,<destination>,<upper_bound>,<lower_bound>),
 try_for_parties   = 11          # (try_for_parties,<destination>),
 try_for_agents    = 12		# (try_for_agents,<destination>),
+try_for_prop_instances = 16 # (try_for_prop_instances, <destination>, [<object_id>], [<object_type>]), # if object_id  and object_type is not given, it loops through all instances. For object types see list of "somt_" in header_common.py 
 
 store_script_param_1 = 21       # (store_script_param_1,<destination>),  --(Within a script) stores the first script parameter.
 store_script_param_2 = 22       # (store_script_param_2,<destination>),  --(Within a script) stores the second script parameter.
@@ -884,6 +885,7 @@ lhs_operations = [try_for_range,
                   try_for_range_backwards,
                   try_for_parties,
                   try_for_agents,
+                  try_for_prop_instances,
                   store_script_param_1,
                   store_script_param_2,
                   store_script_param,

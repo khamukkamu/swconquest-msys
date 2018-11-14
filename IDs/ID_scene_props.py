@@ -1598,4 +1598,5 @@ spr_tatooine_wall_mid = 1596
 spr_tatooine_house_2 = 1597
 spr_tatooine_house_3 = 1598
 spr_tatooine_circle = 1599
-spr_scene_props_end = 1600
+spr_force_push = 1600
+spr_scene_props_end = 1601
