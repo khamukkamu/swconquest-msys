@@ -908,4 +908,5 @@ itm_speeder_dagger = 906
 itm_horses_end = 907
 itm_practice_speeder = 908
 itm_arena_speeder = 909
-itm_items_end = 910
+itm_lsb_with_westar = 910
+itm_items_end = 911

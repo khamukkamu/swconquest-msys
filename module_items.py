@@ -2775,6 +2775,10 @@ items = [
 	#################
 	# Autoloot: Need this dummy item here to mark end of file
 	#######
+
+
+["lsb_with_westar", "Lightsaber with Westar", [("westar_lh",0),("lightsaber_redoff",ixmesh_carry)], itp_type_two_handed_wpn|itp_primary|itp_bonus_against_shield|itp_wooden_parry|itp_wooden_attack, itc_lightsaber_1h|itcf_carry_dagger_front_left, 4000 , weight(2.1)|difficulty(14)|spd_rtng(140) | weapon_length(120)|swing_damage(100 , pierce) | thrust_damage(100 ,  pierce),imodbits_none ],
+
 	["items_end","<dummy>", [("_",0)], 0,0,0,0,imodbits_none],
 
 ]

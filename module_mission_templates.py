@@ -51,6 +51,7 @@ swc_kham_battle_triggers = [
       mission_start_fade_in,
       force_powers_use,
       force_lightning_use,
+      common_wot_cycle_through_known_weaves,
   ] + kham_new_iron_sight_trigger
 
 mission_templates = [

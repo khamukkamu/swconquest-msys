@@ -1,5 +1,5 @@
 itemsfile version 3
-911
+912
  itm_no_item <dummy> <dummy> 1  dummy_mesh 0  0 0 0 0 0 100 0 0 0 0 0 0 0 0 0 0 0
  0
 0
@@ -3966,6 +3966,10 @@ itemsfile version 3
 0
 
  itm_arena_speeder Civilian_74-Z_Speeder_Bike Civilian_74-Z_Speeder_Bike 1  speeder_a 0  4097 0 1000 0 0 100 0 0 0 0 30 45 50 0 0 15 0
+ 0
+0
+
+ itm_lsb_with_westar Lightsaber_with_Westar Lightsaber_with_Westar 2  westar_lh 0  lightsaber_redoff 3458764513820540928  71696387 9223388530560991247 4009 0 2 100 0 0 0 14 36864 140 0 120 0 356 356
  0
 0
 

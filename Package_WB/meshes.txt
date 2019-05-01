@@ -1,4 +1,4 @@
-443
+460
 mesh_pic_bandits 0 pic_bandits 0 0 0 0 0 0 1 1 1
 mesh_pic_mb_warrior_1 0 pic_mb_warrior_1 0 0 0 0 0 0 1 1 1
 mesh_pic_messenger 0 pic_messenger 0 0 0 0 0 0 1 1 1
@@ -442,3 +442,20 @@ mesh_flag_horsemen 0 flag_horsemen 0 0 0 0 0 0 1 1 1
 mesh_flag_d7 0 flag_spears 0 0 0 0 0 0 1 1 1
 mesh_flag_d8 0 flag_skirmishers 0 0 0 0 0 0 1 1 1
 mesh_flag_d9 0 flag_horsemen 0 0 0 0 0 0 1 1 1
+mesh_status_force_stamina_bar 0 slider_hor 0 0 0 0 0 0 0.55 1 1
+mesh_status_force_stamina_bar_button 0 handle_hor 0 0 0 0 0 0 1 1 1
+mesh_force_white_plane 0 white_plane 0 0 0 0 0 0 0.55 1 1
+mesh_weave_air_blast 0 weave_air_blast 0 0 0 0 0 0 0.3 0.3 1
+mesh_weave_freeze_blast 0 weave_freeze_blast 0 0 0 0 0 0 0.3 0.3 1
+mesh_weave_heal 0 weave_heal 0 0 0 0 0 0 0.3 0.3 1
+mesh_weave_fire_ball 0 weave_fire_ball 0 0 0 0 0 0 0.3 0.3 1
+mesh_weave_unravel 0 weave_unravel 0 0 0 0 0 0 0.3 0.3 1
+mesh_weave_defensive_blast 0 weave_defensive_blast 0 0 0 0 0 0 0.3 0.3 1
+mesh_weave_ranged_earth_blast 0 weave_ranged_earth_blast 0 0 0 0 0 0 0.3 0.3 1
+mesh_weave_bind 0 weave_bind 0 0 0 0 0 0 0.3 0.3 1
+mesh_weave_chain_lightning 0 weave_chain_lightning 0 0 0 0 0 0 0.3 0.3 1
+mesh_weave_fire_curtain 0 weave_fire_curtain 0 0 0 0 0 0 0.3 0.3 1
+mesh_weave_shield 0 weave_shield 0 0 0 0 0 0 0.3 0.3 1
+mesh_weave_seeker 0 weave_seeker 0 0 0 0 0 0 0.3 0.3 1
+mesh_weave_compulsion 0 weave_compulsion 0 0 0 0 0 0 0.3 0.3 1
+mesh_weave_balefire 0 weave_balefire 0 0 0 0 0 0 0.3 0.3 1

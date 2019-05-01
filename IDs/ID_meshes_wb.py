@@ -441,5 +441,22 @@ mesh_flag_horsemen = 439
 mesh_flag_d7 = 440
 mesh_flag_d8 = 441
 mesh_flag_d9 = 442
+mesh_status_force_stamina_bar = 443
+mesh_status_force_stamina_bar_button = 444
+mesh_force_white_plane = 445
+mesh_weave_air_blast = 446
+mesh_weave_freeze_blast = 447
+mesh_weave_heal = 448
+mesh_weave_fire_ball = 449
+mesh_weave_unravel = 450
+mesh_weave_defensive_blast = 451
+mesh_weave_ranged_earth_blast = 452
+mesh_weave_bind = 453
+mesh_weave_chain_lightning = 454
+mesh_weave_fire_curtain = 455
+mesh_weave_shield = 456
+mesh_weave_seeker = 457
+mesh_weave_compulsion = 458
+mesh_weave_balefire = 459
 
 

@@ -1062,10 +1062,10 @@
   2.1 ani_fall_flyback2_far_rise_from_left 0 49 515 102 -0.933 -3.8 0  0.5 
  strike_fly_front_rise 17410 192938064  1
   1.12 ani_fall_flyfront_rise 0 77 515 102 -0.36 2.93 0  1 
- unused_human_anim_14 0 0  1
-  1 anim_human 0 1 0 0 0 0 0 0.0 
- unused_human_anim_15 0 0  1
-  1 anim_human 0 1 0 0 0 0 0 0.0 
+ ready_pistol_left 1679818752 606093407  1
+  0.3 pistol_shoot_left 14 14 9 0 0 0 0 0.0 
+ release_pistol_left 1679818752 572538975  1
+  0.3 aim_sky_pistol_left 15 15 2 0 0 0 0 0.0 
  unused_human_anim_16 0 0  1
   1 anim_human 0 1 0 0 0 0 0 0.0 
  unused_human_anim_17 0 0  1

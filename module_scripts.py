@@ -109,7 +109,7 @@ scripts = [
       (assign, "$freelancer_enhanced_upgrade", 1), #Freelancer - Default to Advanced Upgrade system
       (assign, "$freelancer_missions", 1), #Allow Freelancer Missions
       #Custom Camera Initialize  
-      (assign, "$key_camera_toggle",      key_left_shift),             # RMB key to toggle camera mode.
+      (assign, "$key_camera_toggle",      key_right_mouse_button),             # RMB key to toggle camera mode.
 
       #Init Race item Slots
       (try_for_range, ":wookiee", "itm_wookiee_fullbody", "itm_kaminoan_female_head"), #wookies
@@ -39419,6 +39419,24 @@ if is_a_wb_script==1:
 
 # Force Powers Begin
 
+("select_force_power", [
+
+   (get_player_agent_no, ":player"),
+
+   (troop_get_slot, ":selected", "trp_player", slot_troop_active_force),
+
+   (try_begin),
+      (eq, ":selected", FORCE_LIGHTNING),
+      (call_script, "script_force_lightning", ":player"),
+   (else_try),
+      (eq, ":selected", FORCE_CHOKE),
+      (call_script, "script_force_choke", ":player"),
+   (else_try),
+      (call_script, "script_force_push", ":player"),
+   (try_end),
+
+ ]),
+
 # Force Push
 
 # script_get_force_push_anim stores the animation the vicitm will play to reg0
@@ -39512,7 +39530,7 @@ if is_a_wb_script==1:
             (position_is_behind_position,pos9,pos19), # Player is behind Target
             (assign, ":hit_anim", "anim_strike_fly_front_rise"), # send them flying front
          (try_end),
-         (agent_get_bone_position, pos1, ":target", human_thorax, 1), #chest
+         (agent_get_bone_position, pos33, ":target", human_thorax, 1), #chest
          (call_script, "script_spawn_scene_prop_with_particles", "spr_force_push", "psys_dummy_smoke"),
          #(particle_system_burst, "psys_dummy_smoke", pos3, 5),
          (agent_set_animation, ":target", ":hit_anim"),
@@ -39577,31 +39595,31 @@ if is_a_wb_script==1:
          (assign, ":user_anim", "anim_force_lightning"),
       (try_end), # End Level Check
 
-      (agent_get_look_position, pos1, ":agent"),
-      (position_move_z,pos1, 140, 1),
-      (position_move_y,pos1, 100),
+      (agent_get_look_position, pos33, ":agent"),
+      (position_move_z,pos33, 140, 1),
+      (position_move_y,pos33, 100),
       (agent_set_animation, ":agent", ":user_anim"),
-      (particle_system_burst, "psys_sw_lightning", pos1, ":burst"),
-      (particle_system_burst, "psys_sw_lightning_b", pos1, 8),
+      (particle_system_burst, "psys_sw_lightning", pos33, ":burst"),
+      (particle_system_burst, "psys_sw_lightning_b", pos33, 8),
       (agent_play_sound, ":agent", "snd_force_lightning"),
 
 
-      (try_for_agents, ":target", pos1, 500),
+      (try_for_agents, ":target", pos33, 500),
          (agent_is_active, ":target"),
          (agent_is_alive, ":target"),
          (neg|agent_is_ally, ":target"), #no friendly fire
          (neq, ":target", ":agent"),
-         (agent_get_position, pos2, ":target"),
-         (get_distance_between_positions, ":dist", pos1, pos2),
+         (agent_get_position, pos34, ":target"),
+         (get_distance_between_positions, ":dist", pos33, pos34),
          (le, ":dist", 500),
-         (position_transform_position_to_local, pos3, pos1, pos2),
+         (position_transform_position_to_local, pos3, pos33, pos34),
          (position_get_y, ":y", pos3),
          (gt, ":y", 0),
          (lt, ":shocked_agents", ":agents_to_shock"), # Allows us to limit the number of agents shocked
          (val_add, ":shocked_agents", 1),
-         (position_move_z, pos2, 100),
-         (particle_system_burst, "psys_sw_lightning_victim", pos2, 100),
-         (particle_system_burst, "psys_sw_lightning_b", pos2, 15),
+         (position_move_z, pos34, 100),
+         (particle_system_burst, "psys_sw_lightning_victim", pos34, 100),
+         (particle_system_burst, "psys_sw_lightning_b", pos34, 15),
          (agent_deliver_damage_to_agent, ":agent", ":target", ":damage"),
          (agent_is_human, ":target"),
          (agent_get_horse, ":horse", ":target"),
@@ -39639,30 +39657,30 @@ if is_a_wb_script==1:
          (assign, ":damage_max", 150),
       (try_end), # End Level Check
 
-      (agent_get_look_position, pos1, ":agent"),
-      (position_move_z,pos1, 140, 1),
-      (position_move_y,pos1, 100),
+      (agent_get_look_position, pos33, ":agent"),
+      (position_move_z,pos33, 140, 1),
+      (position_move_y,pos33, 100),
       (agent_set_animation, ":agent", "anim_force_lightning"),
-      (particle_system_burst, "psys_sw_lightning_b", pos1, 8),
+      (particle_system_burst, "psys_sw_lightning_b", pos33, 8),
       (agent_play_sound, ":agent", "snd_force_push"),
 
 
-      (try_for_agents, ":target", pos1, 500),
+      (try_for_agents, ":target", pos33, 500),
          (agent_is_active, ":target"),
          (agent_is_alive, ":target"),
          (neg|agent_is_ally, ":target"), #no friendly fire
          (neq, ":target", ":agent"),
-         (agent_get_position, pos2, ":target"),
-         (get_distance_between_positions, ":dist", pos1, pos2),
+         (agent_get_position, pos34, ":target"),
+         (get_distance_between_positions, ":dist", pos33, pos34),
          (le, ":dist", 500),
-         (position_transform_position_to_local, pos3, pos1, pos2),
+         (position_transform_position_to_local, pos3, pos33, pos34),
          (position_get_y, ":y", pos3),
          (gt, ":y", 0),
          (lt, ":choked_agents", ":agents_to_choke"), # Allows us to limit the number of agents shocked
          (val_add, ":choked_agents", 1),
-         (agent_get_bone_position, pos4, ":target", human_head, 1), #head
-         (particle_system_burst, "psys_game_blood", pos4,95),
-         (particle_system_burst, "psys_game_blood_2", pos4,95),
+         (agent_get_bone_position, pos35, ":target", human_head, 1), #head
+         (particle_system_burst, "psys_game_blood", pos35,95),
+         (particle_system_burst, "psys_game_blood_2", pos35,95),
          (store_random_in_range, ":damage", ":damage_min", ":damage_max"),
          (agent_deliver_damage_to_agent, ":agent", ":target", ":damage"),
          (agent_set_animation, ":target", "anim_force_choke"),
@@ -39707,6 +39725,31 @@ if is_a_wb_script==1:
 ]),
 
 
+("fire_offhand_weapon", 
+   [
+      (store_script_param, ":shooter_agent", 1),
+      (store_script_param, ":shooter_weapon", 2),
+      (store_script_param, ":shooter_ammo", 3),
+
+############# RAISE POS TO EYE LEVEL & MOVE TO END OF GUN ###############
+      (agent_get_look_position, pos1, ":shooter_agent"),
+      (position_move_y, pos1, 80, 0),
+
+      (try_begin),
+         (agent_get_horse, ":horse", ":shooter_agent"),
+         (gt, ":horse", 0),
+         (position_move_z, pos1, 240, 0),
+      (else_try),
+         (position_move_z, pos1, 150, 0),
+      (try_end),
+
+     (agent_set_animation, ":shooter_agent", "anim_release_pistol_left", 1),
+
+     (item_get_slot, ":velocity", ":shooter_weapon", slot_item_shoot_speed),
+         (set_fixed_point_multiplier, 1),
+     (add_missile, ":shooter_agent", pos1, ":velocity", ":shooter_weapon", 0, ":shooter_ammo", 0),
+
+ ]),
 
 
  ]

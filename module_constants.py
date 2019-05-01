@@ -1676,6 +1676,41 @@ slot_troop_male_hair_2 = 169
 slot_troop_female_hair_1 = 170
 slot_troop_female_hair_2 = 171
 
+slot_troop_active_force = 2000
+
+slot_troop_force_lightning_known     = 2001
+slot_troop_force_stun_known         = 2002
+slot_troop_force_push_known         = 2003
+slot_troop_force_choke_known        = 2004
+slot_troop_unravel_known            = 2005
+slot_troop_defensive_blast_known    = 2006
+slot_troop_earth_blast_known        = 2007
+slot_troop_bind_known               = 2008
+slot_troop_chain_lightning_known    = 2009
+slot_troop_fire_curtain_known       = 2010
+slot_troop_shield_known             = 2011
+slot_troop_seeker_known             = 2012
+slot_troop_compulsion_known         = 2013
+slot_troop_balefire_known           = 2014
+
+# Force Power Slots
+
+NO_FORCE = 0
+FORCE_LIGHTNING = 1
+FORCE_STUN = 2
+FORCE_PUSH = 3
+FORCE_CHOKE = 4
+UNRAVEL_WEAVE           = 5
+DEFENSIVE_BLAST_WEAVE   = 6
+EARTH_BLAST_WEAVE       = 7
+BIND_WEAVE              = 8
+CHAIN_LIGHTNING_WEAVE   = 9
+FIRE_CURTAIN_WEAVE      = 10
+SHIELD_WEAVE            = 11
+SEEKER_WEAVE            = 12
+COMPULSION_WEAVE        = 13
+BALEFIRE_WEAVE          = 14
+
 
 # Formations AI v5 by Motomataru
 # rel. 02/12/2016

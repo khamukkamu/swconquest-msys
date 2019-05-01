@@ -9567,12 +9567,78 @@ if wb_compile_switch==1:
 #Force Stamina - Credit to VC Team
 ("staminabar", prsntf_read_only|prsntf_manual_end_only, 0, [
     (ti_on_presentation_load, [
+
+        (assign, "$staminabar_active", 1),
         (set_fixed_point_multiplier, 1000),
 
         (str_clear, s12),
         (str_clear, s13),
         (get_player_agent_no, ":player"),
         (agent_get_wielded_item, ":weapon", ":player", 0),
+
+        (try_begin),
+          (position_set_x, pos1, 930),
+          (position_set_y, pos1, 205),
+
+          (position_set_x, pos2, 1),
+          (position_set_y, pos2, 1),
+      
+          (create_mesh_overlay, "$g_presentation_obj_21", "mesh_weave_air_blast"),
+          (overlay_set_position, "$g_presentation_obj_21", pos1),
+          (overlay_set_size, "$g_presentation_obj_21", pos2),
+      
+          (create_mesh_overlay, "$g_presentation_obj_22", "mesh_weave_freeze_blast"),
+          (overlay_set_position, "$g_presentation_obj_22", pos1),
+          (overlay_set_size, "$g_presentation_obj_22", pos2),
+      
+          (create_mesh_overlay, "$g_presentation_obj_23", "mesh_weave_heal"),
+          (overlay_set_position, "$g_presentation_obj_23", pos1),
+          (overlay_set_size, "$g_presentation_obj_23", pos2),
+      
+          (create_mesh_overlay, "$g_presentation_obj_24", "mesh_weave_fire_ball"),
+          (overlay_set_position, "$g_presentation_obj_24", pos1),
+          (overlay_set_size, "$g_presentation_obj_24", pos2),
+      
+          (create_mesh_overlay, "$g_presentation_obj_25", "mesh_weave_unravel"),
+          (overlay_set_position, "$g_presentation_obj_25", pos1),
+          (overlay_set_size, "$g_presentation_obj_25", pos2),
+      
+          (create_mesh_overlay, "$g_presentation_obj_26", "mesh_weave_defensive_blast"),
+          (overlay_set_position, "$g_presentation_obj_26", pos1),
+          (overlay_set_size, "$g_presentation_obj_26", pos2),
+      
+          (create_mesh_overlay, "$g_presentation_obj_27", "mesh_weave_ranged_earth_blast"),
+          (overlay_set_position, "$g_presentation_obj_27", pos1),
+          (overlay_set_size, "$g_presentation_obj_27", pos2),
+      
+          (create_mesh_overlay, "$g_presentation_obj_28", "mesh_weave_bind"),
+          (overlay_set_position, "$g_presentation_obj_28", pos1),
+          (overlay_set_size, "$g_presentation_obj_28", pos2),
+      
+          (create_mesh_overlay, "$g_presentation_obj_29", "mesh_weave_chain_lightning"),
+          (overlay_set_position, "$g_presentation_obj_29", pos1),
+          (overlay_set_size, "$g_presentation_obj_29", pos2),
+      
+          (create_mesh_overlay, "$g_presentation_obj_30", "mesh_weave_fire_curtain"),
+          (overlay_set_position, "$g_presentation_obj_30", pos1),
+          (overlay_set_size, "$g_presentation_obj_30", pos2),
+      
+          (create_mesh_overlay, "$g_presentation_obj_31", "mesh_weave_shield"),
+          (overlay_set_position, "$g_presentation_obj_31", pos1),
+          (overlay_set_size, "$g_presentation_obj_31", pos2),
+      
+          (create_mesh_overlay, "$g_presentation_obj_32", "mesh_weave_seeker"),
+          (overlay_set_position, "$g_presentation_obj_32", pos1),
+          (overlay_set_size, "$g_presentation_obj_32", pos2),
+      
+          (create_mesh_overlay, "$g_presentation_obj_33", "mesh_weave_compulsion"),
+          (overlay_set_position, "$g_presentation_obj_33", pos1),
+          (overlay_set_size, "$g_presentation_obj_33", pos2),
+      
+          (create_mesh_overlay, "$g_presentation_obj_34", "mesh_weave_balefire"),
+          (overlay_set_position, "$g_presentation_obj_34", pos1),
+          (overlay_set_size, "$g_presentation_obj_34", pos2),
+        (try_end),
 
         (try_begin),
           (is_between, ":weapon", "itm_ranged_weapons_begin", "itm_ranged_weapons_end"), #ranged weapons
@@ -9662,6 +9728,279 @@ if wb_compile_switch==1:
     ]),
     (ti_on_presentation_run,
       [
+
+      (try_begin),
+
+        ### ADDED THIS FOR THE CHANNELING CHANGE WEAVE MESHES
+
+        (position_set_x, pos1, 800),
+        (position_set_y, pos1, 1200),
+
+        (position_set_x, pos2, 1),
+        (position_set_y, pos2, 1),
+
+        (try_begin),
+        (troop_slot_eq, "trp_player", slot_troop_active_force, FORCE_LIGHTNING),
+            (overlay_set_size, "$g_presentation_obj_21", pos1),
+    
+#                (overlay_set_size, "$g_presentation_obj_21", pos2),
+            (overlay_set_size, "$g_presentation_obj_22", pos2),
+            (overlay_set_size, "$g_presentation_obj_23", pos2),
+            (overlay_set_size, "$g_presentation_obj_24", pos2),
+            (overlay_set_size, "$g_presentation_obj_25", pos2),
+            (overlay_set_size, "$g_presentation_obj_26", pos2),
+            (overlay_set_size, "$g_presentation_obj_27", pos2),
+            (overlay_set_size, "$g_presentation_obj_28", pos2),
+            (overlay_set_size, "$g_presentation_obj_29", pos2),
+            (overlay_set_size, "$g_presentation_obj_30", pos2),
+            (overlay_set_size, "$g_presentation_obj_31", pos2),
+            (overlay_set_size, "$g_presentation_obj_32", pos2),
+            (overlay_set_size, "$g_presentation_obj_33", pos2),
+            (overlay_set_size, "$g_presentation_obj_34", pos2),
+        (else_try),
+        (troop_slot_eq, "trp_player", slot_troop_active_force, FORCE_STUN),
+            (overlay_set_size, "$g_presentation_obj_22", pos1),
+    
+            (overlay_set_size, "$g_presentation_obj_21", pos2),
+#                (overlay_set_size, "$g_presentation_obj_22", pos2),
+            (overlay_set_size, "$g_presentation_obj_23", pos2),
+            (overlay_set_size, "$g_presentation_obj_24", pos2),
+            (overlay_set_size, "$g_presentation_obj_25", pos2),
+            (overlay_set_size, "$g_presentation_obj_26", pos2),
+            (overlay_set_size, "$g_presentation_obj_27", pos2),
+            (overlay_set_size, "$g_presentation_obj_28", pos2),
+            (overlay_set_size, "$g_presentation_obj_29", pos2),
+            (overlay_set_size, "$g_presentation_obj_30", pos2),
+            (overlay_set_size, "$g_presentation_obj_31", pos2),
+            (overlay_set_size, "$g_presentation_obj_32", pos2),
+            (overlay_set_size, "$g_presentation_obj_33", pos2),
+            (overlay_set_size, "$g_presentation_obj_34", pos2),
+        (else_try),
+        (troop_slot_eq, "trp_player", slot_troop_active_force, FORCE_PUSH),
+            (overlay_set_size, "$g_presentation_obj_23", pos1),
+    
+            (overlay_set_size, "$g_presentation_obj_21", pos2),
+            (overlay_set_size, "$g_presentation_obj_22", pos2),
+#                (overlay_set_size, "$g_presentation_obj_23", pos2),
+            (overlay_set_size, "$g_presentation_obj_24", pos2),
+            (overlay_set_size, "$g_presentation_obj_25", pos2),
+            (overlay_set_size, "$g_presentation_obj_26", pos2),
+            (overlay_set_size, "$g_presentation_obj_27", pos2),
+            (overlay_set_size, "$g_presentation_obj_28", pos2),
+            (overlay_set_size, "$g_presentation_obj_29", pos2),
+            (overlay_set_size, "$g_presentation_obj_30", pos2),
+            (overlay_set_size, "$g_presentation_obj_31", pos2),
+            (overlay_set_size, "$g_presentation_obj_32", pos2),
+            (overlay_set_size, "$g_presentation_obj_33", pos2),
+            (overlay_set_size, "$g_presentation_obj_34", pos2),
+        (else_try),
+        (troop_slot_eq, "trp_player", slot_troop_active_force, FORCE_CHOKE),
+            (overlay_set_size, "$g_presentation_obj_24", pos1),
+    
+            (overlay_set_size, "$g_presentation_obj_21", pos2),
+            (overlay_set_size, "$g_presentation_obj_22", pos2),
+            (overlay_set_size, "$g_presentation_obj_23", pos2),
+#                (overlay_set_size, "$g_presentation_obj_24", pos2),
+            (overlay_set_size, "$g_presentation_obj_25", pos2),
+            (overlay_set_size, "$g_presentation_obj_26", pos2),
+            (overlay_set_size, "$g_presentation_obj_27", pos2),
+            (overlay_set_size, "$g_presentation_obj_28", pos2),
+            (overlay_set_size, "$g_presentation_obj_29", pos2),
+            (overlay_set_size, "$g_presentation_obj_30", pos2),
+            (overlay_set_size, "$g_presentation_obj_31", pos2),
+            (overlay_set_size, "$g_presentation_obj_32", pos2),
+            (overlay_set_size, "$g_presentation_obj_33", pos2),
+            (overlay_set_size, "$g_presentation_obj_34", pos2),
+        (else_try),
+        (troop_slot_eq, "trp_player", slot_troop_active_force, UNRAVEL_WEAVE),
+            (overlay_set_size, "$g_presentation_obj_25", pos1),
+    
+            (overlay_set_size, "$g_presentation_obj_21", pos2),
+            (overlay_set_size, "$g_presentation_obj_22", pos2),
+            (overlay_set_size, "$g_presentation_obj_23", pos2),
+            (overlay_set_size, "$g_presentation_obj_24", pos2),
+#                (overlay_set_size, "$g_presentation_obj_25", pos2),
+            (overlay_set_size, "$g_presentation_obj_26", pos2),
+            (overlay_set_size, "$g_presentation_obj_27", pos2),
+            (overlay_set_size, "$g_presentation_obj_28", pos2),
+            (overlay_set_size, "$g_presentation_obj_29", pos2),
+            (overlay_set_size, "$g_presentation_obj_30", pos2),
+            (overlay_set_size, "$g_presentation_obj_31", pos2),
+            (overlay_set_size, "$g_presentation_obj_32", pos2),
+            (overlay_set_size, "$g_presentation_obj_33", pos2),
+            (overlay_set_size, "$g_presentation_obj_34", pos2),
+        (else_try),
+        (troop_slot_eq, "trp_player", slot_troop_active_force, DEFENSIVE_BLAST_WEAVE),
+            (overlay_set_size, "$g_presentation_obj_26", pos1),
+    
+            (overlay_set_size, "$g_presentation_obj_21", pos2),
+            (overlay_set_size, "$g_presentation_obj_22", pos2),
+            (overlay_set_size, "$g_presentation_obj_23", pos2),
+            (overlay_set_size, "$g_presentation_obj_24", pos2),
+            (overlay_set_size, "$g_presentation_obj_25", pos2),
+#                (overlay_set_size, "$g_presentation_obj_26", pos2),
+            (overlay_set_size, "$g_presentation_obj_27", pos2),
+            (overlay_set_size, "$g_presentation_obj_28", pos2),
+            (overlay_set_size, "$g_presentation_obj_29", pos2),
+            (overlay_set_size, "$g_presentation_obj_30", pos2),
+            (overlay_set_size, "$g_presentation_obj_31", pos2),
+            (overlay_set_size, "$g_presentation_obj_32", pos2),
+            (overlay_set_size, "$g_presentation_obj_33", pos2),
+            (overlay_set_size, "$g_presentation_obj_34", pos2),
+        (else_try),
+        (troop_slot_eq, "trp_player", slot_troop_active_force, EARTH_BLAST_WEAVE),
+            (overlay_set_size, "$g_presentation_obj_27", pos1),
+    
+            (overlay_set_size, "$g_presentation_obj_21", pos2),
+            (overlay_set_size, "$g_presentation_obj_22", pos2),
+            (overlay_set_size, "$g_presentation_obj_23", pos2),
+            (overlay_set_size, "$g_presentation_obj_24", pos2),
+            (overlay_set_size, "$g_presentation_obj_25", pos2),
+            (overlay_set_size, "$g_presentation_obj_26", pos2),
+#                (overlay_set_size, "$g_presentation_obj_27", pos2),
+            (overlay_set_size, "$g_presentation_obj_28", pos2),
+            (overlay_set_size, "$g_presentation_obj_29", pos2),
+            (overlay_set_size, "$g_presentation_obj_30", pos2),
+            (overlay_set_size, "$g_presentation_obj_31", pos2),
+            (overlay_set_size, "$g_presentation_obj_32", pos2),
+            (overlay_set_size, "$g_presentation_obj_33", pos2),
+            (overlay_set_size, "$g_presentation_obj_34", pos2),
+        (else_try),
+        (troop_slot_eq, "trp_player", slot_troop_active_force, BIND_WEAVE),
+            (overlay_set_size, "$g_presentation_obj_28", pos1),
+    
+            (overlay_set_size, "$g_presentation_obj_21", pos2),
+            (overlay_set_size, "$g_presentation_obj_22", pos2),
+            (overlay_set_size, "$g_presentation_obj_23", pos2),
+            (overlay_set_size, "$g_presentation_obj_24", pos2),
+            (overlay_set_size, "$g_presentation_obj_25", pos2),
+            (overlay_set_size, "$g_presentation_obj_26", pos2),
+            (overlay_set_size, "$g_presentation_obj_27", pos2),
+#                (overlay_set_size, "$g_presentation_obj_28", pos2),
+            (overlay_set_size, "$g_presentation_obj_29", pos2),
+            (overlay_set_size, "$g_presentation_obj_30", pos2),
+            (overlay_set_size, "$g_presentation_obj_31", pos2),
+            (overlay_set_size, "$g_presentation_obj_32", pos2),
+            (overlay_set_size, "$g_presentation_obj_33", pos2),
+            (overlay_set_size, "$g_presentation_obj_34", pos2),
+        (else_try),
+        (troop_slot_eq, "trp_player", slot_troop_active_force, CHAIN_LIGHTNING_WEAVE),
+            (overlay_set_size, "$g_presentation_obj_29", pos1),
+    
+            (overlay_set_size, "$g_presentation_obj_21", pos2),
+            (overlay_set_size, "$g_presentation_obj_22", pos2),
+            (overlay_set_size, "$g_presentation_obj_23", pos2),
+            (overlay_set_size, "$g_presentation_obj_24", pos2),
+            (overlay_set_size, "$g_presentation_obj_25", pos2),
+            (overlay_set_size, "$g_presentation_obj_26", pos2),
+            (overlay_set_size, "$g_presentation_obj_27", pos2),
+            (overlay_set_size, "$g_presentation_obj_28", pos2),
+#                (overlay_set_size, "$g_presentation_obj_29", pos2),
+            (overlay_set_size, "$g_presentation_obj_30", pos2),
+            (overlay_set_size, "$g_presentation_obj_31", pos2),
+            (overlay_set_size, "$g_presentation_obj_32", pos2),
+            (overlay_set_size, "$g_presentation_obj_33", pos2),
+            (overlay_set_size, "$g_presentation_obj_34", pos2),
+        (else_try),
+        (troop_slot_eq, "trp_player", slot_troop_active_force, FIRE_CURTAIN_WEAVE),
+            (overlay_set_size, "$g_presentation_obj_30", pos1),
+    
+            (overlay_set_size, "$g_presentation_obj_21", pos2),
+            (overlay_set_size, "$g_presentation_obj_22", pos2),
+            (overlay_set_size, "$g_presentation_obj_23", pos2),
+            (overlay_set_size, "$g_presentation_obj_24", pos2),
+            (overlay_set_size, "$g_presentation_obj_25", pos2),
+            (overlay_set_size, "$g_presentation_obj_26", pos2),
+            (overlay_set_size, "$g_presentation_obj_27", pos2),
+            (overlay_set_size, "$g_presentation_obj_28", pos2),
+            (overlay_set_size, "$g_presentation_obj_29", pos2),
+#                (overlay_set_size, "$g_presentation_obj_30", pos2),
+            (overlay_set_size, "$g_presentation_obj_31", pos2),
+            (overlay_set_size, "$g_presentation_obj_32", pos2),
+            (overlay_set_size, "$g_presentation_obj_33", pos2),
+            (overlay_set_size, "$g_presentation_obj_34", pos2),
+        (else_try),
+        (troop_slot_eq, "trp_player", slot_troop_active_force, SHIELD_WEAVE),
+            (overlay_set_size, "$g_presentation_obj_31", pos1),
+    
+            (overlay_set_size, "$g_presentation_obj_21", pos2),
+            (overlay_set_size, "$g_presentation_obj_22", pos2),
+            (overlay_set_size, "$g_presentation_obj_23", pos2),
+            (overlay_set_size, "$g_presentation_obj_24", pos2),
+            (overlay_set_size, "$g_presentation_obj_25", pos2),
+            (overlay_set_size, "$g_presentation_obj_26", pos2),
+            (overlay_set_size, "$g_presentation_obj_27", pos2),
+            (overlay_set_size, "$g_presentation_obj_28", pos2),
+            (overlay_set_size, "$g_presentation_obj_29", pos2),
+            (overlay_set_size, "$g_presentation_obj_30", pos2),
+#                (overlay_set_size, "$g_presentation_obj_31", pos2),
+            (overlay_set_size, "$g_presentation_obj_32", pos2),
+            (overlay_set_size, "$g_presentation_obj_33", pos2),
+            (overlay_set_size, "$g_presentation_obj_34", pos2),
+        (else_try),
+        (troop_slot_eq, "trp_player", slot_troop_active_force, SEEKER_WEAVE),
+            (overlay_set_size, "$g_presentation_obj_32", pos1),
+    
+            (overlay_set_size, "$g_presentation_obj_21", pos2),
+            (overlay_set_size, "$g_presentation_obj_22", pos2),
+            (overlay_set_size, "$g_presentation_obj_23", pos2),
+            (overlay_set_size, "$g_presentation_obj_24", pos2),
+            (overlay_set_size, "$g_presentation_obj_25", pos2),
+            (overlay_set_size, "$g_presentation_obj_26", pos2),
+            (overlay_set_size, "$g_presentation_obj_27", pos2),
+            (overlay_set_size, "$g_presentation_obj_28", pos2),
+            (overlay_set_size, "$g_presentation_obj_29", pos2),
+            (overlay_set_size, "$g_presentation_obj_30", pos2),
+            (overlay_set_size, "$g_presentation_obj_31", pos2),
+#                (overlay_set_size, "$g_presentation_obj_32", pos2),
+            (overlay_set_size, "$g_presentation_obj_33", pos2),
+            (overlay_set_size, "$g_presentation_obj_34", pos2),
+        (else_try),
+        (troop_slot_eq, "trp_player", slot_troop_active_force, COMPULSION_WEAVE),
+            (overlay_set_size, "$g_presentation_obj_33", pos1),
+    
+            (overlay_set_size, "$g_presentation_obj_21", pos2),
+            (overlay_set_size, "$g_presentation_obj_22", pos2),
+            (overlay_set_size, "$g_presentation_obj_23", pos2),
+            (overlay_set_size, "$g_presentation_obj_24", pos2),
+            (overlay_set_size, "$g_presentation_obj_25", pos2),
+            (overlay_set_size, "$g_presentation_obj_26", pos2),
+            (overlay_set_size, "$g_presentation_obj_27", pos2),
+            (overlay_set_size, "$g_presentation_obj_28", pos2),
+            (overlay_set_size, "$g_presentation_obj_29", pos2),
+            (overlay_set_size, "$g_presentation_obj_30", pos2),
+            (overlay_set_size, "$g_presentation_obj_31", pos2),
+            (overlay_set_size, "$g_presentation_obj_32", pos2),
+#                (overlay_set_size, "$g_presentation_obj_33", pos2),
+            (overlay_set_size, "$g_presentation_obj_34", pos2),
+        (else_try),
+        (troop_slot_eq, "trp_player", slot_troop_active_force, BALEFIRE_WEAVE),
+            (overlay_set_size, "$g_presentation_obj_34", pos1),
+    
+            (overlay_set_size, "$g_presentation_obj_21", pos2),
+            (overlay_set_size, "$g_presentation_obj_22", pos2),
+            (overlay_set_size, "$g_presentation_obj_23", pos2),
+            (overlay_set_size, "$g_presentation_obj_24", pos2),
+            (overlay_set_size, "$g_presentation_obj_25", pos2),
+            (overlay_set_size, "$g_presentation_obj_26", pos2),
+            (overlay_set_size, "$g_presentation_obj_27", pos2),
+            (overlay_set_size, "$g_presentation_obj_28", pos2),
+            (overlay_set_size, "$g_presentation_obj_29", pos2),
+            (overlay_set_size, "$g_presentation_obj_30", pos2),
+            (overlay_set_size, "$g_presentation_obj_31", pos2),
+            (overlay_set_size, "$g_presentation_obj_32", pos2),
+            (overlay_set_size, "$g_presentation_obj_33", pos2),
+#                (overlay_set_size, "$g_presentation_obj_34", pos2),
+        (try_end),
+      (try_end),
+      
+      (try_begin),
+        (eq, "$staminabar_active", 1),
+        (key_is_down, key_caps_lock),
+        (assign, "$staminabar_active", 0),
+        (presentation_set_duration, 0),
+        (start_presentation, "prsnt_battle_time_force_selection"),
+      (try_end),
     ]),
 ]),
 
@@ -11741,6 +12080,1305 @@ if wb_compile_switch==1:
     # ]),
 ]),
 
+
+
+## Force Selection - Taken from The Gathering Storm mod by mat2rivs
+
+
+("battle_time_force_selection_w_stamina",prsntf_manual_end_only,0,[
+      (ti_on_presentation_load,
+       [
+        (assign, "$g_run_battle_time_force_selection", 1),
+        (set_fixed_point_multiplier, 1000),
+
+        ### ADDED THIS FOR TGS CHANNELING STAMINA BAR
+        
+        (create_mesh_overlay, "$g_presentation_obj_11", "mesh_status_force_stamina_bar"),
+        (position_set_x, pos1, 840), # 30
+        (position_set_y, pos1, 170), # 700
+        (overlay_set_position, "$g_presentation_obj_11", pos1),
+       
+        (position_set_x, pos1, 845), # 35
+        (position_set_y, pos1, 183), # 713
+       
+        (create_mesh_overlay, "$g_presentation_obj_12", "mesh_force_white_plane"),
+        (overlay_set_color, "$g_presentation_obj_12", 0x000000), # 0xAA1F1F
+        (overlay_set_position, "$g_presentation_obj_12", pos1),
+       
+        (create_mesh_overlay, "$g_presentation_obj_13", "mesh_force_white_plane"),
+        (overlay_set_color, "$g_presentation_obj_13", 0x0099FF), # 0x1F1FAA
+        (overlay_set_position, "$g_presentation_obj_13", pos1),
+       
+        (create_mesh_overlay, "$g_presentation_obj_14", "mesh_force_white_plane"),
+        (overlay_set_color, "$g_presentation_obj_14", 0x000000), # 0x1FAA1F
+        (overlay_set_position, "$g_presentation_obj_14", pos1),
+       
+        (create_mesh_overlay, "$g_presentation_obj_15", "mesh_status_force_stamina_bar_button"),
+        (position_set_x, pos1, 845), # 35  ###### from here ####
+        (position_set_y, pos1, 170), # 700
+        (overlay_set_position, "$g_presentation_obj_15", pos1),
+       
+        (create_mesh_overlay, "$g_presentation_obj_16", "mesh_status_force_stamina_bar_button"),
+        (position_set_x, pos1, 977), # 275  ##### to here #### should have 132 difference #####
+        (position_set_y, pos1, 170), # 700
+        (overlay_set_position, "$g_presentation_obj_16", pos1),
+
+        (create_mesh_overlay, "$g_presentation_obj_17", "mesh_status_force_stamina_bar_button"),
+        (create_mesh_overlay, "$g_presentation_obj_18", "mesh_status_force_stamina_bar_button"),
+
+        ### END ADDED THIS FOR TGS CHANNELING STAMINA BAR
+
+        ### ADDED THIS FOR THE CHANNELING CHANGE WEAVE MESHES
+
+        (position_set_x, pos1, 930),
+        (position_set_y, pos1, 205),
+
+        (position_set_x, pos2, 1),
+        (position_set_y, pos2, 1),
+        
+        (create_mesh_overlay, "$g_presentation_obj_21", "mesh_weave_air_blast"),
+        (overlay_set_position, "$g_presentation_obj_21", pos1),
+        (overlay_set_size, "$g_presentation_obj_21", pos2),
+        
+        (create_mesh_overlay, "$g_presentation_obj_22", "mesh_weave_freeze_blast"),
+        (overlay_set_position, "$g_presentation_obj_22", pos1),
+        (overlay_set_size, "$g_presentation_obj_22", pos2),
+        
+        (create_mesh_overlay, "$g_presentation_obj_23", "mesh_weave_heal"),
+        (overlay_set_position, "$g_presentation_obj_23", pos1),
+        (overlay_set_size, "$g_presentation_obj_23", pos2),
+        
+        (create_mesh_overlay, "$g_presentation_obj_24", "mesh_weave_fire_ball"),
+        (overlay_set_position, "$g_presentation_obj_24", pos1),
+        (overlay_set_size, "$g_presentation_obj_24", pos2),
+        
+        (create_mesh_overlay, "$g_presentation_obj_25", "mesh_weave_unravel"),
+        (overlay_set_position, "$g_presentation_obj_25", pos1),
+        (overlay_set_size, "$g_presentation_obj_25", pos2),
+        
+        (create_mesh_overlay, "$g_presentation_obj_26", "mesh_weave_defensive_blast"),
+        (overlay_set_position, "$g_presentation_obj_26", pos1),
+        (overlay_set_size, "$g_presentation_obj_26", pos2),
+        
+        (create_mesh_overlay, "$g_presentation_obj_27", "mesh_weave_ranged_earth_blast"),
+        (overlay_set_position, "$g_presentation_obj_27", pos1),
+        (overlay_set_size, "$g_presentation_obj_27", pos2),
+        
+        (create_mesh_overlay, "$g_presentation_obj_28", "mesh_weave_bind"),
+        (overlay_set_position, "$g_presentation_obj_28", pos1),
+        (overlay_set_size, "$g_presentation_obj_28", pos2),
+        
+        (create_mesh_overlay, "$g_presentation_obj_29", "mesh_weave_chain_lightning"),
+        (overlay_set_position, "$g_presentation_obj_29", pos1),
+        (overlay_set_size, "$g_presentation_obj_29", pos2),
+        
+        (create_mesh_overlay, "$g_presentation_obj_30", "mesh_weave_fire_curtain"),
+        (overlay_set_position, "$g_presentation_obj_30", pos1),
+        (overlay_set_size, "$g_presentation_obj_30", pos2),
+        
+        (create_mesh_overlay, "$g_presentation_obj_31", "mesh_weave_shield"),
+        (overlay_set_position, "$g_presentation_obj_31", pos1),
+        (overlay_set_size, "$g_presentation_obj_31", pos2),
+        
+        (create_mesh_overlay, "$g_presentation_obj_32", "mesh_weave_seeker"),
+        (overlay_set_position, "$g_presentation_obj_32", pos1),
+        (overlay_set_size, "$g_presentation_obj_32", pos2),
+        
+        (create_mesh_overlay, "$g_presentation_obj_33", "mesh_weave_compulsion"),
+        (overlay_set_position, "$g_presentation_obj_33", pos1),
+        (overlay_set_size, "$g_presentation_obj_33", pos2),
+        
+        (create_mesh_overlay, "$g_presentation_obj_34", "mesh_weave_balefire"),
+        (overlay_set_position, "$g_presentation_obj_34", pos1),
+        (overlay_set_size, "$g_presentation_obj_34", pos2),
+
+        (position_set_x, pos1, 860),
+        (position_set_y, pos1, 205),
+        
+      
+        ### END ADDED THIS FOR THE CHANNELING CHANGE WEAVE MESHES
+
+        ### ADDED FOR BATTLE-TIME WEAVE SELECTION
+
+    #Little Pos Helper by Kuba begin
+    #(create_text_overlay, "$g_little_pos_helper", "@00,00"),
+    #(overlay_set_color, "$g_little_pos_helper", 0xFFFFFFFF),
+    #(position_set_x, pos1, 10),
+    #(position_set_y, pos1, 650),
+    #(overlay_set_position, "$g_little_pos_helper", pos1),
+    #Little Pos Helper by Kuba end
+
+
+        (position_set_x, pos2, 1),
+        (position_set_y, pos2, 1),
+
+        (position_set_x, pos1, 350),
+        (position_set_y, pos1, 400),        
+
+        (create_mesh_overlay, "$g_presentation_obj_41", "mesh_weave_air_blast"),
+        (overlay_set_position, "$g_presentation_obj_41", pos1),
+        (overlay_set_size, "$g_presentation_obj_41", pos2),
+
+        (position_set_x, pos1, 390),
+        (position_set_y, pos1, 400),               
+        
+        (create_mesh_overlay, "$g_presentation_obj_42", "mesh_weave_freeze_blast"),
+        (overlay_set_position, "$g_presentation_obj_42", pos1),
+        (overlay_set_size, "$g_presentation_obj_42", pos2),
+
+        (position_set_x, pos1, 430),
+        (position_set_y, pos1, 400),               
+        
+        (create_mesh_overlay, "$g_presentation_obj_43", "mesh_weave_heal"),
+        (overlay_set_position, "$g_presentation_obj_43", pos1),
+        (overlay_set_size, "$g_presentation_obj_43", pos2),
+
+        (position_set_x, pos1, 470),
+        (position_set_y, pos1, 400),               
+        
+        (create_mesh_overlay, "$g_presentation_obj_44", "mesh_weave_fire_ball"),
+        (overlay_set_position, "$g_presentation_obj_44", pos1),
+        (overlay_set_size, "$g_presentation_obj_44", pos2),
+
+        (position_set_x, pos1, 510),
+        (position_set_y, pos1, 400),               
+        
+        (create_mesh_overlay, "$g_presentation_obj_45", "mesh_weave_unravel"),
+        (overlay_set_position, "$g_presentation_obj_45", pos1),
+        (overlay_set_size, "$g_presentation_obj_45", pos2),
+
+        (position_set_x, pos1, 550),
+        (position_set_y, pos1, 400),          
+        
+        (create_mesh_overlay, "$g_presentation_obj_46", "mesh_weave_defensive_blast"),
+        (overlay_set_position, "$g_presentation_obj_46", pos1),
+        (overlay_set_size, "$g_presentation_obj_46", pos2),
+
+        (position_set_x, pos1, 590),
+        (position_set_y, pos1, 400),          
+        
+        (create_mesh_overlay, "$g_presentation_obj_47", "mesh_weave_ranged_earth_blast"),
+        (overlay_set_position, "$g_presentation_obj_47", pos1),
+        (overlay_set_size, "$g_presentation_obj_47", pos2),
+
+        (position_set_x, pos1, 350),
+        (position_set_y, pos1, 350),          
+        
+        (create_mesh_overlay, "$g_presentation_obj_48", "mesh_weave_bind"),
+        (overlay_set_position, "$g_presentation_obj_48", pos1),
+        (overlay_set_size, "$g_presentation_obj_48", pos2),
+
+        (position_set_x, pos1, 390),
+        (position_set_y, pos1, 350),          
+        
+        (create_mesh_overlay, "$g_presentation_obj_49", "mesh_weave_chain_lightning"),
+        (overlay_set_position, "$g_presentation_obj_49", pos1),
+        (overlay_set_size, "$g_presentation_obj_49", pos2),
+
+        (position_set_x, pos1, 430),
+        (position_set_y, pos1, 350),         
+        
+        (create_mesh_overlay, "$g_presentation_obj_50", "mesh_weave_fire_curtain"),
+        (overlay_set_position, "$g_presentation_obj_50", pos1),
+        (overlay_set_size, "$g_presentation_obj_50", pos2),
+
+        (position_set_x, pos1, 470),
+        (position_set_y, pos1, 350),         
+        
+        (create_mesh_overlay, "$g_presentation_obj_51", "mesh_weave_shield"),
+        (overlay_set_position, "$g_presentation_obj_51", pos1),
+        (overlay_set_size, "$g_presentation_obj_51", pos2),
+
+        (position_set_x, pos1, 510),
+        (position_set_y, pos1, 350),         
+        
+        (create_mesh_overlay, "$g_presentation_obj_52", "mesh_weave_seeker"),
+        (overlay_set_position, "$g_presentation_obj_52", pos1),
+        (overlay_set_size, "$g_presentation_obj_52", pos2),
+
+        (position_set_x, pos1, 550),
+        (position_set_y, pos1, 350),         
+        
+        (create_mesh_overlay, "$g_presentation_obj_53", "mesh_weave_compulsion"),
+        (overlay_set_position, "$g_presentation_obj_53", pos1),
+        (overlay_set_size, "$g_presentation_obj_53", pos2),
+
+        (position_set_x, pos1, 590),
+        (position_set_y, pos1, 350),         
+        
+        (create_mesh_overlay, "$g_presentation_obj_54", "mesh_weave_balefire"),
+        (overlay_set_position, "$g_presentation_obj_54", pos1),
+        (overlay_set_size, "$g_presentation_obj_54", pos2),    
+
+
+        
+        ### END ADDED FOR BATTLE-TIME WEAVE SELECTION
+        
+        (presentation_set_duration, 999999),
+       ]),
+
+      (ti_on_presentation_run,
+       [
+        (store_trigger_param_1, ":cur_time"),
+        
+        (set_fixed_point_multiplier, 1000),
+
+
+        ### ADDED THIS FOR TGS CHANNELING STAMINA BAR
+
+        (try_begin),
+      
+
+            (assign, ":zero", 0),
+            (troop_get_slot, ":current_channeling_stamina", "trp_player", slot_agent_force_stamina),
+            (troop_get_slot, ":maximum_channeling_stamina", "trp_player", slot_agent_initial_force_stamina),
+
+            (position_set_x, pos1, 12000), # 12000
+            (position_set_y, pos1, 300), # 300
+            (overlay_set_size, "$g_presentation_obj_12", pos1),
+        
+            (store_add, ":channeling_stamina_percent", ":zero", ":current_channeling_stamina"),
+            (val_mul, ":channeling_stamina_percent", 12000), # 12000
+            (val_div, ":channeling_stamina_percent", ":maximum_channeling_stamina"),
+            (position_set_x, pos1, ":channeling_stamina_percent"),
+            (position_set_y, pos1, 300), # 300
+            (overlay_set_size, "$g_presentation_obj_13", pos1),
+        
+            (store_mul, ":channeling_stamina_percent_2", ":zero", 12000), # 12000
+            (val_div, ":channeling_stamina_percent_2", ":maximum_channeling_stamina"),
+            (position_set_x, pos1, ":channeling_stamina_percent_2"),
+            (position_set_y, pos1, 300), #300
+            (overlay_set_size, "$g_presentation_obj_14", pos1),
+        
+            (store_add, ":channeling_stamina_percent_3", ":zero", ":current_channeling_stamina"),
+            (val_mul, ":channeling_stamina_percent_3", 132), #240 ################(width of bar)
+            (val_div, ":channeling_stamina_percent_3", ":maximum_channeling_stamina"),
+            (val_add, ":channeling_stamina_percent_3", 845), # 35
+            (position_set_x, pos1, ":channeling_stamina_percent_3"),
+            (position_set_y, pos1, 170), # 700
+            (overlay_set_position, "$g_presentation_obj_17", pos1),
+        
+            (store_mul, ":channeling_stamina_percent_4", ":zero", 132), # 240 #################(width of bar)
+            (val_div, ":channeling_stamina_percent_4", ":maximum_channeling_stamina"),
+            (val_add, ":channeling_stamina_percent_4", 845), # 35
+            (position_set_x, pos1, ":channeling_stamina_percent_4"),
+            (position_set_y, pos1, 170), # 700
+            (overlay_set_position, "$g_presentation_obj_18", pos1), 
+
+        ### END ADDED THIS FOR TGS CHANNELING STAMINA BAR
+
+
+        ### ADDED THIS FOR THE CHANNELING CHANGE WEAVE MESHES
+
+            (position_set_x, pos1, 800),
+            (position_set_y, pos1, 1200),
+
+            (position_set_x, pos2, 1),
+            (position_set_y, pos2, 1),
+
+            (try_begin),
+            (troop_slot_eq, "trp_player", slot_troop_active_force, FORCE_LIGHTNING),
+                (overlay_set_size, "$g_presentation_obj_21", pos1),
+        
+#                (overlay_set_size, "$g_presentation_obj_21", pos2),
+                (overlay_set_size, "$g_presentation_obj_22", pos2),
+                (overlay_set_size, "$g_presentation_obj_23", pos2),
+                (overlay_set_size, "$g_presentation_obj_24", pos2),
+                (overlay_set_size, "$g_presentation_obj_25", pos2),
+                (overlay_set_size, "$g_presentation_obj_26", pos2),
+                (overlay_set_size, "$g_presentation_obj_27", pos2),
+                (overlay_set_size, "$g_presentation_obj_28", pos2),
+                (overlay_set_size, "$g_presentation_obj_29", pos2),
+                (overlay_set_size, "$g_presentation_obj_30", pos2),
+                (overlay_set_size, "$g_presentation_obj_31", pos2),
+                (overlay_set_size, "$g_presentation_obj_32", pos2),
+                (overlay_set_size, "$g_presentation_obj_33", pos2),
+                (overlay_set_size, "$g_presentation_obj_34", pos2),
+            (else_try),
+            (troop_slot_eq, "trp_player", slot_troop_active_force, FORCE_STUN),
+                (overlay_set_size, "$g_presentation_obj_22", pos1),
+        
+                (overlay_set_size, "$g_presentation_obj_21", pos2),
+#                (overlay_set_size, "$g_presentation_obj_22", pos2),
+                (overlay_set_size, "$g_presentation_obj_23", pos2),
+                (overlay_set_size, "$g_presentation_obj_24", pos2),
+                (overlay_set_size, "$g_presentation_obj_25", pos2),
+                (overlay_set_size, "$g_presentation_obj_26", pos2),
+                (overlay_set_size, "$g_presentation_obj_27", pos2),
+                (overlay_set_size, "$g_presentation_obj_28", pos2),
+                (overlay_set_size, "$g_presentation_obj_29", pos2),
+                (overlay_set_size, "$g_presentation_obj_30", pos2),
+                (overlay_set_size, "$g_presentation_obj_31", pos2),
+                (overlay_set_size, "$g_presentation_obj_32", pos2),
+                (overlay_set_size, "$g_presentation_obj_33", pos2),
+                (overlay_set_size, "$g_presentation_obj_34", pos2),
+            (else_try),
+            (troop_slot_eq, "trp_player", slot_troop_active_force, FORCE_PUSH),
+                (overlay_set_size, "$g_presentation_obj_23", pos1),
+        
+                (overlay_set_size, "$g_presentation_obj_21", pos2),
+                (overlay_set_size, "$g_presentation_obj_22", pos2),
+#                (overlay_set_size, "$g_presentation_obj_23", pos2),
+                (overlay_set_size, "$g_presentation_obj_24", pos2),
+                (overlay_set_size, "$g_presentation_obj_25", pos2),
+                (overlay_set_size, "$g_presentation_obj_26", pos2),
+                (overlay_set_size, "$g_presentation_obj_27", pos2),
+                (overlay_set_size, "$g_presentation_obj_28", pos2),
+                (overlay_set_size, "$g_presentation_obj_29", pos2),
+                (overlay_set_size, "$g_presentation_obj_30", pos2),
+                (overlay_set_size, "$g_presentation_obj_31", pos2),
+                (overlay_set_size, "$g_presentation_obj_32", pos2),
+                (overlay_set_size, "$g_presentation_obj_33", pos2),
+                (overlay_set_size, "$g_presentation_obj_34", pos2),
+            (else_try),
+            (troop_slot_eq, "trp_player", slot_troop_active_force, FORCE_CHOKE),
+                (overlay_set_size, "$g_presentation_obj_24", pos1),
+        
+                (overlay_set_size, "$g_presentation_obj_21", pos2),
+                (overlay_set_size, "$g_presentation_obj_22", pos2),
+                (overlay_set_size, "$g_presentation_obj_23", pos2),
+#                (overlay_set_size, "$g_presentation_obj_24", pos2),
+                (overlay_set_size, "$g_presentation_obj_25", pos2),
+                (overlay_set_size, "$g_presentation_obj_26", pos2),
+                (overlay_set_size, "$g_presentation_obj_27", pos2),
+                (overlay_set_size, "$g_presentation_obj_28", pos2),
+                (overlay_set_size, "$g_presentation_obj_29", pos2),
+                (overlay_set_size, "$g_presentation_obj_30", pos2),
+                (overlay_set_size, "$g_presentation_obj_31", pos2),
+                (overlay_set_size, "$g_presentation_obj_32", pos2),
+                (overlay_set_size, "$g_presentation_obj_33", pos2),
+                (overlay_set_size, "$g_presentation_obj_34", pos2),
+            (else_try),
+            (troop_slot_eq, "trp_player", slot_troop_active_force, UNRAVEL_WEAVE),
+                (overlay_set_size, "$g_presentation_obj_25", pos1),
+        
+                (overlay_set_size, "$g_presentation_obj_21", pos2),
+                (overlay_set_size, "$g_presentation_obj_22", pos2),
+                (overlay_set_size, "$g_presentation_obj_23", pos2),
+                (overlay_set_size, "$g_presentation_obj_24", pos2),
+#                (overlay_set_size, "$g_presentation_obj_25", pos2),
+                (overlay_set_size, "$g_presentation_obj_26", pos2),
+                (overlay_set_size, "$g_presentation_obj_27", pos2),
+                (overlay_set_size, "$g_presentation_obj_28", pos2),
+                (overlay_set_size, "$g_presentation_obj_29", pos2),
+                (overlay_set_size, "$g_presentation_obj_30", pos2),
+                (overlay_set_size, "$g_presentation_obj_31", pos2),
+                (overlay_set_size, "$g_presentation_obj_32", pos2),
+                (overlay_set_size, "$g_presentation_obj_33", pos2),
+                (overlay_set_size, "$g_presentation_obj_34", pos2),
+            (else_try),
+            (troop_slot_eq, "trp_player", slot_troop_active_force, DEFENSIVE_BLAST_WEAVE),
+                (overlay_set_size, "$g_presentation_obj_26", pos1),
+        
+                (overlay_set_size, "$g_presentation_obj_21", pos2),
+                (overlay_set_size, "$g_presentation_obj_22", pos2),
+                (overlay_set_size, "$g_presentation_obj_23", pos2),
+                (overlay_set_size, "$g_presentation_obj_24", pos2),
+                (overlay_set_size, "$g_presentation_obj_25", pos2),
+#                (overlay_set_size, "$g_presentation_obj_26", pos2),
+                (overlay_set_size, "$g_presentation_obj_27", pos2),
+                (overlay_set_size, "$g_presentation_obj_28", pos2),
+                (overlay_set_size, "$g_presentation_obj_29", pos2),
+                (overlay_set_size, "$g_presentation_obj_30", pos2),
+                (overlay_set_size, "$g_presentation_obj_31", pos2),
+                (overlay_set_size, "$g_presentation_obj_32", pos2),
+                (overlay_set_size, "$g_presentation_obj_33", pos2),
+                (overlay_set_size, "$g_presentation_obj_34", pos2),
+            (else_try),
+            (troop_slot_eq, "trp_player", slot_troop_active_force, EARTH_BLAST_WEAVE),
+                (overlay_set_size, "$g_presentation_obj_27", pos1),
+        
+                (overlay_set_size, "$g_presentation_obj_21", pos2),
+                (overlay_set_size, "$g_presentation_obj_22", pos2),
+                (overlay_set_size, "$g_presentation_obj_23", pos2),
+                (overlay_set_size, "$g_presentation_obj_24", pos2),
+                (overlay_set_size, "$g_presentation_obj_25", pos2),
+                (overlay_set_size, "$g_presentation_obj_26", pos2),
+#                (overlay_set_size, "$g_presentation_obj_27", pos2),
+                (overlay_set_size, "$g_presentation_obj_28", pos2),
+                (overlay_set_size, "$g_presentation_obj_29", pos2),
+                (overlay_set_size, "$g_presentation_obj_30", pos2),
+                (overlay_set_size, "$g_presentation_obj_31", pos2),
+                (overlay_set_size, "$g_presentation_obj_32", pos2),
+                (overlay_set_size, "$g_presentation_obj_33", pos2),
+                (overlay_set_size, "$g_presentation_obj_34", pos2),
+            (else_try),
+            (troop_slot_eq, "trp_player", slot_troop_active_force, BIND_WEAVE),
+                (overlay_set_size, "$g_presentation_obj_28", pos1),
+        
+                (overlay_set_size, "$g_presentation_obj_21", pos2),
+                (overlay_set_size, "$g_presentation_obj_22", pos2),
+                (overlay_set_size, "$g_presentation_obj_23", pos2),
+                (overlay_set_size, "$g_presentation_obj_24", pos2),
+                (overlay_set_size, "$g_presentation_obj_25", pos2),
+                (overlay_set_size, "$g_presentation_obj_26", pos2),
+                (overlay_set_size, "$g_presentation_obj_27", pos2),
+#                (overlay_set_size, "$g_presentation_obj_28", pos2),
+                (overlay_set_size, "$g_presentation_obj_29", pos2),
+                (overlay_set_size, "$g_presentation_obj_30", pos2),
+                (overlay_set_size, "$g_presentation_obj_31", pos2),
+                (overlay_set_size, "$g_presentation_obj_32", pos2),
+                (overlay_set_size, "$g_presentation_obj_33", pos2),
+                (overlay_set_size, "$g_presentation_obj_34", pos2),
+            (else_try),
+            (troop_slot_eq, "trp_player", slot_troop_active_force, CHAIN_LIGHTNING_WEAVE),
+                (overlay_set_size, "$g_presentation_obj_29", pos1),
+        
+                (overlay_set_size, "$g_presentation_obj_21", pos2),
+                (overlay_set_size, "$g_presentation_obj_22", pos2),
+                (overlay_set_size, "$g_presentation_obj_23", pos2),
+                (overlay_set_size, "$g_presentation_obj_24", pos2),
+                (overlay_set_size, "$g_presentation_obj_25", pos2),
+                (overlay_set_size, "$g_presentation_obj_26", pos2),
+                (overlay_set_size, "$g_presentation_obj_27", pos2),
+                (overlay_set_size, "$g_presentation_obj_28", pos2),
+#                (overlay_set_size, "$g_presentation_obj_29", pos2),
+                (overlay_set_size, "$g_presentation_obj_30", pos2),
+                (overlay_set_size, "$g_presentation_obj_31", pos2),
+                (overlay_set_size, "$g_presentation_obj_32", pos2),
+                (overlay_set_size, "$g_presentation_obj_33", pos2),
+                (overlay_set_size, "$g_presentation_obj_34", pos2),
+            (else_try),
+            (troop_slot_eq, "trp_player", slot_troop_active_force, FIRE_CURTAIN_WEAVE),
+                (overlay_set_size, "$g_presentation_obj_30", pos1),
+        
+                (overlay_set_size, "$g_presentation_obj_21", pos2),
+                (overlay_set_size, "$g_presentation_obj_22", pos2),
+                (overlay_set_size, "$g_presentation_obj_23", pos2),
+                (overlay_set_size, "$g_presentation_obj_24", pos2),
+                (overlay_set_size, "$g_presentation_obj_25", pos2),
+                (overlay_set_size, "$g_presentation_obj_26", pos2),
+                (overlay_set_size, "$g_presentation_obj_27", pos2),
+                (overlay_set_size, "$g_presentation_obj_28", pos2),
+                (overlay_set_size, "$g_presentation_obj_29", pos2),
+#                (overlay_set_size, "$g_presentation_obj_30", pos2),
+                (overlay_set_size, "$g_presentation_obj_31", pos2),
+                (overlay_set_size, "$g_presentation_obj_32", pos2),
+                (overlay_set_size, "$g_presentation_obj_33", pos2),
+                (overlay_set_size, "$g_presentation_obj_34", pos2),
+            (else_try),
+            (troop_slot_eq, "trp_player", slot_troop_active_force, SHIELD_WEAVE),
+                (overlay_set_size, "$g_presentation_obj_31", pos1),
+        
+                (overlay_set_size, "$g_presentation_obj_21", pos2),
+                (overlay_set_size, "$g_presentation_obj_22", pos2),
+                (overlay_set_size, "$g_presentation_obj_23", pos2),
+                (overlay_set_size, "$g_presentation_obj_24", pos2),
+                (overlay_set_size, "$g_presentation_obj_25", pos2),
+                (overlay_set_size, "$g_presentation_obj_26", pos2),
+                (overlay_set_size, "$g_presentation_obj_27", pos2),
+                (overlay_set_size, "$g_presentation_obj_28", pos2),
+                (overlay_set_size, "$g_presentation_obj_29", pos2),
+                (overlay_set_size, "$g_presentation_obj_30", pos2),
+#                (overlay_set_size, "$g_presentation_obj_31", pos2),
+                (overlay_set_size, "$g_presentation_obj_32", pos2),
+                (overlay_set_size, "$g_presentation_obj_33", pos2),
+                (overlay_set_size, "$g_presentation_obj_34", pos2),
+            (else_try),
+            (troop_slot_eq, "trp_player", slot_troop_active_force, SEEKER_WEAVE),
+                (overlay_set_size, "$g_presentation_obj_32", pos1),
+        
+                (overlay_set_size, "$g_presentation_obj_21", pos2),
+                (overlay_set_size, "$g_presentation_obj_22", pos2),
+                (overlay_set_size, "$g_presentation_obj_23", pos2),
+                (overlay_set_size, "$g_presentation_obj_24", pos2),
+                (overlay_set_size, "$g_presentation_obj_25", pos2),
+                (overlay_set_size, "$g_presentation_obj_26", pos2),
+                (overlay_set_size, "$g_presentation_obj_27", pos2),
+                (overlay_set_size, "$g_presentation_obj_28", pos2),
+                (overlay_set_size, "$g_presentation_obj_29", pos2),
+                (overlay_set_size, "$g_presentation_obj_30", pos2),
+                (overlay_set_size, "$g_presentation_obj_31", pos2),
+#                (overlay_set_size, "$g_presentation_obj_32", pos2),
+                (overlay_set_size, "$g_presentation_obj_33", pos2),
+                (overlay_set_size, "$g_presentation_obj_34", pos2),
+            (else_try),
+            (troop_slot_eq, "trp_player", slot_troop_active_force, COMPULSION_WEAVE),
+                (overlay_set_size, "$g_presentation_obj_33", pos1),
+        
+                (overlay_set_size, "$g_presentation_obj_21", pos2),
+                (overlay_set_size, "$g_presentation_obj_22", pos2),
+                (overlay_set_size, "$g_presentation_obj_23", pos2),
+                (overlay_set_size, "$g_presentation_obj_24", pos2),
+                (overlay_set_size, "$g_presentation_obj_25", pos2),
+                (overlay_set_size, "$g_presentation_obj_26", pos2),
+                (overlay_set_size, "$g_presentation_obj_27", pos2),
+                (overlay_set_size, "$g_presentation_obj_28", pos2),
+                (overlay_set_size, "$g_presentation_obj_29", pos2),
+                (overlay_set_size, "$g_presentation_obj_30", pos2),
+                (overlay_set_size, "$g_presentation_obj_31", pos2),
+                (overlay_set_size, "$g_presentation_obj_32", pos2),
+#                (overlay_set_size, "$g_presentation_obj_33", pos2),
+                (overlay_set_size, "$g_presentation_obj_34", pos2),
+            (else_try),
+            (troop_slot_eq, "trp_player", slot_troop_active_force, BALEFIRE_WEAVE),
+                (overlay_set_size, "$g_presentation_obj_34", pos1),
+        
+                (overlay_set_size, "$g_presentation_obj_21", pos2),
+                (overlay_set_size, "$g_presentation_obj_22", pos2),
+                (overlay_set_size, "$g_presentation_obj_23", pos2),
+                (overlay_set_size, "$g_presentation_obj_24", pos2),
+                (overlay_set_size, "$g_presentation_obj_25", pos2),
+                (overlay_set_size, "$g_presentation_obj_26", pos2),
+                (overlay_set_size, "$g_presentation_obj_27", pos2),
+                (overlay_set_size, "$g_presentation_obj_28", pos2),
+                (overlay_set_size, "$g_presentation_obj_29", pos2),
+                (overlay_set_size, "$g_presentation_obj_30", pos2),
+                (overlay_set_size, "$g_presentation_obj_31", pos2),
+                (overlay_set_size, "$g_presentation_obj_32", pos2),
+                (overlay_set_size, "$g_presentation_obj_33", pos2),
+#                (overlay_set_size, "$g_presentation_obj_34", pos2),
+            (try_end),
+
+  
+        ### END ADDED THIS FOR THE CHANNELING CHANGE WEAVE MESHES
+
+
+        ### ADDED FOR BATTLE-TIME WEAVE SELECTION
+        
+
+        #Little Pos Helper by Kuba begin
+        #(mouse_get_position, pos1),
+        #(position_get_x, reg1, pos1),
+        #(position_get_y, reg2, pos1),
+        #(overlay_set_text, "$g_little_pos_helper", "@{reg1},{reg2}"),
+        #Little Pos Helper by Kuba end
+
+
+            (position_set_x, pos1, 800),
+            (position_set_y, pos1, 1200),
+
+            (position_set_x, pos2, 1),
+            (position_set_y, pos2, 1),
+        
+            (try_begin),
+            (troop_slot_eq, "trp_player", slot_troop_force_lightning_known, 1),
+                (overlay_set_size, "$g_presentation_obj_41", pos1),
+            (else_try),
+                (overlay_set_size, "$g_presentation_obj_41", pos2),
+            (try_end),
+        
+            (try_begin),
+            (troop_slot_eq, "trp_player", slot_troop_force_stun_known, 1),
+                (overlay_set_size, "$g_presentation_obj_42", pos1),
+            (else_try),
+                (overlay_set_size, "$g_presentation_obj_42", pos2),
+            (try_end),
+        
+            (try_begin),
+            (troop_slot_eq, "trp_player", slot_troop_force_push_known, 1),
+                (overlay_set_size, "$g_presentation_obj_43", pos1),
+            (else_try),
+                (overlay_set_size, "$g_presentation_obj_43", pos2),
+            (try_end),
+
+            (try_begin),
+            (troop_slot_eq, "trp_player", slot_troop_force_choke_known, 1),
+                (overlay_set_size, "$g_presentation_obj_44", pos1),
+            (else_try),
+                (overlay_set_size, "$g_presentation_obj_44", pos2),
+            (try_end),
+
+            (try_begin),
+            (troop_slot_eq, "trp_player", slot_troop_unravel_known, 1),
+                (overlay_set_size, "$g_presentation_obj_45", pos1),
+            (else_try),
+                (overlay_set_size, "$g_presentation_obj_45", pos2),
+            (try_end),
+
+            (try_begin),
+            (troop_slot_eq, "trp_player", slot_troop_defensive_blast_known, 1),
+                (overlay_set_size, "$g_presentation_obj_46", pos1),
+            (else_try),
+                (overlay_set_size, "$g_presentation_obj_46", pos2),
+            (try_end),
+
+            (try_begin),
+            (troop_slot_eq, "trp_player", slot_troop_earth_blast_known, 1),
+                (overlay_set_size, "$g_presentation_obj_47", pos1),
+            (else_try),
+                (overlay_set_size, "$g_presentation_obj_47", pos2),
+            (try_end),
+
+            (try_begin),
+            (troop_slot_eq, "trp_player", slot_troop_bind_known, 1),
+                (overlay_set_size, "$g_presentation_obj_48", pos1),
+            (else_try),
+                (overlay_set_size, "$g_presentation_obj_48", pos2),
+            (try_end),
+
+            (try_begin),
+            (troop_slot_eq, "trp_player", slot_troop_chain_lightning_known, 1),
+                (overlay_set_size, "$g_presentation_obj_49", pos1),
+            (else_try),
+                (overlay_set_size, "$g_presentation_obj_49", pos2),
+            (try_end),
+
+            (try_begin),
+            (troop_slot_eq, "trp_player", slot_troop_fire_curtain_known, 1),
+                (overlay_set_size, "$g_presentation_obj_50", pos1),
+            (else_try),
+                (overlay_set_size, "$g_presentation_obj_50", pos2),
+            (try_end),
+
+            (try_begin),
+            (troop_slot_eq, "trp_player", slot_troop_shield_known, 1),
+                (overlay_set_size, "$g_presentation_obj_51", pos1),
+            (else_try),
+                (overlay_set_size, "$g_presentation_obj_51", pos2),
+            (try_end),
+
+            (try_begin),
+            (troop_slot_eq, "trp_player", slot_troop_seeker_known, 1),
+                (overlay_set_size, "$g_presentation_obj_52", pos1),
+            (else_try),
+                (overlay_set_size, "$g_presentation_obj_52", pos2),
+            (try_end),
+
+            (try_begin),
+            (troop_slot_eq, "trp_player", slot_troop_compulsion_known, 1),
+                (overlay_set_size, "$g_presentation_obj_53", pos1),
+            (else_try),
+                (overlay_set_size, "$g_presentation_obj_53", pos2),
+            (try_end),
+
+            (try_begin),
+            (troop_slot_eq, "trp_player", slot_troop_balefire_known, 1),
+                (overlay_set_size, "$g_presentation_obj_54", pos1),
+            (else_try),
+                (overlay_set_size, "$g_presentation_obj_54", pos2),
+            (try_end),       
+        
+            (mouse_get_position, pos1),
+            (position_get_x, "$g_force_select_x", pos1),
+            (position_get_y, "$g_force_select_y", pos1),
+        
+        
+        ### END ADDED FOR BATTLE-TIME WEAVE SELECTION
+        
+        (try_end),        
+
+        
+        (try_begin),
+        (eq, "$g_run_battle_time_force_selection", 1),
+        (gt, ":cur_time", 200),
+        (neg|key_is_down, key_caps_lock),
+          (assign, "$g_run_battle_time_force_selection", 0),
+          (presentation_set_duration, 0),
+          (start_presentation, "prsnt_staminabar"),
+        (try_end),
+       ]),
+       
+     ]),
+
+("battle_time_force_selection",prsntf_manual_end_only,0,[
+      (ti_on_presentation_load,
+       [
+        (assign, "$g_run_battle_time_force_selection", 1),
+        (set_fixed_point_multiplier, 1000),
+
+
+        ### ADDED THIS FOR THE CHANNELING CHANGE WEAVE MESHES
+
+        (position_set_x, pos1, 930),
+        (position_set_y, pos1, 205),
+
+        (position_set_x, pos2, 1),
+        (position_set_y, pos2, 1),
+        
+        (create_mesh_overlay, "$g_presentation_obj_21", "mesh_weave_air_blast"),
+        (overlay_set_position, "$g_presentation_obj_21", pos1),
+        (overlay_set_size, "$g_presentation_obj_21", pos2),
+        
+        (create_mesh_overlay, "$g_presentation_obj_22", "mesh_weave_freeze_blast"),
+        (overlay_set_position, "$g_presentation_obj_22", pos1),
+        (overlay_set_size, "$g_presentation_obj_22", pos2),
+        
+        (create_mesh_overlay, "$g_presentation_obj_23", "mesh_weave_heal"),
+        (overlay_set_position, "$g_presentation_obj_23", pos1),
+        (overlay_set_size, "$g_presentation_obj_23", pos2),
+        
+        (create_mesh_overlay, "$g_presentation_obj_24", "mesh_weave_fire_ball"),
+        (overlay_set_position, "$g_presentation_obj_24", pos1),
+        (overlay_set_size, "$g_presentation_obj_24", pos2),
+        
+        (create_mesh_overlay, "$g_presentation_obj_25", "mesh_weave_unravel"),
+        (overlay_set_position, "$g_presentation_obj_25", pos1),
+        (overlay_set_size, "$g_presentation_obj_25", pos2),
+        
+        (create_mesh_overlay, "$g_presentation_obj_26", "mesh_weave_defensive_blast"),
+        (overlay_set_position, "$g_presentation_obj_26", pos1),
+        (overlay_set_size, "$g_presentation_obj_26", pos2),
+        
+        (create_mesh_overlay, "$g_presentation_obj_27", "mesh_weave_ranged_earth_blast"),
+        (overlay_set_position, "$g_presentation_obj_27", pos1),
+        (overlay_set_size, "$g_presentation_obj_27", pos2),
+        
+        (create_mesh_overlay, "$g_presentation_obj_28", "mesh_weave_bind"),
+        (overlay_set_position, "$g_presentation_obj_28", pos1),
+        (overlay_set_size, "$g_presentation_obj_28", pos2),
+        
+        (create_mesh_overlay, "$g_presentation_obj_29", "mesh_weave_chain_lightning"),
+        (overlay_set_position, "$g_presentation_obj_29", pos1),
+        (overlay_set_size, "$g_presentation_obj_29", pos2),
+        
+        (create_mesh_overlay, "$g_presentation_obj_30", "mesh_weave_fire_curtain"),
+        (overlay_set_position, "$g_presentation_obj_30", pos1),
+        (overlay_set_size, "$g_presentation_obj_30", pos2),
+        
+        (create_mesh_overlay, "$g_presentation_obj_31", "mesh_weave_shield"),
+        (overlay_set_position, "$g_presentation_obj_31", pos1),
+        (overlay_set_size, "$g_presentation_obj_31", pos2),
+        
+        (create_mesh_overlay, "$g_presentation_obj_32", "mesh_weave_seeker"),
+        (overlay_set_position, "$g_presentation_obj_32", pos1),
+        (overlay_set_size, "$g_presentation_obj_32", pos2),
+        
+        (create_mesh_overlay, "$g_presentation_obj_33", "mesh_weave_compulsion"),
+        (overlay_set_position, "$g_presentation_obj_33", pos1),
+        (overlay_set_size, "$g_presentation_obj_33", pos2),
+        
+        (create_mesh_overlay, "$g_presentation_obj_34", "mesh_weave_balefire"),
+        (overlay_set_position, "$g_presentation_obj_34", pos1),
+        (overlay_set_size, "$g_presentation_obj_34", pos2),
+
+        (position_set_x, pos1, 860),
+        (position_set_y, pos1, 205),
+        
+      
+        ### END ADDED THIS FOR THE CHANNELING CHANGE WEAVE MESHES
+
+        ### ADDED FOR BATTLE-TIME WEAVE SELECTION
+
+    #Little Pos Helper by Kuba begin
+    #(create_text_overlay, "$g_little_pos_helper", "@00,00"),
+    #(overlay_set_color, "$g_little_pos_helper", 0xFFFFFFFF),
+    #(position_set_x, pos1, 10),
+    #(position_set_y, pos1, 650),
+    #(overlay_set_position, "$g_little_pos_helper", pos1),
+    #Little Pos Helper by Kuba end
+
+
+        (position_set_x, pos2, 1),
+        (position_set_y, pos2, 1),
+
+        (position_set_x, pos1, 350),
+        (position_set_y, pos1, 400),        
+
+        (create_mesh_overlay, "$g_presentation_obj_41", "mesh_weave_air_blast"),
+        (overlay_set_position, "$g_presentation_obj_41", pos1),
+        (overlay_set_size, "$g_presentation_obj_41", pos2),
+
+        (position_set_x, pos1, 390),
+        (position_set_y, pos1, 400),               
+        
+        (create_mesh_overlay, "$g_presentation_obj_42", "mesh_weave_freeze_blast"),
+        (overlay_set_position, "$g_presentation_obj_42", pos1),
+        (overlay_set_size, "$g_presentation_obj_42", pos2),
+
+        (position_set_x, pos1, 430),
+        (position_set_y, pos1, 400),               
+        
+        (create_mesh_overlay, "$g_presentation_obj_43", "mesh_weave_heal"),
+        (overlay_set_position, "$g_presentation_obj_43", pos1),
+        (overlay_set_size, "$g_presentation_obj_43", pos2),
+
+        (position_set_x, pos1, 470),
+        (position_set_y, pos1, 400),               
+        
+        (create_mesh_overlay, "$g_presentation_obj_44", "mesh_weave_fire_ball"),
+        (overlay_set_position, "$g_presentation_obj_44", pos1),
+        (overlay_set_size, "$g_presentation_obj_44", pos2),
+
+        (position_set_x, pos1, 510),
+        (position_set_y, pos1, 400),               
+        
+        (create_mesh_overlay, "$g_presentation_obj_45", "mesh_weave_unravel"),
+        (overlay_set_position, "$g_presentation_obj_45", pos1),
+        (overlay_set_size, "$g_presentation_obj_45", pos2),
+
+        (position_set_x, pos1, 550),
+        (position_set_y, pos1, 400),          
+        
+        (create_mesh_overlay, "$g_presentation_obj_46", "mesh_weave_defensive_blast"),
+        (overlay_set_position, "$g_presentation_obj_46", pos1),
+        (overlay_set_size, "$g_presentation_obj_46", pos2),
+
+        (position_set_x, pos1, 590),
+        (position_set_y, pos1, 400),          
+        
+        (create_mesh_overlay, "$g_presentation_obj_47", "mesh_weave_ranged_earth_blast"),
+        (overlay_set_position, "$g_presentation_obj_47", pos1),
+        (overlay_set_size, "$g_presentation_obj_47", pos2),
+
+        (position_set_x, pos1, 350),
+        (position_set_y, pos1, 350),          
+        
+        (create_mesh_overlay, "$g_presentation_obj_48", "mesh_weave_bind"),
+        (overlay_set_position, "$g_presentation_obj_48", pos1),
+        (overlay_set_size, "$g_presentation_obj_48", pos2),
+
+        (position_set_x, pos1, 390),
+        (position_set_y, pos1, 350),          
+        
+        (create_mesh_overlay, "$g_presentation_obj_49", "mesh_weave_chain_lightning"),
+        (overlay_set_position, "$g_presentation_obj_49", pos1),
+        (overlay_set_size, "$g_presentation_obj_49", pos2),
+
+        (position_set_x, pos1, 430),
+        (position_set_y, pos1, 350),         
+        
+        (create_mesh_overlay, "$g_presentation_obj_50", "mesh_weave_fire_curtain"),
+        (overlay_set_position, "$g_presentation_obj_50", pos1),
+        (overlay_set_size, "$g_presentation_obj_50", pos2),
+
+        (position_set_x, pos1, 470),
+        (position_set_y, pos1, 350),         
+        
+        (create_mesh_overlay, "$g_presentation_obj_51", "mesh_weave_shield"),
+        (overlay_set_position, "$g_presentation_obj_51", pos1),
+        (overlay_set_size, "$g_presentation_obj_51", pos2),
+
+        (position_set_x, pos1, 510),
+        (position_set_y, pos1, 350),         
+        
+        (create_mesh_overlay, "$g_presentation_obj_52", "mesh_weave_seeker"),
+        (overlay_set_position, "$g_presentation_obj_52", pos1),
+        (overlay_set_size, "$g_presentation_obj_52", pos2),
+
+        (position_set_x, pos1, 550),
+        (position_set_y, pos1, 350),         
+        
+        (create_mesh_overlay, "$g_presentation_obj_53", "mesh_weave_compulsion"),
+        (overlay_set_position, "$g_presentation_obj_53", pos1),
+        (overlay_set_size, "$g_presentation_obj_53", pos2),
+
+        (position_set_x, pos1, 590),
+        (position_set_y, pos1, 350),         
+        
+        (create_mesh_overlay, "$g_presentation_obj_54", "mesh_weave_balefire"),
+        (overlay_set_position, "$g_presentation_obj_54", pos1),
+        (overlay_set_size, "$g_presentation_obj_54", pos2),      
+
+
+
+        
+        ### END ADDED FOR BATTLE-TIME WEAVE SELECTION
+        
+        (presentation_set_duration, 999999),
+       ]),
+
+      (ti_on_presentation_run,
+       [
+        (store_trigger_param_1, ":cur_time"),
+        
+        (set_fixed_point_multiplier, 1000),
+
+        (try_begin),
+      
+
+        ### ADDED THIS FOR THE CHANNELING CHANGE WEAVE MESHES
+
+            (position_set_x, pos1, 800),
+            (position_set_y, pos1, 1200),
+
+            (position_set_x, pos2, 1),
+            (position_set_y, pos2, 1),
+
+            (try_begin),
+            (troop_slot_eq, "trp_player", slot_troop_active_force, FORCE_LIGHTNING),
+                (overlay_set_size, "$g_presentation_obj_21", pos1),
+        
+#                (overlay_set_size, "$g_presentation_obj_21", pos2),
+                (overlay_set_size, "$g_presentation_obj_22", pos2),
+                (overlay_set_size, "$g_presentation_obj_23", pos2),
+                (overlay_set_size, "$g_presentation_obj_24", pos2),
+                (overlay_set_size, "$g_presentation_obj_25", pos2),
+                (overlay_set_size, "$g_presentation_obj_26", pos2),
+                (overlay_set_size, "$g_presentation_obj_27", pos2),
+                (overlay_set_size, "$g_presentation_obj_28", pos2),
+                (overlay_set_size, "$g_presentation_obj_29", pos2),
+                (overlay_set_size, "$g_presentation_obj_30", pos2),
+                (overlay_set_size, "$g_presentation_obj_31", pos2),
+                (overlay_set_size, "$g_presentation_obj_32", pos2),
+                (overlay_set_size, "$g_presentation_obj_33", pos2),
+                (overlay_set_size, "$g_presentation_obj_34", pos2),
+            (else_try),
+            (troop_slot_eq, "trp_player", slot_troop_active_force, FORCE_STUN),
+                (overlay_set_size, "$g_presentation_obj_22", pos1),
+        
+                (overlay_set_size, "$g_presentation_obj_21", pos2),
+#                (overlay_set_size, "$g_presentation_obj_22", pos2),
+                (overlay_set_size, "$g_presentation_obj_23", pos2),
+                (overlay_set_size, "$g_presentation_obj_24", pos2),
+                (overlay_set_size, "$g_presentation_obj_25", pos2),
+                (overlay_set_size, "$g_presentation_obj_26", pos2),
+                (overlay_set_size, "$g_presentation_obj_27", pos2),
+                (overlay_set_size, "$g_presentation_obj_28", pos2),
+                (overlay_set_size, "$g_presentation_obj_29", pos2),
+                (overlay_set_size, "$g_presentation_obj_30", pos2),
+                (overlay_set_size, "$g_presentation_obj_31", pos2),
+                (overlay_set_size, "$g_presentation_obj_32", pos2),
+                (overlay_set_size, "$g_presentation_obj_33", pos2),
+                (overlay_set_size, "$g_presentation_obj_34", pos2),
+            (else_try),
+            (troop_slot_eq, "trp_player", slot_troop_active_force, FORCE_PUSH),
+                (overlay_set_size, "$g_presentation_obj_23", pos1),
+        
+                (overlay_set_size, "$g_presentation_obj_21", pos2),
+                (overlay_set_size, "$g_presentation_obj_22", pos2),
+#                (overlay_set_size, "$g_presentation_obj_23", pos2),
+                (overlay_set_size, "$g_presentation_obj_24", pos2),
+                (overlay_set_size, "$g_presentation_obj_25", pos2),
+                (overlay_set_size, "$g_presentation_obj_26", pos2),
+                (overlay_set_size, "$g_presentation_obj_27", pos2),
+                (overlay_set_size, "$g_presentation_obj_28", pos2),
+                (overlay_set_size, "$g_presentation_obj_29", pos2),
+                (overlay_set_size, "$g_presentation_obj_30", pos2),
+                (overlay_set_size, "$g_presentation_obj_31", pos2),
+                (overlay_set_size, "$g_presentation_obj_32", pos2),
+                (overlay_set_size, "$g_presentation_obj_33", pos2),
+                (overlay_set_size, "$g_presentation_obj_34", pos2),
+            (else_try),
+            (troop_slot_eq, "trp_player", slot_troop_active_force, FORCE_CHOKE),
+                (overlay_set_size, "$g_presentation_obj_24", pos1),
+        
+                (overlay_set_size, "$g_presentation_obj_21", pos2),
+                (overlay_set_size, "$g_presentation_obj_22", pos2),
+                (overlay_set_size, "$g_presentation_obj_23", pos2),
+#                (overlay_set_size, "$g_presentation_obj_24", pos2),
+                (overlay_set_size, "$g_presentation_obj_25", pos2),
+                (overlay_set_size, "$g_presentation_obj_26", pos2),
+                (overlay_set_size, "$g_presentation_obj_27", pos2),
+                (overlay_set_size, "$g_presentation_obj_28", pos2),
+                (overlay_set_size, "$g_presentation_obj_29", pos2),
+                (overlay_set_size, "$g_presentation_obj_30", pos2),
+                (overlay_set_size, "$g_presentation_obj_31", pos2),
+                (overlay_set_size, "$g_presentation_obj_32", pos2),
+                (overlay_set_size, "$g_presentation_obj_33", pos2),
+                (overlay_set_size, "$g_presentation_obj_34", pos2),
+            (else_try),
+            (troop_slot_eq, "trp_player", slot_troop_active_force, UNRAVEL_WEAVE),
+                (overlay_set_size, "$g_presentation_obj_25", pos1),
+        
+                (overlay_set_size, "$g_presentation_obj_21", pos2),
+                (overlay_set_size, "$g_presentation_obj_22", pos2),
+                (overlay_set_size, "$g_presentation_obj_23", pos2),
+                (overlay_set_size, "$g_presentation_obj_24", pos2),
+#                (overlay_set_size, "$g_presentation_obj_25", pos2),
+                (overlay_set_size, "$g_presentation_obj_26", pos2),
+                (overlay_set_size, "$g_presentation_obj_27", pos2),
+                (overlay_set_size, "$g_presentation_obj_28", pos2),
+                (overlay_set_size, "$g_presentation_obj_29", pos2),
+                (overlay_set_size, "$g_presentation_obj_30", pos2),
+                (overlay_set_size, "$g_presentation_obj_31", pos2),
+                (overlay_set_size, "$g_presentation_obj_32", pos2),
+                (overlay_set_size, "$g_presentation_obj_33", pos2),
+                (overlay_set_size, "$g_presentation_obj_34", pos2),
+            (else_try),
+            (troop_slot_eq, "trp_player", slot_troop_active_force, DEFENSIVE_BLAST_WEAVE),
+                (overlay_set_size, "$g_presentation_obj_26", pos1),
+        
+                (overlay_set_size, "$g_presentation_obj_21", pos2),
+                (overlay_set_size, "$g_presentation_obj_22", pos2),
+                (overlay_set_size, "$g_presentation_obj_23", pos2),
+                (overlay_set_size, "$g_presentation_obj_24", pos2),
+                (overlay_set_size, "$g_presentation_obj_25", pos2),
+#                (overlay_set_size, "$g_presentation_obj_26", pos2),
+                (overlay_set_size, "$g_presentation_obj_27", pos2),
+                (overlay_set_size, "$g_presentation_obj_28", pos2),
+                (overlay_set_size, "$g_presentation_obj_29", pos2),
+                (overlay_set_size, "$g_presentation_obj_30", pos2),
+                (overlay_set_size, "$g_presentation_obj_31", pos2),
+                (overlay_set_size, "$g_presentation_obj_32", pos2),
+                (overlay_set_size, "$g_presentation_obj_33", pos2),
+                (overlay_set_size, "$g_presentation_obj_34", pos2),
+            (else_try),
+            (troop_slot_eq, "trp_player", slot_troop_active_force, EARTH_BLAST_WEAVE),
+                (overlay_set_size, "$g_presentation_obj_27", pos1),
+        
+                (overlay_set_size, "$g_presentation_obj_21", pos2),
+                (overlay_set_size, "$g_presentation_obj_22", pos2),
+                (overlay_set_size, "$g_presentation_obj_23", pos2),
+                (overlay_set_size, "$g_presentation_obj_24", pos2),
+                (overlay_set_size, "$g_presentation_obj_25", pos2),
+                (overlay_set_size, "$g_presentation_obj_26", pos2),
+#                (overlay_set_size, "$g_presentation_obj_27", pos2),
+                (overlay_set_size, "$g_presentation_obj_28", pos2),
+                (overlay_set_size, "$g_presentation_obj_29", pos2),
+                (overlay_set_size, "$g_presentation_obj_30", pos2),
+                (overlay_set_size, "$g_presentation_obj_31", pos2),
+                (overlay_set_size, "$g_presentation_obj_32", pos2),
+                (overlay_set_size, "$g_presentation_obj_33", pos2),
+                (overlay_set_size, "$g_presentation_obj_34", pos2),
+            (else_try),
+            (troop_slot_eq, "trp_player", slot_troop_active_force, BIND_WEAVE),
+                (overlay_set_size, "$g_presentation_obj_28", pos1),
+        
+                (overlay_set_size, "$g_presentation_obj_21", pos2),
+                (overlay_set_size, "$g_presentation_obj_22", pos2),
+                (overlay_set_size, "$g_presentation_obj_23", pos2),
+                (overlay_set_size, "$g_presentation_obj_24", pos2),
+                (overlay_set_size, "$g_presentation_obj_25", pos2),
+                (overlay_set_size, "$g_presentation_obj_26", pos2),
+                (overlay_set_size, "$g_presentation_obj_27", pos2),
+#                (overlay_set_size, "$g_presentation_obj_28", pos2),
+                (overlay_set_size, "$g_presentation_obj_29", pos2),
+                (overlay_set_size, "$g_presentation_obj_30", pos2),
+                (overlay_set_size, "$g_presentation_obj_31", pos2),
+                (overlay_set_size, "$g_presentation_obj_32", pos2),
+                (overlay_set_size, "$g_presentation_obj_33", pos2),
+                (overlay_set_size, "$g_presentation_obj_34", pos2),
+            (else_try),
+            (troop_slot_eq, "trp_player", slot_troop_active_force, CHAIN_LIGHTNING_WEAVE),
+                (overlay_set_size, "$g_presentation_obj_29", pos1),
+        
+                (overlay_set_size, "$g_presentation_obj_21", pos2),
+                (overlay_set_size, "$g_presentation_obj_22", pos2),
+                (overlay_set_size, "$g_presentation_obj_23", pos2),
+                (overlay_set_size, "$g_presentation_obj_24", pos2),
+                (overlay_set_size, "$g_presentation_obj_25", pos2),
+                (overlay_set_size, "$g_presentation_obj_26", pos2),
+                (overlay_set_size, "$g_presentation_obj_27", pos2),
+                (overlay_set_size, "$g_presentation_obj_28", pos2),
+#                (overlay_set_size, "$g_presentation_obj_29", pos2),
+                (overlay_set_size, "$g_presentation_obj_30", pos2),
+                (overlay_set_size, "$g_presentation_obj_31", pos2),
+                (overlay_set_size, "$g_presentation_obj_32", pos2),
+                (overlay_set_size, "$g_presentation_obj_33", pos2),
+                (overlay_set_size, "$g_presentation_obj_34", pos2),
+            (else_try),
+            (troop_slot_eq, "trp_player", slot_troop_active_force, FIRE_CURTAIN_WEAVE),
+                (overlay_set_size, "$g_presentation_obj_30", pos1),
+        
+                (overlay_set_size, "$g_presentation_obj_21", pos2),
+                (overlay_set_size, "$g_presentation_obj_22", pos2),
+                (overlay_set_size, "$g_presentation_obj_23", pos2),
+                (overlay_set_size, "$g_presentation_obj_24", pos2),
+                (overlay_set_size, "$g_presentation_obj_25", pos2),
+                (overlay_set_size, "$g_presentation_obj_26", pos2),
+                (overlay_set_size, "$g_presentation_obj_27", pos2),
+                (overlay_set_size, "$g_presentation_obj_28", pos2),
+                (overlay_set_size, "$g_presentation_obj_29", pos2),
+#                (overlay_set_size, "$g_presentation_obj_30", pos2),
+                (overlay_set_size, "$g_presentation_obj_31", pos2),
+                (overlay_set_size, "$g_presentation_obj_32", pos2),
+                (overlay_set_size, "$g_presentation_obj_33", pos2),
+                (overlay_set_size, "$g_presentation_obj_34", pos2),
+            (else_try),
+            (troop_slot_eq, "trp_player", slot_troop_active_force, SHIELD_WEAVE),
+                (overlay_set_size, "$g_presentation_obj_31", pos1),
+        
+                (overlay_set_size, "$g_presentation_obj_21", pos2),
+                (overlay_set_size, "$g_presentation_obj_22", pos2),
+                (overlay_set_size, "$g_presentation_obj_23", pos2),
+                (overlay_set_size, "$g_presentation_obj_24", pos2),
+                (overlay_set_size, "$g_presentation_obj_25", pos2),
+                (overlay_set_size, "$g_presentation_obj_26", pos2),
+                (overlay_set_size, "$g_presentation_obj_27", pos2),
+                (overlay_set_size, "$g_presentation_obj_28", pos2),
+                (overlay_set_size, "$g_presentation_obj_29", pos2),
+                (overlay_set_size, "$g_presentation_obj_30", pos2),
+#                (overlay_set_size, "$g_presentation_obj_31", pos2),
+                (overlay_set_size, "$g_presentation_obj_32", pos2),
+                (overlay_set_size, "$g_presentation_obj_33", pos2),
+                (overlay_set_size, "$g_presentation_obj_34", pos2),
+            (else_try),
+            (troop_slot_eq, "trp_player", slot_troop_active_force, SEEKER_WEAVE),
+                (overlay_set_size, "$g_presentation_obj_32", pos1),
+        
+                (overlay_set_size, "$g_presentation_obj_21", pos2),
+                (overlay_set_size, "$g_presentation_obj_22", pos2),
+                (overlay_set_size, "$g_presentation_obj_23", pos2),
+                (overlay_set_size, "$g_presentation_obj_24", pos2),
+                (overlay_set_size, "$g_presentation_obj_25", pos2),
+                (overlay_set_size, "$g_presentation_obj_26", pos2),
+                (overlay_set_size, "$g_presentation_obj_27", pos2),
+                (overlay_set_size, "$g_presentation_obj_28", pos2),
+                (overlay_set_size, "$g_presentation_obj_29", pos2),
+                (overlay_set_size, "$g_presentation_obj_30", pos2),
+                (overlay_set_size, "$g_presentation_obj_31", pos2),
+#                (overlay_set_size, "$g_presentation_obj_32", pos2),
+                (overlay_set_size, "$g_presentation_obj_33", pos2),
+                (overlay_set_size, "$g_presentation_obj_34", pos2),
+            (else_try),
+            (troop_slot_eq, "trp_player", slot_troop_active_force, COMPULSION_WEAVE),
+                (overlay_set_size, "$g_presentation_obj_33", pos1),
+        
+                (overlay_set_size, "$g_presentation_obj_21", pos2),
+                (overlay_set_size, "$g_presentation_obj_22", pos2),
+                (overlay_set_size, "$g_presentation_obj_23", pos2),
+                (overlay_set_size, "$g_presentation_obj_24", pos2),
+                (overlay_set_size, "$g_presentation_obj_25", pos2),
+                (overlay_set_size, "$g_presentation_obj_26", pos2),
+                (overlay_set_size, "$g_presentation_obj_27", pos2),
+                (overlay_set_size, "$g_presentation_obj_28", pos2),
+                (overlay_set_size, "$g_presentation_obj_29", pos2),
+                (overlay_set_size, "$g_presentation_obj_30", pos2),
+                (overlay_set_size, "$g_presentation_obj_31", pos2),
+                (overlay_set_size, "$g_presentation_obj_32", pos2),
+#                (overlay_set_size, "$g_presentation_obj_33", pos2),
+                (overlay_set_size, "$g_presentation_obj_34", pos2),
+            (else_try),
+            (troop_slot_eq, "trp_player", slot_troop_active_force, BALEFIRE_WEAVE),
+                (overlay_set_size, "$g_presentation_obj_34", pos1),
+        
+                (overlay_set_size, "$g_presentation_obj_21", pos2),
+                (overlay_set_size, "$g_presentation_obj_22", pos2),
+                (overlay_set_size, "$g_presentation_obj_23", pos2),
+                (overlay_set_size, "$g_presentation_obj_24", pos2),
+                (overlay_set_size, "$g_presentation_obj_25", pos2),
+                (overlay_set_size, "$g_presentation_obj_26", pos2),
+                (overlay_set_size, "$g_presentation_obj_27", pos2),
+                (overlay_set_size, "$g_presentation_obj_28", pos2),
+                (overlay_set_size, "$g_presentation_obj_29", pos2),
+                (overlay_set_size, "$g_presentation_obj_30", pos2),
+                (overlay_set_size, "$g_presentation_obj_31", pos2),
+                (overlay_set_size, "$g_presentation_obj_32", pos2),
+                (overlay_set_size, "$g_presentation_obj_33", pos2),
+#                (overlay_set_size, "$g_presentation_obj_34", pos2),
+            (try_end),
+
+  
+        ### END ADDED THIS FOR THE CHANNELING CHANGE WEAVE MESHES
+
+
+        ### ADDED FOR BATTLE-TIME WEAVE SELECTION
+        
+
+        #Little Pos Helper by Kuba begin
+        #(mouse_get_position, pos1),
+        #(position_get_x, reg1, pos1),
+        #(position_get_y, reg2, pos1),
+        #(overlay_set_text, "$g_little_pos_helper", "@{reg1},{reg2}"),
+        #Little Pos Helper by Kuba end
+
+
+            (position_set_x, pos1, 800),
+            (position_set_y, pos1, 1200),
+
+            (position_set_x, pos2, 1),
+            (position_set_y, pos2, 1),
+        
+            (try_begin),
+            (troop_slot_eq, "trp_player", slot_troop_force_lightning_known, 1),
+                (overlay_set_size, "$g_presentation_obj_41", pos1),
+            (else_try),
+                (overlay_set_size, "$g_presentation_obj_41", pos2),
+            (try_end),
+        
+            (try_begin),
+            (troop_slot_eq, "trp_player", slot_troop_force_stun_known, 1),
+                (overlay_set_size, "$g_presentation_obj_42", pos1),
+            (else_try),
+                (overlay_set_size, "$g_presentation_obj_42", pos2),
+            (try_end),
+        
+            (try_begin),
+            (troop_slot_eq, "trp_player", slot_troop_force_push_known, 1),
+                (overlay_set_size, "$g_presentation_obj_43", pos1),
+            (else_try),
+                (overlay_set_size, "$g_presentation_obj_43", pos2),
+            (try_end),
+
+            (try_begin),
+            (troop_slot_eq, "trp_player", slot_troop_force_choke_known, 1),
+                (overlay_set_size, "$g_presentation_obj_44", pos1),
+            (else_try),
+                (overlay_set_size, "$g_presentation_obj_44", pos2),
+            (try_end),
+
+            (try_begin),
+            (troop_slot_eq, "trp_player", slot_troop_unravel_known, 1),
+                (overlay_set_size, "$g_presentation_obj_45", pos1),
+            (else_try),
+                (overlay_set_size, "$g_presentation_obj_45", pos2),
+            (try_end),
+
+            (try_begin),
+            (troop_slot_eq, "trp_player", slot_troop_defensive_blast_known, 1),
+                (overlay_set_size, "$g_presentation_obj_46", pos1),
+            (else_try),
+                (overlay_set_size, "$g_presentation_obj_46", pos2),
+            (try_end),
+
+            (try_begin),
+            (troop_slot_eq, "trp_player", slot_troop_earth_blast_known, 1),
+                (overlay_set_size, "$g_presentation_obj_47", pos1),
+            (else_try),
+                (overlay_set_size, "$g_presentation_obj_47", pos2),
+            (try_end),
+
+            (try_begin),
+            (troop_slot_eq, "trp_player", slot_troop_bind_known, 1),
+                (overlay_set_size, "$g_presentation_obj_48", pos1),
+            (else_try),
+                (overlay_set_size, "$g_presentation_obj_48", pos2),
+            (try_end),
+
+            (try_begin),
+            (troop_slot_eq, "trp_player", slot_troop_chain_lightning_known, 1),
+                (overlay_set_size, "$g_presentation_obj_49", pos1),
+            (else_try),
+                (overlay_set_size, "$g_presentation_obj_49", pos2),
+            (try_end),
+
+            (try_begin),
+            (troop_slot_eq, "trp_player", slot_troop_fire_curtain_known, 1),
+                (overlay_set_size, "$g_presentation_obj_50", pos1),
+            (else_try),
+                (overlay_set_size, "$g_presentation_obj_50", pos2),
+            (try_end),
+
+            (try_begin),
+            (troop_slot_eq, "trp_player", slot_troop_shield_known, 1),
+                (overlay_set_size, "$g_presentation_obj_51", pos1),
+            (else_try),
+                (overlay_set_size, "$g_presentation_obj_51", pos2),
+            (try_end),
+
+            (try_begin),
+            (troop_slot_eq, "trp_player", slot_troop_seeker_known, 1),
+                (overlay_set_size, "$g_presentation_obj_52", pos1),
+            (else_try),
+                (overlay_set_size, "$g_presentation_obj_52", pos2),
+            (try_end),
+
+            (try_begin),
+            (troop_slot_eq, "trp_player", slot_troop_compulsion_known, 1),
+                (overlay_set_size, "$g_presentation_obj_53", pos1),
+            (else_try),
+                (overlay_set_size, "$g_presentation_obj_53", pos2),
+            (try_end),
+
+            (try_begin),
+            (troop_slot_eq, "trp_player", slot_troop_balefire_known, 1),
+                (overlay_set_size, "$g_presentation_obj_54", pos1),
+            (else_try),
+                (overlay_set_size, "$g_presentation_obj_54", pos2),
+            (try_end),       
+        
+            (mouse_get_position, pos1),
+            (position_get_x, "$g_force_select_x", pos1),
+            (position_get_y, "$g_force_select_y", pos1),
+        
+        
+        ### END ADDED FOR BATTLE-TIME WEAVE SELECTION
+        
+        (try_end),        
+
+        
+        (try_begin),
+          (eq, "$g_run_battle_time_force_selection", 1),
+          (gt, ":cur_time", 200),
+          (neg|key_is_down, key_caps_lock),
+          (assign, "$g_run_battle_time_force_selection", 0),
+          (presentation_set_duration, 0),
+          (start_presentation, "prsnt_staminabar"),
+        (try_end),
+       ]),
+       
+     ]),
 
 
 ]

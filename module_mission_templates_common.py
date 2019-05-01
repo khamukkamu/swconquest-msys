@@ -2432,7 +2432,7 @@ common_use_jetpack = (0, 0, 0, [
 
 
 kham_new_iron_sight_trigger = [(0, 0, 0, [
-  (this_or_next|key_clicked, "$key_camera_toggle"),
+  (this_or_next|key_is_down, "$key_camera_toggle"),
   (game_key_is_down, gk_zoom),],
 
   [(set_fixed_point_multiplier, 100),
@@ -2460,9 +2460,12 @@ kham_new_iron_sight_trigger = [(0, 0, 0, [
 
 (0,0,0, [
   (eq, "$cam_mode", 2),
+  (this_or_next|neg|key_is_down, "$key_camera_toggle"),
   (neg|game_key_is_down, gk_zoom)],
   
-  [(neg|game_key_is_down, gk_zoom),
+  [
+   (this_or_next|neg|key_is_down, "$key_camera_toggle"),
+   (neg|game_key_is_down, gk_zoom),
    (eq, "$cam_mode", 2),
    (set_zoom_amount, 0),
    (assign, "$cam_mode", 0),
@@ -4934,8 +4937,111 @@ formations_triggers = [ #4 triggers
 
 ## Kham Force Powers
 
-force_powers_use = (0,0,0, [(key_clicked, key_b)], [(get_player_agent_no, ":player"), (call_script, "script_force_push", ":player"),])
+force_powers_use = (0,0,0, [(key_clicked, key_b)], [(call_script, "script_select_force_power"),])
 force_lightning_use =       (0,0,0, [(key_clicked, key_n)], [
           (get_player_agent_no, ":player"), 
           (call_script, "script_force_choke", ":player"),
          ])
+
+
+
+## Hold '$key_weave_toggle' to bring up the weave selection presentation: Mouse cursor location determines active weave
+## Code for key detection is contained in prsnt_battle_time_weave_selection
+common_wot_cycle_through_known_weaves = (
+    0, 0, 0, [],
+         [
+           # (get_player_agent_no,":player_agent"),
+            (try_begin),
+
+                (assign, ":x_val", "$g_force_select_x"),
+                (assign, ":y_val", "$g_force_select_y"),
+
+                (try_begin),
+                (troop_slot_eq, "trp_player", slot_troop_force_lightning_known, 1),
+                (is_between, ":x_val", 350, 381),
+                (is_between, ":y_val", 400, 441),
+                    (troop_set_slot, "trp_player", slot_troop_active_force, FORCE_LIGHTNING),
+
+                (else_try),
+                (troop_slot_eq, "trp_player", slot_troop_force_stun_known, 1),
+                (is_between, ":x_val", 390, 421),
+                (is_between, ":y_val", 400, 441),
+                    (troop_set_slot, "trp_player", slot_troop_active_force, FORCE_STUN),
+
+                (else_try),
+                (troop_slot_eq, "trp_player", slot_troop_force_push_known, 1),
+                (is_between, ":x_val", 430, 461),
+                (is_between, ":y_val", 400, 441),
+                    (troop_set_slot, "trp_player", slot_troop_active_force, FORCE_PUSH),
+
+                (else_try),
+                (troop_slot_eq, "trp_player", slot_troop_force_choke_known, 1),
+                (is_between, ":x_val", 470, 501),
+                (is_between, ":y_val", 400, 441),
+                    (troop_set_slot, "trp_player", slot_troop_active_force, FORCE_CHOKE),
+
+                (else_try),
+                (troop_slot_eq, "trp_player", slot_troop_unravel_known, 1),
+                (is_between, ":x_val", 510, 541),
+                (is_between, ":y_val", 400, 441),
+                    (troop_set_slot, "trp_player", slot_troop_active_force, UNRAVEL_WEAVE),
+
+                (else_try),
+                (troop_slot_eq, "trp_player", slot_troop_defensive_blast_known, 1),
+                (is_between, ":x_val", 550, 581),
+                (is_between, ":y_val", 400, 441),
+                    (troop_set_slot, "trp_player", slot_troop_active_force, DEFENSIVE_BLAST_WEAVE),
+
+                (else_try),
+                (troop_slot_eq, "trp_player", slot_troop_earth_blast_known, 1),
+                (is_between, ":x_val", 590, 621),
+                (is_between, ":y_val", 400, 441),
+                    (troop_set_slot, "trp_player", slot_troop_active_force, EARTH_BLAST_WEAVE),
+
+                (else_try),
+                (troop_slot_eq, "trp_player", slot_troop_bind_known, 1),
+                (is_between, ":x_val", 350, 381),
+                (is_between, ":y_val", 350, 391),
+                    (troop_set_slot, "trp_player", slot_troop_active_force, BIND_WEAVE),
+
+                (else_try),
+                (troop_slot_eq, "trp_player", slot_troop_chain_lightning_known, 1),
+                (is_between, ":x_val", 390, 421),
+                (is_between, ":y_val", 350, 391),
+                    (troop_set_slot, "trp_player", slot_troop_active_force, CHAIN_LIGHTNING_WEAVE),
+
+                (else_try),
+                (troop_slot_eq, "trp_player", slot_troop_fire_curtain_known, 1),
+                (is_between, ":x_val", 430, 461),
+                (is_between, ":y_val", 350, 391),
+                    (troop_set_slot, "trp_player", slot_troop_active_force, FIRE_CURTAIN_WEAVE),
+
+                (else_try),
+                (troop_slot_eq, "trp_player", slot_troop_shield_known, 1),
+                (is_between, ":x_val", 470, 501),
+                (is_between, ":y_val", 350, 391),
+                    (troop_set_slot, "trp_player", slot_troop_active_force, SHIELD_WEAVE),
+
+                (else_try),
+                (troop_slot_eq, "trp_player", slot_troop_seeker_known, 1),
+                (is_between, ":x_val", 510, 541),
+                (is_between, ":y_val", 350, 391),
+                    (troop_set_slot, "trp_player", slot_troop_active_force, SEEKER_WEAVE),
+
+                (else_try),
+                (troop_slot_eq, "trp_player", slot_troop_compulsion_known, 1),
+                (is_between, ":x_val", 550, 581),
+                (is_between, ":y_val", 350, 391),
+                    (troop_set_slot, "trp_player", slot_troop_active_force, COMPULSION_WEAVE),
+
+                (else_try),
+                (troop_slot_eq, "trp_player", slot_troop_balefire_known, 1),
+                (is_between, ":x_val", 590, 621),
+                (is_between, ":y_val", 350, 391),
+                    (troop_set_slot, "trp_player", slot_troop_active_force, BALEFIRE_WEAVE),
+
+                (try_end),
+
+            (try_end),
+
+        ])

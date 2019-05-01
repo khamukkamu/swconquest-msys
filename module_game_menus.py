@@ -2503,9 +2503,9 @@ game_menus = [
         (start_presentation, "prsnt_all_items"),
         ]
        ),
-      ("give_weapon",[],"Give Item", [ (troop_add_item, "trp_player", "itm_wookiee_armor2"), (display_message, "@Item Given", color_good_news),]),
+      ("give_weapon",[],"Give Item", [ (try_for_range, ":slot", slot_troop_force_lightning_known, 2015), (troop_set_slot, "trp_player", ":slot", 1), (try_end), ]),
       ("give_custom_armor",[],"Give Custom Armor", [(troop_add_item, "trp_player", "itm_lightsaber_custom"),(troop_add_item, "trp_player", "itm_lightsaber_double_custom"),
-         (troop_add_item, "trp_player", "itm_darth_vader_helmet"), (troop_add_item, "trp_player", "itm_darth_vader_armor"), (troop_add_item, "trp_player", "itm_darth_vader_feet"),
+         (troop_add_item, "trp_player", "itm_lsb_with_westar"),(troop_add_item, "trp_player", "itm_darth_vader_helmet"), (troop_add_item, "trp_player", "itm_darth_vader_armor"), (troop_add_item, "trp_player", "itm_darth_vader_feet"),
          (set_spawn_radius, 2), (spawn_around_party, "p_main_party", "pt_jedi_tests"),]),
       ("test_freelancer_looters",[],"Become High Level Freelancer Troop", [(assign, "$player_cur_troop", "trp_imperial_stormtrooper_veteran"),
           (assign, "$enlisted_lord", "trp_knight_1_1"),

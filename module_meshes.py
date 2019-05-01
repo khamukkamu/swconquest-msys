@@ -587,4 +587,27 @@ meshes = [
   ("flag_d7", 0, "flag_spears", 0, 0, 0, 0, 0, 0, 1, 1, 1),
   ("flag_d8", 0, "flag_skirmishers", 0, 0, 0, 0, 0, 0, 1, 1, 1),
   ("flag_d9", 0, "flag_horsemen", 0, 0, 0, 0, 0, 0, 1, 1, 1),
+
+  ## Force Powers for presentation
+
+  ("status_force_stamina_bar", 0, "slider_hor", 0, 0, 0, 0, 0, 0, 0.55, 1, 1),
+  ("status_force_stamina_bar_button", 0, "handle_hor", 0, 0, 0, 0, 0, 0, 1, 1, 1),
+  ("force_white_plane", 0, "white_plane", 0, 0, 0, 0, 0, 0, 0.55, 1, 1),
+
+  ("weave_air_blast", 0, "weave_air_blast", 0, 0, 0, 0, 0, 0, 0.3, 0.3, 1),
+  ("weave_freeze_blast", 0, "weave_freeze_blast", 0, 0, 0, 0, 0, 0, 0.3, 0.3, 1),
+  ("weave_heal", 0, "weave_heal", 0, 0, 0, 0, 0, 0, 0.3, 0.3, 1),
+  ("weave_fire_ball", 0, "weave_fire_ball", 0, 0, 0, 0, 0, 0, 0.3, 0.3, 1),
+  ("weave_unravel", 0, "weave_unravel", 0, 0, 0, 0, 0, 0, 0.3, 0.3, 1),
+  ("weave_defensive_blast", 0, "weave_defensive_blast", 0, 0, 0, 0, 0, 0, 0.3, 0.3, 1),
+  ("weave_ranged_earth_blast", 0, "weave_ranged_earth_blast", 0, 0, 0, 0, 0, 0, 0.3, 0.3, 1),
+  ("weave_bind", 0, "weave_bind", 0, 0, 0, 0, 0, 0, 0.3, 0.3, 1),
+  ("weave_chain_lightning", 0, "weave_chain_lightning", 0, 0, 0, 0, 0, 0, 0.3, 0.3, 1),
+  ("weave_fire_curtain", 0, "weave_fire_curtain", 0, 0, 0, 0, 0, 0, 0.3, 0.3, 1),
+  ("weave_shield", 0, "weave_shield", 0, 0, 0, 0, 0, 0, 0.3, 0.3, 1),
+  ("weave_seeker", 0, "weave_seeker", 0, 0, 0, 0, 0, 0, 0.3, 0.3, 1),
+  ("weave_compulsion", 0, "weave_compulsion", 0, 0, 0, 0, 0, 0, 0.3, 0.3, 1),
+  ("weave_balefire", 0, "weave_balefire", 0, 0, 0, 0, 0, 0, 0.3, 0.3, 1),
+  
+
 ]

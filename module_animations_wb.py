@@ -2097,6 +2097,16 @@ animations = [
  ],
  
 
+["ready_pistol_left", acf_rot_vertical_sword|acf_anim_length(100), amf_priority_die|amf_use_weapon_speed|amf_keep|amf_client_owner_prediction|amf_rider_rot_pistol,
+# [0.3, "anim_human", combat+2500, combat+2515, arf_blend_in_8],            #native
+#[0.3, "readypistol_fixed_by_swy", 0, 1, arf_blend_in_8],             #Lucke189 + CMW animations (fixed by Swyter)  - issue where it doesn't look up/down with aiming tho..
+[0.3, "pistol_shoot_left", 14, 14, arf_blend_in_8],  #DM-TAS
+],
+["release_pistol_left", acf_rot_vertical_sword|acf_anim_length(100), amf_priority_die|amf_use_weapon_speed|amf_play|amf_client_owner_prediction|amf_rider_rot_pistol,
+# [0.3, "anim_human", combat+2520, combat+2527, arf_blend_in_1],
+#[0.3, "releasepistol_fixed_by_swy", 0, 3, arf_blend_in_1], #Lucke189 + CMW animations (fixed by Swyter)  - issue where it doesn't look up/down with aiming tho..
+ [0.3, "aim_sky_pistol_left", 15, 15, arf_blend_in_1], #DM-TAS
+],
 
  ### Unused human animations start from here.
 #["unused_human_anim_01", 0, 0, [1.0, "anim_human", 0, 1, 0]],
@@ -2112,8 +2122,8 @@ animations = [
  #["unused_human_anim_11", 0, 0, [1.0, "anim_human", 0, 1, 0]],
  #["unused_human_anim_12", 0, 0, [1.0, "anim_human", 0, 1, 0]],
  #["unused_human_anim_13", 0, 0, [1.0, "anim_human", 0, 1, 0]],
- ["unused_human_anim_14", 0, 0, [1.0, "anim_human", 0, 1, 0]],
- ["unused_human_anim_15", 0, 0, [1.0, "anim_human", 0, 1, 0]],
+ #["unused_human_anim_14", 0, 0, [1.0, "anim_human", 0, 1, 0]],
+ #["unused_human_anim_15", 0, 0, [1.0, "anim_human", 0, 1, 0]],
  ["unused_human_anim_16", 0, 0, [1.0, "anim_human", 0, 1, 0]],
  ["unused_human_anim_17", 0, 0, [1.0, "anim_human", 0, 1, 0]],
  ["unused_human_anim_18", 0, 0, [1.0, "anim_human", 0, 1, 0]],

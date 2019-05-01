@@ -41,3 +41,5 @@ prsnt_show_combo_multiplier = 39
 prsnt_order_display = 40
 prsnt_formation_mod_option = 41
 prsnt_battle = 42
+prsnt_battle_time_force_selection_w_stamina = 43
+prsnt_battle_time_force_selection = 44
